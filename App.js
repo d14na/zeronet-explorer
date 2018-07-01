@@ -59,6 +59,11 @@ export default class App extends Component<Props> {
             </View>
 
             <Button
+              onPress={ this._connect.bind(this) }
+              title="Connect"
+              color="#841584" />
+
+            <Button
               onPress={ this._getFile.bind(this) }
               title="Get File"
               color="#841584" />
@@ -72,11 +77,6 @@ export default class App extends Component<Props> {
               onPress={ this._pex.bind(this) }
               title="Peer Exchange"
               color="#841584" />
-
-            <Button
-              onPress={ this._announce.bind(this) }
-              title="Announce"
-              color="#841584" />
         </View>
     }
 
@@ -86,13 +86,14 @@ export default class App extends Component<Props> {
 
         this.client = null
         this.requests = []
+        this.msgpack = require('zeronet-msgpack')()
 
-        this._test()
+        // this._connect()
         // this._initPeer()
         // this._announce()
     }
 
-    _test() {
+    _connect() {
         const self = this
 
         var net = require('net')
@@ -302,15 +303,15 @@ export default class App extends Component<Props> {
     }
 
     _encode(msg) {
-        const msgpack = require('zeronet-msgpack')()
-        const encode = msgpack.encode
+        // const msgpack = require('zeronet-msgpack')()
+        const encode = this.msgpack.encode
 
         return encode(msg)
     }
 
     _decode(msg) {
-        const msgpack = require('zeronet-msgpack')()
-        const decode = msgpack.decode
+        // const msgpack = require('zeronet-msgpack')()
+        const decode = this.msgpack.decode
 
         return decode(msg)
     }
