@@ -59,7 +59,7 @@ export default class App extends Component<Props> {
             </View>
 
             <Button
-              onPress={ this._connect.bind(this) }
+              onPress={ this._test.bind(this) }
               title="Connect"
               color="#841584" />
 
@@ -86,17 +86,17 @@ export default class App extends Component<Props> {
 
         this.client = null
         this.requests = []
-        this.msgpack = require('zeronet-msgpack')()
 
-        // this._connect()
+        // this._test()
         // this._initPeer()
         // this._announce()
     }
 
-    _connect() {
+    _test() {
         const self = this
 
-        var net = require('net')
+        const net = require('net')
+        console.log('net', net)
         // OR, if not shimming via package.json "browser" field:
         // var net = require('react-native-tcp')
 
@@ -303,15 +303,15 @@ export default class App extends Component<Props> {
     }
 
     _encode(msg) {
-        // const msgpack = require('zeronet-msgpack')()
-        const encode = this.msgpack.encode
+        const msgpack = require('zeronet-msgpack')()
+        const encode = msgpack.encode
 
         return encode(msg)
     }
 
     _decode(msg) {
-        // const msgpack = require('zeronet-msgpack')()
-        const decode = this.msgpack.decode
+        const msgpack = require('zeronet-msgpack')()
+        const decode = msgpack.decode
 
         return decode(msg)
     }

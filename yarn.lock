@@ -5202,6 +5202,10 @@ peer-request@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/peer-request/-/peer-request-0.1.2.tgz#bf32f9c50eaeec0a9d400e6783578950464113e6"
 
+peer0@^18.6.30-d:
+  version "18.6.30-d"
+  resolved "https://registry.yarnpkg.com/peer0/-/peer0-18.6.30-d.tgz#cebf7c3fa7c4b006308154bd5e6c5b544190b948"
+
 pegjs@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/pegjs/-/pegjs-0.10.0.tgz#cf8bafae6eddff4b5a7efb185269eaaf4610ddbd"

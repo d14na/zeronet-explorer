@@ -1,4 +1,4 @@
-# ZeroNet for Android & iOS
+# ZeroNet Client for Android & iOS
 
 [![Build Status](https://travis-ci.org/d14na/zeronet-app.png?branch=master)](https://travis-ci.org/d14na/zeronet-app)
 
