@@ -1,6 +1,9 @@
 import './shim'
 import React, { Component } from 'react'
-import { AppRegistry, TextInput } from 'react-native'
+import {
+    Button,
+    TextInput
+} from 'react-native'
 import {
     Platform,
     StyleSheet,
@@ -54,6 +57,26 @@ export default class App extends Component<Props> {
                     { this.state.debug }
                 </Text>
             </View>
+
+            <Button
+              onPress={ this._getFile.bind(this) }
+              title="Get File"
+              color="#841584" />
+
+            <Button
+              onPress={ this._ping.bind(this) }
+              title="Ping"
+              color="#841584" />
+
+            <Button
+              onPress={ this._pex.bind(this) }
+              title="Peer Exchange"
+              color="#841584" />
+
+            <Button
+              onPress={ this._announce.bind(this) }
+              title="Announce"
+              color="#841584" />
         </View>
     }
 
@@ -61,6 +84,7 @@ export default class App extends Component<Props> {
         // console.log('mounted')
         this.setState({ debug: 'mounted.' })
 
+        this.client = null
         this.requests = []
 
         this._test()
@@ -90,19 +114,16 @@ export default class App extends Component<Props> {
         }
         self.setState({ debug: JSON.stringify(host) })
 
-        // const client = net.createConnection(hostPort, hostIp)
-        // const client = net.createConnection(host, () => {
-        const client = net.createConnection(hostPort, hostIp, () => {
+        this.client = net.createConnection(hostPort, hostIp, () => {
             // 'connect' listener
             console.log('Connected to peer!')
             self.setState({ debug: 'Connected to peer!' })
 
-            // const pkg = self._encode({cmd:'handshake', req_id:69, params:{fileserver_port:6969,protocol:'v1'}})
             const pkg = self._encode(this._handshakePkg())
-            client.write(pkg)
+            self.client.write(pkg)
         })
 
-        // client.on('connect', function () {
+        // this.client.on('connect', function () {
         //     console.info('Connection opened.')
         //     self.setState({ debug: 'Connection opened.' })
         //
@@ -110,31 +131,37 @@ export default class App extends Component<Props> {
         //     // const pkg = self._encode(self._handshakePkg)
         //
         //     /* Send the handshake. */
-        //     // self.client.send(pkg, function () {
+        //     // self.client.write(pkg, function () {
         //     //     console.log('Sent handshake.')
         //     //     // console.log('sent handshake', pkg)
         //     // })
         // })
 
-        client.on('error', function (error) {
+        this.client.on('error', function (error) {
             console.log(error)
             self.setState({ debug: error.toString() })
         })
 
         let called = 0
-        client.on('data', function(_data) {
+        this.client.on('data', function(_data) {
             try {
                 /* Attempt to decode the data. */
                 const decoded = self._decode(_data)
 
-                console.log('Message was received', ++called, _data.length, _data, decoded)
+                console.log('Message #%d was received [%d bytes]', ++called, _data.length, _data, decoded)
                 self.setState({ debug: 'received:\n' + _data.length + '\n\n' + JSON.stringify(decoded) })
+
+                if (decoded.body) {
+                    let body = decoded.body.toString()
+
+                    console.log('check out my HTML body', body)
+                }
             } catch (e) {
-                console.error('Failed to decoded data', _data);
+                console.log('Failed to decoded data', _data);
             }
         })
 
-        client.on('close', function () {
+        this.client.on('close', function () {
             console.info('Connection closed.')
             self.setState({ debug: 'Connection closed.' })
         })
@@ -221,7 +248,7 @@ export default class App extends Component<Props> {
         }
 
         /* Send request. */
-        this.client.send(this._encode(pkg), function () {
+        this.client.write(this._encode(pkg), function () {
             console.log('sent ping', pkg)
         })
     }
@@ -230,8 +257,8 @@ export default class App extends Component<Props> {
         const cmd = 'getFile'
         // const innerPath = 'index.html'
         const innerPath = 'content.json'
-        const site = '1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D'
-        // const site = '1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F'
+        // const site = '1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D'
+        const site = '1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F'
 
         const request = { cmd, innerPath, site }
 
@@ -244,9 +271,12 @@ export default class App extends Component<Props> {
         const pkg = { cmd, req_id, params }
 
         /* Send request. */
-        this.client.send(this._encode(pkg), function () {
-            console.log('Sent request for [ %s ]', inner_path)
-        })
+        // const pkg = self._encode(this._handshakePkg())
+        this.client.write(this._encode(pkg))
+
+        // this.client.write(this._encode(pkg), function () {
+        //     console.log('Sent request for [ %s ]', inner_path)
+        // })
     }
 
     _pex() {
@@ -266,7 +296,7 @@ export default class App extends Component<Props> {
         const pkg = { cmd, req_id, params }
 
         /* Send request. */
-        this.client.send(this._encode(pkg), function () {
+        this.client.write(this._encode(pkg), function () {
             console.log('Sent request for [ %s ]', cmd)
         })
     }
@@ -284,291 +314,6 @@ export default class App extends Component<Props> {
 
         return decode(msg)
     }
-
-    _announce() {
-        /* Localize this. */
-        const self = this
-
-        console.log('Announcing...')
-
-        const Client = require('zeronet-tracker')
-
-        const crypto = require('crypto')
-        let shasum = crypto.createHash('sha1')
-        shasum.update('1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D')
-        const infoHash = shasum.digest('hex')
-        console.log('Info hash', infoHash)
-
-        var requiredOpts = {
-            infoHash,
-            // infoHash: Buffer.from('1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D'),
-            // infoHash: Buffer.from('37826C0C2ECC81F06B39C124DDA88E00E9D559D1'),
-            peerId: this.peerId,
-            announce: [
-                // 'udp://tracker.coppersurfer.tk:6969',
-                'udp://tracker.leechers-paradise.org:6969'
-            ],
-            port: 6881
-        }
-
-        // var optionalOpts = {
-        //     getAnnounceOpts: function () {
-        //         // Provide a callback that will be called whenever announce() is called
-        //         // internally (on timer), or by the user
-        //         return {
-        //             uploaded: 0,
-        //             downloaded: 0,
-        //             left: 0,
-        //             customParam: 'blah' // custom parameters supported
-        //         }
-        //     },
-        //
-        //     // RTCPeerConnection config object (only used in browser)
-        //     rtcConfig: {},
-        //
-        //     // User-Agent header for http requests
-        //     userAgent: '',
-        //
-        //     // Custom webrtc impl, useful in node to specify [wrtc](https://npmjs.com/package/wrtc)
-        //     wrtc: {},
-        // }
-
-        var client = new Client(requiredOpts)
-
-        client.on('error', function (err) {
-            // fatal client error!
-            console.log(err.message)
-        })
-
-        client.on('warning', function (err) {
-            // a tracker was unavailable or sent bad data to the client. you can probably ignore it
-            console.log(err.message)
-        })
-
-        // start getting peers from the tracker
-        client.start()
-
-        client.on('update', function (data) {
-            console.log('got an announce response from tracker: ', data.announce)
-            console.log('number of seeders vs. leechers in the swarm: ', data.complete, data.incomplete)
-        })
-
-        client.once('peer', function (_address) {
-            console.log('found a peer: ' + _address) // 85.10.239.191:48623
-
-            const ipAddress = _address.split(':')[0]
-            const port = _address.split(':')[1]
-
-            const peer = { ipAddress, port }
-
-            self.hostIp = ipAddress
-            self.hostPort = port
-
-            self._addPeerToDb(infoHash, peer)
-        })
-
-        // announce that download has completed (and you are now a seeder)
-        // client.complete()
-
-        // force a tracker announce. will trigger more 'update' events and maybe more 'peer' events
-        // client.update()
-
-        // provide parameters to the tracker
-        // client.update({
-        //     uploaded: 0,
-        //     downloaded: 0,
-        //     left: 0,
-        //     customParam: 'blah' // custom parameters supported
-        // })
-
-        // stop getting peers from the tracker, gracefully leave the swarm
-        // client.stop()
-
-        // ungracefully leave the swarm (without sending final 'stop' message)
-        // client.destroy()
-
-        // scrape
-        client.scrape()
-
-        client.on('scrape', function (data) {
-            console.log('got a scrape response from tracker: ', data.announce)
-            console.log('number of seeders vs. leechers in the swarm: ', data.complete, data.incomplete)
-            // console.log('number of total downloads of this torrent: ', data.downloaded)
-        })
-    }
-
-    // _initPeer() {
-    //     /* Localize this. */
-    //     const self = this
-    //
-    //     /* Initialize netcat client module. */
-    //     const NetcatClient = require('netcat/client')
-    //     this.client = new NetcatClient()
-    //
-    //     /* Initialize peer id. */
-    //     const peerId = '-UT3530-FFFFFFFFFFFF'
-    //     // const peerid = require('peerid')
-    //     // this.peerId = peerid()
-    //
-    //     this.client.on('connect', function () {
-    //         console.info('Connection opened.')
-    //
-    //         /* Create encoded package. */
-    //         const pkg = self._encode(self._handshakePkg)
-    //
-    //         /* Send the handshake. */
-    //         self.client.send(pkg, function () {
-    //             console.log('Sent handshake.')
-    //             // console.log('sent handshake', pkg)
-    //         })
-    //     })
-    //
-    //     this.client.on('close', function () {
-    //         console.info('Connection closed.')
-    //     })
-    //
-    //     this.client.on('error', function (err) {
-    //         console.error('Error detected', err)
-    //     })
-    //
-    //     // const parser = require('./ZeroNet/handleIncomingData').default
-    //     this.client.on('data', function (data) {
-    //         self.setState({ debug: data })
-    //         // parser(self, data)
-    //     })
-    // }
-
-    // _announce() {
-    //     /* Localize this. */
-    //     const self = this
-    //
-    //     // console.log('Announcing...')
-    //     this.setState({ debug: 'Announcing...' })
-    //
-    //     const Client = require('zeronet-tracker')
-    //
-    //     const crypto = require('crypto')
-    //     // const SHA = require('crypto-js/sha1')
-    //     // console.log(SHA256("Message"))
-    //
-    //     let shasum = crypto.createHash('sha1')
-    //     shasum.update('1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D')
-    //     // const infoHash = SHA('1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D')
-    //     const infoHash = shasum.digest('hex')
-    //     console.log('Info hash', infoHash)
-    //     this.setState({ debug: infoHash })
-    //
-    //     // return
-    //
-    //     /* Initialize peer id. */
-    //     const peerId = '-UT3530-FFFFFFFFFFFF'
-    //
-    //     /* Initialize announce. */
-    //     const announce = [
-    //         // 'udp://tracker.coppersurfer.tk:6969',
-    //         'udp://tracker.leechers-paradise.org:6969'
-    //     ]
-    //
-    //     /* Initialize client port. */
-    //     const port = 6881
-    //
-    //     var requiredOpts = {
-    //         infoHash,
-    //         peerId,
-    //         announce,
-    //         port
-    //     }
-    //
-    //     // var optionalOpts = {
-    //     //     getAnnounceOpts: function () {
-    //     //         // Provide a callback that will be called whenever announce() is called
-    //     //         // internally (on timer), or by the user
-    //     //         return {
-    //     //             uploaded: 0,
-    //     //             downloaded: 0,
-    //     //             left: 0,
-    //     //             customParam: 'blah' // custom parameters supported
-    //     //         }
-    //     //     },
-    //     //
-    //     //     // RTCPeerConnection config object (only used in browser)
-    //     //     rtcConfig: {},
-    //     //
-    //     //     // User-Agent header for http requests
-    //     //     userAgent: '',
-    //     //
-    //     //     // Custom webrtc impl, useful in node to specify [wrtc](https://npmjs.com/package/wrtc)
-    //     //     wrtc: {},
-    //     // }
-    //
-    //     const client = new Client(requiredOpts)
-    //
-    //     client.on('error', function (err) {
-    //         // fatal client error!
-    //         console.log(err.message)
-    //         return self.setState({ debug: err.message })
-    //     })
-    //
-    //     client.on('warning', function (err) {
-    //         // a tracker was unavailable or sent bad data to the client. you can probably ignore it
-    //         console.log(err.message)
-    //         return self.setState({ debug: err.message })
-    //     })
-    //
-    //     // start getting peers from the tracker
-    //     client.start()
-    //
-    //     client.on('update', function (data) {
-    //         console.log('got an announce response from tracker: ', data.announce)
-    //         console.log('number of seeders vs. leechers in the swarm: ', data.complete, data.incomplete)
-    //         return self.setState({ debug: 'number of seeders vs. leechers in the swarm: ' + data.complete + ' / ' + data.incomplete })
-    //     })
-    //
-    //     client.once('peer', function (_address) {
-    //         return self.setState({ debug: _address })
-    //
-    //         console.log('found a peer: ' + _address) // 85.10.239.191:48623
-    //
-    //         const ipAddress = _address.split(':')[0]
-    //         const port = _address.split(':')[1]
-    //
-    //         const peer = { ipAddress, port }
-    //
-    //         self.hostIp = ipAddress
-    //         self.hostPort = port
-    //
-    //         self._addPeerToDb(infoHash, peer)
-    //     })
-    //
-    //     // announce that download has completed (and you are now a seeder)
-    //     // client.complete()
-    //
-    //     // force a tracker announce. will trigger more 'update' events and maybe more 'peer' events
-    //     // client.update()
-    //
-    //     // provide parameters to the tracker
-    //     // client.update({
-    //     //     uploaded: 0,
-    //     //     downloaded: 0,
-    //     //     left: 0,
-    //     //     customParam: 'blah' // custom parameters supported
-    //     // })
-    //
-    //     // stop getting peers from the tracker, gracefully leave the swarm
-    //     // client.stop()
-    //
-    //     // ungracefully leave the swarm (without sending final 'stop' message)
-    //     // client.destroy()
-    //
-    //     // scrape
-    //     // client.scrape()
-    //
-    //     // client.on('scrape', function (data) {
-    //     //     console.log('got a scrape response from tracker: ', data.announce)
-    //     //     console.log('number of seeders vs. leechers in the swarm: ', data.complete, data.incomplete)
-    //     //     // console.log('number of total downloads of this torrent: ', data.downloaded)
-    //     // })
-    // }
 }
 
 const styles = StyleSheet.create({
