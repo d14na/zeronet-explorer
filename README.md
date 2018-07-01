@@ -4,7 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/zeronet-explorer/badge/?version=latest)](https://zeronet-explorer.readthedocs.io/en/latest/?badge=latest)
 
 
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard) [![Greenkeeper badge](https://badges.greenkeeper.io/d14na/zeronet-app.svg)](https://greenkeeper.io/)
 
 **Zeronet Explorer** is an open-source transport into the immersive, social experience of server-less, peer-to-peer websites *(known as **zites**)* from ANY device. You're welcome!
 
