@@ -40,6 +40,7 @@
 		A83BFA6B7FEF49B4AB304F26 /* libTcpSockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE7C99AAF3442FFA0F7B7E4 /* libTcpSockets.a */; };
 		D46945283EAA47CDAD5AA3A1 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2C58BACC61647FD8BB1E56A /* libReactNativeNavigation.a */; };
 		6D1D172E52EA480DB5D34C9E /* ReactNativeNavigationTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 0F79B5F2E67F4FA681569445 /* ReactNativeNavigationTests.xctest */; };
+		5FD7F67EB47C4AFF9F58C4D6 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1740D1CEBF25454282472C8C /* SpaceMono-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,6 +351,7 @@
 		2464A854209A434ABE2B44D8 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeNavigation.xcodeproj"; path = "../node_modules/react-native-navigation/lib/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		A2C58BACC61647FD8BB1E56A /* libReactNativeNavigation.a */ = {isa = PBXFileReference; name = "libReactNativeNavigation.a"; path = "libReactNativeNavigation.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		0F79B5F2E67F4FA681569445 /* ReactNativeNavigationTests.xctest */ = {isa = PBXFileReference; name = "ReactNativeNavigationTests.xctest"; path = "ReactNativeNavigationTests.xctest"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.cfbundle; explicitFileType = undefined; includeInIndex = 0; };
+		1740D1CEBF25454282472C8C /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; name = "SpaceMono-Regular.ttf"; path = "../res/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -590,6 +592,7 @@
 				00E356EF1AD99517003FC87E /* zeronetTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				D1FF69F1672D4C6081C74529 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -615,6 +618,15 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		D1FF69F1672D4C6081C74529 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				1740D1CEBF25454282472C8C /* SpaceMono-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -1062,6 +1074,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				5FD7F67EB47C4AFF9F58C4D6 /* SpaceMono-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
