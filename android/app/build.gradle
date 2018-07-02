@@ -157,7 +157,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:25.4.0"
     implementation "com.facebook.react:react-native:+"
 
-    api project(':react-native-navigation') // v2 uses implementation
+    implementation project(':react-native-navigation')
 
     api project(':react-native-tcp')
 }

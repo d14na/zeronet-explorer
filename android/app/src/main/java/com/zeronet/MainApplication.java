@@ -1,10 +1,10 @@
 package com.zeronet;
 
-import android.support.annotation.Nullable;
-
 import com.facebook.react.ReactPackage;
+import com.peel.react.TcpSocketsModule;
 import com.reactnativenavigation.NavigationApplication;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication {
@@ -13,15 +13,10 @@ public class MainApplication extends NavigationApplication {
         return BuildConfig.DEBUG;
     }
 
-    @Nullable
     @Override
     public List<ReactPackage> createAdditionalReactPackages() {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public String getJSMainModuleName() {
-        return "index";
+        return Arrays.<ReactPackage>asList(
+                new TcpSocketsModule()
+        );
     }
 }

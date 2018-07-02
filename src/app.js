@@ -1,30 +1,156 @@
-// import { AppRegistry } from 'react-native';
-// import App from './App';
-//
-// AppRegistry.registerComponent('zeronet', () => App);
+const { Navigation } = require('react-native-navigation');
+const { registerScreens } = require('./screens');
+const { Platform } = require('react-native');
 
-import { Navigation } from 'react-native-navigation'
+if (Platform.OS === 'android') {
+  alert = (title) => {
+    Navigation.showOverlay({
+      component: {
+        name: 'navigation.playground.alert',
+        passProps: {
+          title
+        },
+        options: {
+          overlay: {
+            interceptTouchOutside: true
+          }
+        }
+      }
+    });
+  };
+}
 
-import { registerScreens } from './screens'
+function start() {
+  registerScreens();
+  Navigation.events().registerAppLaunchedListener(() => {
+    Navigation.setDefaultOptions({
+      _animations: {
+        startApp: {
+          y: {
+            from: 1000,
+            to: 0,
+            duration: 500,
+            interpolation: 'accelerate',
+          },
+          alpha: {
+            from: 0,
+            to: 1,
+            duration: 500,
+            interpolation: 'accelerate'
+          }
+        },
+        push: {
+          topBar: {
+            id: 'TEST',
+            alpha: {
+              from: 0,
+              to: 1,
+              duration: 500,
+              interpolation: 'accelerate'
+            }
+          },
+          bottomTabs: {
+            y: {
+              from: 1000,
+              to: 0,
+              duration: 500,
+              interpolation: 'decelerate',
+            },
+            alpha: {
+              from: 0,
+              to: 1,
+              duration: 500,
+              interpolation: 'decelerate'
+            }
+          },
+          content: {
+            y: {
+              from: 1000,
+              to: 0,
+              duration: 500,
+              interpolation: 'accelerate',
+            },
+            alpha: {
+              from: 0,
+              to: 1,
+              duration: 500,
+              interpolation: 'accelerate'
+            }
+          }
+        },
+        pop: {
+          topBar: {
+            id: 'TEST',
+            alpha: {
+              from: 1,
+              to: 0,
+              duration: 500,
+              interpolation: 'accelerate'
+            }
+          },
+          bottomTabs: {
+            y: {
+              from: 0,
+              to: 100,
+              duration: 500,
+              interpolation: 'accelerate',
+            },
+            alpha: {
+              from: 1,
+              to: 0,
+              duration: 500,
+              interpolation: 'accelerate'
+            }
+          },
+          bottomTabs: {
+            y: {
+              from: 0,
+              to: 100,
+              duration: 500,
+              interpolation: 'decelerate',
+            },
+            alpha: {
+              from: 1,
+              to: 0,
+              duration: 500,
+              interpolation: 'decelerate'
+            }
+          },
+          content: {
+            y: {
+              from: 0,
+              to: 1000,
+              duration: 500,
+              interpolation: 'decelerate',
+            },
+            alpha: {
+              from: 1,
+              to: 0,
+              duration: 500,
+              interpolation: 'decelerate'
+            }
+          }
+        }
+      }
+    });
 
-registerScreens(); // this is where you register all of your app's screens
+    Navigation.setRoot({
+      root: {
+        stack: {
+          id: 'TEST',
+          children: [
+            {
+              component: {
+                name: 'example.FirstTabScreen'
+              }
+            }
+          ]
+        }
+      }
+    });
+  });
+}
 
-// start the app
-Navigation.startTabBasedApp({
-  tabs: [
-    {
-      label: 'One',
-      screen: 'example.FirstTabScreen', // this is a registered name for a screen
-      icon: require('../img/one.png'),
-      // selectedIcon: require('../img/one_selected.png'), // iOS only
-      title: 'Screen One'
-    },
-    {
-      label: 'Two',
-      screen: 'example.SecondTabScreen',
-      icon: require('../img/two.png'),
-      // selectedIcon: require('../img/two_selected.png'), // iOS only
-      title: 'Screen Two'
-    }
-  ]
-})
+module.exports = {
+  start
+};

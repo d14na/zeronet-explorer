@@ -15,7 +15,7 @@
     "react": "16.0.0",
     "react-native": "0.53.0",
     "react-native-animatable": "^1.1.0",
-    "react-native-navigation": "latest",
+    "react-native-navigation": "react-native-navigation@alpha",
     "react-native-tcp": "^3.3.0",
     "zeronet-msgpack": "^3.6.0",
     "zeronet-tracker": "^0.1.1-zn"
