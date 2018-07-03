@@ -33,20 +33,76 @@ class WelcomeScreen extends React.Component {
                 style={ styles.webview } />
 
             <Button
-              large
-              onPress={ this._loadCanvas.bind(this) }
-              icon={{name: 'envira', type: 'font-awesome'}}
-              title='View Canvas' />
+                large
+                onPress={ this._loadCanvas.bind(this) }
+                icon={{name: 'envira', type: 'font-awesome'}}
+                title='View Canvas' />
+
+            <Button
+                large
+                onPress={ this._removeButton.bind(this) }
+                icon={{name: 'fire', type: 'font-awesome'}}
+                title='Remove' />
         </View>
     }
 
+    componentDidMount() {
+        console.log('Main Frame has loaded.')
+
+        Navigation.mergeOptions(this.props.componentId, {
+          topBar: {
+            rightButtons: [
+              {
+                id: 'myDynamicButton',
+                title: 'My Button'
+              }
+            ]
+          }
+        })
+    }
+
     _loadCanvas() {
-        console.log('goto canvas')
+        console.log('open canvas')
+
+        // Navigation.showModal({
+        //   stack: {
+        //     children: [{
+        //       component: {
+        //         name: 'zeronet.Canvas',
+        //         passProps: {
+        //           text: 'stack with one child'
+        //         },
+        //         options: {
+        //             topBar: {
+        //                 visible: false,
+        //                 // animate: false,
+        //                 drawBehind: true
+        //             }
+        //         }
+        //       }
+        //     }]
+        //   }
+        // })
 
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'zeronet.Canvas'
+                name: 'zeronet.Canvas',
+                options: {
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true
+                    }
+                }
             }
+        })
+    }
+
+    _removeButton() {
+        Navigation.mergeOptions(this.props.componentId, {
+          topBar: {
+            rightButtons: []
+          }
         })
     }
 }

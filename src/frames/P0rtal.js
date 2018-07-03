@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { MonoText } from '../components'
 
-export default class Decentral extends React.Component {
+export default class P0rtal extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -37,13 +37,7 @@ export default class Decentral extends React.Component {
             <FormInput onChangeText={ this._someFunction }/>
             <FormValidationMessage>Error message</FormValidationMessage>
 
-            <Button title="Chat" onPress={ this._chat.bind(this) } />
-
-            <MonoText style={{ color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'MonoText' }}>
-                We should put forums here
-            </MonoText>
-
-            <Button title="Forums" onPress={ this._chat.bind(this) } />
+            <Button title="Chat" onPress={ this._openAccount.bind(this) } />
 
             <Text style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
                 Discover Nearby Mesh Networks
@@ -52,12 +46,10 @@ export default class Decentral extends React.Component {
         </View>
     }
 
-    _chat() {
-        console.log('goto intro')
-
+    _openAccount() {
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'zeronet.SecondTabScreen'
+                name: 'zeronet.P0rtal.Account'
             }
         })
     }
@@ -65,6 +57,35 @@ export default class Decentral extends React.Component {
     _someFunction() {
 
     }
+
+    _loadScreen() {
+        console.log('goto screen')
+
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: 'zeronet.Canvas',
+                options: {
+                    // topBar: {
+                    //     title: {
+                    //         text: 'Pushed screen title'
+                    //     }
+                    // },
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true
+                    },
+                    rightButtons: [
+                        {
+                            id: 'buttonOne',
+                            icon: require('../../img/one.png')
+                        }
+                    ]
+                }
+            }
+        })
+    }
+
 }
 
 const styles = StyleSheet.create({

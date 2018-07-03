@@ -25,6 +25,10 @@ export default class Blank extends React.Component {
         </View>
     }
 
+    componentDidMount() {
+
+    }
+
     _gotoIntro() {
         console.log('goto intro')
 

@@ -122,6 +122,7 @@ function start() {
             }
         })
 
+        /* Initialize the (left-side) Stage sliding drawer. */
         const left = {
             component: {
                 name: 'zeronet.Stage',
@@ -131,36 +132,43 @@ function start() {
             }
         }
 
+        /* Initialize the (right-side) P0rtal sliding drawer. */
         const right = {
-            component: {
-                name: 'zeronet.P0rtal',
-                passProps: {
-                    text: 'Suite of built-in decentralized features and services.'
-                }
-            }
-        }
-
-        const center = {
             stack: {
                 children: [{
                     component: {
-                        name: 'zeronet.Main'
-                    }
-                }, {
-                    component: {
-                        name: 'zeronet.Canvas'
+                        name: 'zeronet.P0rtal',
+                        passProps: {
+                            text: 'Suite of built-in decentralized features and services.'
+                        }
                     }
                 }],
                 options: {}
             }
         }
 
+        /* Initialize the main frame stack. */
+        const center = {
+            stack: {
+                children: [{
+                    component: {
+                        name: 'zeronet.Main'
+                    }
+                }],
+                options: {}
+            }
+        }
+
+        /* Initialize side menu layout. */
         const sideMenu = { left, center, right }
 
+        /* Initialize navigation root. */
         const root = { sideMenu }
 
+        /* Set navigation root. */
         Navigation.setRoot({ root })
     })
 }
 
+/* Export application start. */
 module.exports = { start }
