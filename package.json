@@ -5,7 +5,7 @@
     "scripts": {
         "start": "node node_modules/react-native/local-cli/cli.js start",
         "test": "jest",
-        "postinstall": "rn-nodeify --install events --hack"
+        "postinstall": "rn-nodeify --install events --hack; rm ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json"
     },
     "dependencies": {
         "ethers": "^3.0.25",
@@ -15,8 +15,10 @@
         "react": "16.0.0",
         "react-native": "0.53.0",
         "react-native-animatable": "^1.1.0",
+        "react-native-elements": "^0.19.1",
         "react-native-navigation": "react-native-navigation@alpha",
         "react-native-tcp": "^3.3.0",
+        "react-native-vector-icons": "^4.6.0",
         "zeronet-msgpack": "^3.6.0",
         "zeronet-tracker": "^0.1.1-zn"
     },

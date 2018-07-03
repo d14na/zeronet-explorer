@@ -4,23 +4,8 @@ const { Platform } = require('react-native')
 
 const { registerScreens } = require('./screens')
 
-if (Platform.OS === 'android') {
-    alert = (title) => {
-        Navigation.showOverlay({
-            component: {
-                name: 'navigation.playground.alert',
-                passProps: {
-                    title
-                },
-                options: {
-                    overlay: {
-                        interceptTouchOutside: true
-                    }
-                }
-            }
-        })
-    }
-}
+/* Remove yellow box alerts. */
+console.ignoredYellowBox = ['Remote debugger']
 
 function start() {
     registerScreens()
@@ -137,52 +122,45 @@ function start() {
             }
         })
 
-        // Navigation.setRoot({
-        //     root: {
-        //         stack: {
-        //             id: 'TEST',
-        //             children: [
-        //                 {
-        //                     component: {
-        //                         name: 'zeronet.WelcomeScreen'
-        //                     }
-        //                 }
-        //             ]
-        //         }
-        //     }
-        // })
-
-        Navigation.setRoot({
-            root: {
-                sideMenu: {
-                    left: {
-                        component: {
-                            name: 'zeronet.SocialDrawer',
-                            passProps: {
-                                text: 'This are social props'
-                            }
-                        }
-                    },
-                    center: {
-                        component: {
-                            name: 'zeronet.WelcomeScreen'
-                        },
-                    },
-                    right: {
-                        component: {
-                            name: 'zeronet.PluginsDrawer',
-                            passProps: {
-                                text: 'These are plugins props'
-                            }
-                        }
-                    }
+        const left = {
+            component: {
+                name: 'zeronet.Stage',
+                passProps: {
+                    text: 'The Main ZeroNet Stage for native content.'
                 }
             }
-        })
+        }
 
+        const right = {
+            component: {
+                name: 'zeronet.P0rtal',
+                passProps: {
+                    text: 'Suite of built-in decentralized features and services.'
+                }
+            }
+        }
+
+        const center = {
+            stack: {
+                children: [{
+                    component: {
+                        name: 'zeronet.Main'
+                    }
+                }, {
+                    component: {
+                        name: 'zeronet.Canvas'
+                    }
+                }],
+                options: {}
+            }
+        }
+
+        const sideMenu = { left, center, right }
+
+        const root = { sideMenu }
+
+        Navigation.setRoot({ root })
     })
 }
 
-module.exports = {
-    start
-}
+module.exports = { start }
