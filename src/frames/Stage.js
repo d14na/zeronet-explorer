@@ -10,6 +10,8 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { Header } from 'react-native-elements'
+
 import { MonoText } from '../components'
 
 export default class Stage extends React.Component {
@@ -21,6 +23,11 @@ export default class Stage extends React.Component {
 
     render() {
         return <View style={ styles.container }>
+            <Header
+                leftComponent={{ icon: 'menu', color: '#fff' }}
+                centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+                rightComponent={{ icon: 'home', color: '#fff' }} />
+
             <MonoText style={{ color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'MonoText' }}>
                 WE WILL CALL THIS THE STAGE
             </MonoText>

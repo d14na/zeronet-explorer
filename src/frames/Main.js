@@ -16,6 +16,10 @@ import { Button } from 'react-native-elements'
 class WelcomeScreen extends React.Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            debug: 'loading...'
+        }
     }
 
     render() {
@@ -31,6 +35,10 @@ class WelcomeScreen extends React.Component {
             <WebView
                 source={ source }
                 style={ styles.webview } />
+
+            <Text>
+                { this.state.debug }
+            </Text>
 
             <Button
                 large
@@ -49,6 +57,12 @@ class WelcomeScreen extends React.Component {
     componentDidMount() {
         console.log('Main Frame has loaded.')
 
+        this._goDownload()
+
+        // console.log('triple 3', peer0.triple(3))
+        // const net = require('net')
+        // console.log('net', net)
+
         Navigation.mergeOptions(this.props.componentId, {
           topBar: {
             rightButtons: [
@@ -59,6 +73,19 @@ class WelcomeScreen extends React.Component {
             ]
           }
         })
+    }
+
+    async _goDownload() {
+        const net = require('net')
+        const peer0 = require('peer0')
+
+        console.log('Making download request from Peer0')
+
+        let response = await peer0.download(net)
+        console.log('peer0 awaiting response', response)
+
+        this.setState({ debug: response })
+
     }
 
     _loadCanvas() {
