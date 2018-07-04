@@ -63,7 +63,7 @@ export default class P0rtal extends React.Component {
 
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'zeronet.Canvas',
+                name: 'zeronet.Player',
                 options: {
                     // topBar: {
                     //     title: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'rgba(30, 30, 30, 0.9)'
+        backgroundColor: 'rgba(30, 30, 30, 0.95)'
     },
     heading: {
         color: 'rgba(255, 255, 255, 0.9)',

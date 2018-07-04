@@ -6,6 +6,7 @@ const { registerScreens } = require('./screens')
 
 /* Remove yellow box alerts. */
 console.ignoredYellowBox = ['Remote debugger']
+// console.disableYellowBox = true
 
 function start() {
     registerScreens()

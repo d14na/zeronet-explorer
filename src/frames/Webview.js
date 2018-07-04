@@ -27,43 +27,30 @@ class WelcomeScreen extends React.Component {
             uri: 'https://github.com/d14na/zeronet-explorer/'
         }
 
-        return <View style={ styles.container }>
-            <Text>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Text>
-
-            <Text>
-                { this.state.debug }
-            </Text>
-
-            <Button
-                large
-                onPress={ this._loadWebview.bind(this) }
-                icon={{name: 'globe', type: 'font-awesome'}}
-                title='Load Webview' />
-
-            <Button
-                large
-                onPress={ this._removeButton.bind(this) }
-                icon={{name: 'fire', type: 'font-awesome'}}
-                title='Remove' />
-        </View>
+        return <WebView
+            source={ source }
+            style={ styles.webview } />
     }
 
     componentDidMount() {
-        console.log('Main Frame has loaded.')
+        console.info('Webview has loaded.')
 
-        // Navigation.mergeOptions(this.props.componentId, {
-        //   topBar: {
-        //     rightButtons: [
-        //       {
-        //         id: 'myDynamicButton',
-        //         title: 'My Button'
-        //       }
-        //     ]
-        //   }
-        // })
+        // this._goDownload()
 
+        // console.log('triple 3', peer0.triple(3))
+        // const net = require('net')
+        // console.log('net', net)
+
+        Navigation.mergeOptions(this.props.componentId, {
+          topBar: {
+            rightButtons: [
+              {
+                id: 'myDynamicButton',
+                title: 'My Button'
+              }
+            ]
+          }
+        })
     }
 
     async _goDownload() {
@@ -80,6 +67,28 @@ class WelcomeScreen extends React.Component {
     }
 
     _loadWebview() {
+        console.log('open webview')
+
+        // Navigation.showModal({
+        //   stack: {
+        //     children: [{
+        //       component: {
+        //         name: 'zeronet.Webview',
+        //         passProps: {
+        //           text: 'stack with one child'
+        //         },
+        //         options: {
+        //             topBar: {
+        //                 visible: false,
+        //                 // animate: false,
+        //                 drawBehind: true
+        //             }
+        //         }
+        //       }
+        //     }]
+        //   }
+        // })
+
         Navigation.push(this.props.componentId, {
             component: {
                 name: 'zeronet.Webview',
@@ -106,9 +115,9 @@ class WelcomeScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {},
     webview: {
-        marginTop: 20,
+        flex: 1,
         width: '100%',
-        height: 200
+        height: '100%'
     }
 })
 

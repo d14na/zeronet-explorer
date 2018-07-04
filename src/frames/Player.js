@@ -29,15 +29,15 @@ export default class Canvas extends React.Component {
     }
 
     render() {
+
         return <View style={ styles.container }>
             <Button
-                large
                 onPress={ this._close.bind(this) }
                 icon={{name: 'window-close', type: 'font-awesome'}}
                 title='Close' />
 
             <View style={ styles.centerView }>
-                <Text>Check out my Canvas!</Text>
+                <Text>MEDIA PLAYER</Text>
             </View>
 
         </View>
