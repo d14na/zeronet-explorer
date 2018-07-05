@@ -13,9 +13,16 @@ import { Navigation } from 'react-native-navigation'
 
 import { Button } from 'react-native-elements'
 
-class WelcomeScreen extends React.Component {
+/**
+ * Main Frame
+ *
+ * Manages the initialization of the application.
+ */
+export default class MainFrame extends React.Component {
     constructor(props) {
         super(props)
+
+        console.log('Main Frame received props', props)
 
         this.state = {
             debug: 'loading...'
@@ -80,8 +87,10 @@ class WelcomeScreen extends React.Component {
     }
 
     _loadWebview() {
+        console.log('this.props.componentId', this.props.componentId)
         Navigation.push(this.props.componentId, {
             component: {
+                id: 'zeronet.Webview',
                 name: 'zeronet.Webview',
                 options: {
                     topBar: {
@@ -111,5 +120,3 @@ const styles = StyleSheet.create({
         height: 200
     }
 })
-
-export default WelcomeScreen

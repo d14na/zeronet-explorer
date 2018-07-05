@@ -126,6 +126,7 @@ function start() {
         /* Initialize the (left-side) Stage sliding drawer. */
         const left = {
             component: {
+                id: 'zeronet.Stage',
                 name: 'zeronet.Stage',
                 passProps: {
                     text: 'The Main ZeroNet Stage for native content.'
@@ -138,7 +139,8 @@ function start() {
             stack: {
                 children: [{
                     component: {
-                        name: 'zeronet.P0rtal',
+                        id: 'zeronet.Stage',
+                        name: 'zeronet.Stage',
                         passProps: {
                             text: 'Suite of built-in decentralized features and services.'
                         }
@@ -153,6 +155,7 @@ function start() {
             stack: {
                 children: [{
                     component: {
+                        id: 'zeronet.Main',
                         name: 'zeronet.Main'
                     }
                 }],

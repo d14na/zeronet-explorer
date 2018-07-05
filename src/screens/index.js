@@ -1,29 +1,42 @@
 import { Navigation } from 'react-native-navigation'
 
-/* Initialize sliding drawers. */
+/* MAIN */
 import Main from '../frames/Main'
+
+/* CANVAS */
+import Canvas from '../frames/Canvas'
+
+/* MEDIA PLAYER */
 import MediaPlayer from '../frames/Player'
-import Webview from '../frames/Webview'
 
-import StageFrame from '../frames/Stage'
-
-import P0rtalFrame from '../frames/P0rtal'
+/* P0RTAL */
+import P0rtal from '../frames/P0rtal'
 import P0rtalAccount from './P0rtal/Account'
 
+/* STAGE */
+import Stage from '../frames/Stage'
 
-import SecondTabScreen from './SecondTabScreen'
+/* WEBVIEW */
+import Webview from '../frames/Webview'
 
-// register all screens of the app (including internal ones)
+/* Register all screens of the app (including internal ones). */
 export function registerScreens() {
+    /* MAIN */
     Navigation.registerComponent('zeronet.Main', () => Main)
+
+    /* CANVAS */
+    Navigation.registerComponent('zeronet.Canvas', () => Canvas)
+
+    /* MEDIA PLAYER */
     Navigation.registerComponent('zeronet.Player', () => MediaPlayer)
-    Navigation.registerComponent('zeronet.Webview', () => Webview)
 
-    Navigation.registerComponent('zeronet.Stage', () => StageFrame)
-
-    Navigation.registerComponent('zeronet.P0rtal', () => P0rtalFrame)
+    /* P0RTAL */
+    Navigation.registerComponent('zeronet.P0rtal', () => P0rtal)
     Navigation.registerComponent('zeronet.P0rtal.Account', () => P0rtalAccount)
 
+    /* STAGE */
+    Navigation.registerComponent('zeronet.Stage', () => Stage)
 
-    Navigation.registerComponent('zeronet.SecondTabScreen', () => SecondTabScreen)
+    /* WEBVIEW */
+    Navigation.registerComponent('zeronet.Webview', () => Webview)
 }

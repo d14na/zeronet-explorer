@@ -1,7 +1,6 @@
 import React from 'react'
 
 import {
-    Button,
     StyleSheet,
     ScrollView,
     Text,
@@ -10,7 +9,11 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
-import { Header } from 'react-native-elements'
+import {
+    Button,
+    Header,
+    Icon
+} from 'react-native-elements'
 
 import { MonoText } from '../components'
 
@@ -22,11 +25,25 @@ export default class Stage extends React.Component {
     }
 
     render() {
+        function MyCustomRightComponent(props) {
+            /* Retrieve the parent. */
+            const parent = props.parent
+
+            return <Icon
+                name='window-close'
+                type='font-awesome'
+                color='#fff'
+                onPress={ parent._closeStage.bind(parent) } />
+        }
+
         return <View style={ styles.container }>
             <Header
+                backgroundColor='#cccc33'
+                outerContainerStyles={ styles.topBar }
+                innerContainerStyles={ styles.topBarContent }
                 leftComponent={{ icon: 'menu', color: '#fff' }}
-                centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-                rightComponent={{ icon: 'home', color: '#fff' }} />
+                centerComponent={{ text: '[Z#] ZER0NET: GETTING STARTED GUIDE IN 5 MINUTES', style: styles.topBarTitle }}
+                rightComponent={<MyCustomRightComponent parent={ this } />} />
 
             <MonoText style={{ color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'MonoText' }}>
                 WE WILL CALL THIS THE STAGE
@@ -50,6 +67,16 @@ export default class Stage extends React.Component {
                 </Text>
             </View>
         </View>
+    }
+
+    _closeStage() {
+        Navigation.mergeOptions('zeronet.Stage', {
+            sideMenu: {
+                left: {
+                    visible: false
+                }
+            }
+        })
     }
 
     _gotoIntro() {
@@ -83,5 +110,19 @@ const styles = StyleSheet.create({
     recommendedStageText: {
         /* Set text color to off-white. */
         color: 'rgba(220, 220, 220, 1.0)',
+    },
+    topBar: {
+        padding: 10,
+        height: 60
+    },
+    topBarContent: {
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)'
+    },
+    topBarTitle: {
+        width: '65%',
+        color: '#fff',
+        fontSize: 20
     }
 })

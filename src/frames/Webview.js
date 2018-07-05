@@ -17,6 +17,8 @@ class WelcomeScreen extends React.Component {
     constructor(props) {
         super(props)
 
+        console.log('Webview received props', props)
+
         this.state = {
             debug: 'loading...'
         }
