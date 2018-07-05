@@ -4,9 +4,11 @@ const { Platform } = require('react-native')
 
 const { registerScreens } = require('./screens')
 
-/* Remove yellow box alerts. */
-console.ignoredYellowBox = ['Remote debugger']
-// console.disableYellowBox = true
+/* Silence 'unneeded' yellow box alerts. */
+console.ignoredYellowBox = [
+    'Remote debugger',
+    'Time drift'
+]
 
 function start() {
     registerScreens()
@@ -139,8 +141,8 @@ function start() {
             stack: {
                 children: [{
                     component: {
-                        id: 'zeronet.Stage',
-                        name: 'zeronet.Stage',
+                        id: 'zeronet.P0rtal',
+                        name: 'zeronet.P0rtal',
                         passProps: {
                             text: 'Suite of built-in decentralized features and services.'
                         }
@@ -153,6 +155,7 @@ function start() {
         /* Initialize the main frame stack. */
         const center = {
             stack: {
+                // id: 'zeronet.MainStack',
                 children: [{
                     component: {
                         id: 'zeronet.Main',

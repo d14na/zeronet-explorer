@@ -1,7 +1,6 @@
 import React from 'react'
 
 import {
-    Button,
     StyleSheet,
     ScrollView,
     Text,
@@ -11,6 +10,7 @@ import {
 import { Navigation } from 'react-native-navigation'
 
 import {
+    Button,
     FormLabel,
     FormInput,
     FormValidationMessage
@@ -23,27 +23,129 @@ import { MonoText } from '../components'
 export default class P0rtal extends React.Component {
     constructor(props) {
         super(props)
+
+        console.log('P0rtal received props', props)
+
+        this.state = {
+            authorized: true
+        }
     }
 
     render() {
+        if (!this.state.authorized) {
+            return <View style={ styles.container }>
+                <View>
+                    <Text style={ styles.heading }>
+                        SIGN IN
+                    </Text>
+                </View>
+
+                <FormLabel>Name</FormLabel>
+                <FormInput onChangeText={ this._someFunction }/>
+                <FormValidationMessage>Error message</FormValidationMessage>
+
+                <Button title="Sign In" onPress={ this._openAccount.bind(this) } />
+
+                <Button title="Sign Up" onPress={ this._loadCourier.bind(this) } />
+
+            </View>
+        }
+
         return <View style={ styles.container }>
-            <View>
-                <Text style={ styles.heading }>
-                    P0RTAL
-                </Text>
+            <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._openAccount.bind(this) }
+                    icon={{name: 'globe', type: 'font-awesome'}}
+                    title='Profile' />
+
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._loadCourier.bind(this) }
+                    icon={{name: 'fire', type: 'font-awesome'}}
+                    title='Courier' />
             </View>
 
-            <FormLabel>Name</FormLabel>
-            <FormInput onChangeText={ this._someFunction }/>
-            <FormValidationMessage>Error message</FormValidationMessage>
+            <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._openAccount.bind(this) }
+                    icon={{name: 'globe', type: 'font-awesome'}}
+                    title='Activity' />
 
-            <Button title="Chat" onPress={ this._openAccount.bind(this) } />
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._loadCourier.bind(this) }
+                    icon={{name: 'fire', type: 'font-awesome'}}
+                    title='Chat' />
+            </View>
 
-            <Text style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
-                Discover Nearby Mesh Networks
-            </Text>
+            <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._openAccount.bind(this) }
+                    icon={{name: 'globe', type: 'font-awesome'}}
+                    title='Forum' />
+
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._loadCourier.bind(this) }
+                    icon={{name: 'fire', type: 'font-awesome'}}
+                    title='Blog' />
+            </View>
 
         </View>
+    }
+
+    componentDidMount() {
+        console.log('P0rtal did mount')
+
+        Navigation.mergeOptions(this.props.componentId, {
+            topBar: {
+                title: {
+                    text: 'P0RTAL'
+                },
+                rightButtons: [
+                    {
+                        id: 'myDynamicButton',
+                        title: '[ X ]'
+                    }
+                ],
+                visible: true,
+                animate: true,
+                drawBehind: false
+            }
+        })
+
+        // Navigation.mergeOptions(this.props.componentId, {
+        //     topBar: {
+        //         title: {
+        //             text: 'Pushed screen title'
+        //         }
+        //     }
+        // })
+
+    }
+
+    _loadCourier() {
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: 'zeronet.P0rtal.Courier',
+                options: {
+                    topBar: {
+                        title: {
+                            text: 'COURIER'
+                        }
+                    }
+                }
+            }
+        })
     }
 
     _openAccount() {
@@ -90,13 +192,19 @@ export default class P0rtal extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: 350,   // FIXME Retrieve device width and calculate static value
         height: '100%',
-        backgroundColor: 'rgba(30, 30, 30, 0.95)'
+
+        backgroundColor: 'rgba(30, 30, 30, 0.95)',
+
+        padding: 20
     },
     heading: {
         color: 'rgba(255, 255, 255, 0.9)',
         fontSize: 20,
         textAlign: 'center'
+    },
+    button: {
+        flex: 1
     }
 })

@@ -26,12 +26,29 @@ class WelcomeScreen extends React.Component {
 
     render() {
         const source = {
-            uri: 'https://github.com/d14na/zeronet-explorer/'
+            uri: 'https://github.com/d14na/zeronet-explorer/blob/master/README.md'
+            // uri: 'https://github.com/d14na/zeronet-explorer/'
         }
 
-        return <WebView
-            source={ source }
-            style={ styles.webview } />
+        return <View style={ styles.container }>
+            <WebView
+                source={ source }
+                style={ styles.webview } />
+
+            <View style={ styles.footer }>
+                <Button
+                    title='<'
+                    style={ styles.footerButton } />
+
+                <Button
+                    title='>'
+                    style={ styles.footerButton } />
+
+                <Button
+                    title='History'
+                    style={ styles.footerButton } />
+            </View>
+        </View>
     }
 
     componentDidMount() {
@@ -115,11 +132,22 @@ class WelcomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        flex: 1
+    },
     webview: {
         flex: 1,
         width: '100%',
-        height: '100%'
+        // height: '100%'
+    },
+    footer: {
+        flexDirection: 'row',
+        width: 350,
+        height: 50
+    },
+    footerButton: {
+        flex: 1,
+        width: 100
     }
 })
 

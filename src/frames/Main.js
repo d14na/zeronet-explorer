@@ -43,34 +43,54 @@ export default class MainFrame extends React.Component {
                 { this.state.debug }
             </Text>
 
-            <Button
-                large
-                onPress={ this._loadWebview.bind(this) }
-                icon={{name: 'globe', type: 'font-awesome'}}
-                title='Load Webview' />
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._loadWebview.bind(this) }
+                    icon={{name: 'globe', type: 'font-awesome'}}
+                    title='GitHub' />
 
-            <Button
-                large
-                onPress={ this._removeButton.bind(this) }
-                icon={{name: 'fire', type: 'font-awesome'}}
-                title='Remove' />
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._removeButton.bind(this) }
+                    icon={{name: 'fire', type: 'font-awesome'}}
+                    title='Zer0net 101' />
+            </View>
+
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._loadWebview.bind(this) }
+                    icon={{name: 'globe', type: 'font-awesome'}}
+                    title='Play' />
+
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._removeButton.bind(this) }
+                    icon={{name: 'fire', type: 'font-awesome'}}
+                    title='Work' />
+            </View>
         </View>
     }
 
     componentDidMount() {
-        console.log('Main Frame has loaded.')
-
-        // Navigation.mergeOptions(this.props.componentId, {
-        //   topBar: {
-        //     rightButtons: [
-        //       {
-        //         id: 'myDynamicButton',
-        //         title: 'My Button'
-        //       }
-        //     ]
-        //   }
-        // })
-
+        Navigation.mergeOptions(this.props.componentId, {
+            topBar: {
+                title: {
+                    text: 'Zer0net Explorer'
+                },
+                rightButtons: [
+                    {
+                        id: 'btnP0rtal',
+                        title: 'P0rtal'
+                    }
+                ]
+            }
+        })
     }
 
     async _goDownload() {
@@ -87,7 +107,6 @@ export default class MainFrame extends React.Component {
     }
 
     _loadWebview() {
-        console.log('this.props.componentId', this.props.componentId)
         Navigation.push(this.props.componentId, {
             component: {
                 id: 'zeronet.Webview',
@@ -113,7 +132,10 @@ export default class MainFrame extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        width: '100%',
+        height: '100%'
+    },
     webview: {
         marginTop: 20,
         width: '100%',

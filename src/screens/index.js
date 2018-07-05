@@ -12,6 +12,7 @@ import MediaPlayer from '../frames/Player'
 /* P0RTAL */
 import P0rtal from '../frames/P0rtal'
 import P0rtalAccount from './P0rtal/Account'
+import P0rtalCourier from './P0rtal/Courier'
 
 /* STAGE */
 import Stage from '../frames/Stage'
@@ -33,6 +34,7 @@ export function registerScreens() {
     /* P0RTAL */
     Navigation.registerComponent('zeronet.P0rtal', () => P0rtal)
     Navigation.registerComponent('zeronet.P0rtal.Account', () => P0rtalAccount)
+    Navigation.registerComponent('zeronet.P0rtal.Courier', () => P0rtalCourier)
 
     /* STAGE */
     Navigation.registerComponent('zeronet.Stage', () => Stage)

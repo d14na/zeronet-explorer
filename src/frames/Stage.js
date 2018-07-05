@@ -49,8 +49,6 @@ export default class Stage extends React.Component {
                 WE WILL CALL THIS THE STAGE
             </MonoText>
 
-            <Button title="Stage #1" onPress={ this._gotoIntro.bind(this) } />
-
             <View style={ styles.adSpace }>
                 <Text style={ styles.adSpaceText }>
                     AD SPACE
@@ -70,21 +68,14 @@ export default class Stage extends React.Component {
     }
 
     _closeStage() {
-        Navigation.mergeOptions('zeronet.Stage', {
+        /* Close the webview. */
+        Navigation.popTo('zeronet.Main')
+
+        Navigation.mergeOptions(this.props.componentId, {
             sideMenu: {
                 left: {
                     visible: false
                 }
-            }
-        })
-    }
-
-    _gotoIntro() {
-        console.log('goto intro')
-
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: 'zeronet.SecondTabScreen'
             }
         })
     }
