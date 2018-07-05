@@ -113,7 +113,7 @@ export default class P0rtal extends React.Component {
                 },
                 rightButtons: [
                     {
-                        id: 'myDynamicButton',
+                        id: 'btnCloseP0rtal',
                         title: '[ X ]'
                     }
                 ],
@@ -131,6 +131,14 @@ export default class P0rtal extends React.Component {
         //     }
         // })
 
+    }
+
+    onNavigationButtonPressed(_buttonId) {
+        console.log('onNavigationButtonPressed', _buttonId)
+
+        if (_buttonId === 'btnCloseP0rtal') {
+            this._closeP0rtal()
+        }
     }
 
     _loadCourier() {
@@ -183,6 +191,16 @@ export default class P0rtal extends React.Component {
                             icon: require('../../img/one.png')
                         }
                     ]
+                }
+            }
+        })
+    }
+
+    _closeP0rtal() {
+        Navigation.mergeOptions(this.props.componentId, {
+            sideMenu: {
+                right: {
+                    visible: false
                 }
             }
         })

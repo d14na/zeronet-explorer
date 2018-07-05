@@ -7,7 +7,7 @@ const { registerScreens } = require('./screens')
 /* Silence 'unneeded' yellow box alerts. */
 console.ignoredYellowBox = [
     'Remote debugger',
-    'Time drift'
+    'Debugger and device times'
 ]
 
 function start() {

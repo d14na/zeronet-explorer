@@ -54,7 +54,7 @@ export default class MainFrame extends React.Component {
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._removeButton.bind(this) }
+                    onPress={ this._loadWebview.bind(this) }
                     icon={{name: 'fire', type: 'font-awesome'}}
                     title='Zer0net 101' />
             </View>
@@ -70,7 +70,7 @@ export default class MainFrame extends React.Component {
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._removeButton.bind(this) }
+                    onPress={ this._loadWebview.bind(this) }
                     icon={{name: 'fire', type: 'font-awesome'}}
                     title='Work' />
             </View>
@@ -91,6 +91,22 @@ export default class MainFrame extends React.Component {
                 ]
             }
         })
+
+        // Navigation.events().buttonPressed((_componentId, _buttonId) => {
+        //     console.log('Navigation.events().buttonPressed', _componentId, _buttonId)
+        // })
+
+        // Navigation.events().onNavigationButtonPressed((_componentId, _buttonId) => {
+        //     console.log('Navigation.events().onNavigationButtonPressed', _buttonId)
+        // })
+    }
+
+    onNavigationButtonPressed(_buttonId) {
+        console.log('onNavigationButtonPressed', _buttonId)
+
+        if (_buttonId === 'btnP0rtal') {
+            this._openP0rtal()
+        }
     }
 
     async _goDownload() {
@@ -122,13 +138,16 @@ export default class MainFrame extends React.Component {
         })
     }
 
-    _removeButton() {
+    _openP0rtal() {
         Navigation.mergeOptions(this.props.componentId, {
-          topBar: {
-            rightButtons: []
-          }
+            sideMenu: {
+                right: {
+                    visible: true
+                }
+            }
         })
     }
+
 }
 
 const styles = StyleSheet.create({
