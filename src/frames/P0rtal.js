@@ -44,7 +44,7 @@ export default class P0rtal extends React.Component {
                 <FormInput onChangeText={ this._someFunction }/>
                 <FormValidationMessage>Error message</FormValidationMessage>
 
-                <Button title="Sign In" onPress={ this._loadAccount.bind(this) } />
+                <Button title="Sign In" onPress={ this._loadProfile.bind(this) } />
 
                 <Button title="Sign Up" onPress={ this._loadCourier.bind(this) } />
 
@@ -56,16 +56,9 @@ export default class P0rtal extends React.Component {
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadAccount.bind(this) }
-                    icon={{name: 'globe', type: 'font-awesome'}}
+                    onPress={ this._loadProfile.bind(this) }
+                    icon={{name: 'user', type: 'font-awesome'}}
                     title='Profile' />
-
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadFeed.bind(this) }
-                    icon={{name: 'rss-square', type: 'font-awesome'}}
-                    title='Feed' />
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
@@ -73,31 +66,26 @@ export default class P0rtal extends React.Component {
                     large
                     style={{ flex: 1, width: 150 }}
                     onPress={ this._loadCourier.bind(this) }
-                    icon={{name: 'globe', type: 'font-awesome'}}
+                    icon={{name: 'at', type: 'font-awesome'}}
                     title='Courier' />
-
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadChat.bind(this) }
-                    icon={{name: 'fire', type: 'font-awesome'}}
-                    title='Chat' />
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadForum.bind(this) }
-                    icon={{name: 'globe', type: 'font-awesome'}}
-                    title='Forum' />
+                    onPress={ this._loadStreams.bind(this) }
+                    icon={{name: 'rss-square', type: 'font-awesome'}}
+                    title='Streams' />
+            </View>
 
+            <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadDiary.bind(this) }
-                    icon={{name: 'fire', type: 'font-awesome'}}
-                    title='Diary' />
+                    onPress={ this._loadInfluence.bind(this) }
+                    icon={{name: 'book', type: 'font-awesome'}}
+                    title='Influence' />
             </View>
 
         </View>
@@ -140,18 +128,10 @@ export default class P0rtal extends React.Component {
         }
     }
 
-    _loadAccount() {
+    _loadProfile() {
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'zeronet.P0rtal.Account'
-            }
-        })
-    }
-
-    _loadChat() {
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: 'zeronet.P0rtal.Chat'
+                name: 'zeronet.P0rtal.Profile'
             }
         })
     }
@@ -175,21 +155,21 @@ export default class P0rtal extends React.Component {
         })
     }
 
-    _loadDiary() {
+    _loadInfluence() {
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'zeronet.P0rtal.Diary'
+                name: 'zeronet.P0rtal.Influence'
             }
         })
     }
 
-    _loadFeed() {
+    _loadStreams() {
         Navigation.push(this.props.componentId, {
             component: {
-                id: 'zeronet.P0rtal.Feed',
-                name: 'zeronet.P0rtal.Feed',
+                id: 'zeronet.P0rtal.Streams',
+                name: 'zeronet.P0rtal.Streams',
                 passProps: {
-                    title: 'Feed'
+                    title: 'Streams'
                 },
                 options: {
                     topBar: {
@@ -198,14 +178,6 @@ export default class P0rtal extends React.Component {
                         }
                     }
                 }
-            }
-        })
-    }
-
-    _loadForum() {
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: 'zeronet.P0rtal.Forum'
             }
         })
     }

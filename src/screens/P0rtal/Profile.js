@@ -20,44 +20,26 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { MonoText } from '../../components'
 
-export default class Account extends React.Component {
+export default class Profile extends React.Component {
     constructor(props) {
         super(props)
-
-        console.log('Diary received props', props)
-
-        this.state = {}
     }
 
     render() {
         return <View style={ styles.container }>
+            <View>
+                <Text style={ styles.heading }>
+                    MY ACCOUNT PAGE
+                </Text>
+            </View>
+
             <FormLabel>Name</FormLabel>
             <FormInput onChangeText={ this._someFunction }/>
             <FormValidationMessage>Error message</FormValidationMessage>
 
-            <Button title="DIARY" onPress={ this._chat.bind(this) } />
+            <Button title="Update" onPress={ this._chat.bind(this) } />
 
         </View>
-    }
-
-    componentDidMount() {
-        Navigation.mergeOptions(this.props.componentId, {
-            topBar: {
-                title: {
-                    component: {
-                        id: 'zeronet.P0rtalTopBar',
-                        name: 'zeronet.P0rtalTopBar',
-                        passProps: {
-                            title: 'Diary'
-                        }
-                    }
-                },
-                visible: true,
-                drawBehind: false
-            }
-        })
-
-
     }
 
     _chat() {

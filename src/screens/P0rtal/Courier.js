@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { MonoText } from '../../components'
 
-export default class Account extends React.Component {
+export default class Courier extends React.Component {
     constructor(props) {
         super(props)
 
