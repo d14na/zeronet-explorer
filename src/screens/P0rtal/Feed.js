@@ -24,7 +24,7 @@ export default class Account extends React.Component {
     constructor(props) {
         super(props)
 
-        console.log('Courier received props', props)
+        console.log('Feed received props', props)
 
         this.state = {}
     }
@@ -35,7 +35,7 @@ export default class Account extends React.Component {
             <FormInput onChangeText={ this._someFunction }/>
             <FormValidationMessage>Error message</FormValidationMessage>
 
-            <Button title="COURIER" onPress={ this._chat.bind(this) } />
+            <Button title="FEED" onPress={ this._chat.bind(this) } />
 
         </View>
     }
@@ -48,7 +48,7 @@ export default class Account extends React.Component {
                         id: 'zeronet.P0rtalTopBar',
                         name: 'zeronet.P0rtalTopBar',
                         passProps: {
-                            title: 'Courier'
+                            title: 'Feed'
                         }
                     }
                 },

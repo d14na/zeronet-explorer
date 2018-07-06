@@ -44,7 +44,7 @@ export default class P0rtal extends React.Component {
                 <FormInput onChangeText={ this._someFunction }/>
                 <FormValidationMessage>Error message</FormValidationMessage>
 
-                <Button title="Sign In" onPress={ this._openAccount.bind(this) } />
+                <Button title="Sign In" onPress={ this._loadAccount.bind(this) } />
 
                 <Button title="Sign Up" onPress={ this._loadCourier.bind(this) } />
 
@@ -56,30 +56,30 @@ export default class P0rtal extends React.Component {
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._openAccount.bind(this) }
+                    onPress={ this._loadAccount.bind(this) }
                     icon={{name: 'globe', type: 'font-awesome'}}
                     title='Profile' />
 
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadCourier.bind(this) }
-                    icon={{name: 'fire', type: 'font-awesome'}}
-                    title='Courier' />
+                    onPress={ this._loadFeed.bind(this) }
+                    icon={{name: 'rss-square', type: 'font-awesome'}}
+                    title='Feed' />
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._openAccount.bind(this) }
+                    onPress={ this._loadCourier.bind(this) }
                     icon={{name: 'globe', type: 'font-awesome'}}
-                    title='Activity' />
+                    title='Courier' />
 
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadCourier.bind(this) }
+                    onPress={ this._loadChat.bind(this) }
                     icon={{name: 'fire', type: 'font-awesome'}}
                     title='Chat' />
             </View>
@@ -88,16 +88,16 @@ export default class P0rtal extends React.Component {
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._openAccount.bind(this) }
+                    onPress={ this._loadForum.bind(this) }
                     icon={{name: 'globe', type: 'font-awesome'}}
                     title='Forum' />
 
                 <Button
                     large
                     style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadCourier.bind(this) }
+                    onPress={ this._loadDiary.bind(this) }
                     icon={{name: 'fire', type: 'font-awesome'}}
-                    title='Blog' />
+                    title='Diary' />
             </View>
 
         </View>
@@ -140,6 +140,22 @@ export default class P0rtal extends React.Component {
         }
     }
 
+    _loadAccount() {
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: 'zeronet.P0rtal.Account'
+            }
+        })
+    }
+
+    _loadChat() {
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: 'zeronet.P0rtal.Chat'
+            }
+        })
+    }
+
     _loadCourier() {
         Navigation.push(this.props.componentId, {
             component: {
@@ -159,10 +175,37 @@ export default class P0rtal extends React.Component {
         })
     }
 
-    _openAccount() {
+    _loadDiary() {
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'zeronet.P0rtal.Account'
+                name: 'zeronet.P0rtal.Diary'
+            }
+        })
+    }
+
+    _loadFeed() {
+        Navigation.push(this.props.componentId, {
+            component: {
+                id: 'zeronet.P0rtal.Feed',
+                name: 'zeronet.P0rtal.Feed',
+                passProps: {
+                    title: 'Feed'
+                },
+                options: {
+                    topBar: {
+                        title: {
+                            text: 'FEED'
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    _loadForum() {
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: 'zeronet.P0rtal.Forum'
             }
         })
     }
