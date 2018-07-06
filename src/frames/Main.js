@@ -11,7 +11,10 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
-import { Button } from 'react-native-elements'
+import {
+    Button,
+    SearchBar
+} from 'react-native-elements'
 
 /**
  * Main Frame
@@ -35,44 +38,53 @@ export default class MainFrame extends React.Component {
         }
 
         return <View style={ styles.container }>
-            <Text>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Text>
+            <SearchBar
+                ref={ search => this.search = search }
+                icon={{ type: 'font-awesome', name: 'search' }}
+                clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
+                inputStyle={{ paddingLeft: 40, paddingBottom: 9 }}
+                placeholder='Looking for something interesting?' />
 
-            <Text>
-                { this.state.debug }
-            </Text>
+            <View style={ styles.contentContainer }>
+                <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </Text>
 
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadWebview.bind(this) }
-                    icon={{name: 'globe', type: 'font-awesome'}}
-                    title='GitHub' />
+                <Text>
+                    { this.state.debug }
+                </Text>
 
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadWebview.bind(this) }
-                    icon={{name: 'fire', type: 'font-awesome'}}
-                    title='Zer0net 101' />
-            </View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._loadWebview.bind(this) }
+                        icon={{name: 'globe', type: 'font-awesome'}}
+                        title='GitHub' />
 
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadWebview.bind(this) }
-                    icon={{name: 'globe', type: 'font-awesome'}}
-                    title='Play' />
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._loadWebview.bind(this) }
+                        icon={{name: 'fire', type: 'font-awesome'}}
+                        title='Zer0net 101' />
+                </View>
 
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadWebview.bind(this) }
-                    icon={{name: 'fire', type: 'font-awesome'}}
-                    title='Work' />
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._loadWebview.bind(this) }
+                        icon={{name: 'globe', type: 'font-awesome'}}
+                        title='Play' />
+
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._loadWebview.bind(this) }
+                        icon={{name: 'fire', type: 'font-awesome'}}
+                        title='Work' />
+                </View>
             </View>
         </View>
     }
@@ -86,7 +98,7 @@ export default class MainFrame extends React.Component {
                 rightButtons: [
                     {
                         id: 'btnP0rtal',
-                        title: 'P0rtal'
+                        title: 'P0rtal ➧'
                     }
                 ]
             }
@@ -155,9 +167,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%'
     },
-    webview: {
-        marginTop: 20,
-        width: '100%',
-        height: 200
+    contentContainer: {
+        padding: 20
     }
 })

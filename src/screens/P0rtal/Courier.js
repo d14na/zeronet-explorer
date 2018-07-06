@@ -23,6 +23,10 @@ import { MonoText } from '../../components'
 export default class Account extends React.Component {
     constructor(props) {
         super(props)
+
+        console.log('Courier received props', props)
+
+        this.state = {}
     }
 
     render() {
@@ -34,6 +38,26 @@ export default class Account extends React.Component {
             <Button title="Update" onPress={ this._chat.bind(this) } />
 
         </View>
+    }
+
+    componentDidMount() {
+        Navigation.mergeOptions(this.props.componentId, {
+            topBar: {
+                title: {
+                    component: {
+                        id: 'zeronet.P0rtalTopBar',
+                        name: 'zeronet.P0rtalTopBar',
+                        passProps: {
+                            title: 'Courier'
+                        }
+                    }
+                },
+                visible: true,
+                drawBehind: false
+            }
+        })
+
+
     }
 
     _chat() {

@@ -20,6 +20,9 @@ import Stage from '../frames/Stage'
 /* WEBVIEW */
 import Webview from '../frames/Webview'
 
+/* COMPONENTS */
+import { P0rtalTopBar } from '../components'
+
 /* Register all screens of the app (including internal ones). */
 export function registerScreens() {
     /* MAIN */
@@ -41,4 +44,7 @@ export function registerScreens() {
 
     /* WEBVIEW */
     Navigation.registerComponent('zeronet.Webview', () => Webview)
+
+    /* COMPONENTS */
+    Navigation.registerComponent('zeronet.P0rtalTopBar', () => P0rtalTopBar)
 }

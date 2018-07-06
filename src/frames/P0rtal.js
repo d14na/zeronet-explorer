@@ -109,16 +109,11 @@ export default class P0rtal extends React.Component {
         Navigation.mergeOptions(this.props.componentId, {
             topBar: {
                 title: {
-                    text: 'P0RTAL'
-                },
-                rightButtons: [
-                    {
-                        id: 'btnCloseP0rtal',
-                        title: '[ X ]'
+                    component: {
+                        name: 'zeronet.P0rtalTopBar'
                     }
-                ],
+                },
                 visible: true,
-                animate: true,
                 drawBehind: false
             }
         })
@@ -126,11 +121,15 @@ export default class P0rtal extends React.Component {
         // Navigation.mergeOptions(this.props.componentId, {
         //     topBar: {
         //         title: {
-        //             text: 'Pushed screen title'
-        //         }
+        //             component: {
+        //                 name: 'zeronet.P0rtalTopBar'
+        //             }
+        //         },
+        //         visible: true,
+        //         drawBehind: false
         //     }
         // })
-
+        //
     }
 
     onNavigationButtonPressed(_buttonId) {
@@ -144,7 +143,11 @@ export default class P0rtal extends React.Component {
     _loadCourier() {
         Navigation.push(this.props.componentId, {
             component: {
+                id: 'zeronet.P0rtal.Courier',
                 name: 'zeronet.P0rtal.Courier',
+                passProps: {
+                    title: 'Courier'
+                },
                 options: {
                     topBar: {
                         title: {
@@ -196,16 +199,6 @@ export default class P0rtal extends React.Component {
         })
     }
 
-    _closeP0rtal() {
-        Navigation.mergeOptions(this.props.componentId, {
-            sideMenu: {
-                right: {
-                    visible: false
-                }
-            }
-        })
-    }
-
 }
 
 const styles = StyleSheet.create({
@@ -222,7 +215,23 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center'
     },
-    button: {
-        flex: 1
-    }
+    // button: {
+    //     flex: 1
+    // },
+
+    buttonContainer: {
+        width: 48,
+        height: 48,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      button: {
+        backgroundColor: 'tomato',
+        width: 34,
+        height: 34,
+        borderRadius: 34 / 2,
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }
 })
