@@ -10,6 +10,7 @@ import {
 import { Navigation } from 'react-native-navigation'
 
 import {
+    Avatar,
     Button,
     FormLabel,
     FormInput,
@@ -51,14 +52,22 @@ export default class P0rtal extends React.Component {
             </View>
         }
 
+        // title="ZN"
+        // source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }}
+
         return <View style={ styles.container }>
             <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                <Avatar
+                    xlarge
+                    rounded
+                    source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }}
+                    onPress={ this._loadProfile.bind(this) }
+                    activeOpacity={ 0.7 } />
+
                 <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
                     onPress={ this._loadProfile.bind(this) }
                     icon={{name: 'user', type: 'font-awesome'}}
-                    title='Profile' />
+                    title='Edit Profile' />
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
@@ -68,6 +77,13 @@ export default class P0rtal extends React.Component {
                     onPress={ this._loadCourier.bind(this) }
                     icon={{name: 'at', type: 'font-awesome'}}
                     title='Courier' />
+
+                <Button
+                    large
+                    style={{ flex: 1, width: 150 }}
+                    onPress={ this._loadInfluence.bind(this) }
+                    icon={{name: 'book', type: 'font-awesome'}}
+                    title='Influence' />
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
@@ -77,15 +93,6 @@ export default class P0rtal extends React.Component {
                     onPress={ this._loadStreams.bind(this) }
                     icon={{name: 'rss-square', type: 'font-awesome'}}
                     title='Streams' />
-            </View>
-
-            <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadInfluence.bind(this) }
-                    icon={{name: 'book', type: 'font-awesome'}}
-                    title='Influence' />
             </View>
 
         </View>

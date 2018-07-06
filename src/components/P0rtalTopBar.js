@@ -42,7 +42,7 @@ export default class P0rtalTopBar extends React.Component {
             </View>
 
             <View style={{ width: 100, flexDirection: 'row' }}>
-                <TouchableOpacity style={ styles.button } onPress={ this._closeP0rtal.bind(this) }>
+                <TouchableOpacity style={ styles.button } onPress={ this._loadHelp.bind(this) }>
                     <Text style={ styles.buttonText }>Help</Text>
                 </TouchableOpacity>
 
@@ -59,6 +59,14 @@ export default class P0rtalTopBar extends React.Component {
                 right: {
                     visible: false
                 }
+            }
+        })
+    }
+
+    _loadHelp() {
+        Navigation.push('zeronet.P0rtal', {
+            component: {
+                name: 'zeronet.P0rtal.Help'
             }
         })
     }

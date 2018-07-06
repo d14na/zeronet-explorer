@@ -12,6 +12,7 @@ import MediaPlayer from '../frames/Player'
 /* P0RTAL */
 import P0rtal from '../frames/P0rtal'
 import P0rtalCourier from './P0rtal/Courier'
+import P0rtalHelp from './P0rtal/Help'
 import P0rtalInfluence from './P0rtal/Influence'
 import P0rtalProfile from './P0rtal/Profile'
 import P0rtalStreams from './P0rtal/Streams'
@@ -39,6 +40,7 @@ export function registerScreens() {
     /* P0RTAL */
     Navigation.registerComponent('zeronet.P0rtal', () => P0rtal)
     Navigation.registerComponent('zeronet.P0rtal.Courier', () => P0rtalCourier)
+    Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp)
     Navigation.registerComponent('zeronet.P0rtal.Influence', () => P0rtalInfluence)
     Navigation.registerComponent('zeronet.P0rtal.Profile', () => P0rtalProfile)
     Navigation.registerComponent('zeronet.P0rtal.Streams', () => P0rtalStreams)
