@@ -1,4 +1,4 @@
-# Zeronet Explorer
+# Zeronet Explorer for Android, iOS & PCs
 
 [![Build Status](https://travis-ci.org/d14na/zeronet-explorer.png?branch=master)](https://travis-ci.org/d14na/zeronet-explorer)
 
@@ -34,6 +34,7 @@
     - [ ] Amazon Marketplace
     - [ ] Apple App Store *(ugh, this is work)*
 * [ ] **[Node0](https://github.com/d14na/node0)** integration
+* [ ] Add desktop support with **[Electron](https://github.com/electron/electron)**
 * [ ] Complete basic Media player
 * [ ] Complete basic Canvas *(native UI/UX bridge)*
 * [ ] Complete basic Playback viewer *(**[Lottie](https://airbnb.design/lottie/)**-style animations)*
