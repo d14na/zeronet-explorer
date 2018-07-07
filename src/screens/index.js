@@ -30,33 +30,33 @@ import Webview from '../frames/Webview'
 import { P0rtalTopBar } from '../components'
 
 /* Register all screens of the app (including internal ones). */
-export function registerScreens(store: {}, Provider: {}) {
+export function registerScreens() {
     /* MAIN */
-    Navigation.registerComponent('zeronet.Main', () => Main, store, Provider)
+    Navigation.registerComponent('zeronet.Main', () => Main)
 
     /* CANVAS */
-    Navigation.registerComponent('zeronet.Canvas', () => Canvas, store, Provider)
+    Navigation.registerComponent('zeronet.Canvas', () => Canvas)
 
     /* MEDIA PLAYER */
-    Navigation.registerComponent('zeronet.Player', () => MediaPlayer, store, Provider)
+    Navigation.registerComponent('zeronet.Player', () => MediaPlayer)
 
     /* PLAYBACK VIEWER */
-    Navigation.registerComponent('zeronet.Playback', () => PlaybackViewer, store, Provider)
+    Navigation.registerComponent('zeronet.Playback', () => PlaybackViewer)
 
     /* P0RTAL */
-    Navigation.registerComponent('zeronet.P0rtal', () => P0rtal, store, Provider)
-    Navigation.registerComponent('zeronet.P0rtal.Courier', () => P0rtalCourier, store, Provider)
-    Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp, store, Provider)
-    Navigation.registerComponent('zeronet.P0rtal.Influence', () => P0rtalInfluence, store, Provider)
-    Navigation.registerComponent('zeronet.P0rtal.Profile', () => P0rtalProfile, store, Provider)
-    Navigation.registerComponent('zeronet.P0rtal.Streams', () => P0rtalStreams, store, Provider)
+    Navigation.registerComponent('zeronet.P0rtal', () => P0rtal)
+    Navigation.registerComponent('zeronet.P0rtal.Courier', () => P0rtalCourier)
+    Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp)
+    Navigation.registerComponent('zeronet.P0rtal.Influence', () => P0rtalInfluence)
+    Navigation.registerComponent('zeronet.P0rtal.Profile', () => P0rtalProfile)
+    Navigation.registerComponent('zeronet.P0rtal.Streams', () => P0rtalStreams)
 
     /* STAGE */
-    Navigation.registerComponent('zeronet.Stage', () => Stage, store, Provider)
+    Navigation.registerComponent('zeronet.Stage', () => Stage)
 
     /* WEBVIEW */
-    Navigation.registerComponent('zeronet.Webview', () => Webview, store, Provider)
+    Navigation.registerComponent('zeronet.Webview', () => Webview)
 
     /* COMPONENTS */
-    Navigation.registerComponent('zeronet.P0rtalTopBar', () => P0rtalTopBar, store, Provider)
+    Navigation.registerComponent('zeronet.P0rtalTopBar', () => P0rtalTopBar)
 }

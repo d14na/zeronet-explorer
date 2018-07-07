@@ -2,12 +2,8 @@
 
 import { Navigation } from 'react-native-navigation'
 
-import Provider       from './utils/MobxRnnProvider'
-import Stores         from './stores'
-import Constants      from './global/Constants'
-
 import { registerScreens } from './screens'
-registerScreens(Stores, Provider)
+registerScreens()
 
 /* Silence 'unneeded' yellow box alerts. */
 console.ignoredYellowBox = [

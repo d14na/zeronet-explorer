@@ -11,9 +11,10 @@ import {
 import { Navigation } from 'react-native-navigation'
 
 import { observable } from 'mobx'
-import { inject, observer } from 'mobx-react/native'
+import { observer } from 'mobx-react/native'
+const stores = require('../stores').default
 
-@inject('Counter') @observer
+@observer
 export default class P0rtalTopBar extends React.Component {
     constructor(props) {
         super(props)
@@ -38,11 +39,11 @@ export default class P0rtalTopBar extends React.Component {
     }
 
     render() {
-        const { Counter } = this.props
+        console.log('stores', stores)
 
         return <View style={ styles.container }>
             <View style={ styles.heading }>
-                <Text style={ styles.headingText }>{ Counter.title }</Text>
+                <Text style={ styles.headingText }>{ stores.Counter.title }</Text>
             </View>
 
             <View style={{ width: 100, flexDirection: 'row' }}>
