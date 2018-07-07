@@ -10,14 +10,18 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react'
+
+@observer
 export default class P0rtalTopBar extends React.Component {
     constructor(props) {
         super(props)
 
         console.log('P0rtalTopBar received props', props)
-
-        this.state = {}
     }
+
+    @observable title = 'P0rtal'
 
     componentDidAppear() {
         console.log('RNN', 'CTB.componentDidAppear')
@@ -38,7 +42,7 @@ export default class P0rtalTopBar extends React.Component {
     render() {
         return <View style={ styles.container }>
             <View style={ styles.heading }>
-                <Text style={ styles.headingText }>P0rtal</Text>
+                <Text style={ styles.headingText }>{ this.title }</Text>
             </View>
 
             <View style={{ width: 100, flexDirection: 'row' }}>

@@ -9,6 +9,9 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react'
+
 import {
     Avatar,
     Button,
@@ -21,19 +24,22 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { MonoText } from '../components'
 
+@observer
 export default class P0rtal extends React.Component {
     constructor(props) {
         super(props)
 
         console.log('P0rtal received props', props)
+    }
 
-        this.state = {
-            authorized: true
-        }
+    // @observable authorized = false
+
+    _authorize = () => {
+        this.authorized = true
     }
 
     render() {
-        if (!this.state.authorized) {
+        if (!this.authorized) {
             return <View style={ styles.container }>
                 <View>
                     <Text style={ styles.heading }>
@@ -45,7 +51,7 @@ export default class P0rtal extends React.Component {
                 <FormInput onChangeText={ this._someFunction }/>
                 <FormValidationMessage>Error message</FormValidationMessage>
 
-                <Button title="Sign In" onPress={ this._loadProfile.bind(this) } />
+                <Button title="Sign In" onPress={ this._authorize.bind(this) } />
 
                 <Button title="Sign Up" onPress={ this._loadCourier.bind(this) } />
 

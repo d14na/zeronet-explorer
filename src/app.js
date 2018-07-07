@@ -1,8 +1,11 @@
-const { Navigation } = require('react-native-navigation')
+import { Platform } from 'react-native'
 
-const { Platform } = require('react-native')
+import { Navigation } from 'react-native-navigation'
 
-const { registerScreens } = require('./screens')
+import { registerScreens } from './screens'
+
+import store from './store'
+console.log('store', store)
 
 /* Silence 'unneeded' yellow box alerts. */
 console.ignoredYellowBox = [
@@ -11,6 +14,7 @@ console.ignoredYellowBox = [
 ]
 
 function start() {
+
     registerScreens()
 
     Navigation.events().registerAppLaunchedListener(() => {
@@ -131,6 +135,7 @@ function start() {
                 id: 'zeronet.Stage',
                 name: 'zeronet.Stage',
                 passProps: {
+                    // store,
                     text: 'The Main ZeroNet Stage for native content.'
                 }
             }
@@ -144,6 +149,7 @@ function start() {
                         id: 'zeronet.P0rtal',
                         name: 'zeronet.P0rtal',
                         passProps: {
+                            // store,
                             text: 'Suite of built-in decentralized features and services.'
                         }
                     }
