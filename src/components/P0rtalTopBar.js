@@ -12,7 +12,7 @@ import { Navigation } from 'react-native-navigation'
 
 import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
-const stores = require('../stores').default
+import stores from '../stores'
 
 @observer
 export default class P0rtalTopBar extends React.Component {

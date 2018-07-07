@@ -21,12 +21,12 @@
 * [x] Bootstrap a single page app with two side menus
 * [x] **[Peer0](https://github.com/d14na/peer0)** integration
 * [x] MobX integration
-* [ ] Add persistent data storage
+* [x] Add persistent data storage w/ **[MobX  Persist](https://github.com/pinqy520/mobx-persist)**
 * [ ] Add **[Amplitude](https://github.com/euwyn/react-native-amplitude)** usage analytics
 * [ ] Add **[Bugsnag](https://github.com/bugsnag/bugsnag-react-native)** error & crash tracking
 * [ ] Complete basic Profile manager
 * [ ] Complete basic Courier functions
-* [ ] Complete a model for Influencer services
+* [ ] Complete a framework for Influencer services
 * [ ] Complete integration of Streams *(aka broadcasts, DMLs)*
 * [ ] Publish to App Stores
     - [ ] F-Droid

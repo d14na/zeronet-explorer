@@ -11,7 +11,7 @@ import { Navigation } from 'react-native-navigation'
 
 import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
-const stores = require('../stores').default
+import stores from '../stores'
 
 import {
     Avatar,
@@ -33,17 +33,18 @@ export default class P0rtal extends React.Component {
         console.log('P0rtal received props', props)
     }
 
-    @observable authorized = false
+    // @observable authorized = false
 
     _authorize = () => {
-        this.authorized = true
+        stores.Counter.authorize()
+        // this.authorized = true
 
         const { Counter } = this.props
         stores.Counter.setP0rtalTitle('Authorized!')
     }
 
     render() {
-        if (!this.authorized) {
+        if (!stores.Counter.authorized) {
             return <View style={ styles.container }>
                 <View>
                     <Text style={ styles.heading }>
