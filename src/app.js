@@ -1,11 +1,13 @@
-import { Platform } from 'react-native'
+// @flow
 
 import { Navigation } from 'react-native-navigation'
 
-import { registerScreens } from './screens'
+import Provider       from './utils/MobxRnnProvider'
+import Stores         from './stores'
+import Constants      from './global/Constants'
 
-import store from './store'
-console.log('store', store)
+import { registerScreens } from './screens'
+registerScreens(Stores, Provider)
 
 /* Silence 'unneeded' yellow box alerts. */
 console.ignoredYellowBox = [
@@ -13,14 +15,48 @@ console.ignoredYellowBox = [
     'Debugger and device times'
 ]
 
-function start() {
-
-    registerScreens()
-
-    Navigation.events().registerAppLaunchedListener(() => {
-        Navigation.setDefaultOptions({
-            _animations: {
-                startApp: {
+Navigation.events().registerAppLaunchedListener(() => {
+    Navigation.setDefaultOptions({
+        _animations: {
+            startApp: {
+                y: {
+                    from: 1000,
+                    to: 0,
+                    duration: 500,
+                    interpolation: 'accelerate',
+                },
+                alpha: {
+                    from: 0,
+                    to: 1,
+                    duration: 500,
+                    interpolation: 'accelerate'
+                }
+            },
+            push: {
+                topBar: {
+                    id: 'TEST',
+                    alpha: {
+                        from: 0,
+                        to: 1,
+                        duration: 500,
+                        interpolation: 'accelerate'
+                    }
+                },
+                bottomTabs: {
+                    y: {
+                        from: 1000,
+                        to: 0,
+                        duration: 500,
+                        interpolation: 'decelerate',
+                    },
+                    alpha: {
+                        from: 0,
+                        to: 1,
+                        duration: 500,
+                        interpolation: 'decelerate'
+                    }
+                },
+                content: {
                     y: {
                         from: 1000,
                         to: 0,
@@ -33,155 +69,111 @@ function start() {
                         duration: 500,
                         interpolation: 'accelerate'
                     }
-                },
-                push: {
-                    topBar: {
-                        id: 'TEST',
-                        alpha: {
-                            from: 0,
-                            to: 1,
-                            duration: 500,
-                            interpolation: 'accelerate'
-                        }
-                    },
-                    bottomTabs: {
-                        y: {
-                            from: 1000,
-                            to: 0,
-                            duration: 500,
-                            interpolation: 'decelerate',
-                        },
-                        alpha: {
-                            from: 0,
-                            to: 1,
-                            duration: 500,
-                            interpolation: 'decelerate'
-                        }
-                    },
-                    content: {
-                        y: {
-                            from: 1000,
-                            to: 0,
-                            duration: 500,
-                            interpolation: 'accelerate',
-                        },
-                        alpha: {
-                            from: 0,
-                            to: 1,
-                            duration: 500,
-                            interpolation: 'accelerate'
-                        }
+                }
+            },
+            pop: {
+                topBar: {
+                    id: 'TEST',
+                    alpha: {
+                        from: 1,
+                        to: 0,
+                        duration: 500,
+                        interpolation: 'accelerate'
                     }
                 },
-                pop: {
-                    topBar: {
-                        id: 'TEST',
-                        alpha: {
-                            from: 1,
-                            to: 0,
-                            duration: 500,
-                            interpolation: 'accelerate'
-                        }
+                bottomTabs: {
+                    y: {
+                        from: 0,
+                        to: 100,
+                        duration: 500,
+                        interpolation: 'accelerate',
                     },
-                    bottomTabs: {
-                        y: {
-                            from: 0,
-                            to: 100,
-                            duration: 500,
-                            interpolation: 'accelerate',
-                        },
-                        alpha: {
-                            from: 1,
-                            to: 0,
-                            duration: 500,
-                            interpolation: 'accelerate'
-                        }
+                    alpha: {
+                        from: 1,
+                        to: 0,
+                        duration: 500,
+                        interpolation: 'accelerate'
+                    }
+                },
+                bottomTabs: {
+                    y: {
+                        from: 0,
+                        to: 100,
+                        duration: 500,
+                        interpolation: 'decelerate',
                     },
-                    bottomTabs: {
-                        y: {
-                            from: 0,
-                            to: 100,
-                            duration: 500,
-                            interpolation: 'decelerate',
-                        },
-                        alpha: {
-                            from: 1,
-                            to: 0,
-                            duration: 500,
-                            interpolation: 'decelerate'
-                        }
+                    alpha: {
+                        from: 1,
+                        to: 0,
+                        duration: 500,
+                        interpolation: 'decelerate'
+                    }
+                },
+                content: {
+                    y: {
+                        from: 0,
+                        to: 1000,
+                        duration: 500,
+                        interpolation: 'decelerate',
                     },
-                    content: {
-                        y: {
-                            from: 0,
-                            to: 1000,
-                            duration: 500,
-                            interpolation: 'decelerate',
-                        },
-                        alpha: {
-                            from: 1,
-                            to: 0,
-                            duration: 500,
-                            interpolation: 'decelerate'
-                        }
+                    alpha: {
+                        from: 1,
+                        to: 0,
+                        duration: 500,
+                        interpolation: 'decelerate'
                     }
                 }
             }
-        })
-
-        /* Initialize the (left-side) Stage sliding drawer. */
-        const left = {
-            component: {
-                id: 'zeronet.Stage',
-                name: 'zeronet.Stage',
-                passProps: {
-                    // store,
-                    text: 'The Main ZeroNet Stage for native content.'
-                }
-            }
         }
-
-        /* Initialize the (right-side) P0rtal sliding drawer. */
-        const right = {
-            stack: {
-                children: [{
-                    component: {
-                        id: 'zeronet.P0rtal',
-                        name: 'zeronet.P0rtal',
-                        passProps: {
-                            // store,
-                            text: 'Suite of built-in decentralized features and services.'
-                        }
-                    }
-                }],
-                options: {}
-            }
-        }
-
-        /* Initialize the main frame stack. */
-        const center = {
-            stack: {
-                // id: 'zeronet.MainStack',
-                children: [{
-                    component: {
-                        id: 'zeronet.Main',
-                        name: 'zeronet.Main'
-                    }
-                }],
-                options: {}
-            }
-        }
-
-        /* Initialize side menu layout. */
-        const sideMenu = { left, center, right }
-
-        /* Initialize navigation root. */
-        const root = { sideMenu }
-
-        /* Set navigation root. */
-        Navigation.setRoot({ root })
     })
-}
 
-/* Export application start. */
-module.exports = { start }
+    /* Initialize the (left-side) Stage sliding drawer. */
+    const left = {
+        component: {
+            id: 'zeronet.Stage',
+            name: 'zeronet.Stage',
+            passProps: {
+                text: 'The Main ZeroNet Stage for native content.'
+            }
+        }
+    }
+
+    /* Initialize the (right-side) P0rtal sliding drawer. */
+    const right = {
+        stack: {
+            children: [{
+                component: {
+                    id: 'zeronet.P0rtal',
+                    name: 'zeronet.P0rtal',
+                    passProps: {
+                        text: 'Suite of built-in decentralized features and services.'
+                    }
+                }
+            }],
+            options: {}
+        }
+    }
+
+    /* Initialize the main frame stack. */
+    const center = {
+        stack: {
+            // id: 'zeronet.MainStack',
+            children: [{
+                component: {
+                    id: 'zeronet.Main',
+                    name: 'zeronet.Main'
+                }
+            }],
+            options: {}
+        }
+    }
+
+    /* Initialize side menu layout. */
+    const sideMenu = { left, center, right }
+
+    /* Initialize navigation root. */
+    const root = { sideMenu }
+
+    /* Set navigation root. */
+    Navigation.setRoot({ root })
+})

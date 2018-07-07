@@ -11,17 +11,15 @@ import {
 import { Navigation } from 'react-native-navigation'
 
 import { observable } from 'mobx'
-import { observer } from 'mobx-react'
+import { inject, observer } from 'mobx-react/native'
 
-@observer
+@inject('Counter') @observer
 export default class P0rtalTopBar extends React.Component {
     constructor(props) {
         super(props)
 
         console.log('P0rtalTopBar received props', props)
     }
-
-    @observable title = 'P0rtal'
 
     componentDidAppear() {
         console.log('RNN', 'CTB.componentDidAppear')
@@ -40,9 +38,11 @@ export default class P0rtalTopBar extends React.Component {
     }
 
     render() {
+        const { Counter } = this.props
+
         return <View style={ styles.container }>
             <View style={ styles.heading }>
-                <Text style={ styles.headingText }>{ this.title }</Text>
+                <Text style={ styles.headingText }>{ Counter.title }</Text>
             </View>
 
             <View style={{ width: 100, flexDirection: 'row' }}>

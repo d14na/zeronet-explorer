@@ -10,7 +10,7 @@ import {
 import { Navigation } from 'react-native-navigation'
 
 import { observable } from 'mobx'
-import { observer } from 'mobx-react'
+import { inject, observer } from 'mobx-react/native'
 
 import {
     Avatar,
@@ -24,7 +24,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { MonoText } from '../components'
 
-@observer
+@inject('Counter') @observer
 export default class P0rtal extends React.Component {
     constructor(props) {
         super(props)
@@ -32,10 +32,13 @@ export default class P0rtal extends React.Component {
         console.log('P0rtal received props', props)
     }
 
-    // @observable authorized = false
+    @observable authorized = false
 
     _authorize = () => {
         this.authorized = true
+
+        const { Counter } = this.props
+        Counter.setP0rtalTitle('Authorized!')
     }
 
     render() {
