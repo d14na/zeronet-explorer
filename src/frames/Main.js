@@ -54,7 +54,7 @@ export default class MainFrame extends React.Component {
                     { this.state.debug }
                 </Text>
 
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', height: 100 }}>
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}
@@ -70,7 +70,7 @@ export default class MainFrame extends React.Component {
                         title='Zer0net 101' />
                 </View>
 
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', height: 100 }}>
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}

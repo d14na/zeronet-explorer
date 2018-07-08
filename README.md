@@ -1,6 +1,8 @@
 # Zeronet Explorer for Android, iOS & PCs
 
 [![Build Status](https://travis-ci.org/d14na/zeronet-explorer.png?branch=master)](https://travis-ci.org/d14na/zeronet-explorer)
+[![Documentation Status](https://readthedocs.org/projects/zeronet-explorer/badge/?version=latest)](https://zeronet-explorer.readthedocs.io/en/latest/?badge=latest)
+
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
@@ -24,10 +26,12 @@
 * [x] Add persistent data storage w/ **[MobX  Persist](https://github.com/pinqy520/mobx-persist)**
 * [ ] Add **[Amplitude](https://github.com/euwyn/react-native-amplitude)** usage analytics
 * [ ] Add **[Bugsnag](https://github.com/bugsnag/bugsnag-react-native)** error & crash tracking
+* [ ] New Zite download after confirmation screen
 * [ ] Complete basic Profile manager
 * [ ] Complete basic Courier functions
 * [ ] Complete a framework for Influencer services
 * [ ] Complete integration of Streams *(aka broadcasts, DMLs)*
+* [ ] IP address / persistent peer awareness
 * [ ] Publish to App Stores
     - [ ] F-Droid
     - [ ] Google Play

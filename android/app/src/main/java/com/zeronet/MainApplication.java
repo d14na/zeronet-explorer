@@ -1,4 +1,4 @@
-package com.zeronet;
+package com.zer0net;
 
 import com.facebook.react.ReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
