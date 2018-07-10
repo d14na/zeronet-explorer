@@ -1093,6 +1093,10 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
+base-64@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
+
 base-x@3.0.4, base-x@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.4.tgz#94c1788736da065edb1d68808869e357c977fa77"
@@ -3625,6 +3629,10 @@ jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
 
+jsc-android@^224109.0.0:
+  version "224109.0.0"
+  resolved "https://registry.yarnpkg.com/jsc-android/-/jsc-android-224109.0.0.tgz#decd9f4b6f76280a01697a3be9c1e56620659c2a"
+
 jsdom@^11.5.1:
   version "11.11.0"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-11.11.0.tgz#df486efad41aee96c59ad7a190e2449c7eb1110e"
@@ -5470,6 +5478,13 @@ react-native-elements@^0.19.1:
     opencollective "^1.0.3"
     prop-types "^15.5.8"
 
+react-native-fs@^2.10.14:
+  version "2.10.14"
+  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.10.14.tgz#394721801825db8330b62e92ae36861fd9864084"
+  dependencies:
+    base-64 "^0.1.0"
+    utf8 "^2.1.1"
+
 react-native-navigation@react-native-navigation@alpha:
   version "2.0.2382"
   resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2382.tgz#0ee6bafcf985c59eeae8e2c85e70f0e4ff2054da"
@@ -5495,6 +5510,10 @@ react-native-tcp@^3.3.0:
     ip-regex "^1.0.3"
     process "^0.11.9"
     util "^0.10.3"
+
+react-native-timer@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-timer/-/react-native-timer-1.3.3.tgz#6dcd48bac37e89f17964a0f5404dae08bd9dfb19"
 
 react-native-vector-icons@^4.6.0:
   version "4.6.0"
@@ -6714,6 +6733,10 @@ use@^3.1.0:
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.0.tgz#14716bf03fdfefd03040aef58d8b4b85f3a7c544"
   dependencies:
     kind-of "^6.0.2"
+
+utf8@^2.1.1:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/utf8/-/utf8-2.1.2.tgz#1fa0d9270e9be850d9b05027f63519bf46457d96"
 
 util-deprecate@1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"

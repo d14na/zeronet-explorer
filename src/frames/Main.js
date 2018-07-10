@@ -82,8 +82,8 @@ export default class MainFrame extends React.Component {
                         large
                         style={{ flex: 1, width: 150 }}
                         onPress={ this._loadWebview.bind(this) }
-                        icon={{name: 'fire', type: 'font-awesome'}}
-                        title='Work' />
+                        icon={{name: 'book', type: 'font-awesome'}}
+                        title='Blog' />
                 </View>
             </View>
         </View>
