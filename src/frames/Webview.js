@@ -37,6 +37,7 @@ class WelcomeScreen extends React.Component {
 
     }
 
+    @observable _hasLoadEnded = false
     @observable source = { html: '<h1>loading...</h1>' }
 
     _authorize = () => {
@@ -54,7 +55,9 @@ class WelcomeScreen extends React.Component {
                 source={ this.state.source }
                 style={ styles.webview }
                 javaScriptEnabled={ true }
+                mixedContentMode='always'
                 onLoadStart={ this._loadStarted.bind(this) }
+                onLoadEnd={ this._loadEnded.bind(this) }
                 onNavigationStateChange={ (navEvent) => console.log('onNavigationStateChange', navEvent.jsEvaluationValue) }
                 onMessage={ this._onMessage.bind(this) } />
 
@@ -137,10 +140,12 @@ class WelcomeScreen extends React.Component {
                         self._webview.injectJavaScript(val)
                         console.log('jQuery successfully injected');
                         self._debugLog(self, `jQuery successfully injected`)
+
                         self._initIdenticon()
 
                         Timer.setTimeout(self, 'testJquery', () => {
-                            self._debugLog(self, `jQuery is STILL working!!`)
+                            self._debugLog(self, `jQuery is STILL working after all this time [5sec]`)
+                            self._testPastebin()
                         }, 5000)
                     })
                     .catch((err) => {
@@ -344,11 +349,13 @@ class WelcomeScreen extends React.Component {
         fetch('https://pastebin.com/raw/EwAnGCDG')
             .then(result => result.text())
             .then(val => {
+                console.log('Pastebin val', val);
                 RNFS.writeFile(path, val, 'utf8')
                     .then((success) => {
                         self._webview.injectJavaScript(val)
                         console.log('Pastebin successfully injected');
                         self._debugLog(self, `Pastebin successfully injected`)
+                        // self._initNext()
                     })
                     .catch((err) => {
                         console.log(err.message);
@@ -364,39 +371,52 @@ class WelcomeScreen extends React.Component {
 
     _loadStarted() {
         console.log('_loadStarted');
-        // return `alert('loading started!')`
+    }
+
+    _loadEnded() {
+        console.log('_loadEnded');
+
+        if (!this._hasLoadEnded) {
+            this._hasLoadEnded = true
+
+            this._initJquery()
+        }
+
     }
 
     _navStateChange(_event) {
         console.log('_navStateChange event', _event.jsEvaluationValue)
     }
 
-    _onMessage(_event) {
+    _onMessage(_msg) {
         try {
             /* Initialize data. */
             let data = null
 
-            if (_event && _event.nativeEvent && _event.nativeEvent.data) {
+            if (_msg && _msg.nativeEvent && _msg.nativeEvent.data) {
+                console.log('MESSAGE DATA', _msg.nativeEvent.data);
+
                 /* Retrieve the data. */
-                data = JSON.stringify(_event.nativeEvent.data)
+                data = JSON.stringify(_msg.nativeEvent.data)
 
-                console.log('MESSAGE DATA', data);
                 this._debugLog(this, `MESSAGE DATA [ ${data} ]`)
-            } else if (_event && _event.nativeEvent) {
-                /* Retrieve the native event. */
-                data = JSON.stringify(_event.nativeEvent)
+            } else if (_msg && _msg.nativeEvent) {
+                console.log('MESSAGE EVENT', _msg.nativeEvent);
 
-                console.log('MESSAGE EVENT', data);
+                /* Retrieve the native event. */
+                data = JSON.stringify(_msg.nativeEvent)
+
                 this._debugLog(this, `MESSAGE EVENT [ ${data} ]`)
             } else {
-                /* Retrieve the event. */
-                data = JSON.stringify(_event)
+                console.log('MESSAGE RECEIVED', _msg);
 
-                console.log('MESSAGE RECEIVED', data);
+                /* Retrieve the event. */
+                data = JSON.stringify(_msg)
+
                 this._debugLog(this, `MESSAGE RECEIVED [ ${data} ]`)
             }
         } catch (e) {
-            console.log('MESSAGE ERROR', e);
+            console.log('MESSAGE ERROR', _msg, e);
             this._debugLog(this, `MESSAGE ERROR [ ${JSON.stringify(e)} ]`)
         }
     }
@@ -417,8 +437,7 @@ class WelcomeScreen extends React.Component {
                 self.setState({ source }, () => {
                     console.log('HTML source has been updated!');
 
-                    self._initJquery()
-                    self._testPastebin()
+                    // self._initJquery()
                 })
             })
             .catch(error => {
