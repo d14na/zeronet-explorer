@@ -84,59 +84,47 @@ class WelcomeScreen extends React.Component {
         console.info('Webview has loaded.')
         // this._goDownload()
 
-        this._getJquery()
+        this._initJquery()
+        this._initIdenticon()
         // this._testDownload()
         this._getHtml()
 
         // this._listFiles()
-        // Timer.setTimeout(this, 'test2Timer', () => console.log('this is a 2sec Timer.setTimeout, :)'), 2000)
-        // Timer.setTimeout(this, 'test0Timer', () => console.log('this is a 0sec Timer.setTimeout, :)'), 0)
         Timer.setInterval(this, 'test10Interval', () => {
             console.log('this is a 10sec Timer.setInterval, :)')
         }, 10000)
 
         Timer.setTimeout(this, 'testInjector', () => {
             console.log('testInjector');
-
-            this._webview.injectJavaScript(`var debugOutput = document.getElementById('debug_output')`)
-            // console.log(`var debugOutput = document.getElementById('debug_output')`);
-            // this._webview.injectJavaScript(`debugOutput.appendChild('<div>debugger init...</div>')`)
-            this._webview.injectJavaScript(`debugOutput.innerHTML += '<p>debugger init...</p>'`)
-            // console.log(`debugOutput.innerHTML += '<br />debugger init...'`);
-            // console.log(`debugOutput.appendChild('<div>debugger init...</div>')`);
-
-            // this._webview.injectJavaScript(`$(document).ready(function() { alert('jQuery is loaded!') })`)
-
+            this._webview.injectJavaScript(`$("#debug_output").html($("#debug_output").html() + '<p>jquery is working!!</p>')`)
             // this._webview.injectJavaScript(`window.postMessage('anywhere hear me?!?')`)
-            // this._webview.injectJavaScript(`alert('injected after 5 seconds')`)
-        }, 2000)
+        }, 3000)
 
         // console.log('triple 3', peer0.triple(3))
         // const net = require('net')
         // console.log('net', net)
 
         Navigation.mergeOptions(this.props.componentId, {
-          topBar: {
-            rightButtons: [
-              {
-                id: 'myDynamicButton',
-                title: 'My Button'
-              }
-            ]
-          }
+            topBar: {
+                rightButtons: [
+                    {
+                        id: 'myDynamicButton',
+                        title: 'My Button'
+                    }
+                ]
+            }
         })
+        
     }
 
-    _getJquery() {
+    _initJquery() {
         const self = this
                 const RNFS = require('react-native-fs')
                 var path = RNFS.DocumentDirectoryPath + '/jquery.js'
 
                 fetch('https://pastebin.com/raw/Cbx4VPD6')
-                    .then(result => {
-                        // return result.blob()
-                        return result.text()
-                    }).then(val => {
+                    .then(result => result.text())
+                    .then(val => {
                         RNFS.writeFile(path, val, 'utf8')
                             .then((success) => {
                                 this._webview.injectJavaScript(val)
@@ -146,7 +134,25 @@ class WelcomeScreen extends React.Component {
                                 console.log(err.message);
                             })
                     })
+    }
 
+    _initIdenticon() {
+        const self = this
+                const RNFS = require('react-native-fs')
+                var path = RNFS.DocumentDirectoryPath + '/identicon.js'
+
+                fetch('https://pastebin.com/raw/32x72c2K')
+                    .then(result => result.text())
+                    .then(val => {
+                        RNFS.writeFile(path, val, 'utf8')
+                            .then((success) => {
+                                this._webview.injectJavaScript(val)
+                                console.log('Identicon successfully injected');
+                            })
+                            .catch((err) => {
+                                console.log(err.message);
+                            })
+                    })
     }
 
     _injectTest() {
