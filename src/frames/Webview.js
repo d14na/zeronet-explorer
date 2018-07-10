@@ -84,8 +84,9 @@ class WelcomeScreen extends React.Component {
         console.info('Webview has loaded.')
         // this._goDownload()
 
+        /* Initialize jQuery (and then subsequent libraries). */
         this._initJquery()
-        this._initIdenticon()
+
         // this._testDownload()
         this._getHtml()
 
@@ -114,45 +115,73 @@ class WelcomeScreen extends React.Component {
                 ]
             }
         })
-        
+
     }
 
     _initJquery() {
+        /* Localize this. */
         const self = this
-                const RNFS = require('react-native-fs')
-                var path = RNFS.DocumentDirectoryPath + '/jquery.js'
 
-                fetch('https://pastebin.com/raw/Cbx4VPD6')
-                    .then(result => result.text())
-                    .then(val => {
-                        RNFS.writeFile(path, val, 'utf8')
-                            .then((success) => {
-                                this._webview.injectJavaScript(val)
-                                console.log('jQuery successfully injected');
-                            })
-                            .catch((err) => {
-                                console.log(err.message);
-                            })
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/jquery.js'
+
+        fetch('https://pastebin.com/raw/Cbx4VPD6')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('jQuery successfully injected');
+
+                        self._initIdenticon()
+                        self._initMarked()
                     })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
     }
 
     _initIdenticon() {
+        /* Localize this. */
         const self = this
-                const RNFS = require('react-native-fs')
-                var path = RNFS.DocumentDirectoryPath + '/identicon.js'
 
-                fetch('https://pastebin.com/raw/32x72c2K')
-                    .then(result => result.text())
-                    .then(val => {
-                        RNFS.writeFile(path, val, 'utf8')
-                            .then((success) => {
-                                this._webview.injectJavaScript(val)
-                                console.log('Identicon successfully injected');
-                            })
-                            .catch((err) => {
-                                console.log(err.message);
-                            })
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/identicon.js'
+
+        fetch('https://pastebin.com/raw/32x72c2K')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('Identicon successfully injected');
                     })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
+    }
+
+    _initMarked() {
+        /* Localize this. */
+        const self = this
+
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/marked.js'
+
+        fetch('https://pastebin.com/raw/C6Ln7Sp3')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('Marked successfully injected');
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
     }
 
     _injectTest() {
