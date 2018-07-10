@@ -81,6 +81,9 @@ class WelcomeScreen extends React.Component {
     }
 
     componentDidMount() {
+        /* Localize this. */
+        const self = this
+
         console.info('Webview has loaded.')
         // this._goDownload()
 
@@ -97,9 +100,9 @@ class WelcomeScreen extends React.Component {
 
         Timer.setTimeout(this, 'testInjector', () => {
             console.log('testInjector');
-            this._webview.injectJavaScript(`$("#debug_output").html($("#debug_output").html() + '<p>jquery is working!!</p>')`)
+                self._debugLog(self, `jquery is working!!`)
             // this._webview.injectJavaScript(`window.postMessage('anywhere hear me?!?')`)
-        }, 3000)
+        }, 5000)
 
         // console.log('triple 3', peer0.triple(3))
         // const net = require('net')
@@ -118,6 +121,10 @@ class WelcomeScreen extends React.Component {
 
     }
 
+    _debugLog(_ctx, _entry) {
+        _ctx._webview.injectJavaScript(`$("#debug_output").html($("#debug_output").html() + '<p>${_entry}</p>')`)
+    }
+
     _initJquery() {
         /* Localize this. */
         const self = this
@@ -132,9 +139,12 @@ class WelcomeScreen extends React.Component {
                     .then((success) => {
                         self._webview.injectJavaScript(val)
                         console.log('jQuery successfully injected');
-
+                        try {
+                            self._debugLog(self, `jQuery successfully injected`)
+                        } catch (e) {
+                            console.log(e);
+                        }
                         self._initIdenticon()
-                        self._initMarked()
                     })
                     .catch((err) => {
                         console.log(err.message);
@@ -156,6 +166,8 @@ class WelcomeScreen extends React.Component {
                     .then((success) => {
                         self._webview.injectJavaScript(val)
                         console.log('Identicon successfully injected');
+                        self._debugLog(self, `Identicon successfully injected`)
+                        self._initMarked()
                     })
                     .catch((err) => {
                         console.log(err.message);
@@ -177,6 +189,100 @@ class WelcomeScreen extends React.Component {
                     .then((success) => {
                         self._webview.injectJavaScript(val)
                         console.log('Marked successfully injected');
+                        self._debugLog(self, `Marked successfully injected`)
+                        self._initPngLib()
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
+    }
+
+    _initPngLib() {
+        /* Localize this. */
+        const self = this
+
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/pnglib.js'
+
+        fetch('https://pastebin.com/raw/57FZ6thh')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('PngLib successfully injected');
+                        self._debugLog(self, `PngLib successfully injected`)
+                        self._initClass()
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
+    }
+
+    _initClass() {
+        /* Localize this. */
+        const self = this
+
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/Class.js'
+
+        fetch('https://pastebin.com/raw/BsQabK6M')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('Class successfully injected');
+                        self._debugLog(self, `Class successfully injected`)
+                        self._initText()
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
+    }
+
+    _initText() {
+        /* Localize this. */
+        const self = this
+
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/Text.js'
+
+        fetch('https://pastebin.com/raw/0G8fgLn8')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('Text successfully injected');
+                        self._debugLog(self, `Text successfully injected`)
+                        self._initTime()
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
+    }
+
+    _initTime() {
+        /* Localize this. */
+        const self = this
+
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/Time.js'
+
+        fetch('https://pastebin.com/raw/kfjK1VPU')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('Time successfully injected');
+                        self._debugLog(self, `Time successfully injected`)
+                        // self._initNext()
                     })
                     .catch((err) => {
                         console.log(err.message);
