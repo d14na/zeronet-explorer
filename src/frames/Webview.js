@@ -48,17 +48,15 @@ class WelcomeScreen extends React.Component {
     }
 
     render() {
-        //onMessage={ this._onMessage.bind(this) }
         return <View style={ styles.container }>
             <WebView
                 ref={ ref => (this._webview = ref) }
                 source={ this.state.source }
+                style={ styles.webview }
                 javaScriptEnabled={ true }
-                injectedJavaScript={ this._injectedJs() }
-                onLoadStart={ this._loadStarted }
+                onLoadStart={ this._loadStarted.bind(this) }
                 onNavigationStateChange={ (navEvent) => console.log('onNavigationStateChange', navEvent.jsEvaluationValue) }
-                onMessage={ (event) => console.log('onMessage', event.nativeEvent.data) }
-                style={ styles.webview } />
+                onMessage={ this._onMessage.bind(this) } />
 
             <View style={ styles.footer }>
                 <Button
@@ -88,7 +86,7 @@ class WelcomeScreen extends React.Component {
         // this._goDownload()
 
         /* Initialize jQuery (and then subsequent libraries). */
-        this._initJquery()
+        // this._initJquery()
 
         // this._testDownload()
         this._getHtml()
@@ -98,11 +96,10 @@ class WelcomeScreen extends React.Component {
             console.log('this is a 10sec Timer.setInterval, :)')
         }, 10000)
 
-        Timer.setTimeout(this, 'testInjector', () => {
-            console.log('testInjector');
-                self._debugLog(self, `jquery is working!!`)
-            // this._webview.injectJavaScript(`window.postMessage('anywhere hear me?!?')`)
-        }, 5000)
+        Timer.setTimeout(this, 'testPostMessage', () => {
+            console.log('postMessage');
+            self._webview.injectJavaScript(`window.postMessage('anyone hear me?!?')`)
+        }, 8000)
 
         // console.log('triple 3', peer0.triple(3))
         // const net = require('net')
@@ -139,12 +136,12 @@ class WelcomeScreen extends React.Component {
                     .then((success) => {
                         self._webview.injectJavaScript(val)
                         console.log('jQuery successfully injected');
-                        try {
-                            self._debugLog(self, `jQuery successfully injected`)
-                        } catch (e) {
-                            console.log(e);
-                        }
+                        self._debugLog(self, `jQuery successfully injected`)
                         self._initIdenticon()
+
+                        Timer.setTimeout(self, 'testJquery', () => {
+                            self._debugLog(self, `jQuery is STILL working!!`)
+                        }, 5000)
                     })
                     .catch((err) => {
                         console.log(err.message);
@@ -282,7 +279,76 @@ class WelcomeScreen extends React.Component {
                         self._webview.injectJavaScript(val)
                         console.log('Time successfully injected');
                         self._debugLog(self, `Time successfully injected`)
+                        self._initZeroFrame()
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
+    }
+
+    _initZeroFrame() {
+        /* Localize this. */
+        const self = this
+
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/ZeroFrame.js'
+
+        fetch('https://pastebin.com/raw/DicrCbZi')  // temp
+        // fetch('https://pastebin.com/raw/nkkhJtwG')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('ZeroFrame successfully injected');
+                        self._debugLog(self, `ZeroFrame successfully injected`)
+                        self._initZeroBlog()
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
+    }
+
+    _initZeroBlog() {
+        /* Localize this. */
+        const self = this
+
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/ZeroBlog.js'
+
+        fetch('https://pastebin.com/raw/CB1ibEcN')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('ZeroBlog successfully injected');
+                        self._debugLog(self, `ZeroBlog successfully injected`)
                         // self._initNext()
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            })
+    }
+
+    _testPastebin() {
+        /* Localize this. */
+        const self = this
+
+        const RNFS = require('react-native-fs')
+        var path = RNFS.DocumentDirectoryPath + '/Pastebin.js'
+
+        fetch('https://pastebin.com/raw/EwAnGCDG')
+            .then(result => result.text())
+            .then(val => {
+                RNFS.writeFile(path, val, 'utf8')
+                    .then((success) => {
+                        self._webview.injectJavaScript(val)
+                        console.log('Pastebin successfully injected');
+                        self._debugLog(self, `Pastebin successfully injected`)
                     })
                     .catch((err) => {
                         console.log(err.message);
@@ -298,20 +364,41 @@ class WelcomeScreen extends React.Component {
 
     _loadStarted() {
         console.log('_loadStarted');
-        return `alert('loading started!')`
+        // return `alert('loading started!')`
     }
 
     _navStateChange(_event) {
         console.log('_navStateChange event', _event.jsEvaluationValue)
     }
 
-    _onMessage(_data) {
-        console.log('ON MESSAGE RECEIVED', _data);
-    }
+    _onMessage(_event) {
+        try {
+            /* Initialize data. */
+            let data = null
 
-    _injectedJs() {
-        return ``
-        // return `alert('this was injected')`
+            if (_event && _event.nativeEvent && _event.nativeEvent.data) {
+                /* Retrieve the data. */
+                data = JSON.stringify(_event.nativeEvent.data)
+
+                console.log('MESSAGE DATA', data);
+                this._debugLog(this, `MESSAGE DATA [ ${data} ]`)
+            } else if (_event && _event.nativeEvent) {
+                /* Retrieve the native event. */
+                data = JSON.stringify(_event.nativeEvent)
+
+                console.log('MESSAGE EVENT', data);
+                this._debugLog(this, `MESSAGE EVENT [ ${data} ]`)
+            } else {
+                /* Retrieve the event. */
+                data = JSON.stringify(_event)
+
+                console.log('MESSAGE RECEIVED', data);
+                this._debugLog(this, `MESSAGE RECEIVED [ ${data} ]`)
+            }
+        } catch (e) {
+            console.log('MESSAGE ERROR', e);
+            this._debugLog(this, `MESSAGE ERROR [ ${JSON.stringify(e)} ]`)
+        }
     }
 
     _getHtml() {
@@ -325,18 +412,18 @@ class WelcomeScreen extends React.Component {
 
         // get a list of files and directories in the main bundle
         RNFS.readFile(path) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-          .then((html) => {
-              // console.log('file html', html);
-              // html = `<h3>hey you AGAIN!</h3>`
-              const source = { html }
-              self.setState({ source }, () => {
-                  console.log('HTML source has been updated!');
-              })
-          })
-          .catch(error => {
-              console.log('error', error);
-          })
+            .then((html) => {
+                const source = { html }
+                self.setState({ source }, () => {
+                    console.log('HTML source has been updated!');
 
+                    self._initJquery()
+                    self._testPastebin()
+                })
+            })
+            .catch(error => {
+                console.log('error', error);
+            })
     }
 
     async _listFiles() {
