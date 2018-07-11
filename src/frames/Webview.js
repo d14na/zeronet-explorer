@@ -335,8 +335,8 @@ class WelcomeScreen extends React.Component {
               cmd = message.cmd;
 
               if (cmd === "response") {
-window.postMessage('\n\n**WEBVIEW** ' + typeof(message) + ' | ' + JSON.stringify(message));
                 if (this.waiting_cb[message.to] != null) {
+window.postMessage('\n\n**WEBVIEW** ' + typeof(this.waiting_cb[message.to]) + ' | ' + message.to);
                   return this.waiting_cb[message.to](message.result);
                 } else {
                   return this.log("Websocket callback not found:", message);
@@ -460,11 +460,11 @@ window.postMessage('\n\n**WEBVIEW** ' + typeof(message) + ' | ' + JSON.stringify
                 this.server_info = null;
                 this.page = 1;
                 this.my_post_votes = {};
-                /* this.event_site_info = $.Deferred(); */
-
 /*
+                this.event_site_info = $.Deferred();
+
                 $.when(this.event_site_info).done((function(_this) {
-window.postMessage('HEY HEY HEY, when(this.event_site_info)');
+window.postMessage('HEY HEY HEY, Deferred IS WORKING!!!');
                     return function() {
                         var imagedata;
                         _this.log("event site info");
@@ -475,7 +475,6 @@ window.postMessage('HEY HEY HEY, when(this.event_site_info)');
                 })(this));
 */
 
-window.postMessage('HEY HEY HEY, inited');
                 return this.log("inited!");
             };
 
@@ -532,6 +531,7 @@ window.postMessage('HEY HEY HEY, inited');
                     return function(res) {
                         var parse_res;
 
+window.postMessage('HEY HEY HEY, FINAL dbQuery ' + JSON.stringify(res).length);
                         parse_res = function(res) {
                             var elem, post, s, _i, _len;
                             s = +(new Date);
@@ -558,37 +558,6 @@ window.postMessage('HEY HEY HEY, inited');
                             }
 
                             _this.pageLoaded();
-
-                            _this.log("Posts loaded in", (+(new Date)) - s, "ms");
-
-                            return $(".posts .new").off("click").on("click", function() {
-                                _this.cmd("fileGet", ["data/data.json"], function(res) {
-                                    var data;
-                                    data = JSON.parse(res);
-                                    data.post.unshift({
-                                        post_id: data.next_post_id,
-                                        title: "New blog post",
-                                        date_published: (+(new Date)) / 1000,
-                                        body: "Blog post body"
-                                    });
-
-                                    data.next_post_id += 1;
-
-                                    elem = $(".post.template").clone().removeClass("template");
-
-                                    _this.applyPostdata(elem, data.post[0]);
-
-                                    elem.hide();
-
-                                    elem.prependTo(".posts").slideDown();
-
-                                    _this.addInlineEditors(elem);
-
-                                    return _this.writeData(data);
-                                });
-
-                                return false;
-                            });
                         };
 
                         if (res.error) {
@@ -622,8 +591,6 @@ window.postMessage('HEY HEY HEY, inited');
                 $(".title .editable", elem).html(post.title).attr("href", "?Post:" + post.post_id + ":" + title_hash).data("content", post.title);
 
                 date_published = Time.since(post.date_published);
-
-                post.body = post.body.replace(/^\* \* \*/m, "---");
 
                 if (post.body.match(/^---/m)) {
                     date_published += " &middot; " + (Time.readtime(post.body));
@@ -673,16 +640,16 @@ window.postMessage('HEY HEY HEY, inited');
 
                 return this.cmd("siteInfo", {}, (function(_this) {
                     return function(site_info) {
-window.postMessage('HEY HEY HEY, THIS IS siteInfo');
+/* window.postMessage('HEY HEY HEY, THIS IS siteInfo'); */
                         var query_my_votes;
 
                         _this.setSiteinfo(site_info);
-window.postMessage('HEY HEY HEY, LOOKS LIKE EVERYTHING IS SET!');
+/* window.postMessage('HEY HEY HEY, LOOKS LIKE EVERYTHING IS SET!'); */
                         query_my_votes = "SELECT\n	'post_vote' AS type,\n	post_id AS uri\nFROM json\nLEFT JOIN post_vote USING (json_id)\nWHERE directory = 'users/" + _this.site_info.auth_address + "' AND file_name = 'data.json'";
 
 /* window.postMessage('HEY HEY HEY, siteInfo is calling dbQuery with ' + JSON.stringify([query_my_votes])); */
                         _this.cmd("dbQuery", [query_my_votes], function(res) {
-window.postMessage('HEY HEY HEY, siteInfo IS BACK from its 2nd query!');
+/*window.postMessage('HEY HEY HEY, siteInfo IS BACK from its 2nd query!');*/
                             var row, _i, _len;
 
                             for (_i = 0, _len = res.length; _i < _len; _i++) {
@@ -699,15 +666,14 @@ window.postMessage('HEY HEY HEY, siteInfo IS BACK from its 2nd query!');
             };
 
             ZeroBlog.prototype.setSiteinfo = function(site_info) {
-window.postMessage('HEY HEY HEY, setSiteinfo');
                 var mentions_menu_elem, _ref, _ref1, _ref2;
 
                 this.site_info = site_info;
 
-/* window.postMessage('HEY HEY HEY, this.event_site_info ' + typeof(this.event_site_info) + ' | ' + Object.keys(this.event_site_info).length); */
-                /* this.event_site_info.resolve(site_info); */
+window.postMessage('HEY HEY HEY, this.event_site_info.resolve(site_info)');
+                /*this.event_site_info.resolve(site_info);*/
+
                 (function(_this) {
-window.postMessage('HEY HEY HEY, when(this.event_site_info)');
                     return function() {
                         var imagedata;
                         _this.log("event site info");
@@ -716,7 +682,7 @@ window.postMessage('HEY HEY HEY, when(this.event_site_info)');
                         return _this.initFollowButton();
                     };
                 })(this);
-window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
+
                 if ($("body").hasClass("page-post")) {
                     Comments.checkCert();
                 }
@@ -869,6 +835,9 @@ window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
                         console.log('RN REQUEST FOR [innerReady]');
 
                         const js = `
+                            /*window.addEventListener("message", (_msg) => {
+                                window.postMessage('something came in *** ' + JSON.stringify(_msg).length + ' *** ' + JSON.stringify(_msg));
+                            }, false);*/
                             let newEvent = null;
                             newEvent = document.createEvent('Event');
                             newEvent.initEvent('message', true, true);
@@ -954,7 +923,7 @@ window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
                         Timer.setTimeout(self, 'siteInfo', () => {
                             self._webview.injectJavaScript(js)
                             console.log('injected siteInfo response')
-                            self._debugLog(self, `injected siteInfo response`)
+                            // self._debugLog(self, `injected siteInfo response`)
                         }, 0)
                     }
 
@@ -965,7 +934,7 @@ window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
                             console.log('RN REQUEST FOR [dbQuery](SELECT key)');
 
                             const sql = data.params[0]
-                            console.log('SQL', sql);
+                            console.log('SQL #1', sql);
 
                             const js = `
                                 newEvent = document.createEvent('Event');
@@ -1007,14 +976,14 @@ window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
 
                             Timer.setTimeout(self, 'dbQuery[key]', () => {
                                 self._webview.injectJavaScript(js)
-                                // console.log('injected dbQuery[key] response', js)
-                                self._debugLog(self, `injected dbQuery[key] response`)
+                                console.log('injected dbQuery #1 response', js)
+                                // self._debugLog(self, `injected dbQuery[key] response`)
                             }, 0)
-                        } else if (data.params[0].slice(0, 10) === 'SELECT\n	\'p') {
+                        } else if (data.params[0].slice(0, 10) === 'SELECT\'pos') {
                             console.log('RN REQUEST FOR [dbQuery](SELECT p)');
 
                             const sql = data.params[0]
-                            console.log('SQL', sql);
+                            console.log('SQL #2', sql);
 
                             const js = `
                                 newEvent = document.createEvent('Event');
@@ -1031,14 +1000,14 @@ window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
 
                             Timer.setTimeout(self, 'dbQuery[p]', () => {
                                 self._webview.injectJavaScript(js)
-                                console.log('injected dbQuery[p] response')
-                                self._debugLog(self, `injected dbQuery[p] response`)
+                                console.log('injected dbQuery #2 response')
+                                // self._debugLog(self, `injected dbQuery[p] response`)
                             }, 0)
-                        } else if (data.params[0].slice(0, 10) === 'SELECT\'pos') {
+                        } else if (data.params[0].slice(0, 10) === 'SELECTpost') {
                             console.log('RN REQUEST FOR [dbQuery](SELECT po)');
 
                             const sql = data.params[0]
-                            console.log('SQL', sql);
+                            console.log('SQL #3', sql);
 
                             const js = `
                                 newEvent = document.createEvent('Event');
@@ -1050,7 +1019,7 @@ window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
                                     to: ${data.id},
                                     result: [
                                         {
-                                            body: "Back from vacation/inactive period (Japan plz never change) :)\n\nRev3495\n\n*   New plugin: ContentFilter (Replacing Mute) that allows to share and automatically sync site and user blocklist between clients.\n    [Sample site](http://127.0.0.1:43110/1FiLTerEAHp7UT8Aw2zQBypcm5T14kgZDa) that contains 2 blocklist (the format is same as data/filters.json):\n    ![blocklist.png (1115x562)](data/img/post_131_blocklist.png)\n    You can manage followed blocklists using ZeroHello > Manage muted users option. The site is cloneable, if you create a blocklist please share it in the comments.\n*   Switched to Azure meek proxy as the Amazon one became unavailable.\n*   SiteAdd admin API command\n*   More secure url sanitization\n*   Support downloading 2GB+ sites as .zip (Thx to Radtoo)\n*   Support ZeroNet as a transparent proxy (Thx to JeremyRand)\n*   Allow fileQuery as CORS command (Thx to imachug)\n*   Ignore newsfeed items with an invalid date value\n*   Fix sitePublish cli action\n*   Fix FireFox websocket disconnect on site download as zip\n*   Fix local peer discovery when running multiple clients on the same machine",
+                                            body: \`Back from vacation/inactive period (Japan plz never change) :)\n\nRev3495\n\n*   New plugin: ContentFilter (Replacing Mute) that allows to share and automatically sync site and user blocklist between clients.\n    [Sample site](http://127.0.0.1:43110/1FiLTerEAHp7UT8Aw2zQBypcm5T14kgZDa) that contains 2 blocklist (the format is same as data/filters.json):\n    ![blocklist.png (1115x562)](data/img/post_131_blocklist.png)\n    You can manage followed blocklists using ZeroHello > Manage muted users option. The site is cloneable, if you create a blocklist please share it in the comments.\n*   Switched to Azure meek proxy as the Amazon one became unavailable.\n*   SiteAdd admin API command\n*   More secure url sanitization\n*   Support downloading 2GB+ sites as .zip (Thx to Radtoo)\n*   Support ZeroNet as a transparent proxy (Thx to JeremyRand)\n*   Allow fileQuery as CORS command (Thx to imachug)\n*   Ignore newsfeed items with an invalid date value\n*   Fix sitePublish cli action\n*   Fix FireFox websocket disconnect on site download as zip\n*   Fix local peer discovery when running multiple clients on the same machine\`,
                                             votes: 20,
                                             date_published: 1530014363.778,
                                             title: "New version: 0.6.3",
@@ -1059,7 +1028,7 @@ window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
                                             json_id: 1
                                         },
                                         {
-                                            body: "Rev3464\n\n*   Workaround for China's GFW tracker blocking by using Tor meek proxies: If the client detect many failing tracker connection it offers the user to use Tor meek proxies for tracker connection (does not slows down sync speed / file transfers)\n    To enable this feature you have to download the [Windows ZeroNet distribution](https://github.com/HelloZeroNet/ZeroNet-win/archive/dist/ZeroNet-win.zip) again as tor-meek bridges was not included earlier. (Linux & Mac coming later)\n\n*   Refactored and partly rewritten tracker connection handler part\n\n*   ZeroNet windows distribution now comes with Tor included (with meek proxies)\n*   Added site \"Download as .zip\" backup option to sidebar\n*   Better tracker compatibility by using uTorrent peerid and announcing port 1 in case of closed port\n*   Fix uploading small files with bigfile plugin (ajax post method)\n*   Fix peerPing CLI error reporting\n*   Fix CLI command shutdown with ctrl+c\n*   Fix high CPU/HDD usage when Multiuser plugin enabled\n*   Fix Firefox back button (wrapper_nonce in url)\n\nThe previously planned enhanced stats page is a bit delayed as I currently focusing on recent problems with GFW, but it's coming soon :)",
+                                            body: \`Rev3464\n\n*   Workaround for China's GFW tracker blocking by using Tor meek proxies: If the client detect many failing tracker connection it offers the user to use Tor meek proxies for tracker connection (does not slows down sync speed / file transfers)\n    To enable this feature you have to download the [Windows ZeroNet distribution](https://github.com/HelloZeroNet/ZeroNet-win/archive/dist/ZeroNet-win.zip) again as tor-meek bridges was not included earlier. (Linux & Mac coming later)\n\n*   Refactored and partly rewritten tracker connection handler part\n\n*   ZeroNet windows distribution now comes with Tor included (with meek proxies)\n*   Added site \"Download as .zip\" backup option to sidebar\n*   Better tracker compatibility by using uTorrent peerid and announcing port 1 in case of closed port\n*   Fix uploading small files with bigfile plugin (ajax post method)\n*   Fix peerPing CLI error reporting\n*   Fix CLI command shutdown with ctrl+c\n*   Fix high CPU/HDD usage when Multiuser plugin enabled\n*   Fix Firefox back button (wrapper_nonce in url)\n\nThe previously planned enhanced stats page is a bit delayed as I currently focusing on recent problems with GFW, but it's coming soon :)\`,
                                             votes: 22,
                                             date_published: 1525223935.973,
                                             title: "Changelog: May 1, 2018",
@@ -1073,16 +1042,8 @@ window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
                             `
 
                             Timer.setTimeout(self, 'dbQuery[po]', () => {
-                                const js2 = `
-                                    newEvent = null;
-                                    newEvent = document.createEvent('Event');
-                                    newEvent.initEvent('message', true, true);
-                                    newEvent.data = { cmd: 'CLOSER AND CLOSER!!' };
-                                    setTimeout(() => window.dispatchEvent(newEvent), 0);
-                                    alert('i still got u, hang in there!');
-                                `
-                                self._webview.injectJavaScript(js2)
-                                console.log('injected dbQuery[po] response')
+                                self._webview.injectJavaScript(js)
+                                console.log('injected dbQuery #3 response')
                                 self._debugLog(self, `injected dbQuery[po] response`)
                             }, 0)
                         } else {
