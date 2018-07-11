@@ -336,7 +336,8 @@ class WelcomeScreen extends React.Component {
 
               if (cmd === "response") {
                 if (this.waiting_cb[message.to] != null) {
-window.postMessage('\n\n**WEBVIEW** ' + typeof(this.waiting_cb[message.to]) + ' | ' + message.to);
+window.postMessage('\n\n**WEBVIEW** ' + JSON.stringify(message).slice(0, 50));
+/*window.postMessage('\n\n**WEBVIEW** ' + typeof(this.waiting_cb[message.to]) + ' | ' + message.to);*/
                   return this.waiting_cb[message.to](message.result);
                 } else {
                   return this.log("Websocket callback not found:", message);
@@ -928,8 +929,6 @@ window.postMessage('HEY HEY HEY, this.event_site_info.resolve(site_info)');
                     }
 
                     if (data.cmd === 'dbQuery') {
-                        // console.log('REQUEST FOR [dbQuery]');
-
                         if (data.params[0].slice(0, 10) === 'SELECT key') {
                             console.log('RN REQUEST FOR [dbQuery](SELECT key)');
 
@@ -976,10 +975,11 @@ window.postMessage('HEY HEY HEY, this.event_site_info.resolve(site_info)');
 
                             Timer.setTimeout(self, 'dbQuery[key]', () => {
                                 self._webview.injectJavaScript(js)
-                                console.log('injected dbQuery #1 response', js)
+                                console.log('injected dbQuery #1 response')
                                 // self._debugLog(self, `injected dbQuery[key] response`)
                             }, 0)
                         } else if (data.params[0].slice(0, 10) === 'SELECT\'pos') {
+                            // return
                             console.log('RN REQUEST FOR [dbQuery](SELECT p)');
 
                             const sql = data.params[0]
@@ -1002,7 +1002,7 @@ window.postMessage('HEY HEY HEY, this.event_site_info.resolve(site_info)');
                                 self._webview.injectJavaScript(js)
                                 console.log('injected dbQuery #2 response')
                                 // self._debugLog(self, `injected dbQuery[p] response`)
-                            }, 0)
+                            }, 1000)
                         } else if (data.params[0].slice(0, 10) === 'SELECTpost') {
                             console.log('RN REQUEST FOR [dbQuery](SELECT po)');
 

@@ -6,7 +6,7 @@
         "start": "node node_modules/react-native/local-cli/cli.js start",
         "test": "jest",
         "postinstall": "rn-nodeify --install events --hack; rm ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json",
-        "timely": "adb shell \"date `date +%m%d%H%M%Y.%S`\" && react-native run-android"
+        "geny": "adb shell \"date `date +%m%d%H%M%Y.%S`\" && react-native run-android"
     },
     "dependencies": {
         "babel-preset-react-native-stage-0": "^1.0.1",
