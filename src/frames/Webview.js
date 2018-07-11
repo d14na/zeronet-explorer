@@ -145,7 +145,7 @@ class WelcomeScreen extends React.Component {
                         // Timer.setTimeout(self, 'testJquery', () => {
                         //     self._debugLog(self, `jQuery is STILL working after all this time [5sec]`)
                         //     self._testPastebin()
-                        // }, 5000)
+                        // }, 0)
                     })
                     .catch((err) => {
                         console.log(err.message);
@@ -330,11 +330,12 @@ class WelcomeScreen extends React.Component {
             };
 
             ZeroFrame.prototype.onMessage = function(e) {
-window.postMessage('WEBVIEW ONMESSAGE message | ' + typeof(message) + ' | ' + JSON.stringify(message));
               var cmd, message;
               message = e.data;
               cmd = message.cmd;
+
               if (cmd === "response") {
+window.postMessage('\n\n**WEBVIEW** ' + typeof(message) + ' | ' + JSON.stringify(message));
                 if (this.waiting_cb[message.to] != null) {
                   return this.waiting_cb[message.to](message.result);
                 } else {
@@ -459,27 +460,11 @@ window.postMessage('WEBVIEW ONMESSAGE message | ' + typeof(message) + ' | ' + JS
                 this.server_info = null;
                 this.page = 1;
                 this.my_post_votes = {};
-                this.event_page_load = $.Deferred();
-                this.event_site_info = $.Deferred();
+                /* this.event_site_info = $.Deferred(); */
 
-                $.when(this.event_page_load, this.event_site_info).done((function(_this) {
-                    return function() {
-                        if (_this.site_info.settings.own || _this.data.demo) {
-                            _this.addInlineEditors();
-                            _this.checkPublishbar();
-                            $(".publishbar").off("click").on("click", _this.publish);
-                            $(".posts .button.new").css("display", "inline-block");
-                            return $(".editbar .icon-help").off("click").on("click", function() {
-                                $(".editbar .markdown-help").css("display", "block");
-                                $(".editbar .markdown-help").toggleClassLater("visible", 10);
-                                $(".editbar .icon-help").toggleClass("active");
-                                return false;
-                            });
-                        }
-                    };
-                })(this));
-
+/*
                 $.when(this.event_site_info).done((function(_this) {
+window.postMessage('HEY HEY HEY, when(this.event_site_info)');
                     return function() {
                         var imagedata;
                         _this.log("event site info");
@@ -488,7 +473,9 @@ window.postMessage('WEBVIEW ONMESSAGE message | ' + typeof(message) + ' | ' + JS
                         return _this.initFollowButton();
                     };
                 })(this));
+*/
 
+window.postMessage('HEY HEY HEY, inited');
                 return this.log("inited!");
             };
 
@@ -684,17 +671,18 @@ window.postMessage('WEBVIEW ONMESSAGE message | ' + typeof(message) + ' | ' + JS
             ZeroBlog.prototype.onOpenWebsocket = function(e) {
                 this.loadData();
 
-window.postMessage('HEY HEY HEY, onOpenWebsocket');
                 return this.cmd("siteInfo", {}, (function(_this) {
                     return function(site_info) {
 window.postMessage('HEY HEY HEY, THIS IS siteInfo');
                         var query_my_votes;
 
                         _this.setSiteinfo(site_info);
+window.postMessage('HEY HEY HEY, LOOKS LIKE EVERYTHING IS SET!');
                         query_my_votes = "SELECT\n	'post_vote' AS type,\n	post_id AS uri\nFROM json\nLEFT JOIN post_vote USING (json_id)\nWHERE directory = 'users/" + _this.site_info.auth_address + "' AND file_name = 'data.json'";
 
+/* window.postMessage('HEY HEY HEY, siteInfo is calling dbQuery with ' + JSON.stringify([query_my_votes])); */
                         _this.cmd("dbQuery", [query_my_votes], function(res) {
-window.postMessage('HEY HEY HEY, siteInfo IS BACK!');
+window.postMessage('HEY HEY HEY, siteInfo IS BACK from its 2nd query!');
                             var row, _i, _len;
 
                             for (_i = 0, _len = res.length; _i < _len; _i++) {
@@ -711,12 +699,24 @@ window.postMessage('HEY HEY HEY, siteInfo IS BACK!');
             };
 
             ZeroBlog.prototype.setSiteinfo = function(site_info) {
+window.postMessage('HEY HEY HEY, setSiteinfo');
                 var mentions_menu_elem, _ref, _ref1, _ref2;
 
                 this.site_info = site_info;
 
-                this.event_site_info.resolve(site_info);
-
+/* window.postMessage('HEY HEY HEY, this.event_site_info ' + typeof(this.event_site_info) + ' | ' + Object.keys(this.event_site_info).length); */
+                /* this.event_site_info.resolve(site_info); */
+                (function(_this) {
+window.postMessage('HEY HEY HEY, when(this.event_site_info)');
+                    return function() {
+                        var imagedata;
+                        _this.log("event site info");
+                        imagedata = new Identicon(_this.site_info.address, 70).toString();
+                        $("body").append("<style>.avatar { background-image: url(data:image/png;base64," + imagedata + ") }</style>");
+                        return _this.initFollowButton();
+                    };
+                })(this);
+window.postMessage('HEY HEY HEY, event_site_info.resolve(site_info);');
                 if ($("body").hasClass("page-post")) {
                     Comments.checkCert();
                 }
@@ -857,16 +857,16 @@ window.postMessage('HEY HEY HEY, siteInfo IS BACK!');
             let data = null
 
             if (_msg && _msg.nativeEvent && _msg.nativeEvent.data) {
-                // console.log('MESSAGE DATA', _msg.nativeEvent.data);
+                console.log('RN _onMessage (RAW)', _msg.nativeEvent.data);
                 // this._debugLog(this, `MESSAGE DATA [ ${_msg.nativeEvent.data.slice(0, 30)} ]`)
 
                 try {
                     /* Retrieve the data. */
                     data = JSON.parse(_msg.nativeEvent.data)
-                    console.log('RN MESSAGE DATA', data);
+                    console.log('RN _onMessage (PARSED)', data);
 
                     if (data.cmd === 'innerReady') {
-                        console.log('REQUEST FOR [innerReady]');
+                        console.log('RN REQUEST FOR [innerReady]');
 
                         const js = `
                             let newEvent = null;
@@ -884,7 +884,7 @@ window.postMessage('HEY HEY HEY, siteInfo IS BACK!');
                     }
 
                     if (data.cmd === 'siteInfo') {
-                        console.log('REQUEST FOR [siteInfo]');
+                        console.log('RN REQUEST FOR [siteInfo]');
 
                         const js = `
                             newEvent = document.createEvent('Event');
@@ -962,7 +962,7 @@ window.postMessage('HEY HEY HEY, siteInfo IS BACK!');
                         // console.log('REQUEST FOR [dbQuery]');
 
                         if (data.params[0].slice(0, 10) === 'SELECT key') {
-                            console.log('REQUEST FOR [dbQuery](SELECT key)');
+                            console.log('RN REQUEST FOR [dbQuery](SELECT key)');
 
                             const sql = data.params[0]
                             console.log('SQL', sql);
@@ -1011,7 +1011,7 @@ window.postMessage('HEY HEY HEY, siteInfo IS BACK!');
                                 self._debugLog(self, `injected dbQuery[key] response`)
                             }, 0)
                         } else if (data.params[0].slice(0, 10) === 'SELECT\n	\'p') {
-                            console.log('REQUEST FOR [dbQuery](SELECT p)');
+                            console.log('RN REQUEST FOR [dbQuery](SELECT p)');
 
                             const sql = data.params[0]
                             console.log('SQL', sql);
@@ -1035,8 +1035,7 @@ window.postMessage('HEY HEY HEY, siteInfo IS BACK!');
                                 self._debugLog(self, `injected dbQuery[p] response`)
                             }, 0)
                         } else if (data.params[0].slice(0, 10) === 'SELECT\'pos') {
-                        // } else if (data.params[0].slice(0, 10) === 'SELECT\n	po') {
-                            console.log('REQUEST FOR [dbQuery](SELECT po)');
+                            console.log('RN REQUEST FOR [dbQuery](SELECT po)');
 
                             const sql = data.params[0]
                             console.log('SQL', sql);
@@ -1074,7 +1073,15 @@ window.postMessage('HEY HEY HEY, siteInfo IS BACK!');
                             `
 
                             Timer.setTimeout(self, 'dbQuery[po]', () => {
-                                self._webview.injectJavaScript(js)
+                                const js2 = `
+                                    newEvent = null;
+                                    newEvent = document.createEvent('Event');
+                                    newEvent.initEvent('message', true, true);
+                                    newEvent.data = { cmd: 'CLOSER AND CLOSER!!' };
+                                    setTimeout(() => window.dispatchEvent(newEvent), 0);
+                                    alert('i still got u, hang in there!');
+                                `
+                                self._webview.injectJavaScript(js2)
                                 console.log('injected dbQuery[po] response')
                                 self._debugLog(self, `injected dbQuery[po] response`)
                             }, 0)
