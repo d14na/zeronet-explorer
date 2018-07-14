@@ -90,27 +90,7 @@ export default class MainFrame extends React.Component {
     }
 
     componentDidMount() {
-        Navigation.mergeOptions(this.props.componentId, {
-            topBar: {
-                title: {
-                    text: 'Zer0net Explorer'
-                },
-                rightButtons: [
-                    {
-                        id: 'btnP0rtal',
-                        title: 'P0rtal ➧'
-                    }
-                ]
-            }
-        })
 
-        // Navigation.events().buttonPressed((_componentId, _buttonId) => {
-        //     console.log('Navigation.events().buttonPressed', _componentId, _buttonId)
-        // })
-
-        // Navigation.events().onNavigationButtonPressed((_componentId, _buttonId) => {
-        //     console.log('Navigation.events().onNavigationButtonPressed', _buttonId)
-        // })
     }
 
     onNavigationButtonPressed(_buttonId) {

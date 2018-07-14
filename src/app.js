@@ -157,7 +157,14 @@ Navigation.events().registerAppLaunchedListener(() => {
             children: [{
                 component: {
                     id: 'zeronet.Main',
-                    name: 'zeronet.Main'
+                    name: 'zeronet.Main',
+                    options: {
+                        topBar: {
+                            visible: false,
+                            animate: false,
+                            drawBehind: true
+                        }
+                    }                    
                 }
             }],
             options: {}
