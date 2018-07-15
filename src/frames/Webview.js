@@ -28,6 +28,10 @@ class WelcomeScreen extends React.Component {
 
         console.log('Webview received props', props)
 
+        this.props = props
+
+        this.html = this.props.html
+
         const source = { html: '<h1>loading...</h1>' }
         this.state = {
             debug: 'loading...',
@@ -90,8 +94,11 @@ class WelcomeScreen extends React.Component {
         /* Initialize jQuery (and then subsequent libraries). */
         // this._initJquery()
 
+        // console.log('MOUNT WITH HTML', this.html);
+
         // this._testDownload()
-        this._getHtml()
+        this._injectHtml(this.html)
+        // this._getHtml()
 
         // this._listFiles()
         Timer.setInterval(this, 'test10Interval', () => {
@@ -1076,6 +1083,17 @@ window.postMessage('HEY HEY HEY, this.event_site_info.resolve(site_info)');
             console.log('MESSAGE ERROR', _msg, e);
             this._debugLog(this, `MESSAGE ERROR [ ${e.toString()} ]`)
         }
+    }
+
+    _injectHtml(_html) {
+        const html = _html
+        const source = { html }
+
+        this.setState({ source }, () => {
+            console.log('HTML source has been injected by PEER!');
+
+            // self._initJquery()
+        })
     }
 
     _getHtml() {

@@ -242,6 +242,22 @@ export default class MainFrame extends React.Component {
 
                         console.log('check out my HTML body', body)
                         self.setState({ debug: body })
+
+                        Navigation.push(self.props.componentId, {
+                            component: {
+                                id: 'zeronet.Webview',
+                                name: 'zeronet.Webview',
+                                options: {
+                                    topBar: {
+                                        visible: false,
+                                        animate: false,
+                                        drawBehind: true
+                                    }
+                                },
+                                passProps: { html: body }
+                            }
+                        })
+
                     }
 
                     // clear the payload
