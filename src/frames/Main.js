@@ -1,3 +1,5 @@
+import '../../shim'
+
 import React from 'react'
 
 import {
@@ -58,14 +60,14 @@ export default class MainFrame extends React.Component {
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}
-                        onPress={ this._loadWebview.bind(this) }
+                        onPress={ () => this._loadZite.bind(this)('github') }
                         icon={{name: 'globe', type: 'font-awesome'}}
                         title='GitHub' />
 
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}
-                        onPress={ this._loadWebview.bind(this) }
+                        onPress={ () => this._loadZite.bind(this)('guide') }
                         icon={{name: 'fire', type: 'font-awesome'}}
                         title='Zer0net 101' />
                 </View>
@@ -74,23 +76,415 @@ export default class MainFrame extends React.Component {
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}
-                        onPress={ this._loadWebview.bind(this) }
+                        onPress={ () => this._loadZite.bind(this)('zitetags') }
                         icon={{name: 'globe', type: 'font-awesome'}}
-                        title='Play' />
+                        title='#Zitetags' />
 
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}
-                        onPress={ this._loadWebview.bind(this) }
+                        onPress={ () => this._loadZite.bind(this)('blog') }
                         icon={{name: 'book', type: 'font-awesome'}}
                         title='Blog' />
+                </View>
+
+                <View style={{ flexDirection: 'row', height: 100 }}>
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._pex.bind(this) }
+                        icon={{name: 'globe', type: 'font-awesome'}}
+                        title='Peer Exchange' />
+
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._getFile.bind(this) }
+                        icon={{name: 'book', type: 'font-awesome'}}
+                        title='content.json' />
                 </View>
             </View>
         </View>
     }
 
     componentDidMount() {
+        this.client = null
+        this.requests = []
 
+        /* Initialize the payload. */
+        // payload = null
+
+
+        this._test()
+    }
+
+    _test() {
+        const self = this
+
+        const net = require('net')
+        console.log('net', net)
+        // OR, if not shimming via package.json "browser" field:
+        // var net = require('react-native-tcp')
+
+        const hostIp = '178.128.8.225'
+        const hostPort = 13312
+
+        // var server = net.createServer(function(socket) {
+        //     socket.write('excellent!')
+        // }).listen(12345)
+
+        const host = {
+            host: hostIp,
+            port: hostPort
+        }
+        self.setState({ debug: JSON.stringify(host) })
+
+        this.client = net.createConnection(hostPort, hostIp, () => {
+            // 'connect' listener
+            console.log('Connected to peer!')
+            self.setState({ debug: 'Connected to peer!' })
+
+            const pkg = self._encode(this._handshakePkg())
+            self.client.write(pkg)
+        })
+
+        // this.client.on('connect', function () {
+        //     console.info('Connection opened.')
+        //     self.setState({ debug: 'Connection opened.' })
+        //
+        //     /* Create encoded package. */
+        //     // const pkg = self._encode(self._handshakePkg)
+        //
+        //     /* Send the handshake. */
+        //     // self.client.write(pkg, function () {
+        //     //     console.log('Sent handshake.')
+        //     //     // console.log('sent handshake', pkg)
+        //     // })
+        // })
+
+        this.client.on('error', function (error) {
+            console.log(error)
+            self.setState({ debug: error.toString() })
+        })
+
+        let called = 0
+        let payload = null
+
+        this.client.on('data', function(_data) {
+            if (payload) {
+                payload = Buffer.concat([payload, _data])
+            } else {
+                payload = _data
+            }
+
+            try {
+                /* Attempt to decode the data. */
+                const decoded = self._decode(payload)
+
+                console.log('Message #%d was received [%d bytes]', ++called, _data.length, _data, decoded)
+                self.setState({ debug: 'received:\n' + _data.length + '\n\n' + JSON.stringify(decoded) })
+
+                /* Initialize request. */
+                let request = null
+
+                /* Retrieve the request id. */
+                if (decoded.to !== null) {
+                    const reqId = decoded.to
+                    console.log('Decoded reqId', reqId)
+
+                    /* Retrieve the request. */
+                    request = self.requests[reqId]
+                    console.log('Decoded request', request)
+                }
+
+                if (decoded.cmd === 'response' && decoded.error) {
+                    console.error(decoded.error)
+
+                    // clear the payload
+                    payload = null
+
+                    // delete the request cmd
+                    delete request.cmd
+                }
+
+                if (decoded.cmd === 'response' && request.cmd === 'handshake') {
+                    console.info('Handshake completed successfully!')
+                    self.setState({ debug: 'Handshake completed successfully!' })
+
+                    // clear the payload
+                    payload = null
+                }
+
+                if (decoded.cmd === 'response' && request.cmd === 'ping') {
+                    console.info('Ping completed successfully!')
+                    self.setState({ debug: 'Ping completed successfully!' })
+
+                    // clear the payload
+                    payload = null
+                }
+
+                if (decoded.cmd === 'response' && request.cmd === 'getFile') {
+                    /* Retrieve file type. */
+                    const fileType = request.innerPath.split('.').pop()
+
+                    if (fileType === 'json') {
+                        let body = JSON.parse(decoded.body)
+
+                        console.log('check out my JSON body', body)
+                        self.setState({ debug: body })
+
+                        let description = body.description
+                        console.log('Description', description)
+                    }
+
+                    if (fileType === 'html') {
+                        let body = decoded.body.toString()
+
+                        console.log('check out my HTML body', body)
+                        self.setState({ debug: body })
+                    }
+
+                    // clear the payload
+                    payload = null
+                }
+
+                if (decoded.cmd === 'response' && request.cmd === 'pex') {
+                    let peers = decoded.peers
+                    // let peers = JSON.parse(decoded.peers)
+                    console.log('check out my PEX peers', peers)
+
+                    for (let i = 0; i < peers.length; i++) {
+                        console.log('peer', peers[i].length, peers[i])
+
+                        const ipBuffer = Buffer.from(peers[i])
+
+                        if (ipBuffer.length === 6) {
+                            console.log('#%d IP', i, ipBuffer.slice(0, 4))
+                            console.log('#%d Port', i, ipBuffer.slice(-2))
+
+                            const peer = {
+                                ip: self._parseIp(ipBuffer.slice(0, 4)),
+                                port: self._parsePort(ipBuffer.slice(-2))
+                            }
+                            console.log('PEX Peer (buffer)', peer)
+                            self.setState({ debug: peer })
+
+                            self.hostIp = peer.ip
+                            self.hostPort = peer.port
+                        }
+                    }
+
+                    // clear the payload
+                    payload = null
+                }
+
+                if (decoded && payload !== null) {
+                    console.error('FAILED TO RECOGNIZE -- clearing payload')
+                    self.setState({ debug: 'FAILED TO RECOGNIZE -- clearing payload' })
+
+                    // clear the payload
+                    payload = null
+                }
+
+                // if (decoded.body) {
+                //     let body = decoded.body.toString()
+                //
+                //     console.log('check out my HTML body', body)
+                // }
+                //
+                // if (decoded.cmd === 'response' && decoded.peers) {
+                // // if (decoded.cmd === 'response' && request.cmd === 'pex') {
+                //     let peers = decoded.peers
+                //     // let peers = JSON.parse(decoded.peers)
+                //     console.log('check out my PEX peers', peers)
+                //
+                //     for (let i = 0; i < peers.length; i++) {
+                //         const ipBuffer = Buffer.from(peers[i])
+                //
+                //         console.log('peer', ipBuffer.length, peers[i])
+                //
+                //         if (ipBuffer.length === 6) {
+                //             console.log('#%d IP', i, ipBuffer.slice(0, 4))
+                //             console.log('#%d Port', i, ipBuffer.slice(-2))
+                //
+                //             const peer = {
+                //                 ip: self._parseIp(ipBuffer.slice(0, 4)),
+                //                 port: self._parsePort(ipBuffer.slice(-2))
+                //             }
+                //             console.log('PEX Peer (buffer)', peer)
+                //
+                //             self.hostIp = peer.ip
+                //             self.hostPort = peer.port
+                //         } else {
+                //             console.info('FAILED: buffer length <> 6')
+                //             console.info('ip/port', self._parseIp(peers[i]), self._parsePort(peers[i]));
+                //         }
+                //     }
+                //
+                //     // clear the payload
+                //     payload = null
+                // }
+
+            } catch (e) {
+                console.log('Failed to decode data', _data, e);
+            }
+        })
+
+        this.client.on('close', function () {
+            console.info('Connection closed.')
+            self.setState({ debug: 'Connection closed.' })
+        })
+    }
+
+    _handshakePkg() {
+        const cmd = 'handshake'
+        const request = { cmd }
+        const req_id = this._addRequest(request)
+
+        const crypt = null
+        const crypt_supported = []
+        // const crypt_supported = ['tls-rsa']
+        const fileserver_port = 15441
+        const protocol = 'v2'
+        const port_opened = true
+        const peer_id = this.state.peerId
+        const rev = 2122
+        const version = '0.5.6'
+        const target_ip = this.state.hostIp
+
+        /* Build parameters. */
+        const params = {
+            crypt,
+            crypt_supported,
+            fileserver_port,
+            protocol,
+            port_opened,
+            peer_id,
+            rev,
+            version,
+            target_ip
+        }
+
+        return { cmd, req_id, params }
+    }
+
+    _parseIp(_peer) {
+        const ipBuffer = Buffer.from(_peer)
+
+        const buf = ipBuffer.slice(0, 4)
+        console.log('_parseIp', buf)
+
+        const ip = buf.readUInt8(0) +
+            '.' + buf.readUInt8(1) +
+            '.' + buf.readUInt8(2) +
+            '.' + buf.readUInt8(3)
+
+        return ip
+    }
+
+    _parsePort(_peer) {
+        const ipBuffer = Buffer.from(_peer)
+
+        const buf = ipBuffer.slice(4, 6)
+        console.log('_parsePort', buf)
+
+        const port = (buf.readUInt8(1) * 256) + buf.readUInt8(0)
+
+        return port
+    }
+
+    _addRequest(_request) {
+        if (!this.reqId)
+            this.reqId = 0
+
+        /* Initialize request id (auto-increment). */
+        const reqId = this.reqId++
+
+        this.requests[reqId] = _request
+
+        /* Return the request id. */
+        return reqId
+    }
+
+    _ping() {
+        const cmd = 'ping'
+
+        const request = { cmd }
+
+        const req_id = this._addRequest(request)
+
+        const pkg = {
+            cmd,
+            req_id,
+            params: {}
+        }
+
+        /* Send request. */
+        this.client.write(this._encode(pkg), function () {
+            console.log('sent ping', pkg)
+        })
+    }
+
+    _getFile() {
+        const cmd = 'getFile'
+        const innerPath = 'index.html'
+        // const innerPath = 'content.json'
+        // const site = '1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D'
+        const site = '1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J'
+
+        const request = { cmd, innerPath, site }
+
+        const req_id = this._addRequest(request)
+
+        const inner_path = innerPath
+        const location = 0
+        const params = { site, inner_path, location }
+
+        const pkg = { cmd, req_id, params }
+
+        /* Send request. */
+        // const pkg = self._encode(this._handshakePkg())
+        this.client.write(this._encode(pkg))
+
+        // this.client.write(this._encode(pkg), function () {
+        //     console.log('Sent request for [ %s ]', inner_path)
+        // })
+    }
+
+    _pex() {
+        console.log('start PEX...');
+        const cmd = 'pex'
+        const site = '1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J'
+        const peers = []
+        const peers_onion = []
+        const need = 10
+
+        const request = { cmd, site, need }
+
+        const req_id = this._addRequest(request)
+
+        const params = { site, peers, peers_onion, need }
+
+        const pkg = { cmd, req_id, params }
+
+        /* Send request. */
+        this.client.write(this._encode(pkg), function () {
+            console.log('Sent request for [ %s ]', cmd)
+        })
+    }
+
+    _encode(_msg) {
+        const msgpack = require('zeronet-msgpack')()
+        const encode = msgpack.encode
+
+        return encode(_msg)
+    }
+
+    _decode(_msg) {
+        const msgpack = require('zeronet-msgpack')()
+        const decode = msgpack.decode
+
+        return decode(_msg)
     }
 
     onNavigationButtonPressed(_buttonId) {
@@ -114,7 +508,13 @@ export default class MainFrame extends React.Component {
 
     }
 
-    _loadWebview() {
+    _loadZite(_target) {
+        console.log('load webview with target', _target)
+
+        this._findPeers()
+
+        return
+
         Navigation.push(this.props.componentId, {
             component: {
                 id: 'zeronet.Webview',
@@ -125,7 +525,8 @@ export default class MainFrame extends React.Component {
                         animate: false,
                         drawBehind: true
                     }
-                }
+                },
+                passProps: { ziteTag: _target }
             }
         })
     }
@@ -138,6 +539,10 @@ export default class MainFrame extends React.Component {
                 }
             }
         })
+    }
+
+    _findPeers() {
+
     }
 
 }
