@@ -39,72 +39,88 @@ export default class MainFrame extends React.Component {
             uri: 'https://github.com/d14na/zeronet-explorer/'
         }
 
-        return <View style={ styles.container }>
-            <SearchBar
-                ref={ search => this.search = search }
-                icon={{ type: 'font-awesome', name: 'search' }}
-                clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
-                inputStyle={{ paddingLeft: 40, paddingBottom: 9 }}
-                placeholder='Looking for something interesting?' />
+        return <ScrollView>
+            <View style={ styles.container }>
+                <SearchBar
+                    ref={ search => this.search = search }
+                    icon={{ type: 'font-awesome', name: 'search' }}
+                    clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
+                    inputStyle={{ paddingLeft: 40, paddingBottom: 9 }}
+                    placeholder='Looking for something interesting?' />
 
-            <View style={ styles.contentContainer }>
-                <Text>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </Text>
+                <View style={ styles.contentContainer }>
+                    <View style={{ flexDirection: 'row', height: 100 }}>
+                        <Button
+                            large
+                            style={{ flex: 1, width: 150 }}
+                            onPress={ () => this._loadZite.bind(this)('github') }
+                            icon={{name: 'globe', type: 'font-awesome'}}
+                            title='GitHub' />
 
-                <Text>
-                    { this.state.debug }
-                </Text>
+                        <Button
+                            large
+                            style={{ flex: 1, width: 150 }}
+                            onPress={ () => this._loadZite.bind(this)('guide') }
+                            icon={{name: 'fire', type: 'font-awesome'}}
+                            title='Zer0net 101' />
+                    </View>
 
-                <View style={{ flexDirection: 'row', height: 100 }}>
-                    <Button
-                        large
-                        style={{ flex: 1, width: 150 }}
-                        onPress={ () => this._loadZite.bind(this)('github') }
-                        icon={{name: 'globe', type: 'font-awesome'}}
-                        title='GitHub' />
+                    <View style={{ flexDirection: 'row', height: 100 }}>
+                        <Button
+                            large
+                            style={{ flex: 1, width: 150 }}
+                            onPress={ () => this._loadZite.bind(this)('zitetags') }
+                            icon={{name: 'globe', type: 'font-awesome'}}
+                            title='#Zitetags' />
 
-                    <Button
-                        large
-                        style={{ flex: 1, width: 150 }}
-                        onPress={ () => this._loadZite.bind(this)('guide') }
-                        icon={{name: 'fire', type: 'font-awesome'}}
-                        title='Zer0net 101' />
-                </View>
+                        <Button
+                            large
+                            style={{ flex: 1, width: 150 }}
+                            onPress={ () => this._loadZite.bind(this)('blog') }
+                            icon={{name: 'book', type: 'font-awesome'}}
+                            title='Blog' />
+                    </View>
 
-                <View style={{ flexDirection: 'row', height: 100 }}>
-                    <Button
-                        large
-                        style={{ flex: 1, width: 150 }}
-                        onPress={ () => this._loadZite.bind(this)('zitetags') }
-                        icon={{name: 'globe', type: 'font-awesome'}}
-                        title='#Zitetags' />
+                    <View style={{ flexDirection: 'row', height: 100 }}>
+                        <Button
+                            large
+                            style={{ flex: 1, width: 150 }}
+                            onPress={ this._pex.bind(this) }
+                            icon={{name: 'globe', type: 'font-awesome'}}
+                            title='Peer Exchange' />
 
-                    <Button
-                        large
-                        style={{ flex: 1, width: 150 }}
-                        onPress={ () => this._loadZite.bind(this)('blog') }
-                        icon={{name: 'book', type: 'font-awesome'}}
-                        title='Blog' />
-                </View>
+                        <Button
+                            large
+                            style={{ flex: 1, width: 150 }}
+                            onPress={ () => this._getFile.bind(this)('1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J') }
+                            icon={{name: 'book', type: 'font-awesome'}}
+                            title='Zitetags' />
+                    </View>
 
-                <View style={{ flexDirection: 'row', height: 100 }}>
-                    <Button
-                        large
-                        style={{ flex: 1, width: 150 }}
-                        onPress={ this._pex.bind(this) }
-                        icon={{name: 'globe', type: 'font-awesome'}}
-                        title='Peer Exchange' />
+                    <View style={{ flexDirection: 'row', height: 100 }}>
+                        <Button
+                            large
+                            style={{ flex: 1, width: 150 }}
+                            onPress={ () => this._getFile.bind(this)('1CHESSgbNoLEvQzdSW1yreen7VxvRDk3uA') }
+                            icon={{name: 'globe', type: 'font-awesome'}}
+                            title='Chess' />
 
-                    <Button
-                        large
-                        style={{ flex: 1, width: 150 }}
-                        onPress={ this._getFile.bind(this) }
-                        icon={{name: 'book', type: 'font-awesome'}}
-                        title='content.json' />
+                        <Button
+                            large
+                            style={{ flex: 1, width: 150 }}
+                            onPress={ () => this._getFile.bind(this)('1HeLLoyevpjZTp3pPDWkhWUNtTszN9ZzkA') }
+                            icon={{name: 'book', type: 'font-awesome'}}
+                            title='Hello Zero' />
+                    </View>
+
+                    <View style={{ margin: 20, padding: 20, backgroundColor: 'rgba(30, 120, 60, 0.2)'}}>
+                        <Text style={{ fontStyle: 'italic' }}>
+                            { this.state.debug }
+                        </Text>
+                    </View>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     }
 
     componentDidMount() {
@@ -243,7 +259,7 @@ export default class MainFrame extends React.Component {
                         console.log('check out my HTML body', body)
                         self.setState({ debug: body })
 
-                        Navigation.push(self.props.componentId, {
+                        Navigation.push('zeronet.Main', {
                             component: {
                                 id: 'zeronet.Webview',
                                 name: 'zeronet.Webview',
@@ -296,6 +312,8 @@ export default class MainFrame extends React.Component {
 
                 if (decoded && payload !== null) {
                     console.error('FAILED TO RECOGNIZE -- clearing payload')
+                    console.log('DECODED', decoded)
+                    console.log('PAYLOAD', payload)
                     self.setState({ debug: 'FAILED TO RECOGNIZE -- clearing payload' })
 
                     // clear the payload
@@ -441,12 +459,14 @@ export default class MainFrame extends React.Component {
         })
     }
 
-    _getFile() {
+    _getFile(_target) {
         const cmd = 'getFile'
         const innerPath = 'index.html'
         // const innerPath = 'content.json'
         // const site = '1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D'
-        const site = '1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J'
+        // const site =
+        // const site = ''
+        const site = _target
 
         const request = { cmd, innerPath, site }
 

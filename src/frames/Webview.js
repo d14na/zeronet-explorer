@@ -67,15 +67,17 @@ class WelcomeScreen extends React.Component {
             <View style={ styles.footer }>
                 <Button
                     title='<'
-                    style={ styles.footerButton } />
+                    style={ styles.footerButton }
+                    onPress={ this._btnBack.bind(this) } />
 
                 <Button
                     title='>'
                     style={ styles.footerButton } />
 
                 <Button
-                    title='History'
-                    style={ styles.footerButton } />
+                    title='Close'
+                    style={ styles.footerButton }
+                    onPress={ this._btnClose.bind(this) } />
             </View>
         </View>
     }
@@ -129,6 +131,22 @@ class WelcomeScreen extends React.Component {
 
     _debugLog(_ctx, _entry) {
         _ctx._webview.injectJavaScript(`$("#debug_output").html($("#debug_output").html() + '<p>${_entry}</p>')`)
+    }
+
+    _btnClose() {
+        console.log('pressed close button')
+
+        /* Close the webview. */
+        Navigation.popToRoot('zeronet.Main')
+            .catch(console.log)
+    }
+
+    _btnBack() {
+        console.log('pressed Webview back button')
+
+        /* Close the webview. */
+        Navigation.popTo('zeronet.Main')
+            .catch(console.log)
     }
 
     _initJquery() {
