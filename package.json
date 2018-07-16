@@ -9,6 +9,7 @@
         "geny": "adb shell \"date `date +%m%d%H%M%Y.%S`\" && react-native run-android"
     },
     "dependencies": {
+        "amplitude": "^3.5.0",
         "babel-preset-react-native-stage-0": "^1.0.1",
         "bugsnag-react-native": "^2.10.0",
         "ethers": "^3.0.25",

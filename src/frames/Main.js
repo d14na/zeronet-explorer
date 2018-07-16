@@ -15,6 +15,8 @@ import { Navigation } from 'react-native-navigation'
 
 import { Client } from 'bugsnag-react-native'
 
+import Amplitude from 'amplitude'
+
 import {
     Button,
     SearchBar
@@ -33,6 +35,14 @@ export default class MainFrame extends React.Component {
 
         const bugsnag = new Client()
         // bugsnag.notify(new Error("TEST: First error"))
+
+        const amplitude = new Amplitude('beadb78ade3fd20e320417ed123488b4')
+
+        var data = {
+          event_type: 'APP_INIT',
+          user_id: 'test-id'
+        }
+        amplitude.track(data)
 
         this.state = {
             debug: 'loading...'
