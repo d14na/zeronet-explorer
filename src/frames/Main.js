@@ -17,6 +17,8 @@ import { Client } from 'bugsnag-react-native'
 
 import Amplitude from 'amplitude'
 
+import DeviceInfo from 'react-native-device-info'
+
 import {
     Button,
     SearchBar
@@ -33,17 +35,26 @@ export default class MainFrame extends React.Component {
 
         console.log('Main Frame received props', props)
 
-        const bugsnag = new Client()
+        // const bugsnag = new Client()
         // bugsnag.notify(new Error("TEST: First error"))
 
+        /* Initialize amplitude. */
         const amplitude = new Amplitude('beadb78ade3fd20e320417ed123488b4')
 
-        var data = {
-          event_type: 'APP_INIT',
-          user_id: 'test-id'
-        }
-        amplitude.track(data)
+        /* Set the event type. */
+        const event_type = 'MAIN_'
 
+        /* Retrieve device id. */
+        const device_id = DeviceInfo.getUniqueID()
+        console.info('Device Unique Id', device_id)
+
+        /* Set the tracking data. */
+        const trackingData = { event_type, device_id }
+
+        /* Call amplitude api. */
+        amplitude.track(trackingData)
+
+        /* Initialize the local state. */
         this.state = {
             debug: 'loading...'
         }
@@ -144,7 +155,6 @@ export default class MainFrame extends React.Component {
 
         /* Initialize the payload. */
         // payload = null
-
 
         this._test()
     }
