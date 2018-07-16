@@ -100,15 +100,15 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.zer0net"
         minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 180701
-        versionName "18.7.1"
+        targetSdkVersion 26
+        versionCode 180716
+        versionName "18.7.16"
         missingDimensionStrategy "RNN.reactNativeVersion", "reactNative51" // <- See note below for further instruction regarding compatibility with other React Native versions
         ndk {
             abiFilters "armeabi-v7a", "x86"
