@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "babel-preset-react-native-stage-0": "^1.0.1",
+        "bugsnag-react-native": "^2.10.0",
         "ethers": "^3.0.25",
         "jsc-android": "^224109.0.0",
         "mobx": "^5.0.3",

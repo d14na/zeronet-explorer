@@ -13,6 +13,8 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { Client } from 'bugsnag-react-native'
+
 import {
     Button,
     SearchBar
@@ -28,6 +30,9 @@ export default class MainFrame extends React.Component {
         super(props)
 
         console.log('Main Frame received props', props)
+
+        const bugsnag = new Client()
+        // bugsnag.notify(new Error("TEST: First error"))
 
         this.state = {
             debug: 'loading...'

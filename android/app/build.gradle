@@ -171,6 +171,7 @@ dependencies {
 
     implementation project(':react-native-navigation')
 
+    api project(':bugsnag-react-native')
     api project(':react-native-fs')
     api project(':react-native-tcp')
     api project(':react-native-vector-icons')
