@@ -156,10 +156,88 @@ export default class MainFrame extends React.Component {
         /* Initialize the payload. */
         // payload = null
 
-        this._test()
+        this._bmTest()
+        // this._peerTest()
     }
 
-    _test() {
+    _bmTest() {
+        /* Localize this. */
+        const self = this
+
+        var Address = require('bitmessage').Address
+
+        // Generate a new random Bitmessage identity.
+        var addr1 = Address.fromRandom()
+        console.log('New random Bitmessage address:', addr1.encode())
+
+        // Or create it from passphrase.
+        var addr2 = Address.fromPassphrase('LondynnLee')
+        console.log('Deterministic Bitmessage address:', addr2.encode())
+
+        this.setState({ debug: 'Deterministic Bitmessage address: ' + addr2.encode() })
+
+        const convert = require('xml-js')
+
+        const json = {
+            "_declaration": {
+                "_attributes": {
+                    "version": "1.0",
+                    "encoding": "utf-8"
+                }
+            },
+            "methodCall": {
+                "methodName": "add",
+                "params": [{
+                    "value": [{
+                        "int": 1000
+                    }, {
+                        "int": 337
+                    }]
+                }]
+            }
+        }
+        const xml = convert.json2xml(json, {compact: true, spaces: 4})
+
+        const username = 'dev'
+        const password = 'tester'
+        const auth = {
+            username,
+            password
+        }
+        const options = { auth }
+
+        const apiUsername = 'dev'
+        const apiPassword = 'tester'
+        const encoded = Buffer.from(`${apiUsername}:${apiPassword}`).toString('base64')
+
+        const Authorization = `Basic ${encoded}`
+        const Accept = 'text/xml'
+
+        const method = 'POST'
+
+        const headers = {
+            Authorization,
+            Accept,
+            'Content-Type': 'text/xml'
+        }
+
+        const body = xml
+
+        const fetchTarget = 'http://159.65.111.48:8442'
+        const fetchOptions = { method, headers, body }
+
+        fetch(fetchTarget, fetchOptions)
+            .then((response) => response.text())
+            .then((xmlResponse) => {
+                console.log('Fetched XML Response:', xmlResponse)
+                self.setState({ debug: xmlResponse + '\n\n' + body })
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    _peerTest() {
         const self = this
 
         const net = require('net')
