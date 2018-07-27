@@ -183,7 +183,30 @@ export default class MainFrame extends React.Component {
         const publicKey = bmCrypto.getPublic(privateKey)
         // const publicKey = bmCrypto.getPublic(privateKey).toString("hex")
         this._addLog('CRYPTO TEST 3', publicKey)
+        this._addLog('CRYPTO TEST 3 (hex)', Buffer.from(publicKey).toString('hex'))
+        this._addLog('CRYPTO TEST 3 (hex) (length)', Buffer.from(publicKey).length)
         // "041b84c5567b126440995d3ed5aaba0565d71e1834604819ff9c17f5e9d5dd078f70beaf8f588b541507fed6a642c5ab42dfdf8120a7f639de5122d47a69a8e8d1"
+
+        var iv = Buffer(16);
+        var ephemPublicKey = Buffer(65);
+        ephemPublicKey[0] = 0x04;
+        var ciphertext = Buffer("test");
+        var mac = Buffer(32);
+        var inopts = {
+          iv: iv,
+          ephemPublicKey: ephemPublicKey,
+          ciphertext: ciphertext,
+          mac: mac,
+        };
+
+        const encrypted = require("../lib/bitmessage/structs").encrypted
+        var encoded = encrypted.encode(inopts)
+        this._addLog('CRYPTO TEST 4 (encoded)', publicKey)
+        this._addLog('CRYPTO TEST 4 (encoded) (length)', publicKey.length)
+        // expect(encoded.length).to.equal(122);
+        
+        var outopts = encrypted.decode(encoded);
+        this._addLog('CRYPTO TEST 4 (decoded)', publicKey)
 
     }
 

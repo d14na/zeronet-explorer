@@ -1,5 +1,5 @@
 /**
- * Working with objects.  
+ * Working with objects.
  * NOTE: Most operations with objects are asynchronous and return
  * promises.
  * @see {@link https://bitmessage.org/wiki/Protocol_specification#Object_types}
@@ -11,7 +11,6 @@
 var objectAssign = Object.assign || require("object-assign");
 var bufferEqual = require("buffer-equal");
 var assert = require("./_util").assert;
-var PPromise = require("./platform").Promise;
 var bmcrypto = require("./crypto");
 var Address = require("./address");
 var structs = require("./structs");
@@ -56,7 +55,7 @@ exports.getPayloadType = function(buf) {
 
 // Prepend nonce to a given object without nonce.
 function prependNonce(obj, opts) {
-  return new PPromise(function(resolve) {
+  return new Promise(function(resolve) {
     assert(obj.length <= 262136, "object message payload is too big");
     opts = objectAssign({}, opts);
     var nonce, target, powp;
@@ -117,7 +116,7 @@ var getpubkey = exports.getpubkey = {
    * module:bitmessage/objects.getpubkey.DecodeResult} when fulfilled.
    */
   decodeAsync: function(buf, opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       var decoded = message.decode(buf);
       assert(decoded.command === "object", "Bad command");
       resolve(getpubkey.decodePayloadAsync(decoded.payload, opts));
@@ -130,7 +129,7 @@ var getpubkey = exports.getpubkey = {
    * module:bitmessage/objects.getpubkey.decodeAsync}.
    */
   decodePayloadAsync: function(buf, opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       var decoded = object.decodePayload(buf, opts);
       assert(decoded.type === object.GETPUBKEY, "Wrong object type");
       assert(decoded.version >= 2, "getpubkey version is too low");
@@ -171,7 +170,7 @@ var getpubkey = exports.getpubkey = {
    * [encodeAsync]{@link module:bitmessage/objects.getpubkey.encodeAsync}.
    */
   encodePayloadAsync: function(opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       opts = objectAssign({}, opts);
       opts.type = object.GETPUBKEY;
       // Bitmessage address of recepeint of `getpubkey` message.
@@ -293,7 +292,7 @@ var pubkey = exports.pubkey = {
    * when fulfilled.
    */
   decodeAsync: function(buf, opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       var decoded = message.decode(buf);
       assert(decoded.command === "object", "Bad command");
       resolve(pubkey.decodePayloadAsync(decoded.payload, opts));
@@ -306,7 +305,7 @@ var pubkey = exports.pubkey = {
    * module:bitmessage/objects.pubkey.decodeAsync}.
    */
   decodePayloadAsync: function(buf, opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       opts = opts || {};
       var decoded = object.decodePayload(buf, opts);
       assert(decoded.type === object.PUBKEY, "Wrong object type");
@@ -402,7 +401,7 @@ var pubkey = exports.pubkey = {
    * module:bitmessage/objects.pubkey.encodeAsync}.
    */
   encodePayloadAsync: function(opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       opts = objectAssign({}, opts);
       opts.type = object.PUBKEY;
       // Originator of `pubkey` message.
@@ -482,7 +481,7 @@ var pubkey = exports.pubkey = {
 function tryDecryptMsg(identities, buf) {
   function inner(i) {
     if (i > last) {
-      return PPromise.reject(
+      return Promise.reject(
         new Error("Failed to decrypt msg with given identities")
       );
     }
@@ -631,7 +630,7 @@ var msg = exports.msg = {
    * when fulfilled.
    */
   decodeAsync: function(buf, opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       var decoded = message.decode(buf);
       assert(decoded.command === "object", "Bad command");
       resolve(msg.decodePayloadAsync(decoded.payload, opts));
@@ -644,7 +643,7 @@ var msg = exports.msg = {
    * module:bitmessage/objects.msg.decodeAsync}.
    */
   decodePayloadAsync: function(buf, opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       var decoded = object.decodePayload(buf, opts);
       assert(decoded.type === object.MSG, "Bad object type");
       assert(decoded.version === 1, "Bad msg version");
@@ -766,7 +765,7 @@ var msg = exports.msg = {
    * module:bitmessage/objects.msg.encodeAsync}.
    */
   encodePayloadAsync: function(opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       // Deal with options.
       opts = objectAssign({}, opts);
       opts.type = object.MSG;
@@ -841,7 +840,7 @@ var DEFAULT_ENCODING = msg.TRIVIAL;
 function tryDecryptBroadcastV4(subscriptions, buf) {
   function inner(i) {
     if (i > last) {
-      return PPromise.reject(
+      return Promise.reject(
         new Error("Failed to decrypt broadcast with given identities")
       );
     }
@@ -925,7 +924,7 @@ var broadcast = exports.broadcast = {
    * module:bitmessage/objects.broadcast.DecodeResult} when fulfilled.
    */
   decodeAsync: function(buf, opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       var decoded = message.decode(buf);
       assert(decoded.command === "object", "Bad command");
       resolve(broadcast.decodePayloadAsync(decoded.payload, opts));
@@ -938,7 +937,7 @@ var broadcast = exports.broadcast = {
    * module:bitmessage/objects.broadcast.decodeAsync}.
    */
   decodePayloadAsync: function(buf, opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       var decoded = object.decodePayload(buf, opts);
       assert(decoded.type === object.BROADCAST, "Bad object type");
       var version = decoded.version;
@@ -1086,7 +1085,7 @@ var broadcast = exports.broadcast = {
    * module:bitmessage/objects.broadcast.encodeAsync}.
    */
   encodePayloadAsync: function(opts) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
       // Deal with options.
       opts = objectAssign({}, opts);
       opts.type = object.BROADCAST;

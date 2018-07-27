@@ -1,19 +1,5 @@
 const assert = require('./_util').assert
-const eccrypto = {
-    getPublic: function (privateKey) {
-        assert(privateKey.length === 32, "Bad private key")
-
-        // See https://github.com/wanderer/secp256k1-node/issues/46
-        const secp256k1 = require("secp256k1")
-        const compressed = secp256k1.publicKeyCreate(privateKey)
-
-        return secp256k1.publicKeyConvert(compressed, false)
-    }
-}
-// const eccrypto = require('eccrypto')
 const platform = require('./platform')
-
-const PPromise = platform.Promise
 
 /**
  * Calculate SHA-1 hash.
@@ -60,10 +46,10 @@ exports.randomBytes = platform.randomBytes
  * Generate a new random private key.
  * @return {Buffer} New private key.
  */
-exports.getPrivate = function() {
+exports.getPrivate = function () {
     const utils = require('ethers').utils
+
     return utils.randomBytes(32)
-    // return platform.randomBytes(32)
 }
 
 /**
@@ -72,7 +58,15 @@ exports.getPrivate = function() {
  * @return {Buffer} A 65-byte (uncompressed) public key.
  * @function
  */
-exports.getPublic = eccrypto.getPublic
+exports.getPublic = function (privateKey) {
+    assert(privateKey.length === 32, "Bad private key")
+
+    // See https://github.com/wanderer/secp256k1-node/issues/46
+    const secp256k1 = require("secp256k1")
+    const compressed = secp256k1.publicKeyCreate(privateKey)
+
+    return secp256k1.publicKeyConvert(compressed, false)
+}
 
 /**
  * Sign message using ecdsa-with-sha1 scheme.
@@ -178,7 +172,7 @@ exports.encrypt = function(publicKeyTo, msg, opts) {
  * on successful decryption and rejects on failure.
  */
 exports.decrypt = function(privateKey, buf) {
-    return new PPromise(function(resolve) {
+    return new Promise(function(resolve) {
         const encObj = encrypted.decode(buf)
         resolve(eccrypto.decrypt(privateKey, encObj))
     })
