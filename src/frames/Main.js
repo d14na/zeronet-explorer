@@ -204,9 +204,23 @@ export default class MainFrame extends React.Component {
         this._addLog('CRYPTO TEST 4 (encoded)', publicKey)
         this._addLog('CRYPTO TEST 4 (encoded) (length)', publicKey.length)
         // expect(encoded.length).to.equal(122);
-        
+
         var outopts = encrypted.decode(encoded);
         this._addLog('CRYPTO TEST 4 (decoded)', publicKey)
+
+        var signPrivateKey = Buffer.from('71c95d26c716a5e85e9af9efe26fb5f744dc98005a13d05d23ee92c77e038d9f', 'hex')
+        var signPublicKey = bmCrypto.getPublic(signPrivateKey)
+        var encPrivateKey = Buffer.from('9f9969c93c2d186787a7653f70e49be34c03c4a853e6ad0c867db0946bc433c6', 'hex')
+        var encPublicKey = bmCrypto.getPublic(encPrivateKey)
+
+        const Address = require('../lib/bitmessage/address')
+        const pubkey = require("../lib/bitmessage/objects").pubkey
+        const ttl = 789
+        const from = Address({ signPrivateKey, encPrivateKey })
+        const to = from
+        const skipPow = true
+        const encPubkey = pubkey.encodeAsync({ ttl, from, to, skipPow })
+        this._addLog('CRYPTO TEST 5', JSON.stringify(encPubkey))
 
     }
 
@@ -214,7 +228,7 @@ export default class MainFrame extends React.Component {
         /* Localize this. */
         const self = this
 
-        // const Address = require('../lib/address')
+        // const Address = require('../lib/bitmessage/address')
 
         // var Address = require('bitmessage').Address
 

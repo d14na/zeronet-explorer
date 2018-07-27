@@ -1,5 +1,6 @@
 const assert = require('./_util').assert
 const platform = require('./platform')
+const eccrypto = require('secp256k1')
 
 /**
  * Calculate SHA-1 hash.
@@ -62,10 +63,10 @@ exports.getPublic = function (privateKey) {
     assert(privateKey.length === 32, "Bad private key")
 
     // See https://github.com/wanderer/secp256k1-node/issues/46
-    const secp256k1 = require("secp256k1")
-    const compressed = secp256k1.publicKeyCreate(privateKey)
+    // const secp256k1 = require("secp256k1")
+    const compressed = eccrypto.publicKeyCreate(privateKey)
 
-    return secp256k1.publicKeyConvert(compressed, false)
+    return eccrypto.publicKeyConvert(compressed, false)
 }
 
 /**
