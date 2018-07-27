@@ -174,9 +174,17 @@ export default class MainFrame extends React.Component {
         const sha1 = bmCrypto.sha1(Buffer.from('test'))
         this._addLog('CRYPTO TEST 1', sha1)
 
-        const privateKey = bmCrypto.getPrivate()
+        let privateKey = bmCrypto.getPrivate()
         this._addLog('CRYPTO TEST 2', privateKey)
         this._addLog('CRYPTO TEST 2 (length)', privateKey.length)
+
+        privateKey = Buffer(32)
+        privateKey.fill(1)
+        const publicKey = bmCrypto.getPublic(privateKey)
+        // const publicKey = bmCrypto.getPublic(privateKey).toString("hex")
+        this._addLog('CRYPTO TEST 3', publicKey)
+        // "041b84c5567b126440995d3ed5aaba0565d71e1834604819ff9c17f5e9d5dd078f70beaf8f588b541507fed6a642c5ab42dfdf8120a7f639de5122d47a69a8e8d1"
+
     }
 
     _bmTest() {

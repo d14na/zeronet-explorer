@@ -1,5 +1,15 @@
 const assert = require('./_util').assert
-const eccrypto = {}
+const eccrypto = {
+    getPublic: function (privateKey) {
+        assert(privateKey.length === 32, "Bad private key")
+
+        // See https://github.com/wanderer/secp256k1-node/issues/46
+        const secp256k1 = require("secp256k1")
+        const compressed = secp256k1.publicKeyCreate(privateKey)
+
+        return secp256k1.publicKeyConvert(compressed, false)
+    }
+}
 // const eccrypto = require('eccrypto')
 const platform = require('./platform')
 
