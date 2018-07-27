@@ -13,6 +13,9 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+
 import { Client } from 'bugsnag-react-native'
 
 import Amplitude from 'amplitude'
@@ -24,16 +27,15 @@ import {
     SearchBar
 } from 'react-native-elements'
 
-/**
- * Main Frame
- *
- * Manages the initialization of the application.
- */
+@observer
 export default class MainFrame extends React.Component {
+    @observable debug = 'loading...'
+
     constructor(props) {
         super(props)
 
         console.log('Main Frame received props', props)
+        this._addLog = this._addLog.bind(this)
 
         // const bugsnag = new Client()
         // bugsnag.notify(new Error("TEST: First error"))
@@ -55,9 +57,9 @@ export default class MainFrame extends React.Component {
         amplitude.track(trackingData)
 
         /* Initialize the local state. */
-        this.state = {
-            debug: 'loading...'
-        }
+        // this.state = {
+        //     debug: 'loading...'
+        // }
     }
 
     render() {
@@ -141,7 +143,7 @@ export default class MainFrame extends React.Component {
 
                     <View style={{ margin: 20, padding: 20, backgroundColor: 'rgba(30, 120, 60, 0.2)'}}>
                         <Text style={{ fontStyle: 'italic' }}>
-                            { this.state.debug }
+                            { this.debug }
                         </Text>
                     </View>
                 </View>
@@ -156,25 +158,44 @@ export default class MainFrame extends React.Component {
         /* Initialize the payload. */
         // payload = null
 
-        this._bmTest()
+        this._cryptTest()
+        // this._bmTest()
         // this._peerTest()
+    }
+
+    _addLog(_tag, _entry) {
+        this.debug = this.debug + '\n---\n\n' + _tag + '\n' + _entry
+        console.log(_tag, _entry)
+    }
+
+    _cryptTest() {
+        const bmCrypto = require("../lib/bitmessage/crypto")
+
+        const sha1 = bmCrypto.sha1(Buffer.from('test'))
+        this._addLog('CRYPTO TEST 1', sha1)
+
+        const privateKey = bmCrypto.getPrivate()
+        this._addLog('CRYPTO TEST 2', privateKey)
+        this._addLog('CRYPTO TEST 2 (length)', privateKey.length)
     }
 
     _bmTest() {
         /* Localize this. */
         const self = this
 
-        var Address = require('bitmessage').Address
+        // const Address = require('../lib/address')
+
+        // var Address = require('bitmessage').Address
 
         // Generate a new random Bitmessage identity.
-        var addr1 = Address.fromRandom()
-        console.log('New random Bitmessage address:', addr1.encode())
+        // var addr1 = Address.fromRandom()
+        // this._addLog('New random Bitmessage address:', addr1.encode())
 
         // Or create it from passphrase.
-        var addr2 = Address.fromPassphrase('LondynnLee')
-        console.log('Deterministic Bitmessage address:', addr2.encode())
-
-        this.setState({ debug: 'Deterministic Bitmessage address: ' + addr2.encode() })
+        // var addr2 = Address.fromPassphrase('LondynnLee')
+        // this._addLog('Deterministic Bitmessage address:', addr2.encode())
+        //
+        // this.bmCrypto.sha1(Buffer.from('test'))({ debug: 'Deterministic Bitmessage address: ' + addr2.encode() })
 
         const convert = require('xml-js')
 
@@ -186,15 +207,38 @@ export default class MainFrame extends React.Component {
                 }
             },
             "methodCall": {
-                "methodName": "add",
+                "methodName": "disseminatePreEncryptedMsg",
                 "params": [{
                     "value": [{
-                        "int": 1000
+                        "string": "boogy"
                     }, {
-                        "int": 337
+                        "string": "woogy"
                     }]
                 }]
             }
+            // "methodCall": {
+            //     "methodName": "helloWorld",
+            //     "params": [{
+            //         "value": [{
+            //             "string": "boogy"
+            //         }, {
+            //             "string": "woogy"
+            //         }]
+            //     }]
+            // }
+            // "methodCall": {
+            //     "methodName": "clientStatus"
+            // }
+            // "methodCall": {
+            //     "methodName": "add",
+            //     "params": [{
+            //         "value": [{
+            //             "int": 1000
+            //         }, {
+            //             "int": 337
+            //         }]
+            //     }]
+            // }
         }
         const xml = convert.json2xml(json, {compact: true, spaces: 4})
 
@@ -223,13 +267,14 @@ export default class MainFrame extends React.Component {
 
         const body = xml
 
+        // const fetchTarget = 'http://localhost:8442'
         const fetchTarget = 'http://159.65.111.48:8442'
         const fetchOptions = { method, headers, body }
 
         fetch(fetchTarget, fetchOptions)
             .then((response) => response.text())
             .then((xmlResponse) => {
-                console.log('Fetched XML Response:', xmlResponse)
+                self._addLog('Fetched XML Response:', xmlResponse)
                 self.setState({ debug: xmlResponse + '\n\n' + body })
             })
             .catch((err) => {
@@ -241,7 +286,7 @@ export default class MainFrame extends React.Component {
         const self = this
 
         const net = require('net')
-        console.log('net', net)
+        this._addLog('net', net)
         // OR, if not shimming via package.json "browser" field:
         // var net = require('react-native-tcp')
 
@@ -260,8 +305,7 @@ export default class MainFrame extends React.Component {
 
         this.client = net.createConnection(hostPort, hostIp, () => {
             // 'connect' listener
-            console.log('Connected to peer!')
-            self.setState({ debug: 'Connected to peer!' })
+            this._addLog('Connected to peer!')
 
             const pkg = self._encode(this._handshakePkg())
             self.client.write(pkg)
@@ -276,14 +320,12 @@ export default class MainFrame extends React.Component {
         //
         //     /* Send the handshake. */
         //     // self.client.write(pkg, function () {
-        //     //     console.log('Sent handshake.')
-        //     //     // console.log('sent handshake', pkg)
+        //     //     // this._addLog('sent handshake', pkg)
         //     // })
         // })
 
         this.client.on('error', function (error) {
-            console.log(error)
-            self.setState({ debug: error.toString() })
+            this._addLog('ERROR', error)
         })
 
         let called = 0
@@ -300,8 +342,7 @@ export default class MainFrame extends React.Component {
                 /* Attempt to decode the data. */
                 const decoded = self._decode(payload)
 
-                console.log('Message #%d was received [%d bytes]', ++called, _data.length, _data, decoded)
-                self.setState({ debug: 'received:\n' + _data.length + '\n\n' + JSON.stringify(decoded) })
+                this._addLog('Message #%d was received [%d bytes]', ++called + ' - ' + _data.length + '\n\n' + _data, decoded)
 
                 /* Initialize request. */
                 let request = null
@@ -309,11 +350,11 @@ export default class MainFrame extends React.Component {
                 /* Retrieve the request id. */
                 if (decoded.to !== null) {
                     const reqId = decoded.to
-                    console.log('Decoded reqId', reqId)
+                    this._addLog('Decoded reqId', reqId)
 
                     /* Retrieve the request. */
                     request = self.requests[reqId]
-                    console.log('Decoded request', request)
+                    this._addLog('Decoded request', request)
                 }
 
                 if (decoded.cmd === 'response' && decoded.error) {
@@ -349,18 +390,16 @@ export default class MainFrame extends React.Component {
                     if (fileType === 'json') {
                         let body = JSON.parse(decoded.body)
 
-                        console.log('check out my JSON body', body)
-                        self.setState({ debug: body })
+                        self._addLog('check out my JSON body', body)
 
                         let description = body.description
-                        console.log('Description', description)
+                        self._addLog('Description', description)
                     }
 
                     if (fileType === 'html') {
                         let body = decoded.body.toString()
 
-                        console.log('check out my HTML body', body)
-                        self.setState({ debug: body })
+                        self._addLog('check out my HTML body', body)
 
                         Navigation.push('zeronet.Main', {
                             component: {
@@ -386,23 +425,22 @@ export default class MainFrame extends React.Component {
                 if (decoded.cmd === 'response' && request.cmd === 'pex') {
                     let peers = decoded.peers
                     // let peers = JSON.parse(decoded.peers)
-                    console.log('check out my PEX peers', peers)
+                    self._addLog('check out my PEX peers', peers)
 
                     for (let i = 0; i < peers.length; i++) {
-                        console.log('peer', peers[i].length, peers[i])
+                        self._addLog('peer', peers[i].length, peers[i])
 
                         const ipBuffer = Buffer.from(peers[i])
 
                         if (ipBuffer.length === 6) {
-                            console.log('#%d IP', i, ipBuffer.slice(0, 4))
-                            console.log('#%d Port', i, ipBuffer.slice(-2))
+                            self._addLog('#%d IP', i, ipBuffer.slice(0, 4))
+                            self._addLog('#%d Port', i, ipBuffer.slice(-2))
 
                             const peer = {
                                 ip: self._parseIp(ipBuffer.slice(0, 4)),
                                 port: self._parsePort(ipBuffer.slice(-2))
                             }
-                            console.log('PEX Peer (buffer)', peer)
-                            self.setState({ debug: peer })
+                            self._addLog('PEX Peer (buffer)', peer)
 
                             self.hostIp = peer.ip
                             self.hostPort = peer.port
@@ -415,55 +453,16 @@ export default class MainFrame extends React.Component {
 
                 if (decoded && payload !== null) {
                     console.error('FAILED TO RECOGNIZE -- clearing payload')
-                    console.log('DECODED', decoded)
-                    console.log('PAYLOAD', payload)
-                    self.setState({ debug: 'FAILED TO RECOGNIZE -- clearing payload' })
+                    self._addLog('DECODED', decoded)
+                    self._addLog('PAYLOAD', payload)
+                    self._addLog('FAILED TO RECOGNIZE', 'clearing payload')
 
                     // clear the payload
                     payload = null
                 }
 
-                // if (decoded.body) {
-                //     let body = decoded.body.toString()
-                //
-                //     console.log('check out my HTML body', body)
-                // }
-                //
-                // if (decoded.cmd === 'response' && decoded.peers) {
-                // // if (decoded.cmd === 'response' && request.cmd === 'pex') {
-                //     let peers = decoded.peers
-                //     // let peers = JSON.parse(decoded.peers)
-                //     console.log('check out my PEX peers', peers)
-                //
-                //     for (let i = 0; i < peers.length; i++) {
-                //         const ipBuffer = Buffer.from(peers[i])
-                //
-                //         console.log('peer', ipBuffer.length, peers[i])
-                //
-                //         if (ipBuffer.length === 6) {
-                //             console.log('#%d IP', i, ipBuffer.slice(0, 4))
-                //             console.log('#%d Port', i, ipBuffer.slice(-2))
-                //
-                //             const peer = {
-                //                 ip: self._parseIp(ipBuffer.slice(0, 4)),
-                //                 port: self._parsePort(ipBuffer.slice(-2))
-                //             }
-                //             console.log('PEX Peer (buffer)', peer)
-                //
-                //             self.hostIp = peer.ip
-                //             self.hostPort = peer.port
-                //         } else {
-                //             console.info('FAILED: buffer length <> 6')
-                //             console.info('ip/port', self._parseIp(peers[i]), self._parsePort(peers[i]));
-                //         }
-                //     }
-                //
-                //     // clear the payload
-                //     payload = null
-                // }
-
             } catch (e) {
-                console.log('Failed to decode data', _data, e);
+                console.error('Failed to decode data', _data, e);
             }
         })
 
@@ -509,7 +508,7 @@ export default class MainFrame extends React.Component {
         const ipBuffer = Buffer.from(_peer)
 
         const buf = ipBuffer.slice(0, 4)
-        console.log('_parseIp', buf)
+        this._addLog('_parseIp', buf)
 
         const ip = buf.readUInt8(0) +
             '.' + buf.readUInt8(1) +
@@ -523,7 +522,7 @@ export default class MainFrame extends React.Component {
         const ipBuffer = Buffer.from(_peer)
 
         const buf = ipBuffer.slice(4, 6)
-        console.log('_parsePort', buf)
+        this._addLog('_parsePort', buf)
 
         const port = (buf.readUInt8(1) * 256) + buf.readUInt8(0)
 
@@ -558,7 +557,7 @@ export default class MainFrame extends React.Component {
 
         /* Send request. */
         this.client.write(this._encode(pkg), function () {
-            console.log('sent ping', pkg)
+            this._addLog('sent ping', pkg)
         })
     }
 
@@ -586,12 +585,12 @@ export default class MainFrame extends React.Component {
         this.client.write(this._encode(pkg))
 
         // this.client.write(this._encode(pkg), function () {
-        //     console.log('Sent request for [ %s ]', inner_path)
+        //     this._addLog('Sent request for [ %s ]', inner_path)
         // })
     }
 
     _pex() {
-        console.log('start PEX...');
+        this._addLog('start', 'PEX...');
         const cmd = 'pex'
         const site = '1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J'
         const peers = []
@@ -608,7 +607,7 @@ export default class MainFrame extends React.Component {
 
         /* Send request. */
         this.client.write(this._encode(pkg), function () {
-            console.log('Sent request for [ %s ]', cmd)
+            this._addLog('Sent request for [ %s ]', cmd)
         })
     }
 
@@ -627,7 +626,7 @@ export default class MainFrame extends React.Component {
     }
 
     onNavigationButtonPressed(_buttonId) {
-        console.log('onNavigationButtonPressed', _buttonId)
+        this._addLog('onNavigationButtonPressed', _buttonId)
 
         if (_buttonId === 'btnP0rtal') {
             this._openP0rtal()
@@ -638,17 +637,14 @@ export default class MainFrame extends React.Component {
         const net = require('net')
         const peer0 = require('peer0')
 
-        console.log('Making download request from Peer0')
+        this._addLog('Making download request from Peer0')
 
         let response = await peer0.download(net)
-        console.log('peer0 awaiting response', response)
-
-        this.setState({ debug: response })
-
+        this._addLog('peer0 awaiting response', response)
     }
 
     _loadZite(_target) {
-        console.log('load webview with target', _target)
+        this._addLog('load webview with target', _target)
 
         this._findPeers()
 

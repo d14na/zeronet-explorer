@@ -107,9 +107,13 @@ android {
         applicationId "com.zer0net"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 180716
-        versionName "18.7.16"
+        versionCode 180725
+        versionName "18.7.25"
         missingDimensionStrategy "RNN.reactNativeVersion", "reactNative51" // <- See note below for further instruction regarding compatibility with other React Native versions
+        // Available options:
+        // reactNative51: Support for React Native 0.51-0.54
+        // reactNative55: Support for React Native 0.55
+        // reactNative56: Support for React Native 0.56 and above
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
