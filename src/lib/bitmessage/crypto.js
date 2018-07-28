@@ -1,63 +1,80 @@
 const assert = require('./_util').assert
+const crypto = require('crypto')
 const platform = require('./platform')
+const secp256k1 = require('secp256k1')
 const eccrypto = require('secp256k1')
+
+function aes256CbcEncrypt(iv, key, plaintext) {
+    var cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    var firstChunk = cipher.update(plaintext);
+    var secondChunk = cipher.final();
+    return Buffer.concat([firstChunk, secondChunk]);
+}
+
+function aes256CbcDecrypt(iv, key, ciphertext) {
+    var cipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    var firstChunk = cipher.update(ciphertext);
+    var secondChunk = cipher.final();
+    return Buffer.concat([firstChunk, secondChunk]);
+}
+
+function hmacSha256(key, msg) {
+    return crypto.createHmac('sha256', key).update(msg).digest();
+}
+
+function pad32(msg) {
+    let buf
+
+    if (msg.length < 32) {
+        buf = Buffer.alloc(32)
+        msg.copy(buf, 32 - msg.length)
+        return buf
+    } else {
+        return msg
+    }
+}
+
+function getRandomBytes(_length) {
+    const utils = require('ethers').utils
+    return Buffer.from(utils.randomBytes(_length), 'hex')
+}
 
 /**
  * Calculate SHA-1 hash.
- * @param {Buffer} buf - Input data
- * @return {Buffer} Resulting hash.
- * @function
- * @static
  */
 const sha1 = exports.sha1 = platform.sha1
 
 /**
  * Calculate SHA-256 hash.
- * @param {Buffer} buf - Input data
- * @return {Buffer} Resulting hash.
- * @function
  */
 exports.sha256 = platform.sha256
 
 /**
  * Calculate SHA-512 hash.
- * @param {Buffer} buf - Input data
- * @return {Buffer} Resulting hash.
- * @function
  */
 exports.sha512 = platform.sha512
 
 /**
  * Calculate RIPEMD-160 hash.
- * @param {Buffer} buf - Input data
- * @return {Buffer} Resulting hash.
- * @function
  */
 exports.ripemd160 = platform.ripemd160
 
 /**
  * Generate cryptographically strong pseudo-random data.
- * @param {number} size - Number of bytes
- * @return {Buffer} Buffer with random data.
- * @function
  */
 exports.randomBytes = platform.randomBytes
 
 /**
  * Generate a new random private key.
- * @return {Buffer} New private key.
  */
 exports.getPrivate = function () {
     const utils = require('ethers').utils
 
-    return utils.randomBytes(32)
+    return getRandomBytes(32)
 }
 
 /**
  * Generate public key for the given private key.
- * @param {Buffer} privateKey - A 32-byte private key
- * @return {Buffer} A 65-byte (uncompressed) public key.
- * @function
  */
 exports.getPublic = function (privateKey) {
     assert(privateKey.length === 32, "Bad private key")
@@ -71,26 +88,29 @@ exports.getPublic = function (privateKey) {
 
 /**
  * Sign message using ecdsa-with-sha1 scheme.
- * @param {Buffer} privateKey - A 32-byte private key
- * @param {Buffer} msg - The message being signed
- * @return {Promise.<Buffer>} A promise that contains signature in DER
- * format when fulfilled.
  */
 exports.sign = function(privateKey, msg) {
-    var hash = sha1(msg)
-    return eccrypto.sign(privateKey, hash)
+    return new Promise(function (resolve) {
+console.log('exports.sign', privateKey, msg)
+console.log('privateKey.length', privateKey.length)
+
+        let hash = sha1(msg)
+console.log('hash.length', hash.length)
+
+        hashedMsg = pad32(hash)
+console.log('hashedMsg.length', hashedMsg.length)
+        const sig = secp256k1.sign(hashedMsg, privateKey).signature
+
+        resolve(secp256k1.signatureExport(sig))
+    })
 }
 
 /**
  * Verify signature using ecdsa-with-sha1 scheme.
- * @param {Buffer} publicKey - A 65-byte public key
- * @param {Buffer} msg - The message being verified
- * @param {Buffer} sig - The signature in DER format
- * @return {Promise.<null>} A promise that resolves on correct signature
- * and rejects on bad key or signature.
  */
 exports.verify = function(publicKey, msg, sig) {
-    var hash = sha1(msg)
+    const hash = sha1(msg)
+
     return eccrypto.verify(publicKey, hash, sig)
 }
 
@@ -145,20 +165,46 @@ const encrypted = exports.encrypted = {
     }
 }
 
+const getPublic = function(privateKey) {
+    assert(privateKey.length === 32, 'Bad private key')
+    // See https://github.com/wanderer/secp256k1-node/issues/46
+    const compressed = secp256k1.publicKeyCreate(privateKey)
+    return secp256k1.publicKeyConvert(compressed, false)
+}
+
+function ecencrypt(publicKeyTo, msg, opts) {
+    opts = opts || {}
+
+    // Tmp variable to save context from flat promises;
+    let ephemPublicKey
+
+    return new Promise(function (resolve) {
+console.log('*** START IN HERE')
+        let ephemPrivateKey = opts.ephemPrivateKey || getRandomBytes(32)
+        // let ephemPrivateKey = opts.ephemPrivateKey || crypto.randomBytes(32)
+        ephemPublicKey = getPublic(ephemPrivateKey)
+
+        resolve(derive(ephemPrivateKey, publicKeyTo))
+    }).then(function (Px) {
+console.log('*** END UP DOWN HERE')
+      const hash = sha512(Px)
+      const iv = opts.iv || getRandomBytes(16)
+      // const iv = opts.iv || crypto.randomBytes(16)
+      const encryptionKey = hash.slice(0, 32)
+      const macKey = hash.slice(32)
+      const ciphertext = aes256CbcEncrypt(iv, encryptionKey, msg)
+      const dataToMac = Buffer.concat([iv, ephemPublicKey, ciphertext])
+      const mac = hmacSha256(macKey, dataToMac)
+
+      return { iv, ephemPublicKey, ciphertext, mac }
+    })
+}
+
 /**
  * Encrypt message for given recepient's public key.
- * @param {Buffer} publicKeyTo - Recipient's public key (65 bytes)
- * @param {Buffer} msg - The message being encrypted
- * @param {Object=} opts - You may also specify initialization vector
- * and ephemeral private key to get deterministic results
- * @param {Buffer} opts.iv - Initialization vector (16 bytes)
- * @param {Buffer} opts.ephemPrivateKey - Ephemeral private key (32
- * bytes)
- * @return {Promise.<Buffer>} A promise that resolves with the buffer in
- * `encrypted` format successful encryption and rejects on failure.
  */
 exports.encrypt = function(publicKeyTo, msg, opts) {
-    return eccrypto.encrypt(publicKeyTo, msg, opts)
+    return ecencrypt(publicKeyTo, msg, opts)
         .then(function(encObj) {
             return encrypted.encode(encObj)
         })
@@ -166,11 +212,6 @@ exports.encrypt = function(publicKeyTo, msg, opts) {
 
 /**
  * Decrypt message using given private key.
- * @param {Buffer} privateKey - A 32-byte private key of recepient of
- * the mesage
- * @param {Buffer} buf - Encrypted data
- * @return {Promise.<Buffer>} A promise that resolves with the plaintext
- * on successful decryption and rejects on failure.
  */
 exports.decrypt = function(privateKey, buf) {
     return new Promise(function(resolve) {

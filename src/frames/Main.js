@@ -219,8 +219,24 @@ export default class MainFrame extends React.Component {
         const from = Address({ signPrivateKey, encPrivateKey })
         const to = from
         const skipPow = true
-        const encPubkey = pubkey.encodeAsync({ ttl, from, to, skipPow })
-        this._addLog('CRYPTO TEST 5', JSON.stringify(encPubkey))
+        // const encPubkey = pubkey.encodeAsync({ ttl, from, to, skipPow })
+        // this._addLog('CRYPTO TEST 5', JSON.stringify(encPubkey))
+
+        var EC = require('elliptic').ec;
+        var ec = new EC('curve25519')
+
+        // Generate keys
+        var key1 = ec.genKeyPair();
+        var key2 = ec.genKeyPair();
+
+        var shared1 = key1.derive(key2.getPublic());
+        var shared2 = key2.derive(key1.getPublic());
+
+        console.log('Both shared secrets are BN instances');
+        console.log(shared1.toString(16));
+        console.log(shared2.toString(16));
+        this._addLog('CRYPTO TEST 6 (elliptic shared secrets)', shared1.toString(16) === shared2.toString(16))
+        this._addLog(shared1.toString(16), shared2.toString(16))
 
     }
 
