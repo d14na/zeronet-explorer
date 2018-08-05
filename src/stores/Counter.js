@@ -5,22 +5,6 @@ import { persist } from 'mobx-persist'
 
 class Store {
     @observable count = 0;
-    @observable title = '(Counter) P0rtal'
-
-    // @observable authorized = false
-    @persist @observable authorized = false
-
-    @action setP0rtalTitle(_title) {
-        this.title = _title
-    }
-
-    @action authorize() {
-        this.authorized = true
-    }
-
-    @action exit() {
-        this.authorized = false
-    }
 
     @action onPlus() {
         this.count += 1

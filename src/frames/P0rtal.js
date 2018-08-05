@@ -36,15 +36,11 @@ export default class P0rtal extends React.Component {
     // @observable authorized = false
 
     _authorize = () => {
-        stores.Counter.authorize()
-        // this.authorized = true
-
-        const { Counter } = this.props
-        stores.Counter.setP0rtalTitle('Authorized!')
+        stores.P0rtal.authorize()
     }
 
     render() {
-        if (!stores.Counter.authorized) {
+        if (!stores.P0rtal.authorized) {
             return <View style={ styles.container }>
                 <View>
                     <Text style={ styles.heading }>

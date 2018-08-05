@@ -47,7 +47,7 @@ export default class P0rtalTopBar extends React.Component {
 
         return <View style={ styles.container }>
             <View style={ styles.heading }>
-                <Text style={ styles.headingText }>{ stores.Counter.title }</Text>
+                <Text style={ styles.headingText }>{ stores.P0rtal.title }</Text>
             </View>
 
             <View style={{ width: 100, flexDirection: 'row' }}>
@@ -85,12 +85,7 @@ export default class P0rtalTopBar extends React.Component {
     }
 
     _signOut() {
-        alert('sign me out!')
-
-        stores.Counter.exit()
-
-        const { Counter } = this.props
-        stores.Counter.setP0rtalTitle('I\'m gone!')
+        stores.P0rtal.exit()
     }
 
 }
