@@ -30,12 +30,16 @@ import {
 @observer
 export default class MainFrame extends React.Component {
     @observable debug = 'loading...'
+    @observable searchVal = ''
 
     constructor(props) {
         super(props)
 
         console.log('Main Frame received props', props)
+
         this._addLog = this._addLog.bind(this)
+        this._handleSearchInput = this._handleSearchInput.bind(this)
+        this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
 
         // const bugsnag = new Client()
         // bugsnag.notify(new Error("TEST: First error"))
@@ -71,10 +75,12 @@ export default class MainFrame extends React.Component {
             <View style={ styles.container }>
                 <SearchBar
                     ref={ search => this.search = search }
-                    icon={{ type: 'font-awesome', name: 'search' }}
+                    icon={{ type: 'font-awesome', name: 'hashtag' }}
                     clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
                     inputStyle={{ paddingLeft: 40, paddingBottom: 9 }}
-                    placeholder='Looking for something interesting?' />
+                    placeholder='Looking for something interesting?'
+                    onChangeText={ this._handleSearchInput }
+                    onSubmitEditing={ this._handleSearchSubmit } />
 
                 <View style={ styles.contentContainer }>
                     <View style={{ flexDirection: 'row', height: 100 }}>
@@ -166,6 +172,17 @@ export default class MainFrame extends React.Component {
     _addLog(_tag, _entry) {
         this.debug = this.debug + '\n---\n\n' + _tag + '\n' + _entry
         console.log(_tag, _entry)
+    }
+
+    _handleSearchInput (_val) {
+        console.log('handle search', _val)
+        this.searchVal = _val
+    }
+
+    _handleSearchSubmit () {
+        // console.log('handle search', _val)
+        const searchVal = this.searchVal
+        alert(`Now loading ${searchVal}...`)
     }
 
     _cryptTest() {

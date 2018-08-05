@@ -20,6 +20,10 @@ export default class P0rtalTopBar extends React.Component {
         super(props)
 
         console.log('P0rtalTopBar received props', props)
+
+        this._closeP0rtal = this._closeP0rtal.bind(this)
+        this._loadHelp = this._loadHelp.bind(this)
+        this._signOut = this._signOut.bind(this)
     }
 
     componentDidAppear() {
@@ -47,12 +51,16 @@ export default class P0rtalTopBar extends React.Component {
             </View>
 
             <View style={{ width: 100, flexDirection: 'row' }}>
-                <TouchableOpacity style={ styles.button } onPress={ this._loadHelp.bind(this) }>
+                <TouchableOpacity style={ styles.button } onPress={ this._closeP0rtal }>
+                    <Text style={ styles.buttonText }>Close</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={ styles.button } onPress={ this._loadHelp }>
                     <Text style={ styles.buttonText }>Help</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={ styles.button } onPress={ this._closeP0rtal.bind(this) }>
-                    <Text style={ styles.buttonText }>Close</Text>
+                <TouchableOpacity style={ styles.button } onPress={ this._signOut }>
+                    <Text style={ styles.buttonText }>Sign Out</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -74,6 +82,15 @@ export default class P0rtalTopBar extends React.Component {
                 name: 'zeronet.P0rtal.Help'
             }
         })
+    }
+
+    _signOut() {
+        alert('sign me out!')
+
+        stores.Counter.exit()
+
+        const { Counter } = this.props
+        stores.Counter.setP0rtalTitle('I\'m gone!')
     }
 
 }

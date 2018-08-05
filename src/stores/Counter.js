@@ -18,6 +18,10 @@ class Store {
         this.authorized = true
     }
 
+    @action exit() {
+        this.authorized = false
+    }
+
     @action onPlus() {
         this.count += 1
     }
