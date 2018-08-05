@@ -158,7 +158,7 @@ export default class MainFrame extends React.Component {
         /* Initialize the payload. */
         // payload = null
 
-        this._cryptTest()
+        // this._cryptTest()
         // this._bmTest()
         // this._peerTest()
     }
@@ -169,147 +169,120 @@ export default class MainFrame extends React.Component {
     }
 
     _cryptTest() {
+        const self = this
+
         const bmCrypto = require("../lib/bitmessage/crypto")
-
-        const sha1 = bmCrypto.sha1(Buffer.from('test'))
-        this._addLog('CRYPTO TEST 1', sha1)
-
-        let privateKey = bmCrypto.getPrivate()
-        this._addLog('CRYPTO TEST 2', privateKey)
-        this._addLog('CRYPTO TEST 2 (length)', privateKey.length)
-
-        privateKey = Buffer(32)
-        privateKey.fill(1)
-        const publicKey = bmCrypto.getPublic(privateKey)
-        // const publicKey = bmCrypto.getPublic(privateKey).toString("hex")
-        this._addLog('CRYPTO TEST 3', publicKey)
-        this._addLog('CRYPTO TEST 3 (hex)', Buffer.from(publicKey).toString('hex'))
-        this._addLog('CRYPTO TEST 3 (hex) (length)', Buffer.from(publicKey).length)
-        // "041b84c5567b126440995d3ed5aaba0565d71e1834604819ff9c17f5e9d5dd078f70beaf8f588b541507fed6a642c5ab42dfdf8120a7f639de5122d47a69a8e8d1"
-
-        var iv = Buffer(16);
-        var ephemPublicKey = Buffer(65);
-        ephemPublicKey[0] = 0x04;
-        var ciphertext = Buffer("test");
-        var mac = Buffer(32);
-        var inopts = {
-          iv: iv,
-          ephemPublicKey: ephemPublicKey,
-          ciphertext: ciphertext,
-          mac: mac,
-        };
-
-        const encrypted = require("../lib/bitmessage/structs").encrypted
-        var encoded = encrypted.encode(inopts)
-        this._addLog('CRYPTO TEST 4 (encoded)', publicKey)
-        this._addLog('CRYPTO TEST 4 (encoded) (length)', publicKey.length)
-        // expect(encoded.length).to.equal(122);
-
-        var outopts = encrypted.decode(encoded);
-        this._addLog('CRYPTO TEST 4 (decoded)', publicKey)
-
-        var signPrivateKey = Buffer.from('71c95d26c716a5e85e9af9efe26fb5f744dc98005a13d05d23ee92c77e038d9f', 'hex')
-        var signPublicKey = bmCrypto.getPublic(signPrivateKey)
-        var encPrivateKey = Buffer.from('9f9969c93c2d186787a7653f70e49be34c03c4a853e6ad0c867db0946bc433c6', 'hex')
-        var encPublicKey = bmCrypto.getPublic(encPrivateKey)
-
         const Address = require('../lib/bitmessage/address')
+
+        const testAddr = Address.fromPassphrase('LondynnLee')
+        this._addLog('Deterministic Bitmessage address:', testAddr.encode())
+        this._addLog('Deterministic Bitmessage tag:', testAddr.getTag())
+        this._addLog('Deterministic Bitmessage tag (hex):', testAddr.getTag().toString('hex'))
+
+        const signPrivateKey = testAddr.getEncPrivateKey()
+        const signPublicKey = bmCrypto.getPublic(signPrivateKey)
+        const encPrivateKey = testAddr.getEncPrivateKey()
+        const encPublicKey = bmCrypto.getPublic(encPrivateKey)
+
         const pubkey = require("../lib/bitmessage/objects").pubkey
-        const ttl = 789
-        const from = Address({ signPrivateKey, encPrivateKey })
-        const to = from
         const skipPow = true
-        // const encPubkey = pubkey.encodeAsync({ ttl, from, to, skipPow })
-        // this._addLog('CRYPTO TEST 5', JSON.stringify(encPubkey))
+        let ttl = 789
+        let from = Address({ signPrivateKey, encPrivateKey })
+        let to = from
+        pubkey.encodeAsync({ ttl, from, to, skipPow })
+            .then(function (_buf) {
+                self._addLog('New Encoded Pubkey', _buf)
+                self._bmApiCall('disseminatePubkey', _buf.toString('hex'))
+                self._bmApiCall('getMessageDataByDestinationHash', testAddr.getTag().toString('hex'))
+                self._bmApiCall('clientStatus')
+            })
 
-        var EC = require('elliptic').ec;
-        var ec = new EC('curve25519')
-
-        // Generate keys
-        var key1 = ec.genKeyPair();
-        var key2 = ec.genKeyPair();
-
-        var shared1 = key1.derive(key2.getPublic());
-        var shared2 = key2.derive(key1.getPublic());
-
-        console.log('Both shared secrets are BN instances');
-        console.log(shared1.toString(16));
-        console.log(shared2.toString(16));
-        this._addLog('CRYPTO TEST 6 (elliptic shared secrets)', shared1.toString(16) === shared2.toString(16))
-        this._addLog(shared1.toString(16), shared2.toString(16))
-
+        const msg = require("../lib/bitmessage/objects").msg
+        ttl = 111
+        from = Address({ signPrivateKey, encPrivateKey })
+        to = from
+        // to = Address.decode('BM-2DB4fxbR62yJfDavZEy58b55C9E21mVY6k')
+        const encoding = msg.SIMPLE
+        const subject = 'ZE Message (toSelf) Test'
+        const message = 'msg.encodeAsync({ ttl, from, to, encoding, subject, message, skipPow })'
+        msg.encodeAsync({ ttl, from, to, encoding, subject, message, skipPow })
+            .then(function (_buf) {
+                self._addLog('New Encoded Message', _buf)
+                self._bmApiCall('disseminatePreEncryptedMsg', _buf.toString('hex'))
+            })
     }
 
-    _bmTest() {
+    _bmApiCall(_method, _hexData) {
         /* Localize this. */
         const self = this
 
-        // const Address = require('../lib/bitmessage/address')
-
-        // var Address = require('bitmessage').Address
-
-        // Generate a new random Bitmessage identity.
-        // var addr1 = Address.fromRandom()
-        // this._addLog('New random Bitmessage address:', addr1.encode())
-
-        // Or create it from passphrase.
-        // var addr2 = Address.fromPassphrase('LondynnLee')
-        // this._addLog('Deterministic Bitmessage address:', addr2.encode())
-        //
-        // this.bmCrypto.sha1(Buffer.from('test'))({ debug: 'Deterministic Bitmessage address: ' + addr2.encode() })
-
         const convert = require('xml-js')
 
-        const json = {
-            "_declaration": {
-                "_attributes": {
-                    "version": "1.0",
-                    "encoding": "utf-8"
-                }
-            },
-            "methodCall": {
-                "methodName": "disseminatePreEncryptedMsg",
-                "params": [{
-                    "value": [{
-                        "string": "boogy"
+        let params = []
+
+        const _declaration = {
+            _attributes: {
+                version: '1.0',
+                encoding: 'utf-8'
+            }
+        }
+
+        const methodName = _method
+
+        switch(methodName) {
+            case 'add':
+                params = [{
+                    value: [{
+                        int: 1000
                     }, {
-                        "string": "woogy"
+                        int: 337
                     }]
                 }]
-            }
-            // "methodCall": {
-            //     "methodName": "helloWorld",
-            //     "params": [{
-            //         "value": [{
-            //             "string": "boogy"
-            //         }, {
-            //             "string": "woogy"
-            //         }]
-            //     }]
-            // }
-            // "methodCall": {
-            //     "methodName": "clientStatus"
-            // }
-            // "methodCall": {
-            //     "methodName": "add",
-            //     "params": [{
-            //         "value": [{
-            //             "int": 1000
-            //         }, {
-            //             "int": 337
-            //         }]
-            //     }]
-            // }
+                break
+            case 'clientStatus':
+                params = []
+                break
+            case 'disseminatePreEncryptedMsg':
+                params = [{
+                    value: [{
+                        string: _hexData
+                    }, {
+                        int: 1000
+                    }, {
+                        int: 1000
+                    }]
+                }]
+                break
+            case 'disseminatePubkey':
+                params = [{
+                    value: [{
+                        string: _hexData
+                    }]
+                }]
+                break
+            case 'getMessageDataByDestinationHash':
+                params = [{
+                    value: [{
+                        string: _hexData
+                    }]
+                }]
+                break
+            case 'helloWorld':
+                params = [{
+                    value: [{
+                        string: 'boogy'
+                    }, {
+                        string: 'woogy'
+                    }]
+                }]
+                break
         }
-        const xml = convert.json2xml(json, {compact: true, spaces: 4})
 
-        const username = 'dev'
-        const password = 'tester'
-        const auth = {
-            username,
-            password
-        }
-        const options = { auth }
+        const methodCall = { methodName, params }
+
+        const json = { _declaration, methodCall }
+
+        const xml = convert.json2xml(json, { compact: true, spaces: 4 })
 
         const apiUsername = 'dev'
         const apiPassword = 'tester'
@@ -320,15 +293,10 @@ export default class MainFrame extends React.Component {
 
         const method = 'POST'
 
-        const headers = {
-            Authorization,
-            Accept,
-            'Content-Type': 'text/xml'
-        }
+        const headers = { Authorization, Accept, 'Content-Type': 'text/xml' }
 
         const body = xml
 
-        // const fetchTarget = 'http://localhost:8442'
         const fetchTarget = 'http://159.65.111.48:8442'
         const fetchOptions = { method, headers, body }
 
@@ -336,7 +304,6 @@ export default class MainFrame extends React.Component {
             .then((response) => response.text())
             .then((xmlResponse) => {
                 self._addLog('Fetched XML Response:', xmlResponse)
-                self.setState({ debug: xmlResponse + '\n\n' + body })
             })
             .catch((err) => {
                 console.error(err)
@@ -362,7 +329,7 @@ export default class MainFrame extends React.Component {
             host: hostIp,
             port: hostPort
         }
-        self.setState({ debug: JSON.stringify(host) })
+        this._addLog('Peer host:', JSON.stringify(host))
 
         this.client = net.createConnection(hostPort, hostIp, () => {
             // 'connect' listener

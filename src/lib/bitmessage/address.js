@@ -124,6 +124,13 @@ function getaddrhash(addr) {
     return bmcrypto.sha512(dataToHash)
 }
 
+Address.prototype.getEncPrivateKey = function() {
+    return this.encPrivateKey
+}
+Address.prototype.getSignPrivateKey = function() {
+    return this.signPrivateKey
+}
+
 /**
  * Calculate the encryption key used to encrypt/decrypt
  * [pubkey]{@link module:bitmessage/objects.pubkey} objects.

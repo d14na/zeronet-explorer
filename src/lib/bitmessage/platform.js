@@ -15,5 +15,3 @@ exports.sha512 = function (buf) {
 exports.ripemd160 = function (buf) {
     return createHash('ripemd160').update(buf).digest()
 }
-
-exports.randomBytes = crypto.randomBytes

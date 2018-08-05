@@ -39,6 +39,25 @@ function getRandomBytes(_length) {
     return Buffer.from(utils.randomBytes(_length), 'hex')
 }
 
+const derive = function (privateKeyA, publicKeyB) {
+    const EC = require('elliptic').ec
+    const ec = new EC('secp256k1')
+
+    return new Promise(function (resolve) {
+        assert(Buffer.isBuffer(privateKeyA), 'Bad input')
+        assert(Buffer.isBuffer(publicKeyB), 'Bad input')
+        assert(privateKeyA.length === 32, 'Bad private key')
+        assert(publicKeyB.length === 65, 'Bad public key')
+        assert(publicKeyB[0] === 4, 'Bad public key')
+
+        var keyA = ec.keyFromPrivate(privateKeyA)
+        var keyB = ec.keyFromPublic(publicKeyB)
+        var Px = keyA.derive(keyB.getPublic())  // BN instance
+
+        resolve(new Buffer(Px.toArray()))
+    })
+}
+
 /**
  * Calculate SHA-1 hash.
  */
@@ -47,12 +66,12 @@ const sha1 = exports.sha1 = platform.sha1
 /**
  * Calculate SHA-256 hash.
  */
-exports.sha256 = platform.sha256
+const sha256 = exports.sha256 = platform.sha256
 
 /**
  * Calculate SHA-512 hash.
  */
-exports.sha512 = platform.sha512
+const sha512 = exports.sha512 = platform.sha512
 
 /**
  * Calculate RIPEMD-160 hash.
@@ -62,14 +81,13 @@ exports.ripemd160 = platform.ripemd160
 /**
  * Generate cryptographically strong pseudo-random data.
  */
-exports.randomBytes = platform.randomBytes
+exports.randomBytes = getRandomBytes
 
 /**
  * Generate a new random private key.
  */
 exports.getPrivate = function () {
     const utils = require('ethers').utils
-
     return getRandomBytes(32)
 }
 
@@ -78,11 +96,9 @@ exports.getPrivate = function () {
  */
 exports.getPublic = function (privateKey) {
     assert(privateKey.length === 32, "Bad private key")
-
     // See https://github.com/wanderer/secp256k1-node/issues/46
     // const secp256k1 = require("secp256k1")
     const compressed = eccrypto.publicKeyCreate(privateKey)
-
     return eccrypto.publicKeyConvert(compressed, false)
 }
 
@@ -91,16 +107,9 @@ exports.getPublic = function (privateKey) {
  */
 exports.sign = function(privateKey, msg) {
     return new Promise(function (resolve) {
-console.log('exports.sign', privateKey, msg)
-console.log('privateKey.length', privateKey.length)
-
         let hash = sha1(msg)
-console.log('hash.length', hash.length)
-
         hashedMsg = pad32(hash)
-console.log('hashedMsg.length', hashedMsg.length)
         const sig = secp256k1.sign(hashedMsg, privateKey).signature
-
         resolve(secp256k1.signatureExport(sig))
     })
 }
@@ -110,7 +119,6 @@ console.log('hashedMsg.length', hashedMsg.length)
  */
 exports.verify = function(publicKey, msg, sig) {
     const hash = sha1(msg)
-
     return eccrypto.verify(publicKey, hash, sig)
 }
 
@@ -179,14 +187,12 @@ function ecencrypt(publicKeyTo, msg, opts) {
     let ephemPublicKey
 
     return new Promise(function (resolve) {
-console.log('*** START IN HERE')
         let ephemPrivateKey = opts.ephemPrivateKey || getRandomBytes(32)
         // let ephemPrivateKey = opts.ephemPrivateKey || crypto.randomBytes(32)
         ephemPublicKey = getPublic(ephemPrivateKey)
 
         resolve(derive(ephemPrivateKey, publicKeyTo))
     }).then(function (Px) {
-console.log('*** END UP DOWN HERE')
       const hash = sha512(Px)
       const iv = opts.iv || getRandomBytes(16)
       // const iv = opts.iv || crypto.randomBytes(16)

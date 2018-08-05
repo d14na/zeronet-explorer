@@ -253,8 +253,9 @@ var pubkey = exports.pubkey = {
             // v4 pubkey.
             assert(objectPayload.length >= 32, 'Bad pubkey v4 object payload length')
             tag = decoded.tag = objectPayload.slice(0, 32)
+console.log('THIS TAG IS', tag)
             addr = findAddrByTag(opts.needed, tag)
-            assert(addr, 'You are not interested in this pubkey v4')
+            // assert(addr, 'You are not interested in this pubkey v4')
             pubkeyPrivateKey = addr.getPubkeyPrivateKey()
             dataToDecrypt = objectPayload.slice(32)
             pubkeyp = bmcrypto
@@ -292,10 +293,8 @@ var pubkey = exports.pubkey = {
      * Encode `pubkey` object message.
      */
     encodeAsync: function (opts) {
-console.log('encodeAsync', opts)
         return pubkey.encodePayloadAsync(opts)
             .then(function (payload) {
-console.log('encodePayloadAsync', payload)
                 return message.encode('object', payload)
             })
             .catch(console.error)
@@ -372,7 +371,7 @@ console.log('encodePayloadAsync', payload)
             obj = object.encodePayloadWithoutNonce(opts)
 
             var dataToSign = Buffer.concat([obj].concat(pubkeyData))
-console.log('from.signPrivateKey', from.signPrivateKey)
+
             pubkeyp = bmcrypto
                 .sign(from.signPrivateKey, dataToSign)
                 .then(function (sig) {
