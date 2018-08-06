@@ -15,6 +15,7 @@ import { Navigation } from 'react-native-navigation'
 
 import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
+import stores from '../stores'
 
 import { Client } from 'bugsnag-react-native'
 
@@ -29,7 +30,6 @@ import {
 
 @observer
 export default class MainFrame extends React.Component {
-    @observable debug = 'loading...'
     @observable searchVal = ''
 
     constructor(props) {
@@ -59,11 +59,7 @@ export default class MainFrame extends React.Component {
 
         /* Call amplitude api. */
         amplitude.track(trackingData)
-
-        /* Initialize the local state. */
-        // this.state = {
-        //     debug: 'loading...'
-        // }
+            .catch(e => console.log(e))
     }
 
     render() {
@@ -147,11 +143,6 @@ export default class MainFrame extends React.Component {
                             title='Hello Zero' />
                     </View>
 
-                    <View style={{ margin: 20, padding: 20, backgroundColor: 'rgba(30, 120, 60, 0.2)'}}>
-                        <Text style={{ fontStyle: 'italic' }}>
-                            { this.debug }
-                        </Text>
-                    </View>
                 </View>
             </View>
         </ScrollView>

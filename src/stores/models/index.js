@@ -1,7 +1,7 @@
 // @flow
 
-import Account from './Account';
+import Account from './Account'
 
-export default {
-  Account,
+export {
+    Account
 }

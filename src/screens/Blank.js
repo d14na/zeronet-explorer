@@ -10,6 +10,11 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+import stores from '../stores'
+
+@observer
 export default class Blank extends React.Component {
     constructor(props) {
         super(props)

@@ -6,22 +6,25 @@ import Main from '../frames/Main'
 /* CANVAS */
 import Canvas from '../frames/Canvas'
 
-/* MEDIA PLAYER */
-import MediaPlayer from '../frames/Player'
-
-/* PLAYBACK */
-import PlaybackViewer from '../frames/Playback'
+/* GAMEPAD */
+import PlayerOne from '../frames/PlayerOne'
 
 /* P0RTAL */
 import P0rtal from '../frames/P0rtal'
-import P0rtalCourier from './P0rtal/Courier'
-import P0rtalHelp from './P0rtal/Help'
-import P0rtalInfluence from './P0rtal/Influence'
-import P0rtalProfile from './P0rtal/Profile'
-import P0rtalStreams from './P0rtal/Streams'
+
+import {
+    Courier as P0rtalCourier,
+    Help as P0rtalHelp,
+    Influence as P0rtalInfluence,
+    Profile as P0rtalProfile,
+    Streams as P0rtalStreams
+} from './P0rtal'
 
 /* STAGE */
 import Stage from '../frames/Stage'
+
+/* STUDIO */
+import Studio from '../frames/Studio'
 
 /* WEBVIEW */
 import Webview from '../frames/Webview'
@@ -31,19 +34,16 @@ import { P0rtalTopBar } from '../components'
 
 /* Register all screens of the app (including internal ones). */
 export function registerScreens() {
-    /* MAIN */
+    /* Main frame */
     Navigation.registerComponent('zeronet.Main', () => Main)
 
-    /* CANVAS */
+    /* Graphics art & (lottie-style) animation canvas */
     Navigation.registerComponent('zeronet.Canvas', () => Canvas)
 
-    /* MEDIA PLAYER */
-    Navigation.registerComponent('zeronet.Player', () => MediaPlayer)
+    /* PlayerOne Gamepad Controller */
+    Navigation.registerComponent('zeronet.PlayerOne', () => PlayerOne)
 
-    /* PLAYBACK VIEWER */
-    Navigation.registerComponent('zeronet.Playback', () => PlaybackViewer)
-
-    /* P0RTAL */
+    /* Personalized user p0rtal */
     Navigation.registerComponent('zeronet.P0rtal', () => P0rtal)
     Navigation.registerComponent('zeronet.P0rtal.Courier', () => P0rtalCourier)
     Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp)
@@ -51,12 +51,15 @@ export function registerScreens() {
     Navigation.registerComponent('zeronet.P0rtal.Profile', () => P0rtalProfile)
     Navigation.registerComponent('zeronet.P0rtal.Streams', () => P0rtalStreams)
 
-    /* STAGE */
+    /* Contextual stage */
     Navigation.registerComponent('zeronet.Stage', () => Stage)
 
-    /* WEBVIEW */
+    /* Audio and visual media studio */
+    Navigation.registerComponent('zeronet.Studio', () => Studio)
+
+    /* Standard webview */
     Navigation.registerComponent('zeronet.Webview', () => Webview)
 
-    /* COMPONENTS */
+    /* Navigational Components */
     Navigation.registerComponent('zeronet.P0rtalTopBar', () => P0rtalTopBar)
 }

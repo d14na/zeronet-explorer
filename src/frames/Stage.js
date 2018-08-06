@@ -9,6 +9,10 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+import stores from '../stores'
+
 import {
     Button,
     Header,
@@ -19,6 +23,8 @@ import {
 import { MonoText } from '../components'
 
 export default class Stage extends React.Component {
+    @observable debug = 'loading...'
+
     constructor(props) {
         super(props)
 
@@ -42,7 +48,7 @@ export default class Stage extends React.Component {
                 backgroundColor='#cccc33'
                 outerContainerStyles={ styles.topBar }
                 innerContainerStyles={ styles.topBarContent }
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={{}}
                 centerComponent={{ text: '[Z#] ZER0NET: GETTING STARTED GUIDE IN 5 MINUTES', style: styles.topBarTitle }}
                 rightComponent={<MyCustomRightComponent parent={ this } />} />
 
@@ -53,21 +59,13 @@ export default class Stage extends React.Component {
                 inputStyle={{ paddingLeft: 40, paddingBottom: 9 }}
                 placeholder='Search #GettingStarted' />
 
-            <View style={{ flex: 1 }}>
-                <MonoText style={{ color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'MonoText' }}>
-                    WE WILL CALL THIS THE STAGE
-                </MonoText>
-
-                <View>
-                    <Text style={ styles.recommendedStageText }>
-                        Recommended Stage
-                    </Text>
-
-                    <Text style={ styles.recommendedStageText }>
-                        - Media Gallery (photos, audio, videos)
+            <ScrollView style={{ flex: 1 }}>
+                <View style={{ margin: 20, padding: 20, backgroundColor: 'rgba(30, 120, 60, 0.2)'}}>
+                    <Text style={{ fontStyle: 'italic' }}>
+                        { this.debug }
                     </Text>
                 </View>
-            </View>
+            </ScrollView>
 
 
             <View style={ styles.adSpace }>
@@ -84,7 +82,7 @@ export default class Stage extends React.Component {
             .catch(console.log)
 
         console.log('closing id', this.props.componentId)
-        
+
         Navigation.mergeOptions(this.props.componentId, {
             sideMenu: {
                 left: {

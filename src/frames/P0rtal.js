@@ -23,7 +23,7 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { MonoText } from '../components'
+import { Welcome } from '../screens/P0rtal'
 
 @observer
 export default class P0rtal extends React.Component {
@@ -33,30 +33,9 @@ export default class P0rtal extends React.Component {
         console.log('P0rtal received props', props)
     }
 
-    // @observable authorized = false
-
-    _authorize = () => {
-        stores.P0rtal.authorize()
-    }
-
     render() {
         if (!stores.P0rtal.authorized) {
-            return <View style={ styles.container }>
-                <View>
-                    <Text style={ styles.heading }>
-                        SIGN IN
-                    </Text>
-                </View>
-
-                <FormLabel>Name</FormLabel>
-                <FormInput onChangeText={ this._someFunction }/>
-                <FormValidationMessage>Error message</FormValidationMessage>
-
-                <Button title="Sign In" onPress={ this._authorize.bind(this) } />
-
-                <Button title="Sign Up" onPress={ this._loadCourier.bind(this) } />
-
-            </View>
+            return <Welcome />
         }
 
         // title="ZN"
@@ -119,19 +98,6 @@ export default class P0rtal extends React.Component {
                 drawBehind: false
             }
         })
-
-        // Navigation.mergeOptions(this.props.componentId, {
-        //     topBar: {
-        //         title: {
-        //             component: {
-        //                 name: 'zeronet.P0rtalTopBar'
-        //             }
-        //         },
-        //         visible: true,
-        //         drawBehind: false
-        //     }
-        // })
-        //
     }
 
     onNavigationButtonPressed(_buttonId) {

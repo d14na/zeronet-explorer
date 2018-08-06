@@ -3,10 +3,12 @@
 import { observable, action } from 'mobx'
 import { persist } from 'mobx-persist'
 
-import Models from './models'
+import {
+    Account
+} from './models'
 
 class Store {
-    @persist('object', Models.Account) @observable current = new Models.Account
+    @persist('object', Account) @observable current = new Account
     @persist @observable authorized = false
     @observable title = 'P0rtal'
 

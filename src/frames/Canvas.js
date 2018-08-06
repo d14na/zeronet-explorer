@@ -37,7 +37,7 @@ export default class Canvas extends React.Component {
                 title='Close' />
 
             <View style={ styles.centerView }>
-                <Text>MEDIA PLAYER</Text>
+                <Text>GRAPHICS ART CANVAS (LOTTIE-STYLE)</Text>
             </View>
 
         </View>
