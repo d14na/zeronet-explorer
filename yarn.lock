@@ -119,7 +119,7 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-amplitude@^3.5.0:
+amplitude@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/amplitude/-/amplitude-3.5.0.tgz#63edadbd9a0aef49467f66c11340fe9b371cd7c3"
   dependencies:
@@ -949,7 +949,7 @@ babel-preset-es2015-node@^6.1.1:
     babel-plugin-transform-es2015-unicode-regex "6.x"
     semver "5.x"
 
-babel-preset-es2015@^6.24.1:
+babel-preset-es2015@6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-preset-es2015/-/babel-preset-es2015-6.24.1.tgz#d44050d6bc2c9feea702aaf38d727a0210538939"
   dependencies:
@@ -1018,7 +1018,7 @@ babel-preset-jest@^23.2.0:
     babel-plugin-jest-hoist "^23.2.0"
     babel-plugin-syntax-object-rest-spread "^6.13.0"
 
-babel-preset-react-native-stage-0@^1.0.1:
+babel-preset-react-native-stage-0@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/babel-preset-react-native-stage-0/-/babel-preset-react-native-stage-0-1.0.1.tgz#d5f5f685575471ef756a49f191b193269f74306e"
   dependencies:
@@ -1425,7 +1425,7 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
-buffer-equal@^1.0.0:
+buffer-equal@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/buffer-equal/-/buffer-equal-1.0.0.tgz#59616b498304d556abd466966b22eeda3eca5fbe"
 
@@ -1466,7 +1466,7 @@ buffer@^5.0.0:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-bugsnag-react-native@^2.10.0:
+bugsnag-react-native@2.10.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.10.0.tgz#40a274ac13f36d888b724aa0dfc8dc974faf5e2a"
   dependencies:
@@ -2161,7 +2161,7 @@ elliptic@6.3.3:
     hash.js "^1.0.0"
     inherits "^2.0.1"
 
-elliptic@^6.0.0, elliptic@^6.2.3, elliptic@^6.4.0:
+elliptic@6.4.0, elliptic@^6.0.0, elliptic@^6.2.3:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.0.tgz#cac9af8762c85836187003c8dfe193e5e2eae5df"
   dependencies:
@@ -2299,7 +2299,7 @@ etag@~1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.7.0.tgz#03d30b5f67dd6e632d2945d30d6652731a34d5d8"
 
-ethers@^3.0.25:
+ethers@3.0.25:
   version "3.0.25"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-3.0.25.tgz#df2cfd325dede8c766e23d10f60c0ae181ad8bbb"
   dependencies:
@@ -2322,7 +2322,7 @@ eventemitter3@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.0.tgz#090b4d6cdbd645ed10bf750d4b5407942d7ba163"
 
-events@^1.0.0, events@^1.0.2, events@^1.1.1:
+events@1.1.1, events@^1.0.0, events@^1.0.2:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
 
@@ -3725,7 +3725,7 @@ jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
 
-jsc-android@^224109.0.0:
+jsc-android@224109.0.0:
   version "224109.0.0"
   resolved "https://registry.yarnpkg.com/jsc-android/-/jsc-android-224109.0.0.tgz#decd9f4b6f76280a01697a3be9c1e56620659c2a"
 
@@ -4537,20 +4537,20 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mobx-persist@^0.4.1:
+mobx-persist@0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/mobx-persist/-/mobx-persist-0.4.1.tgz#fe5790eda04e0ee0b91c512d1347104e09363f9a"
   dependencies:
     serializr "^1.1.11"
 
-mobx-react@^5.2.3:
+mobx-react@5.2.3:
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.2.3.tgz#cdf6141c2fe63377c5813cbd254e8ce0d4676631"
   dependencies:
     hoist-non-react-statics "^2.5.0"
     react-lifecycles-compat "^3.0.2"
 
-mobx@^5.0.3:
+mobx@5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.0.3.tgz#53b97f2a0f9b0dd7774c96249f81bf2d513d8e1c"
 
@@ -4728,7 +4728,7 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-netcat@^1.3.5:
+netcat@1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/netcat/-/netcat-1.3.5.tgz#1749f7feff5177c5110792d872b288006a88dabb"
   dependencies:
@@ -4761,7 +4761,7 @@ node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
 
-node-libs-browser@^2.1.0:
+node-libs-browser@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/node-libs-browser/-/node-libs-browser-2.1.0.tgz#5f94263d404f6e44767d726901fff05478d600df"
   dependencies:
@@ -5212,7 +5212,7 @@ peer-request@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/peer-request/-/peer-request-0.1.2.tgz#bf32f9c50eaeec0a9d400e6783578950464113e6"
 
-peer0@^18.6.30-d:
+peer0@18.6.30-d:
   version "18.6.30-d"
   resolved "https://registry.yarnpkg.com/peer0/-/peer0-18.6.30-d.tgz#cebf7c3fa7c4b006308154bd5e6c5b544190b948"
 
@@ -5565,13 +5565,11 @@ react-lifecycles-compat@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
-react-native-animatable@^1.1.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.0.tgz#b5c3940fc758cfd9b2fe54613a457c4b6962b46e"
-  dependencies:
-    prop-types "^15.5.10"
+react-native-animatable@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.1.0.tgz#1ca3e8a00e441979d5711805651ff62a2d3b245a"
 
-react-native-crypto@^2.1.2:
+react-native-crypto@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/react-native-crypto/-/react-native-crypto-2.1.2.tgz#cfe68cad51cd1f73a4202b7ac164f96c1144cb2a"
   dependencies:
@@ -5585,11 +5583,11 @@ react-native-crypto@^2.1.2:
     pbkdf2 "3.0.8"
     public-encrypt "^4.0.0"
 
-react-native-device-info@^0.21.5:
+react-native-device-info@0.21.5:
   version "0.21.5"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.21.5.tgz#99478a2d68182e012297f2d63f2bd1b788106dee"
 
-react-native-elements@^0.19.1:
+react-native-elements@0.19.1:
   version "0.19.1"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-0.19.1.tgz#f92b69d864a150215d01f81fe3c52a9cada83e45"
   dependencies:
@@ -5598,7 +5596,7 @@ react-native-elements@^0.19.1:
     opencollective "^1.0.3"
     prop-types "^15.5.8"
 
-react-native-fs@^2.10.14:
+react-native-fs@2.10.14:
   version "2.10.14"
   resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.10.14.tgz#394721801825db8330b62e92ae36861fd9864084"
   dependencies:
@@ -5620,14 +5618,14 @@ react-native-navigation@react-native-navigation@alpha:
     prop-types "15.x.x"
     react-lifecycles-compat "2.0.0"
 
-react-native-randombytes@^3.4.0:
+react-native-randombytes@3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/react-native-randombytes/-/react-native-randombytes-3.4.0.tgz#c32632f475ec32aa14ea2dfef27c6fc082d4d1bb"
   dependencies:
     buffer "^4.9.1"
     sjcl "^1.0.3"
 
-react-native-tcp@^3.3.0:
+react-native-tcp@3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-native-tcp/-/react-native-tcp-3.3.0.tgz#8eea75b7b2c2c6db4b91f38f171fba3b2a1b60ee"
   dependencies:
@@ -5638,13 +5636,13 @@ react-native-tcp@^3.3.0:
     process "^0.11.9"
     util "^0.10.3"
 
-react-native-timer@^1.3.3:
+react-native-timer@1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/react-native-timer/-/react-native-timer-1.3.3.tgz#6dcd48bac37e89f17964a0f5404dae08bd9dfb19"
 
-react-native-vector-icons@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.6.0.tgz#e4014311ffa6de397d914ffc31b7097a874cc8d5"
+react-native-vector-icons@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-5.0.0.tgz#d0bd6fdda01159db409810718dd04904951a98f5"
   dependencies:
     lodash "^4.0.0"
     prop-types "^15.5.10"
@@ -6085,7 +6083,7 @@ scrypt-js@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/scrypt-js/-/scrypt-js-2.0.3.tgz#bb0040be03043da9a012a2cea9fc9f852cfc87d4"
 
-secp256k1@^3.3.0, secp256k1@^3.5.0:
+secp256k1@3.5.0, secp256k1@^3.3.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-3.5.0.tgz#677d3b8a8e04e1a5fa381a1ae437c54207b738d0"
   dependencies:
@@ -7129,7 +7127,7 @@ xcode@^0.9.1:
     simple-plist "^0.2.1"
     uuid "3.0.1"
 
-xml-js@^1.6.7:
+xml-js@1.6.7:
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.7.tgz#a99b40c18a16d3e06537b3ae026a27bd60ffe8ab"
   dependencies:
@@ -7294,7 +7292,7 @@ zeronet-fileserver@0.0.7:
     inet-tools "~0.1.1"
     pull-stream "^3.6.1"
 
-zeronet-msgpack@^3.6.0:
+zeronet-msgpack@3.6.0, zeronet-msgpack@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/zeronet-msgpack/-/zeronet-msgpack-3.6.0.tgz#deb3e766aba45b9e343479fa60f7f57025368b0f"
   dependencies:
@@ -7343,7 +7341,7 @@ zeronet-swarm@0.2.0:
     uuid "^3.2.1"
     zeronet-protocol "~0.2.0"
 
-zeronet-tracker@^0.1.1-zn:
+zeronet-tracker@0.1.1-zn:
   version "0.1.1-zn"
   resolved "https://registry.yarnpkg.com/zeronet-tracker/-/zeronet-tracker-0.1.1-zn.tgz#cfbdf2e129b35152bc247799286316c287fac958"
   dependencies:

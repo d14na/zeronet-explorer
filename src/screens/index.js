@@ -1,7 +1,7 @@
 import { Navigation } from 'react-native-navigation'
 
-/* MAIN */
-import Main from '../frames/Main'
+/* STARTUP */
+import Startup from '../frames/Startup'
 
 /* CANVAS */
 import Canvas from '../frames/Canvas'
@@ -34,8 +34,8 @@ import { P0rtalTopBar } from '../components'
 
 /* Register all screens of the app (including internal ones). */
 export function registerScreens() {
-    /* Main frame */
-    Navigation.registerComponent('zeronet.Main', () => Main)
+    /* Startup frame */
+    Navigation.registerComponent('zeronet.Startup', () => Startup)
 
     /* Graphics art & (lottie-style) animation canvas */
     Navigation.registerComponent('zeronet.Canvas', () => Canvas)

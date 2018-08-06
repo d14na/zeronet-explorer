@@ -142,7 +142,7 @@ exports[`renders correctly 1`] = `
       allowFontScaling={true}
       ellipsizeMode="tail"
     >
-      MEDIA PLAYER
+      GRAPHICS ART CANVAS (LOTTIE-STYLE)
     </Text>
   </View>
 </View>

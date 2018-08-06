@@ -153,18 +153,17 @@ Navigation.events().registerAppLaunchedListener(() => {
     /* Initialize the main frame stack. */
     const center = {
         stack: {
-            // id: 'zeronet.MainStack',
             children: [{
                 component: {
-                    id: 'zeronet.Main',
-                    name: 'zeronet.Main',
+                    id: 'zeronet.Startup',
+                    name: 'zeronet.Startup',
                     options: {
                         topBar: {
                             visible: false,
                             animate: false,
                             drawBehind: true
                         }
-                    }                    
+                    }
                 }
             }],
             options: {}
