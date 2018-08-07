@@ -125,6 +125,14 @@ export default class StartupFrame extends React.Component {
         </ScrollView>
     }
 
+    componentDidAppear() {
+        console.log('RNN', 'CTB.componentDidAppear')
+    }
+
+    componentDidDisappear() {
+        console.log('RNN', `CTB.componentDidDisappear`)
+    }
+
     componentDidMount() {
         this.client = null
         this.requests = []
@@ -135,6 +143,10 @@ export default class StartupFrame extends React.Component {
         // this._cryptTest()
         // this._bmTest()
         // this._peerTest()
+    }
+
+    componentWillUnmount() {
+        console.log('RNN', `CTB.componentWillUnmount`)
     }
 
     _addLog(_tag, _entry) {

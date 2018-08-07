@@ -11,6 +11,11 @@ import { Navigation } from 'react-native-navigation'
 
 import { Button } from 'react-native-elements'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+import stores from '../stores'
+
+@observer
 export default class Canvas extends React.Component {
     static get options() {
         topBar: {

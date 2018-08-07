@@ -14,32 +14,17 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
 import stores from '../stores'
 
+import {
+    Icon
+} from 'react-native-elements'
+
 @observer
 export default class P0rtalTopBar extends React.Component {
     constructor(props) {
         super(props)
 
-        console.log('P0rtalTopBar received props', props)
-
         this._closeP0rtal = this._closeP0rtal.bind(this)
         this._loadHelp = this._loadHelp.bind(this)
-        this._signOut = this._signOut.bind(this)
-    }
-
-    componentDidAppear() {
-        console.log('RNN', 'CTB.componentDidAppear')
-    }
-
-    componentDidDisappear() {
-        console.log('RNN', `CTB.componentDidDisappear`)
-    }
-
-    componentDidMount() {
-        console.log('RNN', `CTB.componentDidMount`)
-    }
-
-    componentWillUnmount() {
-        console.log('RNN', `CTB.componentWillUnmount`)
     }
 
     render() {
@@ -50,62 +35,60 @@ export default class P0rtalTopBar extends React.Component {
                 <Text style={ styles.headingText }>{ stores.P0rtal.title }</Text>
             </View>
 
-            <View style={{ width: 100, flexDirection: 'row' }}>
-                <TouchableOpacity style={ styles.button } onPress={ this._closeP0rtal }>
-                    <Text style={ styles.buttonText }>Close</Text>
-                </TouchableOpacity>
+            <View style={ styles.navButtons }>
+                <Icon
+                    reverse
+                    name='question-circle-o'
+                    type='font-awesome'
+                    color='#6f07ef'
+                    size={ 16 }
+                    onPress={ this._loadHelp } />
 
-                <TouchableOpacity style={ styles.button } onPress={ this._loadHelp }>
-                    <Text style={ styles.buttonText }>Help</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={ styles.button } onPress={ this._signOut }>
-                    <Text style={ styles.buttonText }>Sign Out</Text>
-                </TouchableOpacity>
+                <Icon
+                    reverse
+                    name='close'
+                    type='font-awesome'
+                    color='#6f07ef'
+                    size={ 16 }
+                    onPress={ this._closeP0rtal } />
             </View>
         </View>
     }
 
     _closeP0rtal() {
         Navigation.mergeOptions('zeronet.P0rtal', {
-            sideMenu: {
-                right: {
-                    visible: false
-                }
-            }
+            sideMenu: { right: { visible: false }}
         })
     }
 
     _loadHelp() {
         Navigation.push('zeronet.P0rtal', {
-            component: {
-                name: 'zeronet.P0rtal.Help'
-            }
+            component: { name: 'zeronet.P0rtal.Help' }
         })
-    }
-
-    _signOut() {
-        stores.P0rtal.exit()
     }
 
 }
 
 const styles = StyleSheet.create({
     container: {
-        // padding: 10,
         height: 56,
-        // flex: 1,
         flexDirection: 'row',
-        // width: 350
-        backgroundColor: 'rgba(180, 30, 30, 0.5)'
+        backgroundColor: 'rgba(245, 245, 245, 1.0)',
+        justifyContent: 'space-between'
     },
     heading: {
-        width: 100,
-        backgroundColor: 'rgba(30, 180, 30, 0.5)'
+        width: 200,
+        // backgroundColor: 'rgba(30, 120, 30, 0.2)',
+        justifyContent: 'center'
     },
     headingText: {
         color: 'black',
-        fontSize: 20
+        fontSize: 26
+    },
+    navButtons: {
+        width: 100,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     button: {
         margin: 5,

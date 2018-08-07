@@ -4,6 +4,7 @@ import {
     StyleSheet,
     ScrollView,
     Text,
+    TouchableHighlight,
     View
 } from 'react-native'
 
@@ -23,14 +24,16 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+import {
+    Styles
+} from '../constants'
+
 import { Welcome } from '../screens/P0rtal'
 
 @observer
 export default class P0rtal extends React.Component {
     constructor(props) {
         super(props)
-
-        console.log('P0rtal received props', props)
     }
 
     render() {
@@ -38,59 +41,65 @@ export default class P0rtal extends React.Component {
             return <Welcome />
         }
 
-        // title="ZN"
-        // source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }}
-
         return <View style={ styles.container }>
-            <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
-                <Avatar
-                    xlarge
-                    rounded
-                    source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }}
-                    onPress={ this._loadProfile.bind(this) }
-                    activeOpacity={ 0.7 } />
+            <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                    <Avatar
+                        xlarge
+                        rounded
+                        source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }}
+                        onPress={ this._loadProfile.bind(this) }
+                        activeOpacity={ 0.7 } />
 
-                <Button
-                    onPress={ this._loadProfile.bind(this) }
-                    icon={{name: 'user', type: 'font-awesome'}}
-                    title='Edit Profile' />
+                    <Button
+                        onPress={ this._loadProfile.bind(this) }
+                        icon={{name: 'user', type: 'font-awesome'}}
+                        title='Edit Profile' />
+                </View>
+
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._loadC0urier.bind(this) }
+                        icon={{name: 'at', type: 'font-awesome'}}
+                        title='C0urier' />
+
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._loadInfluence.bind(this) }
+                        icon={{name: 'book', type: 'font-awesome'}}
+                        title='Influence' />
+                </View>
+
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                    <Button
+                        large
+                        style={{ flex: 1, width: 150 }}
+                        onPress={ this._loadStreams.bind(this) }
+                        icon={{name: 'rss-square', type: 'font-awesome'}}
+                        title='Streams' />
+                </View>
             </View>
 
-            <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadCourier.bind(this) }
-                    icon={{name: 'at', type: 'font-awesome'}}
-                    title='Courier' />
-
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadInfluence.bind(this) }
-                    icon={{name: 'book', type: 'font-awesome'}}
-                    title='Influence' />
-            </View>
-
-            <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
-                <Button
-                    large
-                    style={{ flex: 1, width: 150 }}
-                    onPress={ this._loadStreams.bind(this) }
-                    icon={{name: 'rss-square', type: 'font-awesome'}}
-                    title='Streams' />
-            </View>
-
+            <TouchableHighlight
+                onPress={ this._signOut }
+                underlayColor={'rgba(0, 0, 0, 0.054)'}
+                style={ styles.signOut }>
+                <Text style={ styles.signOutText }>
+                    SIGNOUT
+                </Text>
+            </TouchableHighlight>
         </View>
     }
 
     componentDidMount() {
-        console.log('P0rtal did mount')
-
         Navigation.mergeOptions(this.props.componentId, {
             topBar: {
                 title: {
                     component: {
+                        id: 'zeronet.P0rtalTopBar',
                         name: 'zeronet.P0rtalTopBar'
                     }
                 },
@@ -100,37 +109,24 @@ export default class P0rtal extends React.Component {
         })
     }
 
-    onNavigationButtonPressed(_buttonId) {
-        console.log('onNavigationButtonPressed', _buttonId)
-
-        if (_buttonId === 'btnCloseP0rtal') {
-            this._closeP0rtal()
-        }
+    _signOut() {
+        stores.P0rtal.exit()
     }
 
     _loadProfile() {
         Navigation.push(this.props.componentId, {
             component: {
+                id: 'zeronet.P0rtal.Profile',
                 name: 'zeronet.P0rtal.Profile'
             }
         })
     }
 
-    _loadCourier() {
+    _loadC0urier() {
         Navigation.push(this.props.componentId, {
             component: {
-                id: 'zeronet.P0rtal.Courier',
-                name: 'zeronet.P0rtal.Courier',
-                passProps: {
-                    title: 'Courier'
-                },
-                options: {
-                    topBar: {
-                        title: {
-                            text: 'COURIER'
-                        }
-                    }
-                }
+                id: 'zeronet.P0rtal.C0urier',
+                name: 'zeronet.P0rtal.C0urier'
             }
         })
     }
@@ -138,6 +134,7 @@ export default class P0rtal extends React.Component {
     _loadInfluence() {
         Navigation.push(this.props.componentId, {
             component: {
+                id: 'zeronet.P0rtal.Influence',
                 name: 'zeronet.P0rtal.Influence'
             }
         })
@@ -147,49 +144,7 @@ export default class P0rtal extends React.Component {
         Navigation.push(this.props.componentId, {
             component: {
                 id: 'zeronet.P0rtal.Streams',
-                name: 'zeronet.P0rtal.Streams',
-                passProps: {
-                    title: 'Streams'
-                },
-                options: {
-                    topBar: {
-                        title: {
-                            text: 'FEED'
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-    _someFunction() {
-
-    }
-
-    _loadScreen() {
-        console.log('goto screen')
-
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: 'zeronet.Player',
-                options: {
-                    // topBar: {
-                    //     title: {
-                    //         text: 'Pushed screen title'
-                    //     }
-                    // },
-                    topBar: {
-                        visible: false,
-                        animate: false,
-                        drawBehind: true
-                    },
-                    rightButtons: [
-                        {
-                            id: 'buttonOne',
-                            icon: require('../../img/one.png')
-                        }
-                    ]
-                }
+                name: 'zeronet.P0rtal.Streams'
             }
         })
     }
@@ -203,7 +158,7 @@ const styles = StyleSheet.create({
 
         backgroundColor: 'rgba(30, 30, 30, 0.95)',
 
-        padding: 20
+        // padding: 20
     },
     heading: {
         color: 'rgba(255, 255, 255, 0.9)',
@@ -228,5 +183,19 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center'
+      },
+      signOut: {
+          width: '100%',
+          height: 50,
+          padding: 15,
+          // margin: 10,
+
+          alignItems: 'center',
+          justifyContent: 'center',
+
+          backgroundColor: 'rgba(90, 220, 220, 0.9)'
+      },
+      signOutText: {
+          fontSize: 20
       }
 })

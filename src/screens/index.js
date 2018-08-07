@@ -7,13 +7,13 @@ import Startup from '../frames/Startup'
 import Canvas from '../frames/Canvas'
 
 /* GAMEPAD */
-import PlayerOne from '../frames/PlayerOne'
+import Player0ne from '../frames/Player0ne'
 
 /* P0RTAL */
 import P0rtal from '../frames/P0rtal'
 
 import {
-    Courier as P0rtalCourier,
+    C0urier as P0rtalC0urier,
     Help as P0rtalHelp,
     Influence as P0rtalInfluence,
     Profile as P0rtalProfile,
@@ -24,7 +24,7 @@ import {
 import Stage from '../frames/Stage'
 
 /* STUDIO */
-import Studio from '../frames/Studio'
+import Studi0 from '../frames/Studi0'
 
 /* WEBVIEW */
 import Webview from '../frames/Webview'
@@ -40,12 +40,12 @@ export function registerScreens() {
     /* Graphics art & (lottie-style) animation canvas */
     Navigation.registerComponent('zeronet.Canvas', () => Canvas)
 
-    /* PlayerOne Gamepad Controller */
-    Navigation.registerComponent('zeronet.PlayerOne', () => PlayerOne)
+    /* Player0ne Gamepad Controller */
+    Navigation.registerComponent('zeronet.Player0ne', () => Player0ne)
 
     /* Personalized user p0rtal */
     Navigation.registerComponent('zeronet.P0rtal', () => P0rtal)
-    Navigation.registerComponent('zeronet.P0rtal.Courier', () => P0rtalCourier)
+    Navigation.registerComponent('zeronet.P0rtal.C0urier', () => P0rtalC0urier)
     Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp)
     Navigation.registerComponent('zeronet.P0rtal.Influence', () => P0rtalInfluence)
     Navigation.registerComponent('zeronet.P0rtal.Profile', () => P0rtalProfile)
@@ -55,7 +55,7 @@ export function registerScreens() {
     Navigation.registerComponent('zeronet.Stage', () => Stage)
 
     /* Audio and visual media studio */
-    Navigation.registerComponent('zeronet.Studio', () => Studio)
+    Navigation.registerComponent('zeronet.Studi0', () => Studi0)
 
     /* Standard webview */
     Navigation.registerComponent('zeronet.Webview', () => Webview)

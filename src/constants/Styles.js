@@ -3,8 +3,8 @@ import {
     StyleSheet
 } from 'react-native'
 
-import Colors from './Colors'
-import Layout from './Layout'
+// import Colors from './Colors'
+// import Layout from './Layout'
 
 export default StyleSheet.create({
     /* Containers */
@@ -27,7 +27,7 @@ export default StyleSheet.create({
 
         borderRadius : 10,
         borderWidth  : 2,
-        borderColor  : Colors.tintColor
+        // borderColor  : Colors.tintColor
     },
     scrollContainer: {
 
@@ -35,27 +35,23 @@ export default StyleSheet.create({
 
     /* Headings */
     banner: {
-        width  : Layout.width,
-        height : Layout.width * 0.25
+        // width  : Layout.width,
+        // height : Layout.width * 0.25
     },
 
     /* Rows */
     row: {
-        // flex          : 1,           // NOTE: Causes problems with buttons at footer of modal
         flexDirection : 'row',
     },
     rowAligned: {
-        // flex          : 1,           // NOTE: (MAY ALSO) Causes problems with buttons at footer of modal
         flexDirection : 'row',
         alignItems    : 'center'
     },
     rowCentered: {
-        // flex           : 1,          // NOTE: (MAY ALSO) Causes problems with buttons at footer of modal
         flexDirection  : 'row',
         justifyContent : 'space-around'
     },
     rowJustified: {
-        // flex           : 1,          // NOTE: (MAY ALSO) Causes problems with buttons at footer of modal
         flexDirection  : 'row',
         justifyContent : 'space-between'
     },
@@ -116,7 +112,6 @@ export default StyleSheet.create({
     actionButtonMenu: {
         fontSize  : 36,
         color     : 'rgb(255, 255, 255)',
-        // marginTop : 5
     },
     actionButtonClose: {
         fontSize  : 36,
@@ -141,7 +136,7 @@ export default StyleSheet.create({
     contextHelpIcon: {
         marginLeft : 5,
         fontSize   : 14,
-        color      : Colors.helpIcon
+        // color      : Colors.helpIcon
     },
     tabBarIcon: {
         fontSize : 22,
@@ -152,14 +147,11 @@ export default StyleSheet.create({
         marginRight : 12,
         fontSize    : 32,
         fontWeight  : 'bold',
-        // color       : Colors.tintColorFaded
-        // color       : 'rgba(120, 120, 120, 0.8)'
-        color       : Colors.tabIconSelected
+        // color       : Colors.tabIconSelected
     },
 
 
     walletWeb3Container: {
-        // alignItems: 'center',
         marginHorizontal: 50,
     },
 
@@ -169,8 +161,8 @@ export default StyleSheet.create({
 
     /* Layout */
     header: {
-        width  : Layout.width,
-        height : Layout.width * 0.25,
+        // width  : Layout.width,
+        // height : Layout.width * 0.25,
 
         backgroundColor : 'rgb(255, 255, 255)',
 
@@ -192,7 +184,7 @@ export default StyleSheet.create({
     },
 
     loading: {
-        height         : Layout.width * 0.5,
+        // height         : Layout.width * 0.5,
         alignItems     : 'center',
         justifyContent : 'center'
     },
@@ -231,30 +223,6 @@ export default StyleSheet.create({
         textAlign: 'center',
     },
 
-    /* Den */
-    denBanner: {
-        width  : parseInt(Layout.width * 0.85),
-        height : Layout.width * 0.25,
-
-        backgroundColor : 'rgb(255, 255, 255)',
-
-        shadowColor   : 'rgb(0, 0, 0)',
-        shadowOffset  : { width: 0, height: 3 },
-        shadowOpacity : 0.50,
-        shadowRadius  : 3
-    },
-    denDisclaimer: {
-        padding : 5,
-
-        borderTopWidth : 1,
-        borderColor    : 'rgb(180, 180, 180)'
-    },
-    denDisclaimerText: {
-        textAlign : 'center',
-        fontSize  : 9,
-        color     : 'rgb(60, 60, 60)'
-    },
-
     /* Settings List */
     settingsHeader: {
         marginTop : -5
@@ -275,8 +243,7 @@ export default StyleSheet.create({
         backgroundColor : '#f6f6f6'
     },
     settingsHeadingText: {
-        // color        : '#009688',
-        color        : Colors.tintColor,
+        // color        : Colors.tintColor,
         marginBottom : 10,
         fontWeight   : '500'
     },
@@ -286,7 +253,7 @@ export default StyleSheet.create({
     },
     settingsInfoText: {
         fontWeight: 'bold',
-        color     : Colors.tintColor
+        // color     : Colors.tintColor
     },
     settingsBetaText: {
         fontWeight: 'bold',
@@ -318,7 +285,7 @@ export default StyleSheet.create({
         marginRight : 15
     },
     cardHeaderText: {
-        width     : Layout.width - 200,
+        // width     : Layout.width - 200,
         color     : 'rgb(230, 230, 230)',
         fontSize  : 24,
         // marginTop : 5
@@ -346,7 +313,7 @@ export default StyleSheet.create({
         fontSize   : 28,
         // fontWeight : 'bold',
         textAlign  : 'center',
-        color      : Colors.tintColor
+        // color      : Colors.tintColor
     }
 
 })

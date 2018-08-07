@@ -67,7 +67,6 @@ export default class Stage extends React.Component {
                 </View>
             </ScrollView>
 
-
             <View style={ styles.adSpace }>
                 <Text style={ styles.adSpaceText }>
                     AD SPACE
@@ -608,6 +607,36 @@ export default class Stage extends React.Component {
     //         }
     //     })
     // }
+
+    _loadScreen() {
+        console.log('goto screen')
+
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: 'zeronet.Player',
+                options: {
+                    // topBar: {
+                    //     title: {
+                    //         text: 'Pushed screen title'
+                    //     }
+                    // },
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true
+                    },
+                    rightButtons: [
+                        {
+                            id: 'buttonOne',
+                            icon: require('../../img/one.png')
+                        }
+                    ]
+                }
+            }
+        })
+    }
+
+
 
 }
 

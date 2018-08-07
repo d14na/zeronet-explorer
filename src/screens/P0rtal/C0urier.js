@@ -1,7 +1,6 @@
 import React from 'react'
 
 import {
-    Button,
     StyleSheet,
     ScrollView,
     Text,
@@ -10,46 +9,49 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
-import {
-    FormLabel,
-    FormInput,
-    FormValidationMessage
-} from 'react-native-elements'
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+import stores from '../../stores'
 
+// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { MonoText } from '../../components'
+import {
+    Styles
+} from '../../constants'
 
+@observer
 export default class Courier extends React.Component {
     constructor(props) {
         super(props)
 
         console.log('Courier received props', props)
-
-        this.state = {}
     }
 
     render() {
         return <View style={ styles.container }>
-            <FormLabel>Name</FormLabel>
-            <FormInput onChangeText={ this._someFunction }/>
-            <FormValidationMessage>Error message</FormValidationMessage>
 
-            <Button title="COURIER" onPress={ this._chat.bind(this) } />
+            <View style={ [Styles.centerView, { paddingBottom: 100 }] }>
+                <Icon name={'at'} style={ styles.icon } />
+
+                <Text style={ styles.heading }>
+                    Courier Messaging
+                    {'\n'}coming soon...
+                </Text>
+            </View>
 
         </View>
     }
 
     componentDidMount() {
+        stores.P0rtal.setP0rtalTitle('C0urier')
+
         Navigation.mergeOptions(this.props.componentId, {
             topBar: {
                 title: {
                     component: {
                         id: 'zeronet.P0rtalTopBar',
-                        name: 'zeronet.P0rtalTopBar',
-                        passProps: {
-                            title: 'Courier'
-                        }
+                        name: 'zeronet.P0rtalTopBar'
                     }
                 },
                 visible: true,
@@ -57,20 +59,7 @@ export default class Courier extends React.Component {
             }
         })
 
-
-    }
-
-    _chat() {
-        console.log('goto intro')
-
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: 'zeronet.SecondTabScreen'
-            }
-        })
-    }
-
-    _someFunction() {
+        // stores.P0rtal.setP0rtalTitle('P0rtal')
 
     }
 
@@ -84,7 +73,13 @@ const styles = StyleSheet.create({
     },
     heading: {
         color: 'rgba(255, 255, 255, 0.9)',
-        fontSize: 20,
+        fontSize: 32,
         textAlign: 'center'
+    },
+    icon: {
+        color: 'rgba(255, 255, 255, 0.9)',
+        fontSize: 64,
+        textAlign: 'center',
+        margin: 25
     }
 })

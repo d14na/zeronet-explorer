@@ -1,7 +1,6 @@
 import React from 'react'
 
 import {
-    Button,
     StyleSheet,
     ScrollView,
     Text,
@@ -14,10 +13,18 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
 import stores from '../../stores'
 
+import {
+    Button
+} from 'react-native-elements'
+
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+import {
+    Styles
+} from '../../constants'
+
 @observer
-export default class Courier extends React.Component {
+export default class Welcome extends React.Component {
     constructor(props) {
         super(props)
 
@@ -27,16 +34,25 @@ export default class Courier extends React.Component {
 
     render() {
         return <View style={ styles.container }>
-            <View>
-                <Text style={ styles.heading }>
-                    WELCOME TO YOUR P0RTAL
-                </Text>
+            <View style={ [Styles.centerView, { paddingBottom: 100 }] }>
+
+                <View>
+                    <Text style={ styles.heading }>
+                        WELCOME TO YOUR P0̸RTAL
+                    </Text>
+                </View>
+
+                <Button
+                    title="SIGN IN"
+                    buttonStyle={ styles.welcomeButtons }
+                    onPress={ this._authorize } />
+
+                <Button
+                    title="SIGN UP"
+                    buttonStyle={ styles.welcomeButtons }
+                    onPress={ this._signup } />
+
             </View>
-
-            <Button title="SIGN IN" onPress={ this._authorize } />
-
-            <Button title="SIGN UP" onPress={ this._signup } />
-
         </View>
     }
 
@@ -46,10 +62,7 @@ export default class Courier extends React.Component {
                 title: {
                     component: {
                         id: 'zeronet.P0rtalTopBar',
-                        name: 'zeronet.P0rtalTopBar',
-                        passProps: {
-                            title: 'Welcome'
-                        }
+                        name: 'zeronet.P0rtalTopBar'
                     }
                 },
                 visible: true,
@@ -78,5 +91,10 @@ const styles = StyleSheet.create({
         color: 'rgba(255, 255, 255, 0.9)',
         fontSize: 20,
         textAlign: 'center'
+    },
+    welcomeButtons: {
+        width: 250,
+        height: 50,
+        marginTop: 15
     }
 })

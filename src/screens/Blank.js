@@ -14,6 +14,12 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
 import stores from '../stores'
 
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+
+import {
+    Styles
+} from '../constants'
+
 @observer
 export default class Blank extends React.Component {
     constructor(props) {

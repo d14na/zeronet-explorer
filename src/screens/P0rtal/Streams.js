@@ -10,6 +10,10 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+import stores from '../../stores'
+
 import {
     FormLabel,
     FormInput,
@@ -18,8 +22,7 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { MonoText } from '../../components'
-
+@observer
 export default class Feed extends React.Component {
     constructor(props) {
         super(props)
