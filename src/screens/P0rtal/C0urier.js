@@ -24,13 +24,10 @@ import {
 export default class Courier extends React.Component {
     constructor(props) {
         super(props)
-
-        console.log('Courier received props', props)
     }
 
     render() {
         return <View style={ styles.container }>
-
             <View style={ [Styles.centerView, { paddingBottom: 100 }] }>
                 <Icon name={'at'} style={ styles.icon } />
 
@@ -39,7 +36,6 @@ export default class Courier extends React.Component {
                     {'\n'}coming soon...
                 </Text>
             </View>
-
         </View>
     }
 
@@ -58,11 +54,7 @@ export default class Courier extends React.Component {
                 drawBehind: false
             }
         })
-
-        // stores.P0rtal.setP0rtalTitle('P0rtal')
-
     }
-
 }
 
 const styles = StyleSheet.create({

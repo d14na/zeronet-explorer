@@ -34,11 +34,17 @@ import { Welcome } from '../screens/P0rtal'
 export default class P0rtal extends React.Component {
     constructor(props) {
         super(props)
+        console.log('P0rtal props', props)
+
+        this._loadProfile = this._loadProfile.bind(this)
+        this._loadC0urier = this._loadC0urier.bind(this)
+        this._loadInfluence = this._loadInfluence.bind(this)
+        this._loadStreams = this._loadStreams.bind(this)
     }
 
     render() {
         if (!stores.P0rtal.authorized) {
-            return <Welcome />
+            return <Welcome componentId={ 'zeronet.P0rtal' } />
         }
 
         return <View style={ styles.container }>
@@ -48,11 +54,11 @@ export default class P0rtal extends React.Component {
                         xlarge
                         rounded
                         source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }}
-                        onPress={ this._loadProfile.bind(this) }
+                        onPress={ this._loadProfile }
                         activeOpacity={ 0.7 } />
 
                     <Button
-                        onPress={ this._loadProfile.bind(this) }
+                        onPress={ this._loadProfile }
                         icon={{name: 'user', type: 'font-awesome'}}
                         title='Edit Profile' />
                 </View>
@@ -61,14 +67,14 @@ export default class P0rtal extends React.Component {
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}
-                        onPress={ this._loadC0urier.bind(this) }
+                        onPress={ this._loadC0urier }
                         icon={{name: 'at', type: 'font-awesome'}}
                         title='C0urier' />
 
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}
-                        onPress={ this._loadInfluence.bind(this) }
+                        onPress={ this._loadInfluence }
                         icon={{name: 'book', type: 'font-awesome'}}
                         title='Influence' />
                 </View>
@@ -77,7 +83,7 @@ export default class P0rtal extends React.Component {
                     <Button
                         large
                         style={{ flex: 1, width: 150 }}
-                        onPress={ this._loadStreams.bind(this) }
+                        onPress={ this._loadStreams }
                         icon={{name: 'rss-square', type: 'font-awesome'}}
                         title='Streams' />
                 </View>
@@ -85,7 +91,6 @@ export default class P0rtal extends React.Component {
 
             <TouchableHighlight
                 onPress={ this._signOut }
-                underlayColor={'rgba(0, 0, 0, 0.054)'}
                 style={ styles.signOut }>
                 <Text style={ styles.signOutText }>
                     SIGNOUT

@@ -14,69 +14,47 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
 import stores from '../../stores'
 
-import {
-    FormLabel,
-    FormInput,
-    FormValidationMessage
-} from 'react-native-elements'
-
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+import {
+    Styles
+} from '../../constants'
+
 @observer
-export default class Courier extends React.Component {
+export default class Help extends React.Component {
     constructor(props) {
         super(props)
-
-        console.log('Courier received props', props)
-
-        this.state = {}
     }
 
     render() {
         return <View style={ styles.container }>
-            <FormLabel>Name</FormLabel>
-            <FormInput onChangeText={ this._someFunction }/>
-            <FormValidationMessage>Error message</FormValidationMessage>
+            <View style={ [Styles.centerView, { paddingBottom: 100 }] }>
+                <Icon name={'support'} style={ styles.icon } />
 
-            <Button title="HELP" onPress={ this._chat.bind(this) } />
-
+                <Text style={ styles.heading }>
+                    Help &amp; Support
+                    {'\n'}coming soon...
+                </Text>
+            </View>
         </View>
     }
 
     componentDidMount() {
+        stores.P0rtal.setP0rtalTitle('Help')
+
         Navigation.mergeOptions(this.props.componentId, {
             topBar: {
                 title: {
                     component: {
                         id: 'zeronet.P0rtalTopBar',
-                        name: 'zeronet.P0rtalTopBar',
-                        passProps: {
-                            title: 'Courier'
-                        }
+                        name: 'zeronet.P0rtalTopBar'
                     }
                 },
                 visible: true,
                 drawBehind: false
             }
         })
-
-
     }
-
-    _chat() {
-        console.log('goto intro')
-
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: 'zeronet.SecondTabScreen'
-            }
-        })
-    }
-
-    _someFunction() {
-
-    }
-
 }
 
 const styles = StyleSheet.create({
@@ -87,7 +65,13 @@ const styles = StyleSheet.create({
     },
     heading: {
         color: 'rgba(255, 255, 255, 0.9)',
-        fontSize: 20,
+        fontSize: 32,
         textAlign: 'center'
+    },
+    icon: {
+        color: 'rgba(255, 255, 255, 0.9)',
+        fontSize: 64,
+        textAlign: 'center',
+        margin: 25
     }
 })

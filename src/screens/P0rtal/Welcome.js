@@ -57,18 +57,7 @@ export default class Welcome extends React.Component {
     }
 
     componentDidMount() {
-        Navigation.mergeOptions(this.props.componentId, {
-            topBar: {
-                title: {
-                    component: {
-                        id: 'zeronet.P0rtalTopBar',
-                        name: 'zeronet.P0rtalTopBar'
-                    }
-                },
-                visible: true,
-                drawBehind: false
-            }
-        })
+
     }
 
     _authorize() {
@@ -76,7 +65,12 @@ export default class Welcome extends React.Component {
     }
 
     _signup() {
-        alert('show signup screen')
+        Navigation.push(this.props.componentId, {
+            component: {
+                id: 'zeronet.P0rtal.Signup',
+                name: 'zeronet.P0rtal.Signup'
+            }
+        })
     }
 
 }

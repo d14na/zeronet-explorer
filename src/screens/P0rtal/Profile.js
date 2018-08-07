@@ -14,13 +14,11 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
 import stores from '../../stores'
 
-import {
-    FormLabel,
-    FormInput,
-    FormValidationMessage
-} from 'react-native-elements'
-
 import Icon from 'react-native-vector-icons/FontAwesome'
+
+import {
+    Styles
+} from '../../constants'
 
 @observer
 export default class Profile extends React.Component {
@@ -30,35 +28,33 @@ export default class Profile extends React.Component {
 
     render() {
         return <View style={ styles.container }>
-            <View>
+            <View style={ [Styles.centerView, { paddingBottom: 100 }] }>
+                <Icon name={'user-circle-o'} style={ styles.icon } />
+
                 <Text style={ styles.heading }>
-                    MY ACCOUNT PAGE
+                    Profile &amp; Settings
+                    {'\n'}coming soon...
                 </Text>
             </View>
-
-            <FormLabel>Name</FormLabel>
-            <FormInput onChangeText={ this._someFunction }/>
-            <FormValidationMessage>Error message</FormValidationMessage>
-
-            <Button title="Update" onPress={ this._chat.bind(this) } />
-
         </View>
     }
 
-    _chat() {
-        console.log('goto intro')
+    componentDidMount() {
+        stores.P0rtal.setP0rtalTitle('Profile')
 
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: 'zeronet.SecondTabScreen'
+        Navigation.mergeOptions(this.props.componentId, {
+            topBar: {
+                title: {
+                    component: {
+                        id: 'zeronet.P0rtalTopBar',
+                        name: 'zeronet.P0rtalTopBar'
+                    }
+                },
+                visible: true,
+                drawBehind: false
             }
         })
     }
-
-    _someFunction() {
-
-    }
-
 }
 
 const styles = StyleSheet.create({
@@ -69,7 +65,13 @@ const styles = StyleSheet.create({
     },
     heading: {
         color: 'rgba(255, 255, 255, 0.9)',
-        fontSize: 20,
+        fontSize: 32,
         textAlign: 'center'
+    },
+    icon: {
+        color: 'rgba(255, 255, 255, 0.9)',
+        fontSize: 64,
+        textAlign: 'center',
+        margin: 25
     }
 })

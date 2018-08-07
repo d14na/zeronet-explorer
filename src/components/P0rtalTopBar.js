@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     heading: {
-        width: 200,
+        width: 175,
         // backgroundColor: 'rgba(30, 120, 30, 0.2)',
         justifyContent: 'center'
     },
