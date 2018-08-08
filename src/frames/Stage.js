@@ -25,6 +25,8 @@ export default class Stage extends React.Component {
 
     constructor(props) {
         super(props)
+
+        this._addLog = this._addLog.bind(this)
     }
 
     render() {
@@ -69,6 +71,15 @@ export default class Stage extends React.Component {
                 </Text>
             </View>
         </View>
+    }
+
+    componentDidMount() {
+        
+    }
+
+    _addLog(_tag, _entry) {
+        this.debug = this.debug + '\n---\n\n' + _tag + '\n' + _entry
+        console.log(_tag, _entry)
     }
 
     _closeStage() {

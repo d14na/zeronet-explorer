@@ -43,7 +43,6 @@ export default class StartupFrame extends React.Component {
         /* Track event. */
         Shared.TrackEvent('STARTUP_')
 
-        this._addLog = this._addLog.bind(this)
         this._handleSearchInput = this._handleSearchInput.bind(this)
         this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
         this._updateIndex = this._updateIndex.bind(this)
@@ -129,11 +128,6 @@ export default class StartupFrame extends React.Component {
         console.log('RNN', `CTB.componentWillUnmount`)
     }
 
-    _addLog(_tag, _entry) {
-        this.debug = this.debug + '\n---\n\n' + _tag + '\n' + _entry
-        console.log(_tag, _entry)
-    }
-
     _handleSearchInput(_val) {
         console.log('handle search', _val)
         this.searchVal = _val
@@ -150,13 +144,6 @@ export default class StartupFrame extends React.Component {
     }
 
     _loadZite(_target) {
-        this._addLog('load webview with target', _target)
-        alert(`loading ${_target}`)
-
-        // this._findPeers()
-
-        return
-
         Navigation.push(this.props.componentId, {
             component: {
                 id: 'zeronet.Webview',
@@ -168,7 +155,7 @@ export default class StartupFrame extends React.Component {
                         drawBehind: true
                     }
                 },
-                passProps: { ziteTag: _target }
+                passProps: { target: _target }
             }
         })
     }
