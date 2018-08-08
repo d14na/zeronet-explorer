@@ -8,7 +8,7 @@
 
 **Zeronet Explorer** is an open-source transport into the immersive, social experience of server-less, peer-to-peer websites *(known as **zites**)* from ANY device. You're welcome!
 
-**[Download signed .APK binaries from here]()**
+**[Download signed Android .APK binaries from here](https://github.com/d14na/zeronet-explorer/tree/master/bin)**
 
 ## So, just how DID we do this? *Well...*
 

@@ -28,8 +28,6 @@ export default class P0rtalTopBar extends React.Component {
     }
 
     render() {
-        console.log('stores', stores)
-
         return <View style={ styles.container }>
             <View style={ styles.heading }>
                 <Text style={ styles.headingText }>{ stores.P0rtal.title }</Text>
@@ -66,7 +64,6 @@ export default class P0rtalTopBar extends React.Component {
             component: { name: 'zeronet.P0rtal.Help' }
         })
     }
-
 }
 
 const styles = StyleSheet.create({
