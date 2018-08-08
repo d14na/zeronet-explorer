@@ -20,6 +20,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import {
+    Shared,
     Styles
 } from '../../constants'
 
@@ -28,7 +29,10 @@ export default class Welcome extends React.Component {
     constructor(props) {
         super(props)
 
-        this._authorize = this._authorize.bind(this)
+        /* Track event. */
+        Shared.TrackEvent('WELCOME_')
+
+        this._signin = this._signin.bind(this)
         this._signup = this._signup.bind(this)
     }
 
@@ -45,7 +49,7 @@ export default class Welcome extends React.Component {
                 <Button
                     title="SIGN IN"
                     buttonStyle={ styles.welcomeButtons }
-                    onPress={ this._authorize } />
+                    onPress={ this._signin } />
 
                 <Button
                     title="SIGN UP"
@@ -60,8 +64,13 @@ export default class Welcome extends React.Component {
 
     }
 
-    _authorize() {
-        stores.P0rtal.authorize()
+    _signin() {
+        Navigation.push(this.props.componentId, {
+            component: {
+                id: 'zeronet.P0rtal.Signin',
+                name: 'zeronet.P0rtal.Signin'
+            }
+        })
     }
 
     _signup() {

@@ -9,23 +9,24 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+import stores from '../stores'
+
 import { Button } from 'react-native-elements'
 
-export default class Playback extends React.Component {
-    static get options() {
-        topBar: {
-            leftButtons: [
-                {
-                    id: 'buttonOne',
-                    icon: require('../../img/one.png')
-                }
-            ]
-        }
-    }
+import {
+    Shared,
+    Styles
+} from '../constants'
 
+@observer
+export default class Playback extends React.Component {
     constructor(props) {
         super(props)
 
+        /* Track event. */
+        Shared.TrackEvent('STUDI0_')
     }
 
     render() {

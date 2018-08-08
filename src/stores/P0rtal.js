@@ -1,5 +1,7 @@
 // @flow
 
+import { Navigation } from 'react-native-navigation'
+
 import { observable, action } from 'mobx'
 import { persist } from 'mobx-persist'
 
@@ -17,8 +19,14 @@ class Store {
     }
 
     @action authorize() {
+        /* Set authorization flag. */
         this.authorized = true
-        this.setP0rtalTitle('Authorized!')
+
+        /* Set the P0rtal title. */
+        this.setP0rtalTitle('Welcome Back!')
+
+        /* Load the P0rtal. */
+        Navigation.popToRoot('zeronet.P0rtal')
     }
 
     @action exit() {

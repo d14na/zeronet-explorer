@@ -17,6 +17,7 @@ import stores from '../../stores'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import {
+    Shared,
     Styles
 } from '../../constants'
 
@@ -24,6 +25,9 @@ import {
 export default class Influence extends React.Component {
     constructor(props) {
         super(props)
+
+        /* Track event. */
+        Shared.TrackEvent('INFLUENCE_')
     }
 
     render() {

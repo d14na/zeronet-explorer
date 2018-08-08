@@ -15,22 +15,18 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
 import stores from '../stores'
 
+import {
+    Shared,
+    Styles
+} from '../constants'
+
 @observer
 export default class Canvas extends React.Component {
-    static get options() {
-        topBar: {
-            leftButtons: [
-                {
-                    id: 'buttonOne',
-                    icon: require('../../img/one.png')
-                }
-            ]
-        }
-    }
-
     constructor(props) {
         super(props)
 
+        /* Track event. */
+        Shared.TrackEvent('CANVAS_')
     }
 
     render() {

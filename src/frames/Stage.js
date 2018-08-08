@@ -20,15 +20,11 @@ import {
     SearchBar
 } from 'react-native-elements'
 
-import { MonoText } from '../components'
-
 export default class Stage extends React.Component {
     @observable debug = 'loading...'
 
     constructor(props) {
         super(props)
-
-        console.log('Stage received props', props)
     }
 
     render() {

@@ -11,25 +11,20 @@ import { Navigation } from 'react-native-navigation'
 
 import { Button } from 'react-native-elements'
 
-export default class Canvas extends React.Component {
-    static get options() {
-        topBar: {
-            leftButtons: [
-                {
-                    id: 'buttonOne',
-                    icon: require('../../img/one.png')
-                }
-            ]
-        }
-    }
+import {
+    Shared,
+    Styles
+} from '../constants'
 
+export default class Canvas extends React.Component {
     constructor(props) {
         super(props)
 
+        /* Track event. */
+        Shared.TrackEvent('PLAYERONE_')
     }
 
     render() {
-
         return <View style={ styles.container }>
             <Button
                 onPress={ this._close.bind(this) }

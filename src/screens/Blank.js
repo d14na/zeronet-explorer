@@ -17,6 +17,7 @@ import stores from '../stores'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 import {
+    Shared,
     Styles
 } from '../constants'
 

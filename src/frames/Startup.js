@@ -22,16 +22,15 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
 import stores from '../stores'
 
-import { Client } from 'bugsnag-react-native'
-
-import Amplitude from 'amplitude'
-
-import DeviceInfo from 'react-native-device-info'
-
 import {
     Button,
     SearchBar
 } from 'react-native-elements'
+
+import {
+    Shared,
+    Styles
+} from '../constants'
 
 @observer
 export default class StartupFrame extends React.Component {
@@ -41,33 +40,14 @@ export default class StartupFrame extends React.Component {
     constructor(props) {
         super(props)
 
-        console.log('Main Frame received props', props)
+        /* Track event. */
+        Shared.TrackEvent('STARTUP_')
 
         this._addLog = this._addLog.bind(this)
         this._handleSearchInput = this._handleSearchInput.bind(this)
         this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
         this._updateIndex = this._updateIndex.bind(this)
         this._loadZite = this._loadZite.bind(this)
-
-        // const bugsnag = new Client()
-        // bugsnag.notify(new Error("TEST: First error"))
-
-        /* Initialize amplitude. */
-        const amplitude = new Amplitude('beadb78ade3fd20e320417ed123488b4')
-
-        /* Set the event type. */
-        const event_type = 'MAIN_'
-
-        /* Retrieve device id. */
-        const device_id = DeviceInfo.getUniqueID()
-        console.info('Device Unique Id', device_id)
-
-        /* Set the tracking data. */
-        const trackingData = { event_type, device_id }
-
-        /* Call amplitude api. */
-        amplitude.track(trackingData)
-            .catch(e => console.log(e))
     }
 
     render() {

@@ -18,10 +18,18 @@ import { Button } from 'react-native-elements'
 
 import Timer from 'react-native-timer'
 
+import {
+    Shared,
+    Styles
+} from '../constants'
+
 @observer
 class WelcomeScreen extends React.Component {
     constructor(props) {
         super(props)
+        
+        /* Track event. */
+        Shared.TrackEvent('WEBVIEW_')
 
         /* Initialize a reference to the webview. */
         this._webview = null
@@ -37,7 +45,6 @@ class WelcomeScreen extends React.Component {
             debug: 'loading...',
             source
         }
-
     }
 
     @observable _hasLoadEnded = false

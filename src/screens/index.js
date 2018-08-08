@@ -17,6 +17,7 @@ import {
     Help as P0rtalHelp,
     Influence as P0rtalInfluence,
     Profile as P0rtalProfile,
+    Signin as P0rtalSignin,
     Signup as P0rtalSignup,
     Streams as P0rtalStreams
 } from './P0rtal'
@@ -50,6 +51,7 @@ export function registerScreens() {
     Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp)
     Navigation.registerComponent('zeronet.P0rtal.Influence', () => P0rtalInfluence)
     Navigation.registerComponent('zeronet.P0rtal.Profile', () => P0rtalProfile)
+    Navigation.registerComponent('zeronet.P0rtal.Signin', () => P0rtalSignin)
     Navigation.registerComponent('zeronet.P0rtal.Signup', () => P0rtalSignup)
     Navigation.registerComponent('zeronet.P0rtal.Streams', () => P0rtalStreams)
 
