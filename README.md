@@ -1,4 +1,4 @@
-# Zeronet Explorer for Android, iOS & PCs
+# Zeronet Explorer for Android & iOS
 
 [![Build Status](https://travis-ci.org/d14na/zeronet-explorer.png?branch=master)](https://travis-ci.org/d14na/zeronet-explorer)
 [![Documentation Status](https://readthedocs.org/projects/zeronet-explorer/badge/?version=latest)](https://zeronet-explorer.readthedocs.io/en/latest/?badge=latest)
