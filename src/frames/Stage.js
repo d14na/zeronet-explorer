@@ -20,13 +20,10 @@ import {
     SearchBar
 } from 'react-native-elements'
 
+@observer
 export default class Stage extends React.Component {
-    @observable debug = 'loading...'
-
     constructor(props) {
         super(props)
-
-        this._addLog = this._addLog.bind(this)
     }
 
     render() {
@@ -60,7 +57,7 @@ export default class Stage extends React.Component {
             <ScrollView style={{ flex: 1 }}>
                 <View style={{ margin: 20, padding: 20, backgroundColor: 'rgba(30, 120, 60, 0.2)'}}>
                     <Text style={{ fontStyle: 'italic' }}>
-                        { this.debug }
+                        { stores.Stage.debugLog }
                     </Text>
                 </View>
             </ScrollView>
@@ -74,12 +71,7 @@ export default class Stage extends React.Component {
     }
 
     componentDidMount() {
-        
-    }
 
-    _addLog(_tag, _entry) {
-        this.debug = this.debug + '\n---\n\n' + _tag + '\n' + _entry
-        console.log(_tag, _entry)
     }
 
     _closeStage() {

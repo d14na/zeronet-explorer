@@ -9,6 +9,10 @@ import {
 
 import { Navigation } from 'react-native-navigation'
 
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+import stores from '../stores'
+
 import { Button } from 'react-native-elements'
 
 import {
@@ -16,6 +20,7 @@ import {
     Styles
 } from '../constants'
 
+@observer
 export default class Canvas extends React.Component {
     constructor(props) {
         super(props)

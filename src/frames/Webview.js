@@ -37,9 +37,15 @@ export default class Webview extends React.Component {
         this._onMessage = this._onMessage.bind(this)
         this._btnBack = this._btnBack.bind(this)
         this._btnClose = this._btnClose.bind(this)
+        this._getSource = this._getSource.bind(this)
+        this._goDownload = this._goDownload.bind(this)
 
         /* Initialize a reference to the webview. */
         this._webview = null
+
+        this.state = {
+            source: { html: '<h1>loading...</h1>' }
+        }
     }
 
     @observable _hasLoadEnded = false
@@ -49,7 +55,7 @@ export default class Webview extends React.Component {
         return <View style={ styles.container }>
             <WebView
                 ref={ ref => (this._webview = ref) }
-                source={ this._getSource() }
+                source={ this.state.source }
                 style={ styles.webview }
                 javaScriptEnabled={ true }
                 mixedContentMode='always'
@@ -84,11 +90,9 @@ export default class Webview extends React.Component {
         /* Localize this. */
         const self = this
 
-        /* Initialize jQuery (and then subsequent libraries). */
-        // this._initJquery()
-
+        this._goDownload()
         // this._testDownload()
-        this._injectHtml(this.html)
+        // this._injectHtml(this.html)
         // this._getHtml()
 
         // this._listFiles()
@@ -275,8 +279,17 @@ export default class Webview extends React.Component {
         let response = await peer0.download(net)
         console.log('peer0 awaiting response', response)
 
-        this.setState({ debug: response })
-
+        try {
+            response = JSON.parse(response)
+            response = JSON.stringify(response, null, 4)
+            response = response.replace(/(?:\r\n|\r|\n)/g, '<br />')
+            console.log('peer0 pretty response', response)
+            source = { html: `<pre><code>${response}</code></pre>` }
+            this.setState({ source })
+        } catch (e) {
+            source = { html: response }
+            this.setState({ source })
+        }
     }
 
     _loadWebview() {

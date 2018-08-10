@@ -158,6 +158,17 @@ export default class StartupFrame extends React.Component {
                 passProps: { target: _target }
             }
         })
+
+        Navigation.mergeOptions('zeronet.Stage', {
+            sideMenu: {
+                left: {
+                    visible: true
+                }
+            }
+        })
+
+        stores.Stage.addDebugLog('Loading Zite')
+
     }
 
 }
