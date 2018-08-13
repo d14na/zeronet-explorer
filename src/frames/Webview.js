@@ -103,6 +103,11 @@ export default class Webview extends React.Component {
         const self = this
 
         this._loadZite()
+        // this._loadFile(this.tag, 'images/icon.png')
+        //     .then(img => {
+        //         console.log('IMAGES/ICON.PNG', img)
+        //     })
+        // this._getZiteInfo(this.tag)
 
         // Timer.setInterval(this, 'test10Interval', () => {
         //     console.log('this is a 10sec Timer.setInterval, :)')
@@ -165,86 +170,52 @@ export default class Webview extends React.Component {
         }
     }
 
-    _injectHtml(_html) {
-        const html = _html
-        const source = { html }
+    async _getZiteInfo(_tag) {
+        /* Initailize Host0. */
+        const host0 = new Host0(RNFS)
+        console.log('host0', host0)
 
-        this.setState({ source }, () => {
-            console.log('HTML source has been injected by PEER!')
+        let content = await host0.listFiles(_tag)
+        console.log('host0 awaiting file list', content)
 
-            // self._initJquery()
+        /* Return a promise with the content. */
+        // return new Promise(function (resolve, reject) {
+        //     resolve(content)
+        // })
+    }
+
+    async _loadFile(_tag, _path, _saveToDisk=true) {
+        /* Initailize Host0. */
+        const host0 = new Host0(RNFS)
+        console.log('host0', host0)
+
+        /* Initailize Peer0. */
+        // const peer0 = new Peer0(net)
+        // console.log('peer0', peer0)
+
+        // let content = await host0.listFiles(this.tag)
+        // console.log('host0 awaiting file list', content)
+
+        /* Retrieve the content from host. */
+        let content = await host0.getFile(_tag, _path)
+        // console.log('DID WE GET ANYTHING?', content)
+
+        /* Retrieve the content from peer. */
+        if (!content) {
+            let content = await Peer0.getFile(net, _tag, _path)
+            // let content = await peer0.getFile(_tag, _path)
+
+            /* Save the content to disk. */
+            if (_saveToDisk) {
+                await host0.saveFile(_tag, _path, content)
+            }
+        }
+        // console.log('BY NOW WE MUST HAVE SOMETHING!!!', content)
+
+        /* Return a promise with the content. */
+        return new Promise(function (resolve, reject) {
+            resolve(content)
         })
-    }
-
-    _getHtml() {
-        /* Localize this. */
-        const self = this
-
-
-        var path = RNFS.DocumentDirectoryPath + '/NEW_SAMPLE.html'
-
-        // get a list of files and directories in the main bundle
-        RNFS.readFile(path) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-            .then((html) => {
-                const source = { html }
-                self.setState({ source }, () => {
-                    console.log('HTML source has been updated!')
-
-                    // self._initJquery()
-                })
-            })
-            .catch(error => {
-                console.log('error', error)
-            })
-    }
-
-    _testDownload() {
-        const self = this
-        // console.log('SAMPLE', require('../../SAMPLE.html'))
-
-                const RNFS = require('react-native-fs')
-        console.log('RNFS.DocumentDirectoryPath', RNFS.DocumentDirectoryPath)
-                var path = RNFS.DocumentDirectoryPath + '/NEW_SAMPLE.html'
-
-                // let options = {
-                //     fromUrl: 'https://pastebin.com/raw/8zsMP4n4',
-                //     toFile: path
-                // }
-                // console.log('options', options)
-                // let result = RNFS.downloadFile(options)
-                // // console.log('download result', result)
-                // // console.log('Job Id', result.jobId)
-                // result.promise.then(result => {
-                //     console.log('Promise result', result)
-                // })
-                // .catch((err) => {
-                //     if(err.description === "cancelled") {
-                //         // cancelled by user
-                //     }
-                //     console.log(err)
-                // })
-
-                fetch('https://pastebin.com/raw/Eug7CPb8')  // without JavaScript
-                // fetch('https://pastebin.com/raw/90masgPQ')  // with comment
-                // fetch('https://pastebin.com/raw/Z12ABkLq') // without comment
-                    .then(result => {
-                        // return result.blob()
-                        return result.text()
-                    }).then(val => {
-                        // console.log('fetch result text', val)
-
-                        RNFS.writeFile(path, val, 'utf8')
-                            .then((success) => {
-                                console.log('FILE WRITTEN!')
-
-                                self._getHtml()
-                            })
-                            .catch((err) => {
-                                console.log(err.message)
-                            })
-                    })
-
-
     }
 
     async _loadZite() {
@@ -256,76 +227,38 @@ export default class Webview extends React.Component {
         // const peer0 = new Peer0(net)
         // console.log('peer0', peer0)
 
-        // let content = await host0.getFile(this.tag, 'content.json')
-        // console.log('host0 awaiting content.json', content)
+        // let content = await host0.listFiles(this.tag)
+        // console.log('host0 awaiting file list', content)
 
-        // if (content) {
-        //     console.log('WHERE IS IT!!!!!!!')
-        // } else {
-            // let content = Peer0.getFile(net, this.tag, 'content.json', function (body) {
-            //     console.log('CAME BACK WITH THIS BODY', body)
-            // })
-            let content = await Peer0.getFile(net, this.tag, 'content.json')
-            // let content = await peer0.getFile(this.tag, 'content.json')
-            console.log('peer0 awaiting content.json', content)
-        // }
+        let content = await host0.getFile(this.tag, 'index.html')
+        console.log('host0 awaiting index.html', content)
 
+        if (!content) {
+            let content = await Peer0.getFile(net, this.tag, 'index.html')
+            // let content = await peer0.getFile(this.tag, 'index.html')
+            console.log('peer0 awaiting index.html', content)
 
-
-        return
-
+            let saved = await host0.saveFile(this.tag, 'index.html', content)
+            // console.log('peer0 awaiting SAVED index.html', saved)
+        }
 
         try {
-            const config = JSON.parse(response)
+            /* Test for JSON. */
+            const config = JSON.parse(content)
 
             let jsonDisplay = JSON.stringify(config, null, 4)
-            display = response.replace(/(?:\r\n|\r|\n)/g, '<br />')
+            display = content.replace(/(?:\r\n|\r|\n)/g, '<br />')
             console.log('peer0 pretty display', display)
             source = { html: `<pre><code>${display}</code></pre>` }
             this.setState({ source })
 
             stores.Stage.updateZiteTitle(config.title)
         } catch (e) {
-            source = { html: response }
+            // console.log('FAILED TO PARSE JSON', e)
+
+            source = { html: content }
             this.setState({ source })
         }
-    }
-
-    _loadWebview() {
-        console.log('open webview')
-
-        // Navigation.showModal({
-        //   stack: {
-        //     children: [{
-        //       component: {
-        //         name: 'zeronet.Webview',
-        //         passProps: {
-        //           text: 'stack with one child'
-        //         },
-        //         options: {
-        //             topBar: {
-        //                 visible: false,
-        //                 // animate: false,
-        //                 drawBehind: true
-        //             }
-        //         }
-        //       }
-        //     }]
-        //   }
-        // })
-
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: 'zeronet.Webview',
-                options: {
-                    topBar: {
-                        visible: false,
-                        animate: false,
-                        drawBehind: true
-                    }
-                }
-            }
-        })
     }
 
 }

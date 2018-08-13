@@ -86,7 +86,7 @@ const getFile = function (_net, _tag, _path, cb) {
     tag = _tag
     path = _path
 
-    // return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         client = _net.createConnection(hostPort, hostIp, () => {
             console.info('Connected to peer!', hostPort, hostIp)
 
@@ -100,14 +100,13 @@ const getFile = function (_net, _tag, _path, cb) {
         client.on('error', function (error) {
             console.error(error)
 
-            // reject(error)
+            reject(error)
         })
 
         let called = 0
         let stop = 0
 
         client.on('data', function(_data) {
-// console.log('***RECEIVED DATA', _data)
             try {
                 if (payload) {
                     payload = Buffer.concat([payload, _data])
@@ -135,9 +134,8 @@ const getFile = function (_net, _tag, _path, cb) {
 
                     let body = decoded.body.toString()
 
-                    console.log('***Check out my HTML body', body)
-                    cb(body)
-                    // resolve(body)
+                    // console.log('***Check out my HTML body', body)
+                    resolve(body)
                 }
             } catch (e) {
                 // ignore the errors
@@ -148,7 +146,7 @@ const getFile = function (_net, _tag, _path, cb) {
         client.on('close', function () {
             console.info('Connection closed.')
         })
-    // })
+    })
 
 }
 
