@@ -44,7 +44,7 @@ export default class Stage extends React.Component {
                 outerContainerStyles={ styles.topBar }
                 innerContainerStyles={ styles.topBarContent }
                 leftComponent={{}}
-                centerComponent={{ text: '[Z#] ZER0NET: GETTING STARTED GUIDE IN 5 MINUTES', style: styles.topBarTitle }}
+                centerComponent={{ text: stores.Stage.ziteTitle, style: styles.topBarTitle }}
                 rightComponent={<MyCustomRightComponent parent={ this } />} />
 
             <SearchBar
@@ -52,7 +52,7 @@ export default class Stage extends React.Component {
                 icon={{ type: 'font-awesome', name: 'search' }}
                 clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
                 inputStyle={{ paddingLeft: 40, paddingBottom: 9 }}
-                placeholder='Search #GettingStarted' />
+                placeholder={ 'Search #' + stores.Stage.ziteTitle } />
 
             <ScrollView style={{ flex: 1 }}>
                 <View style={{ margin: 20, padding: 20, backgroundColor: 'rgba(30, 120, 60, 0.2)'}}>
@@ -587,15 +587,15 @@ export default class Stage extends React.Component {
     //     }
     // }
 
-    async _goDownload() {
-        const net = require('net')
-        const peer0 = require('peer0')
-
-        this._addLog('Making download request from Peer0')
-
-        let response = await peer0.download(net)
-        this._addLog('peer0 awaiting response', response)
-    }
+    // async _goDownload() {
+    //     const net = require('net')
+    //     const peer0 = require('peer0')
+    //
+    //     this._addLog('Making download request from Peer0')
+    //
+    //     let response = await peer0.download(net)
+    //     this._addLog('peer0 awaiting response', response)
+    // }
 
     // _openP0rtal() {
     //     Navigation.mergeOptions(this.props.componentId, {

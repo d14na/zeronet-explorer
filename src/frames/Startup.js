@@ -79,15 +79,15 @@ export default class StartupFrame extends React.Component {
                         large
                         containerViewStyle={ styles.mainButtons }
                         borderRadius={ 3 }
-                        onPress={ () => this._loadZite('guide') }
+                        onPress={ () => this._loadZite('1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C') }
                         icon={{ name: 'university', type: 'font-awesome' }}
-                        title='ZER0̸NET 10̸1' />
+                        title='D14NA' />
 
                     <Button
                         large
                         containerViewStyle={ styles.mainButtons }
                         borderRadius={ 3 }
-                        onPress={ () => this._loadZite('zitetags') }
+                        onPress={ () => this._loadZite('1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J') }
                         icon={{ name: 'hashtag', type: 'font-awesome' }}
                         title='ZITETAGS' />
 
@@ -95,9 +95,9 @@ export default class StartupFrame extends React.Component {
                         large
                         containerViewStyle={ styles.mainButtons }
                         borderRadius={ 3 }
-                        onPress={ () => this._loadZite('blog') }
-                        icon={{ name: 'book', type: 'font-awesome' }}
-                        title='ZER0̸BLOG' />
+                        onPress={ () => this._loadZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
+                        icon={{ name: 'university', type: 'font-awesome' }}
+                        title='USER GUIDE' />
 
                 </View>
             </View>
@@ -143,7 +143,7 @@ export default class StartupFrame extends React.Component {
         this.selectedIndex = _selectedIndex
     }
 
-    _loadZite(_target) {
+    _loadZite(_tag) {
         Navigation.push(this.props.componentId, {
             component: {
                 id: 'zeronet.Webview',
@@ -155,7 +155,7 @@ export default class StartupFrame extends React.Component {
                         drawBehind: true
                     }
                 },
-                passProps: { target: _target }
+                passProps: { tag: _tag }
             }
         })
 
@@ -166,9 +166,7 @@ export default class StartupFrame extends React.Component {
                 }
             }
         })
-
         stores.Stage.addDebugLog('Loading Zite')
-
     }
 
 }

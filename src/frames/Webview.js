@@ -18,6 +18,14 @@ import { Button } from 'react-native-elements'
 
 import Timer from 'react-native-timer'
 
+import Host0 from '../lib/host0'
+import Peer0 from '../lib/peer0'
+// import Host0 from 'host0'
+// import Peer0 from 'peer0'
+
+import net from 'net'
+import RNFS from 'react-native-fs'
+
 import {
     Shared,
     Styles
@@ -38,10 +46,13 @@ export default class Webview extends React.Component {
         this._btnBack = this._btnBack.bind(this)
         this._btnClose = this._btnClose.bind(this)
         this._getSource = this._getSource.bind(this)
-        this._goDownload = this._goDownload.bind(this)
+        this._loadZite = this._loadZite.bind(this)
 
         /* Initialize a reference to the webview. */
         this._webview = null
+
+        /* Set the tag. */
+        this.tag = props.tag
 
         this.state = {
             source: { html: '<h1>loading...</h1>' }
@@ -49,7 +60,8 @@ export default class Webview extends React.Component {
     }
 
     @observable _hasLoadEnded = false
-    @observable source = { html: '<h1>loading...</h1>' }
+    // FIXME How do we use the store without locking the observable??
+    // @observable source = { html: '<h1>loading...</h1>' }
 
     render() {
         return <View style={ styles.container }>
@@ -90,15 +102,11 @@ export default class Webview extends React.Component {
         /* Localize this. */
         const self = this
 
-        this._goDownload()
-        // this._testDownload()
-        // this._injectHtml(this.html)
-        // this._getHtml()
+        this._loadZite()
 
-        // this._listFiles()
-        Timer.setInterval(this, 'test10Interval', () => {
-            console.log('this is a 10sec Timer.setInterval, :)')
-        }, 10000)
+        // Timer.setInterval(this, 'test10Interval', () => {
+        //     console.log('this is a 10sec Timer.setInterval, :)')
+        // }, 10000)
     }
 
     _getSource() {
@@ -172,8 +180,6 @@ export default class Webview extends React.Component {
         /* Localize this. */
         const self = this
 
-        // require the module
-        var RNFS = require('react-native-fs')
 
         var path = RNFS.DocumentDirectoryPath + '/NEW_SAMPLE.html'
 
@@ -190,35 +196,6 @@ export default class Webview extends React.Component {
             .catch(error => {
                 console.log('error', error)
             })
-    }
-
-    async _listFiles() {
-        // require the module
-        var RNFS = require('react-native-fs')
-
-        // get a list of files and directories in the main bundle
-        RNFS.readDir(RNFS.DocumentDirectoryPath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-          .then((result) => {
-            console.log('GOT RESULT', result)
-
-            // stat the first file
-            return Promise.all([RNFS.stat(result[0].path), result[0].path])
-          })
-          .then((statResult) => {
-            if (statResult[0].isFile()) {
-              // if we have a file, read it
-              return RNFS.readFile(statResult[1], 'utf8')
-            }
-
-            return 'no file';
-          })
-          .then((contents) => {
-            // log the file contents
-            console.log(contents)
-          })
-          .catch((err) => {
-            console.log(err.message, err.code)
-          })
     }
 
     _testDownload() {
@@ -270,22 +247,44 @@ export default class Webview extends React.Component {
 
     }
 
-    async _goDownload() {
-        const net = require('net')
-        const peer0 = require('peer0')
+    async _loadZite() {
+        /* Initailize Host0. */
+        const host0 = new Host0(RNFS)
+        console.log('host0', host0)
 
-        console.log('Making download request from Peer0')
+        /* Initailize Peer0. */
+        // const peer0 = new Peer0(net)
+        // console.log('peer0', peer0)
 
-        let response = await peer0.download(net)
-        console.log('peer0 awaiting response', response)
+        // let content = await host0.getFile(this.tag, 'content.json')
+        // console.log('host0 awaiting content.json', content)
+
+        // if (content) {
+        //     console.log('WHERE IS IT!!!!!!!')
+        // } else {
+            // let content = Peer0.getFile(net, this.tag, 'content.json', function (body) {
+            //     console.log('CAME BACK WITH THIS BODY', body)
+            // })
+            let content = await Peer0.getFile(net, this.tag, 'content.json')
+            // let content = await peer0.getFile(this.tag, 'content.json')
+            console.log('peer0 awaiting content.json', content)
+        // }
+
+
+
+        return
+
 
         try {
-            response = JSON.parse(response)
-            response = JSON.stringify(response, null, 4)
-            response = response.replace(/(?:\r\n|\r|\n)/g, '<br />')
-            console.log('peer0 pretty response', response)
-            source = { html: `<pre><code>${response}</code></pre>` }
+            const config = JSON.parse(response)
+
+            let jsonDisplay = JSON.stringify(config, null, 4)
+            display = response.replace(/(?:\r\n|\r|\n)/g, '<br />')
+            console.log('peer0 pretty display', display)
+            source = { html: `<pre><code>${display}</code></pre>` }
             this.setState({ source })
+
+            stores.Stage.updateZiteTitle(config.title)
         } catch (e) {
             source = { html: response }
             this.setState({ source })

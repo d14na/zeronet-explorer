@@ -5,6 +5,7 @@ import { persist } from 'mobx-persist'
 
 class Store {
     @observable debugLog = ''
+    @observable ziteTitle = ''
 
     /**
      * Add a debugging log entry.
@@ -17,6 +18,10 @@ class Store {
         } else {
             this.debugLog = this.debugLog + '\n---\n\n' + _tag
         }
+    }
+
+    @action updateZiteTitle(_title) {
+        this.ziteTitle = _title
     }
 }
 
