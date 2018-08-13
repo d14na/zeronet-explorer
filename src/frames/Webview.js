@@ -103,9 +103,11 @@ export default class Webview extends React.Component {
         const self = this
 
         this._loadZite()
+        // this._loadFile(this.tag, 'index.html')
         // this._loadFile(this.tag, 'images/icon.png')
         //     .then(img => {
-        //         console.log('IMAGES/ICON.PNG', img)
+        //         // console.log('STAT FOR index.html', img.length)
+        //         console.log('IMAGES/ICON.PNG', img.length)
         //     })
         // this._getZiteInfo(this.tag)
 
@@ -198,12 +200,15 @@ export default class Webview extends React.Component {
 
         /* Retrieve the content from host. */
         let content = await host0.getFile(_tag, _path)
+        // let content = null
         // console.log('DID WE GET ANYTHING?', content)
 
         /* Retrieve the content from peer. */
         if (!content) {
-            let content = await Peer0.getFile(net, _tag, _path)
+            content = await Peer0.getFile(net, _tag, _path, 0, 89453)
             // let content = await peer0.getFile(_tag, _path)
+
+// console.log('LOOK WHAT WE GOT FROM PEER0', content.length)
 
             /* Save the content to disk. */
             if (_saveToDisk) {
@@ -231,7 +236,7 @@ export default class Webview extends React.Component {
         // console.log('host0 awaiting file list', content)
 
         let content = await host0.getFile(this.tag, 'index.html')
-        console.log('host0 awaiting index.html', content)
+        // console.log('host0 awaiting index.html', content)
 
         if (!content) {
             let content = await Peer0.getFile(net, this.tag, 'index.html')
@@ -248,7 +253,6 @@ export default class Webview extends React.Component {
 
             let jsonDisplay = JSON.stringify(config, null, 4)
             display = content.replace(/(?:\r\n|\r|\n)/g, '<br />')
-            console.log('peer0 pretty display', display)
             source = { html: `<pre><code>${display}</code></pre>` }
             this.setState({ source })
 
@@ -256,7 +260,24 @@ export default class Webview extends React.Component {
         } catch (e) {
             // console.log('FAILED TO PARSE JSON', e)
 
-            source = { html: content }
+            // let img = await this._loadFile(this.tag, 'images/project.png')
+            let img = await this._loadFile(this.tag, 'images/icon.png')
+            let imgData = 'data:' + 'image/png' + ';base64,' + img
+            // let imgData = 'data:' + 'image/png' + ';base64,' + new Buffer(img).toString('base64')
+            console.log('IMGDATA', img.length, imgData.length)
+            // content = content.replace('images/icon.png', 'data:image/gif;base64,R0lGOD lhCwAOAMQfAP////7+/vj4+Hh4eHd3d/v7+/Dw8HV1dfLy8ubm5vX19e3t7fr 6+nl5edra2nZ2dnx8fMHBwYODg/b29np6eujo6JGRkeHh4eTk5LCwsN3d3dfX 13Jycp2dnevr6////yH5BAEAAB8ALAAAAAALAA4AAAVq4NFw1DNAX/o9imAsB tKpxKRd1+YEWUoIiUoiEWEAApIDMLGoRCyWiKThenkwDgeGMiggDLEXQkDoTh CKNLpQDgjeAsY7MHgECgx8YR8oHwNHfwADBACGh4EDA4iGAYAEBAcQIg0DkgcEIQA7')
+            content = content.replace('images/icon.png', imgData)
+
+
+            content = content.replace('/d14na.bit/privacy.html', 'index.html')
+
+
+            const baseUrl = RNFS.DocumentDirectoryPath + '/' + this.tag + '/'
+            // const baseUrl = RNFS.DocumentDirectoryPath + '/' + this.tag + '/'
+            console.log('BASEURL', baseUrl, content)
+
+            source = { html: content, baseUrl }
+            // source = { html: content }
             this.setState({ source })
         }
     }

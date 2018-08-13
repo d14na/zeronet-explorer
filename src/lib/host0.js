@@ -28,8 +28,15 @@ class Host0 {
 // console.log('getPath EXISTS', exists)
 
             if (exists) {
-                const contents = await self.fs.readFile(filePath, 'utf8')
-                    .catch(console.error)
+                let contents = null
+
+                if (_path.slice(-3) === 'png') {
+                    contents = await self.fs.readFile(filePath, 'base64')
+                        .catch(console.error)
+                } else {
+                    contents = await self.fs.readFile(filePath, 'utf8')
+                        .catch(console.error)
+                }
 // console.log('READING', contents)
                 return resolve(contents)
             } else {
@@ -84,9 +91,19 @@ class Host0 {
         console.log('filePath', filePath)
 
         return new Promise(async function (resolve, reject) {
-            const success = await self.fs.writeFile(filePath, _data, 'utf8')
-                .catch(reject)
+console.log('ENTERING PROMISE', _data.length)
+            let success = null
 
+            if (_path.slice(-3) === 'png') {
+                const base64 = Buffer.from(_data).toString('base64')
+                console.log('CONVERTED TO BASE64', base64.length, base64)
+                success = await self.fs.writeFile(filePath, base64, 'base64')
+                    .catch(reject)
+            } else {
+                success = await self.fs.writeFile(filePath, _data, 'utf8')
+                    .catch(reject)
+            }
+console.log('PROMISE success', success)
             resolve(success)
         })
 
