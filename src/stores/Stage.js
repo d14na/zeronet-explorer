@@ -6,6 +6,7 @@ import { persist } from 'mobx-persist'
 class Store {
     @observable debugLog = ''
     @observable ziteTitle = ''
+    @observable backgroundColor = 'rgba(30, 30, 30, 0.7)'
 
     /**
      * Add a debugging log entry.
@@ -22,6 +23,10 @@ class Store {
 
     @action updateZiteTitle(_title) {
         this.ziteTitle = _title
+    }
+
+    @action setBackgroundColor(_color) {
+        this.backgroundColor = _color
     }
 }
 

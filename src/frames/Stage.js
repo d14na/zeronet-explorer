@@ -55,7 +55,7 @@ export default class Stage extends React.Component {
                 placeholder={ 'Search #' + stores.Stage.ziteTitle } />
 
             <ScrollView style={{ flex: 1 }}>
-                <View style={{ margin: 20, padding: 20, backgroundColor: 'rgba(30, 120, 60, 0.2)'}}>
+                <View style={{ margin: 20, padding: 20, backgroundColor: stores.Stage.backgroundColor }}>
                     <Text style={{ fontStyle: 'italic' }}>
                         { stores.Stage.debugLog }
                     </Text>

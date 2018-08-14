@@ -159,6 +159,7 @@ export default class StartupFrame extends React.Component {
             }
         })
 
+        // FIXME For Debugging Purposes ONLY
         Navigation.mergeOptions('zeronet.Stage', {
             sideMenu: {
                 left: {
@@ -166,7 +167,6 @@ export default class StartupFrame extends React.Component {
                 }
             }
         })
-        stores.Stage.addDebugLog('Loading Zite')
     }
 
 }

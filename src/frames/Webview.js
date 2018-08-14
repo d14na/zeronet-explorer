@@ -99,17 +99,11 @@ export default class Webview extends React.Component {
     }
 
     componentDidMount() {
-        /* Localize this. */
-        const self = this
+        /* Initialize the zite. */
+        this._initZite()
 
-        this._loadZite()
-        // this._loadFile(this.tag, 'index.html')
-        // this._loadFile(this.tag, 'images/icon.png')
-        //     .then(img => {
-        //         // console.log('STAT FOR index.html', img.length)
-        //         console.log('IMAGES/ICON.PNG', img.length)
-        //     })
-        // this._getZiteInfo(this.tag)
+        // this._loadZite()
+        // this._getZiteInfo()
 
         // Timer.setInterval(this, 'test10Interval', () => {
         //     console.log('this is a 10sec Timer.setInterval, :)')
@@ -172,6 +166,44 @@ export default class Webview extends React.Component {
         }
     }
 
+    async _initZite() {
+        /* Initialize caching flag. */
+        const noCache = false
+
+        /* Retrieve content.json from remote. */
+        let content = await this._loadFile(this.tag, 'content.json', noCache)
+            .catch(err => { throw err })
+        // console.log('content', content)
+
+        /* Convert to string. */
+        content = Buffer.from(content).toString('utf8')
+        // console.log('content 2', content)
+
+        try {
+            /* Parse the JSON. */
+            const config = JSON.parse(content)
+            console.log('CONFIG', config)
+
+            /* Update the stage title. */
+            stores.Stage.updateZiteTitle(config.title)
+
+            // TODO Nicely format config details
+            stores.Stage.addDebugLog('Address', config['address'])
+            stores.Stage.addDebugLog('Background Color', config['background-color'])
+            stores.Stage.setBackgroundColor(config['background-color'])
+
+        } catch (e) {
+            /* Something has gone wrong if we cannot parse the content.json. */
+            // FIXME Handle this better in the UI
+            throw e
+        }
+
+        /* Return a promise with the content. */
+        // return new Promise(function (resolve, reject) {
+        //     resolve(content)
+        // })
+    }
+
     async _getZiteInfo(_tag) {
         /* Initailize Host0. */
         const host0 = new Host0(RNFS)
@@ -186,36 +218,32 @@ export default class Webview extends React.Component {
         // })
     }
 
-    async _loadFile(_tag, _path, _saveToDisk=true) {
+    async _loadFile(_tag, _path, _cacheIsEnabled=true) {
         /* Initailize Host0. */
         const host0 = new Host0(RNFS)
-        console.log('host0', host0)
 
         /* Initailize Peer0. */
-        // const peer0 = new Peer0(net)
-        // console.log('peer0', peer0)
+        const peer0 = new Peer0(net)
 
-        // let content = await host0.listFiles(this.tag)
-        // console.log('host0 awaiting file list', content)
+        /* Initialize content holder. */
+        let content = null
 
-        /* Retrieve the content from host. */
-        let content = await host0.getFile(_tag, _path)
-        // let content = null
-        // console.log('DID WE GET ANYTHING?', content)
+        /* Retrieve the content from host (if cached). */
+        if (_cacheIsEnabled) {
+            content = await host0.getFile(_tag, _path)
+        } else {
+            content = null
+        }
 
         /* Retrieve the content from peer. */
         if (!content) {
-            content = await Peer0.getFile(net, _tag, _path, 0, 89453)
-            // let content = await peer0.getFile(_tag, _path)
-
-// console.log('LOOK WHAT WE GOT FROM PEER0', content.length)
+            content = await peer0.getFile(_tag, _path, 0, 89453)
 
             /* Save the content to disk. */
-            if (_saveToDisk) {
+            if (_cacheIsEnabled) {
                 await host0.saveFile(_tag, _path, content)
             }
         }
-        // console.log('BY NOW WE MUST HAVE SOMETHING!!!', content)
 
         /* Return a promise with the content. */
         return new Promise(function (resolve, reject) {
@@ -255,13 +283,12 @@ export default class Webview extends React.Component {
             display = content.replace(/(?:\r\n|\r|\n)/g, '<br />')
             source = { html: `<pre><code>${display}</code></pre>` }
             this.setState({ source })
-
-            stores.Stage.updateZiteTitle(config.title)
         } catch (e) {
             // console.log('FAILED TO PARSE JSON', e)
 
             // let img = await this._loadFile(this.tag, 'images/project.png')
             let img = await this._loadFile(this.tag, 'images/icon.png')
+            img = Buffer.from(img).toString('base64')
             let imgData = 'data:' + 'image/png' + ';base64,' + img
             // let imgData = 'data:' + 'image/png' + ';base64,' + new Buffer(img).toString('base64')
             console.log('IMGDATA', img.length, imgData.length)

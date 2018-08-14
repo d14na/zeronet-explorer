@@ -32,12 +32,15 @@ class Host0 {
 
                 if (_path.slice(-3) === 'png') {
                     contents = await self.fs.readFile(filePath, 'base64')
-                        .catch(console.error)
+                        .catch(err => { throw err })
+
+                    /* Convert to binary. */
+                    contents = Buffer.from(contents, 'base64')
                 } else {
                     contents = await self.fs.readFile(filePath, 'utf8')
-                        .catch(console.error)
+                        .catch(err => { throw err })
                 }
-// console.log('READING', contents)
+console.log('READING', contents.length, contents)
                 return resolve(contents)
             } else {
                 return resolve(null)

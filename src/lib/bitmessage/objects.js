@@ -297,7 +297,7 @@ console.log('THIS TAG IS', tag)
             .then(function (payload) {
                 return message.encode('object', payload)
             })
-            .catch(console.error)
+            .catch(err => { throw err })
      },
 
     /**
