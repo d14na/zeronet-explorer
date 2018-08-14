@@ -8,7 +8,9 @@ registerScreens()
 /* Silence 'unneeded' yellow box alerts. */
 console.ignoredYellowBox = [
     'Remote debugger',
-    'Debugger and device times'
+    'Debugger and device times',
+    'Warning: componentWillMount is deprecated', // FIXME RN v.0.54.0
+    'Warning: componentWillReceiveProps is deprecated', // FIXME RN v.0.54.0
 ]
 
 Navigation.events().registerAppLaunchedListener(() => {

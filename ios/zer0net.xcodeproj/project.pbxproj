@@ -38,12 +38,17 @@
 		2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E941DF850E9000B6D8A /* libRCTText-tvOS.a */; };
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
+<<<<<<< ours
 		2DBD56AB377542729BBBFC6C /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 289F43941D8E4F87A712A091 /* libRNDeviceInfo.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* zeronetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* zeronetTests.m */; };
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2E2F82261AAC4BF7B06EF02C /* libBugsnagReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C981488D9DCE4E46902C0396 /* libBugsnagReactNative.a */; };
 		35CFE5C4385F42F9AC94628B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28327EBF2162485AB0D7C403 /* SimpleLineIcons.ttf */; };
 		43DCC05839454DEAA1115E9B /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5BE5402B5C645B0815C1D0F /* Zocial.ttf */; };
+=======
+		2DCD954D1E0B4F2C00145EB5 /* zer0netTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* zer0netTests.m */; };
+		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
+>>>>>>> theirs
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5FD7F67EB47C4AFF9F58C4D6 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1740D1CEBF25454282472C8C /* SpaceMono-Regular.ttf */; };
 		6D1D172E52EA480DB5D34C9E /* ReactNativeNavigationTests.xctest in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F79B5F2E67F4FA681569445 /* ReactNativeNavigationTests.xctest */; };
@@ -1485,6 +1490,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+<<<<<<< ours
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
@@ -1496,6 +1502,10 @@
 				);
 				INFOPLIST_FILE = zeronetTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+=======
+				INFOPLIST_FILE = zer0netTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+>>>>>>> theirs
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1516,6 +1526,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+<<<<<<< ours
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
@@ -1527,6 +1538,10 @@
 				);
 				INFOPLIST_FILE = zeronetTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+=======
+				INFOPLIST_FILE = zer0netTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+>>>>>>> theirs
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1697,16 +1712,23 @@
 				);
 				INFOPLIST_FILE = "zeronet-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+<<<<<<< ours
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
+=======
+>>>>>>> theirs
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 				);
+<<<<<<< ours
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.zeronet-tvOSTests";
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.zer0net-tvOSTests";
+>>>>>>> theirs
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/zeronet-tvOS.app/zeronet-tvOS";
@@ -1736,16 +1758,23 @@
 				);
 				INFOPLIST_FILE = "zeronet-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+<<<<<<< ours
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
+=======
+>>>>>>> theirs
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 				);
+<<<<<<< ours
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.zeronet-tvOSTests";
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.zer0net-tvOSTests";
+>>>>>>> theirs
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/zeronet-tvOS.app/zeronet-tvOS";
@@ -1787,7 +1816,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1822,7 +1851,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
