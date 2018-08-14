@@ -166,6 +166,14 @@ export default class Webview extends React.Component {
         }
     }
 
+    _sha512 = function (_buf) {
+        /* Initialize create hash. */
+        const createHash = require('crypto').createHash
+
+        /* Return the sha512 hash. */
+        return createHash('sha512').update(_buf).digest()
+    }
+
     async _initZite() {
         /* Initialize caching flag. */
         const noCache = false
@@ -173,11 +181,9 @@ export default class Webview extends React.Component {
         /* Retrieve content.json from remote. */
         let content = await this._loadFile(this.tag, 'content.json', noCache)
             .catch(err => { throw err })
-        // console.log('content', content)
 
         /* Convert to string. */
         content = Buffer.from(content).toString('utf8')
-        // console.log('content 2', content)
 
         try {
             /* Parse the JSON. */
@@ -189,8 +195,45 @@ export default class Webview extends React.Component {
 
             // TODO Nicely format config details
             stores.Stage.addDebugLog('Address', config['address'])
+
             stores.Stage.addDebugLog('Background Color', config['background-color'])
             stores.Stage.setBackgroundColor(config['background-color'])
+
+            stores.Stage.addDebugLog('Description', config['description'])
+            stores.Stage.addDebugLog('Modified', config['modified'])
+            stores.Stage.addDebugLog('ZeroNet Version', config['zeronet_version'])
+
+            /* Initialize files holder. */
+            const files = config['files']
+
+            /* Retrieve the file keys (filenames). */
+            const fileList = Object.keys(files)
+
+            stores.Stage.addDebugLog('# Files', fileList.length)
+            stores.Stage.addDebugLog('Files', JSON.stringify(files, null, '  '))
+
+            for (let file of fileList) {
+                /* Retrieve file details. */
+                const details = files[file]
+                const sha512 = details['sha512']
+                const size = details['size']
+                console.log('DETAILS', details, sha512, size)
+
+                /* Retrieve file from remote. */
+                content = await this._loadFile(this.tag, file, false)
+                    .catch(err => { throw err })
+                console.log('READ %s [%d bytes]', file, content.length, content)
+
+                const hash = this._sha512(content)
+                const checksum = hash.slice(0, 32) // checksum uses 1/2 of sha512
+                console.log('%s CHECKSUM', file, checksum.toString('hex'), checksum)
+                stores.Stage.addDebugLog(file + ' checksum', checksum.toString('hex'))
+
+                /* Convert to string. */
+                // content = Buffer.from(content).toString('utf8')
+
+                break
+            }
 
         } catch (e) {
             /* Something has gone wrong if we cannot parse the content.json. */

@@ -10,7 +10,7 @@ class Host0 {
         const self = this
 
         const exists = await self.fs.exists(_tag + '/' + _path)
-        console.log('*** EXISTS', exists)
+// console.log('*** EXISTS', exists)
 
         return exists
     }
@@ -20,7 +20,6 @@ class Host0 {
         const self = this
 
         const filePath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + _path
-// console.log('filePath', filePath)
 
         return new Promise(async function (resolve, reject) {
             const exists = await self.fs.exists(filePath)
@@ -40,7 +39,7 @@ class Host0 {
                     contents = await self.fs.readFile(filePath, 'utf8')
                         .catch(err => { throw err })
                 }
-console.log('READING', contents.length, contents)
+
                 return resolve(contents)
             } else {
                 return resolve(null)
@@ -53,14 +52,12 @@ console.log('READING', contents.length, contents)
         const self = this
 
         const dirPath = self.fs.DocumentDirectoryPath + '/' + _tag + '/'
-// console.log('dirPath', dirPath)
 
         // get a list of files and directories in the main bundle
         // On Android, use "this.fs.DocumentDirectoryPath" (MainBundlePath is not defined)
         return self.fs.readDir(dirPath)
             .then((result) => {
-// console.log('GOT RESULT', result)
-
+                // TODO We should perform a `STAT` for additional details
                 return result
             })
             .catch((err) => {
@@ -72,44 +69,39 @@ console.log('READING', contents.length, contents)
         /* Localize this. */
         const self = this
 
-        console.log('saveFile', _tag, _path)
+        // console.log('saveFile', _tag, _path)
 
         const dirSplitPos = _path.lastIndexOf('/')
         if (dirSplitPos > -1) {
-            // console.log('WE NEED TO SPLIT THE DIRECTORY AND POSSIBLE CREATE NEW')
-            console.log('dirSplitPos', dirSplitPos)
-
+            /* Retrieve new directory name. */
             const newDir = _path.slice(0, dirSplitPos)
-            // console.log('NEWDIR', newDir)
 
+            /* Set new directory path. */
             const newDirPath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + newDir
-            console.log('NEWDIRPATH', newDirPath)
 
             /* Create the new directory. */
             const created = await self.fs.mkdir(newDirPath)
-            console.log('Created dir', created)
         }
 
         const filePath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + _path
-        console.log('filePath', filePath)
+// console.log('filePath', filePath)
 
         return new Promise(async function (resolve, reject) {
-console.log('ENTERING PROMISE', _data.length)
             let success = null
 
             if (_path.slice(-3) === 'png') {
                 const base64 = Buffer.from(_data).toString('base64')
-                console.log('CONVERTED TO BASE64', base64.length, base64)
+
                 success = await self.fs.writeFile(filePath, base64, 'base64')
                     .catch(reject)
             } else {
                 success = await self.fs.writeFile(filePath, _data, 'utf8')
                     .catch(reject)
             }
-console.log('PROMISE success', success)
+
+            // FIXME How do we verify, when this always returns `undefined`
             resolve(success)
         })
-
     }
 }
 

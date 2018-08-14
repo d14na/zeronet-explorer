@@ -62,11 +62,7 @@ export default class Stage extends React.Component {
                 </View>
             </ScrollView>
 
-            <View style={ styles.adSpace }>
-                <Text style={ styles.adSpaceText }>
-                    AD SPACE
-                </Text>
-            </View>
+            { this._adManager() }
         </View>
     }
 
@@ -88,6 +84,16 @@ export default class Stage extends React.Component {
                 }
             }
         })
+    }
+
+    _adManager() {
+        if (stores.Stage.displayAds) {
+            return <View style={ styles.adSpace }>
+                <Text style={ styles.adSpaceText }>
+                    BLOCKCHAIN AD SPACE
+                </Text>
+            </View>
+        }
     }
 
 

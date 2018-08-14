@@ -1,5 +1,6 @@
 // @flow
 
+import { Platform } from 'react-native'
 import { observable, action } from 'mobx'
 import { persist } from 'mobx-persist'
 
@@ -7,6 +8,11 @@ class Store {
     @observable debugLog = ''
     @observable ziteTitle = ''
     @observable backgroundColor = 'rgba(30, 30, 30, 0.7)'
+
+    /* FIXME Will only display blockchain ads on Android devices to avoid
+     * any issues with Apple's TOS.
+     */
+    @observable displayAds = Platform.OS === 'android'
 
     /**
      * Add a debugging log entry.
