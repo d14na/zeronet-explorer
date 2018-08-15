@@ -100,7 +100,7 @@ export default class Webview extends React.Component {
 
     componentDidMount() {
         /* Initialize the zite. */
-        this._initZite()
+        // this._initZite()
 
         // this._loadZite()
         // this._getZiteInfo()
@@ -166,14 +166,6 @@ export default class Webview extends React.Component {
         }
     }
 
-    _sha512 = function (_buf) {
-        /* Initialize create hash. */
-        const createHash = require('crypto').createHash
-
-        /* Return the sha512 hash. */
-        return createHash('sha512').update(_buf).digest()
-    }
-
     async _initZite() {
         /* Initialize caching flag. */
         const noCache = false
@@ -220,7 +212,7 @@ export default class Webview extends React.Component {
                 console.log('DETAILS', details, sha512, size)
 
                 /* Retrieve file from remote. */
-                content = await this._loadFile(this.tag, file, false)
+                content = await this._loadFile(this.tag, file, details)
                     .catch(err => { throw err })
                 console.log('READ %s [%d bytes]', file, content.length, content)
 
@@ -261,7 +253,7 @@ export default class Webview extends React.Component {
         // })
     }
 
-    async _loadFile(_tag, _path, _cacheIsEnabled=true) {
+    async _loadFile(_tag, _path, _metaData=null) {
         /* Initailize Host0. */
         const host0 = new Host0(RNFS)
 
@@ -272,8 +264,8 @@ export default class Webview extends React.Component {
         let content = null
 
         /* Retrieve the content from host (if cached). */
-        if (_cacheIsEnabled) {
-            content = await host0.getFile(_tag, _path)
+        if (_metaData && _metaData.sha512 && _metaData.size) {
+            content = await host0.getFile(_tag, _path, _metaData)
         } else {
             content = null
         }
@@ -283,8 +275,8 @@ export default class Webview extends React.Component {
             content = await peer0.getFile(_tag, _path, 0, 89453)
 
             /* Save the content to disk. */
-            if (_cacheIsEnabled) {
-                await host0.saveFile(_tag, _path, content)
+            if (_metaData && _metaData.sha512 && _metaData.size) {
+                await host0.saveFile(_tag, _path, content, _metaData)
             }
         }
 

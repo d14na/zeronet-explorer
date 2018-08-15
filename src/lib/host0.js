@@ -6,16 +6,21 @@ class Host0 {
     }
 
     exists = async function (_tag, _path) {
-        /* Localize this. */
-        const self = this
-
-        const exists = await self.fs.exists(_tag + '/' + _path)
-// console.log('*** EXISTS', exists)
+        /* Check for file existence. */
+        const exists = await this.fs.exists(_tag + '/' + _path)
 
         return exists
     }
 
-    getFile = async function (_tag, _path) {
+    sha512 = function (_buf) {
+        /* Initialize create hash. */
+        const createHash = require('crypto').createHash
+
+        /* Return the sha512 hash. */
+        return createHash('sha512').update(_buf).digest()
+    }
+
+    getFile = async function (_tag, _path, _metaData) {
         /* Localize this. */
         const self = this
 
@@ -65,7 +70,7 @@ class Host0 {
             })
     }
 
-    saveFile = async function (_tag, _path, _data) {
+    saveFile = async function (_tag, _path, _data, _metaData) {
         /* Localize this. */
         const self = this
 
