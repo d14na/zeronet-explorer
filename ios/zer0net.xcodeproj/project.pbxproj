@@ -25,7 +25,6 @@
 		204B011B64474313B3E10A9E /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 647F1AA1760744B1A964A53A /* Feather.ttf */; };
 		28BAE55A29F0432D8BFE08AF /* libBugsnagReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86046B83B28E4062B7C6A7C6 /* libBugsnagReactNative.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
@@ -56,6 +55,7 @@
 		EC53BAB32123FD1700351CA6 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC53BA952123F8A800351CA6 /* libRNVectorIcons.a */; };
 		EC53BADB2123FE3F00351CA6 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC53BA902123F8A800351CA6 /* libRNFS.a */; };
 		EC53BAE721241A3A00351CA6 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC53BAE4212419F800351CA6 /* libReactNativeNavigation.a */; };
+		EC53BB2821244FE100351CA6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		EDFDA7DF2B2F48AB911EEC78 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B505C993358748A0BADCE2D7 /* SpaceMono-Regular.ttf */; };
 		FCD803142BE3430988FAD824 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 670F8319F9A8469588A36E40 /* Entypo.ttf */; };
 /* End PBXBuildFile section */
@@ -1294,7 +1294,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				EC53BB2821244FE100351CA6 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1489,6 +1489,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zer0net;
 				PRODUCT_NAME = zer0net;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1517,6 +1518,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zer0net;
 				PRODUCT_NAME = zer0net;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
