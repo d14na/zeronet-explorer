@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "zeronet-tvOS.app"
-               BlueprintName = "zeronet-tvOS"
-               ReferencedContainer = "container:zeronet.xcodeproj">
+               BuildableName = "zer0net-tvOS.app"
+               BlueprintName = "zer0net-tvOS"
+               ReferencedContainer = "container:zer0net.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "zeronet-tvOSTests.xctest"
-               BlueprintName = "zeronet-tvOSTests"
-               ReferencedContainer = "container:zeronet.xcodeproj">
+               BuildableName = "zer0net-tvOSTests.xctest"
+               BlueprintName = "zer0net-tvOSTests"
+               ReferencedContainer = "container:zer0net.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "zeronet-tvOSTests.xctest"
-               BlueprintName = "zeronet-tvOSTests"
-               ReferencedContainer = "container:zeronet.xcodeproj">
+               BuildableName = "zer0net-tvOSTests.xctest"
+               BlueprintName = "zer0net-tvOSTests"
+               ReferencedContainer = "container:zer0net.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "zeronet-tvOS.app"
-            BlueprintName = "zeronet-tvOS"
-            ReferencedContainer = "container:zeronet.xcodeproj">
+            BuildableName = "zer0net-tvOS.app"
+            BlueprintName = "zer0net-tvOS"
+            ReferencedContainer = "container:zer0net.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "zeronet-tvOS.app"
-            BlueprintName = "zeronet-tvOS"
-            ReferencedContainer = "container:zeronet.xcodeproj">
+            BuildableName = "zer0net-tvOS.app"
+            BlueprintName = "zer0net-tvOS"
+            ReferencedContainer = "container:zer0net.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "zeronet-tvOS.app"
-            BlueprintName = "zeronet-tvOS"
-            ReferencedContainer = "container:zeronet.xcodeproj">
+            BuildableName = "zer0net-tvOS.app"
+            BlueprintName = "zer0net-tvOS"
+            ReferencedContainer = "container:zer0net.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
