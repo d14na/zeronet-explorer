@@ -4,6 +4,7 @@ import React from 'react'
 
 import {
     Image,
+    Platform,
     ScrollView,
     StyleSheet,
     Text,
@@ -58,7 +59,7 @@ export default class StartupFrame extends React.Component {
                     ref={ search => this.search = search }
                     icon={{ type: 'font-awesome', name: 'hashtag' }}
                     clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
-                    inputStyle={{ paddingLeft: 40, paddingBottom: 9 }}
+                    inputStyle={ styles.searchInput }
                     placeholder='Looking for something interesting?'
                     onChangeText={ this._handleSearchInput }
                     onSubmitEditing={ this._handleSearchSubmit } />
@@ -180,12 +181,14 @@ const styles = StyleSheet.create({
         padding: 20
     },
 
+    searchInput: {
+        paddingLeft: 40,
+        paddingBottom: Platform.OS === 'ios' ? 0 : 9
+    },
+
     mainBanner: {
         width: '100%',
         height: 160,
-        // borderStyle: 'solid',
-        // borderWidth: 2,
-        // borderColor: 'red',
 
         marginTop: 25,
         marginBottom: 25

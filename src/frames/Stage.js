@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+    Platform,
     StyleSheet,
     ScrollView,
     Text,
@@ -24,10 +25,13 @@ import {
 export default class Stage extends React.Component {
     constructor(props) {
         super(props)
+
+        /* Initialize search bar holder. */
+        this.search = null
     }
 
     render() {
-        function MyCustomRightComponent(props) {
+        function StageMenu(props) {
             /* Retrieve the parent. */
             const parent = props.parent
 
@@ -40,22 +44,27 @@ export default class Stage extends React.Component {
 
         return <View style={ styles.container }>
             <Header
-                backgroundColor='#cccc33'
+                backgroundColor={ stores.Stage.topBarColor }
                 outerContainerStyles={ styles.topBar }
                 innerContainerStyles={ styles.topBarContent }
                 leftComponent={{}}
                 centerComponent={{ text: stores.Stage.ziteTitle, style: styles.topBarTitle }}
-                rightComponent={<MyCustomRightComponent parent={ this } />} />
+                rightComponent={<StageMenu parent={ this } />} />
 
+{/*
             <SearchBar
                 ref={ search => this.search = search }
                 icon={{ type: 'font-awesome', name: 'search' }}
                 clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
-                inputStyle={{ paddingLeft: 40, paddingBottom: 9 }}
+                inputStyle={ styles.searchInput }
                 placeholder={ 'Search #' + stores.Stage.ziteTitle } />
+*/}
 
             <ScrollView style={{ flex: 1 }}>
-                <View style={{ margin: 20, padding: 20, backgroundColor: stores.Stage.backgroundColor }}>
+                <View style={ styles.contentContainer }>
+
+                    { this._displayAddr() }
+
                     <Text style={{ fontStyle: 'italic' }}>
                         { stores.Stage.debugLog }
                     </Text>
@@ -91,6 +100,16 @@ export default class Stage extends React.Component {
             return <View style={ styles.adSpace }>
                 <Text style={ styles.adSpaceText }>
                     BLOCKCHAIN AD SPACE
+                </Text>
+            </View>
+        }
+    }
+
+    _displayAddr() {
+        if (stores.Stage.ziteAddress) {
+            return <View style={ styles.ziteDetails }>
+                <Text style={ styles.ziteDetailsText }>
+                    { stores.Stage.ziteAddress }
                 </Text>
             </View>
         }
@@ -647,10 +666,15 @@ export default class Stage extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        // width: '100%',
         height: '100%',
-        backgroundColor: 'rgba(30, 30, 30, 0.95)'
+        backgroundColor: stores.Stage.backgroundColor
     },
+    contentContainer: {
+        margin: 20,
+        padding: 20
+    },
+
     topBar: {
         padding: 10,
         height: 56
@@ -665,6 +689,19 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 20
     },
+
+    searchInput: {
+        paddingLeft: 40,
+        paddingBottom: Platform.OS === 'ios' ? 0 : 9
+    },
+
+    ziteDetails: {
+        padding: 10
+    },
+    ziteDetailsText: {
+        color: 'rgba(220, 220, 220, 1.0)'
+    },
+
     adSpace: {
         width: '100%',
         height: 50,
@@ -679,6 +716,7 @@ const styles = StyleSheet.create({
     adSpaceText: {
         fontSize: 20
     },
+
     recommendedStageText: {
         /* Set text color to off-white. */
         color: 'rgba(220, 220, 220, 1.0)',

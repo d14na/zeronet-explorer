@@ -183,11 +183,11 @@ export default class Webview extends React.Component {
             const config = JSON.parse(content)
             console.log('CONFIG', config)
 
-            /* Update the stage title. */
+            /* Update the stage info with config details. */
             stores.Stage.updateZiteTitle(config.title)
+            stores.Stage.updateZiteAddress(config['address'])
 
-            // TODO Nicely format config details
-            stores.Stage.addDebugLog('Address', config['address'])
+// TODO Nicely format config details
 
             stores.Stage.addDebugLog('Background Color', config['background-color'])
             stores.Stage.setBackgroundColor(config['background-color'])

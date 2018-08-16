@@ -2,6 +2,7 @@ import React from 'react'
 
 import {
     Button,
+    Platform,
     StyleSheet,
     ScrollView,
     Text,

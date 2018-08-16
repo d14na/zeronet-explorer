@@ -6,8 +6,12 @@ import { persist } from 'mobx-persist'
 
 class Store {
     @observable debugLog = ''
-    @observable ziteTitle = ''
+
+    @observable topBarColor = 'rgba(210, 210, 30, 1.0)'
     @observable backgroundColor = 'rgba(30, 30, 30, 0.7)'
+
+    @observable ziteTitle = ''
+    @observable ziteAddress = ''
 
     /* FIXME Will only display blockchain ads on Android devices to avoid
      * any issues with Apple's TOS.
@@ -27,12 +31,15 @@ class Store {
         }
     }
 
+    @action setBackgroundColor(_color) {
+        this.backgroundColor = _color
+    }
+
     @action updateZiteTitle(_title) {
         this.ziteTitle = _title
     }
-
-    @action setBackgroundColor(_color) {
-        this.backgroundColor = _color
+    @action updateZiteAddress(_address) {
+        this.ziteAddress = _address
     }
 }
 
