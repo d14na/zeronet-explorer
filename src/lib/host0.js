@@ -74,33 +74,60 @@ class Host0 {
         /* Localize this. */
         const self = this
 
-        // console.log('saveFile', _tag, _path)
+        /* Initialize holders. */
+        let newDir = null
+        let newDirPath = null
+        let created = null
+        let success = null
+
+        /* Check for zite folder. */
+        const installed = await this.exists(_tag)
+
+        /* Create new folder if not already installed. */
+        if (!installed) {
+            /* Set new directory path. */
+            newDirPath = self.fs.DocumentDirectoryPath + '/' + _tag
+
+            /* Create the new directory. */
+            created = await self.fs.mkdir(newDirPath)
+
+            console.info('Created new zite installation folder', newDirPath)
+        }
 
         const dirSplitPos = _path.lastIndexOf('/')
         if (dirSplitPos > -1) {
             /* Retrieve new directory name. */
-            const newDir = _path.slice(0, dirSplitPos)
+            newDir = _path.slice(0, dirSplitPos)
 
             /* Set new directory path. */
-            const newDirPath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + newDir
+            newDirPath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + newDir
 
             /* Create the new directory. */
-            const created = await self.fs.mkdir(newDirPath)
+            created = await self.fs.mkdir(newDirPath)
+
+            console.info('Created new zite sub-folder', newDirPath)
         }
 
+        /* Initialize the file path. */
         const filePath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + _path
-// console.log('filePath', filePath)
 
         return new Promise(async function (resolve, reject) {
-            let success = null
+            success = null
 
             if (_path.slice(-3) === 'png') {
+                /* Convert the buffer to base64. */
                 const base64 = Buffer.from(_data).toString('base64')
 
+                /* Write the data to disk. */
                 success = await self.fs.writeFile(filePath, base64, 'base64')
                     .catch(reject)
             } else {
-                success = await self.fs.writeFile(filePath, _data, 'utf8')
+                /* Convert buffer to string. */
+                const strData = Buffer.from(_data).toString('utf8')
+console.log(filePath, strData)
+
+                /* Write the data to disk. */
+                success = await self.fs.writeFile(filePath, strData, 'utf8')
                     .catch(reject)
             }
 

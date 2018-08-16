@@ -46,6 +46,7 @@ export default class Webview extends React.Component {
         this._btnBack = this._btnBack.bind(this)
         this._btnClose = this._btnClose.bind(this)
         this._getSource = this._getSource.bind(this)
+        this._initZite = this._initZite.bind(this)
         this._loadZite = this._loadZite.bind(this)
 
         /* Initialize a reference to the webview. */
@@ -100,7 +101,7 @@ export default class Webview extends React.Component {
 
     componentDidMount() {
         /* Initialize the zite. */
-        // this._initZite()
+        this._initZite()
 
         // this._loadZite()
         // this._getZiteInfo()
@@ -204,7 +205,12 @@ export default class Webview extends React.Component {
             stores.Stage.addDebugLog('# Files', fileList.length)
             stores.Stage.addDebugLog('Files', JSON.stringify(files, null, '  '))
 
+            /* Initialize host. */
+            const host0 = new Host0(RNFS)
+
             for (let file of fileList) {
+                console.info('Processing FILE', file)
+
                 /* Retrieve file details. */
                 const details = files[file]
                 const sha512 = details['sha512']
@@ -216,7 +222,8 @@ export default class Webview extends React.Component {
                     .catch(err => { throw err })
                 console.log('READ %s [%d bytes]', file, content.length, content)
 
-                const hash = this._sha512(content)
+
+                const hash = host0.sha512(content)
                 const checksum = hash.slice(0, 32) // checksum uses 1/2 of sha512
                 console.log('%s CHECKSUM', file, checksum.toString('hex'), checksum)
                 stores.Stage.addDebugLog(file + ' checksum', checksum.toString('hex'))
@@ -245,6 +252,7 @@ export default class Webview extends React.Component {
         console.log('host0', host0)
 
         let content = await host0.listFiles(_tag)
+            .catch(err => { throw err })
         console.log('host0 awaiting file list', content)
 
         /* Return a promise with the content. */
@@ -266,6 +274,7 @@ export default class Webview extends React.Component {
         /* Retrieve the content from host (if cached). */
         if (_metaData && _metaData.sha512 && _metaData.size) {
             content = await host0.getFile(_tag, _path, _metaData)
+                .catch(err => { throw err })
         } else {
             content = null
         }
@@ -273,10 +282,12 @@ export default class Webview extends React.Component {
         /* Retrieve the content from peer. */
         if (!content) {
             content = await peer0.getFile(_tag, _path, 0, 89453)
+                .catch(err => { throw err })
 
             /* Save the content to disk. */
             if (_metaData && _metaData.sha512 && _metaData.size) {
                 await host0.saveFile(_tag, _path, content, _metaData)
+                    .catch(err => { throw err })
             }
         }
 
@@ -294,9 +305,6 @@ export default class Webview extends React.Component {
         /* Initailize Peer0. */
         // const peer0 = new Peer0(net)
         // console.log('peer0', peer0)
-
-        // let content = await host0.listFiles(this.tag)
-        // console.log('host0 awaiting file list', content)
 
         let content = await host0.getFile(this.tag, 'index.html')
         // console.log('host0 awaiting index.html', content)
