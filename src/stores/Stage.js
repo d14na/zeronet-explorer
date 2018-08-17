@@ -12,6 +12,8 @@ class Store {
 
     @observable ziteTitle = ''
     @observable ziteAddress = ''
+    @observable ziteDescription = ''
+    @observable ziteLastUpdate = ''
 
     /* FIXME Will only display blockchain ads on Android devices to avoid
      * any issues with Apple's TOS.
@@ -41,6 +43,13 @@ class Store {
     @action updateZiteAddress(_address) {
         this.ziteAddress = _address
     }
+    @action updateZiteDescription(_description) {
+        this.ziteDescription = _description
+    }
+    @action updateZiteLastUpdate(_lastUpdate) {
+        this.ziteLastUpdate = _lastUpdate
+    }
+
 }
 
 export default new Store()

@@ -16,15 +16,15 @@ import stores from '../stores'
 
 import { Button } from 'react-native-elements'
 
-import Timer from 'react-native-timer'
-
 import Host0 from '../lib/host0'
 import Peer0 from '../lib/peer0'
 // import Host0 from 'host0'
 // import Peer0 from 'peer0'
 
+import moment from 'moment'
 import net from 'net'
 import RNFS from 'react-native-fs'
+import Timer from 'react-native-timer'
 
 import {
     Shared,
@@ -38,6 +38,7 @@ export default class Webview extends React.Component {
 
         /* Track event. */
         Shared.TrackEvent('WEBVIEW_')
+console.log('DEVICE WIDTH', Shared.deviceWidth)
 
         this._loadStarted = this._loadStarted.bind(this)
         this._loadEnded = this._loadEnded.bind(this)
@@ -186,14 +187,17 @@ export default class Webview extends React.Component {
             /* Update the stage info with config details. */
             stores.Stage.updateZiteTitle(config.title)
             stores.Stage.updateZiteAddress(config['address'])
+            stores.Stage.updateZiteDescription(config['description'])
+
+            const lastUpdate = moment.unix(config['modified']).fromNow() +
+                ' [ ' + moment.unix(config['modified']).format('ll') + ' ]'
+            stores.Stage.updateZiteLastUpdate(lastUpdate)
 
 // TODO Nicely format config details
 
             stores.Stage.addDebugLog('Background Color', config['background-color'])
             stores.Stage.setBackgroundColor(config['background-color'])
 
-            stores.Stage.addDebugLog('Description', config['description'])
-            stores.Stage.addDebugLog('Modified', config['modified'])
             stores.Stage.addDebugLog('ZeroNet Version', config['zeronet_version'])
 
             /* Initialize files holder. */

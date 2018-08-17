@@ -1,8 +1,14 @@
+import { Dimensions } from 'react-native'
+
 import Amplitude from 'amplitude'
 
 import DeviceInfo from 'react-native-device-info'
 
 import { Client } from 'bugsnag-react-native'
+
+/* Calculate device dimensions. */
+const deviceWidth  = Dimensions.get('window').width
+const deviceHeight = Dimensions.get('window').height
 
 const TrackEvent = function (_eventType) {
     /* DO NOT TRACK DEVELOPMENT */
@@ -30,6 +36,8 @@ const TrackEvent = function (_eventType) {
 }
 
 const Shared = {
+    deviceWidth,
+    deviceHeight,
     TrackEvent
 }
 
