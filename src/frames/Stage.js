@@ -86,6 +86,7 @@ export default class Stage extends React.Component {
                     { this._displayAddress() }
                     { this._displayDescription() }
                     { this._displayLastUpdate() }
+                    { this._displayFileList() }
 
                     <Text style={{ fontStyle: 'italic' }}>
                         { stores.Stage.debugLog }
@@ -152,6 +153,7 @@ export default class Stage extends React.Component {
             </View>
         }
     }
+
     _displayLastUpdate() {
         if (stores.Stage.ziteAddress) {
             return <View style={ styles.ziteDetails }>
@@ -161,6 +163,34 @@ export default class Stage extends React.Component {
                 <Text style={ styles.ziteDetailsText }>
                     { stores.Stage.ziteLastUpdate }
                 </Text>
+            </View>
+        }
+    }
+
+    _bundledFileList() {
+        let list = []
+        let index = 0
+
+        for (let file of stores.Stage.ziteFiles) {
+            list.push(
+                <Text key={ file['sha512'] } style={ styles.ziteDirectoryText }>
+                    { ++index }. { file['name'] }
+                    {'\n    '}Size: { file['size'] } bytes
+                    {'\n    '}Verified: { file['valid'] }
+                </Text>
+            )
+        }
+
+        return list
+    }
+
+    _displayFileList() {
+        if (stores.Stage.ziteFiles.length > 0) {
+            return <View style={ styles.ziteDetails }>
+                <Text style={ styles.ziteDetailsHeader }>
+                    File Directory
+                </Text>
+                { this._bundledFileList() }
             </View>
         }
     }
@@ -208,6 +238,12 @@ const styles = StyleSheet.create({
     ziteDetailsText: {
         color: 'rgba(235, 235, 235, 1.0)',
         fontSize: 12
+    },
+    ziteDirectoryText: {
+        color: 'rgba(235, 235, 235, 0.7)',
+        fontSize: 9,
+        marginLeft: 20,
+        marginBottom: 5
     },
 
     adSpace: {

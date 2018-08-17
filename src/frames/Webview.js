@@ -38,7 +38,6 @@ export default class Webview extends React.Component {
 
         /* Track event. */
         Shared.TrackEvent('WEBVIEW_')
-console.log('DEVICE WIDTH', Shared.deviceWidth)
 
         this._loadStarted = this._loadStarted.bind(this)
         this._loadEnded = this._loadEnded.bind(this)
@@ -184,8 +183,11 @@ console.log('DEVICE WIDTH', Shared.deviceWidth)
             const config = JSON.parse(content)
             console.log('CONFIG', config)
 
+            /* Set the background color. */
+            stores.Stage.setBackgroundColor(config['background-color'])
+
             /* Update the stage info with config details. */
-            stores.Stage.updateZiteTitle(config.title)
+            stores.Stage.updateZiteTitle(config['title'])
             stores.Stage.updateZiteAddress(config['address'])
             stores.Stage.updateZiteDescription(config['description'])
 
@@ -195,10 +197,6 @@ console.log('DEVICE WIDTH', Shared.deviceWidth)
 
 // TODO Nicely format config details
 
-            stores.Stage.addDebugLog('Background Color', config['background-color'])
-            stores.Stage.setBackgroundColor(config['background-color'])
-
-            stores.Stage.addDebugLog('ZeroNet Version', config['zeronet_version'])
 
             /* Initialize files holder. */
             const files = config['files']
@@ -206,36 +204,53 @@ console.log('DEVICE WIDTH', Shared.deviceWidth)
             /* Retrieve the file keys (filenames). */
             const fileList = Object.keys(files)
 
-            stores.Stage.addDebugLog('# Files', fileList.length)
-            stores.Stage.addDebugLog('Files', JSON.stringify(files, null, '  '))
+            /* Set file count. */
+            const numFiles = fileList.length
 
             /* Initialize host. */
             const host0 = new Host0(RNFS)
 
-            for (let file of fileList) {
-                console.info('Processing FILE', file)
+            /* Initialize display list. */
+            let displayList = []
+// let index = 0
+            for (let filename of fileList) {
+                console.info('Processing FILE', filename)
 
                 /* Retrieve file details. */
-                const details = files[file]
-                const sha512 = details['sha512']
-                const size = details['size']
-                console.log('DETAILS', details, sha512, size)
+                const file = files[filename]
+                const sha512 = file['sha512']
+                const size = file['size']
+                // console.log('FILE DETAILS', filename, size, sha512)
 
                 /* Retrieve file from remote. */
-                content = await this._loadFile(this.tag, file, details)
+                content = await this._loadFile(this.tag, filename, file)
                     .catch(err => { throw err })
-                console.log('READ %s [%d bytes]', file, content.length, content)
-
+                // console.log('READ %s [%d bytes]', filename, content.length, content)
 
                 const hash = host0.sha512(content)
-                const checksum = hash.slice(0, 32) // checksum uses 1/2 of sha512
-                console.log('%s CHECKSUM', file, checksum.toString('hex'), checksum)
-                stores.Stage.addDebugLog(file + ' checksum', checksum.toString('hex'))
+                // NOTE Checksum uses 32 (50%) of the full 64 bytes from sha512
+                const checksum = Buffer.from(hash.slice(0, 32)).toString('hex')
+                // console.log('%s CHECKSUM', file, checksum.toString('hex'), checksum)
+                // stores.Stage.addDebugLog(file + ' checksum', checksum.toString('hex'))
 
-                /* Convert to string. */
-                // content = Buffer.from(content).toString('utf8')
+                if (sha512 === checksum) {
+                    /* Set verification flag. */
+                    file['valid'] = 'SUCCESS'
+                } else {
+                    /* Set verification flag. */
+                    file['valid'] = 'FAILED'
+                }
 
-                break
+                /* Add filename to object. */
+                file['name'] = filename
+
+                /* Add file to display list. */
+                displayList.push(file)
+
+                /* Update stage's file list. */
+                stores.Stage.updateZiteFiles(displayList)
+
+// if (index++ === 2) break
             }
 
         } catch (e) {
