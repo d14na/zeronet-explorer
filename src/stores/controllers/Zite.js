@@ -6,6 +6,8 @@ import Peer0 from '../../lib/peer0'
 // import Peer0 from 'peer0'
 import Stage from '../Stage'
 
+import { Navigation } from 'react-native-navigation'
+
 import moment from 'moment'
 import net from 'net'
 import RNFS from 'react-native-fs'
@@ -25,15 +27,15 @@ const Zite = {
         const noCache = false
 
         /* Retrieve content.json from remote. */
-        let content = await this.loadFile(this.address, 'content.json', noCache)
+        let config = await this.loadFile(this.address, 'content.json', noCache)
             .catch(err => { throw err })
 
         /* Convert to string. */
-        content = Buffer.from(content).toString('utf8')
+        config = Buffer.from(config).toString('utf8')
 
         try {
             /* Parse the JSON. */
-            this.config = JSON.parse(content)
+            this.config = JSON.parse(config)
             // console.log('CONFIG', this.config)
 
             /* Set the background color. */
@@ -52,40 +54,35 @@ const Zite = {
             // FIXME Handle this better in the UI
             throw e
         }
-
-        /* Return a promise with the content. */
-        // return new Promise(function (resolve, reject) {
-        //     resolve(content)
-        // })
     },
 
     loadFile: async function(_address, _path, _metaData=null) {
-        /* Initialize content holder. */
-        let content = null
+        /* Initialize contents holder. */
+        let contents = null
 
-        /* Retrieve the content from host (if cached). */
+        /* Retrieve the contents from host (if cached). */
         if (_metaData && _metaData.sha512 && _metaData.size) {
-            content = await this.host0.getFile(_address, _path, _metaData)
+            contents = await this.host0.getFile(_address, _path, _metaData)
                 .catch(err => { throw err })
         } else {
-            content = null
+            contents = null
         }
 
-        /* Retrieve the content from peer. */
-        if (!content) {
-            content = await this.peer0.getFile(_address, _path, 0, 89453)
+        /* Retrieve the contents from peer. */
+        if (!contents) {
+            contents = await this.peer0.getFile(_address, _path, 0, 89453)
                 .catch(err => { throw err })
 
-            /* Save the content to disk. */
+            /* Save the contents to disk. */
             if (_metaData && _metaData.sha512 && _metaData.size) {
-                await this.host0.saveFile(_address, _path, content, _metaData)
+                await this.host0.saveFile(_address, _path, contents, _metaData)
                     .catch(err => { throw err })
             }
         }
 
-        /* Return a promise with the content. */
+        /* Return a promise with the contents. */
         return new Promise(function (resolve, reject) {
-            resolve(content)
+            resolve(contents)
         })
     },
 
@@ -102,6 +99,9 @@ const Zite = {
         /* Initialize display list. */
         let displayList = []
 
+        /* Initialize contents. */
+        let fileContents = {}
+
         for (let filename of fileList) {
             console.info('Processing FILE', filename)
 
@@ -112,11 +112,11 @@ const Zite = {
             // console.log('FILE DETAILS', filename, size, sha512)
 
             /* Retrieve file from remote. */
-            content = await this.loadFile(this.address, filename, file)
+            contents = await this.loadFile(this.address, filename, file)
                 .catch(err => { throw err })
-            // console.log('READ %s [%d bytes]', filename, content.length, content)
+            // console.log('READ %s [%d bytes]', filename, contents.length, contents)
 
-            const hash = this.host0.sha512(content)
+            const hash = this.host0.sha512(contents)
             // NOTE Checksum uses 32 (50%) of the full 64 bytes from sha512
             const checksum = Buffer.from(hash.slice(0, 32)).toString('hex')
 
@@ -134,9 +134,38 @@ const Zite = {
             /* Add file to display list. */
             displayList.push(file)
 
-            /* Update stage's file list. */
+            /* Set zites's file list. */
             Stage.setZiteFiles(displayList)
+
+            /* Add contents. */
+            fileContents[filename] = contents
+
+            /* Set zites contents. */
+            Stage.setZiteContents(fileContents)
         }
+
+        /* Build html body. */
+        const html = `<h1>${fileContents['index.html']}</h1>`
+
+        Navigation.mergeOptions('zeronet.Stage', {
+            sideMenu: { left: { visible: false } }
+        })
+
+        Navigation.push('zeronet.Main', {
+            component: {
+                id: 'zeronet.Webview',
+                name: 'zeronet.Webview',
+                options: {
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true
+                    }
+                },
+                passProps: { html }
+            }
+        })
+
     }
 
 }

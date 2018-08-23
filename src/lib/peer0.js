@@ -51,8 +51,6 @@ class Peer0 {
     }
 
     _requestFile = function () {
-console.log('PATH', this.path)
-console.log('TAG', this.address)
         const cmd = 'getFile'
         const innerPath = this.path
         const site = this.address
@@ -65,8 +63,7 @@ console.log('TAG', this.address)
         const params = { site, inner_path, location }
 
         const pkg = { cmd, req_id, params }
-console.log('SENDING PACKAGE', pkg)
-console.log('SENDING PACKAGE (encoded)', this._encode(pkg))
+
         /* Send request. */
         this.client.write(this._encode(pkg), function () {
             console.info('Client request for [ %s ]', inner_path)
@@ -159,7 +156,7 @@ console.log('SENDING PACKAGE (encoded)', this._encode(pkg))
                     /* Attempt to decode the data. */
                     const decoded = self._decode(self.payload)
 
-                    console.log('Message #%d was received [%d bytes]', ++called, _data.length, _data, decoded)
+                    // console.log('Message #%d was received [%d bytes]', ++called, _data.length, _data, decoded)
 
                     /* Handshake response. */
                     if (decoded.protocol === 'v2' && hasHandshake === false) {

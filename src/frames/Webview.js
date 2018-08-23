@@ -45,7 +45,7 @@ export default class Webview extends React.Component {
         this._webview = null
 
         this.state = {
-            source: { html: '<h1>loading...</h1>' }
+            source: { html: this.props.html }
         }
     }
 

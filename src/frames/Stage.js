@@ -226,22 +226,12 @@ export default class Stage extends React.Component {
         stores.Stage.openZite(address, path)
 
         /* Close the stage. */
-        this._closeStage()
+        // this._closeStage()
 
-        Navigation.push('zeronet.Main', {
-            component: {
-                id: 'zeronet.Webview',
-                name: 'zeronet.Webview',
-                options: {
-                    topBar: {
-                        visible: false,
-                        animate: false,
-                        drawBehind: true
-                    }
-                },
-                // passProps: { tag: _tag }
-            }
-        })
+        /* Retrieve the files. */
+//         const files = stores.Stage.ziteFiles
+// console.log('*** FILES', files.length, files, files[0])
+// Zite.open(_address, _path)
     }
 
 }

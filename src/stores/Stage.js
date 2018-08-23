@@ -22,6 +22,7 @@ class Store {
     @observable ziteDescription = ''
     @observable ziteLastUpdate = ''
     @observable ziteFiles = []
+    @observable ziteContents = {}
 
     /* FIXME Will only display blockchain ads on Android devices to avoid
      * any issues with Apple's TOS.
@@ -67,6 +68,11 @@ class Store {
     /* Set the zite files list. */
     @action setZiteFiles(_files) {
         this.ziteFiles = _files
+    }
+
+    /* Set the zite contents. */
+    @action setZiteContents(_contents) {
+        this.ziteContents = _contents
     }
 
     /* Set the zite files list. */
