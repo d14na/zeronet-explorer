@@ -6,8 +6,8 @@ class Peer0 {
         this.peerId = '-0NET00-180814FFFFFF'
         // this.peerId = '-UT3530-FFFFFFFFFFFF'
 
-        this.hostIp = '178.128.8.225' // OUR TEST SERVER
-        this.hostPort = 13312
+        this.hostIp = '185.142.236.207' // OUR TEST SERVER
+        this.hostPort = 10346
         this.host = {
             host: this.hostIp,
             port: this.hostPort
@@ -18,7 +18,7 @@ class Peer0 {
         this.payload = null
         this.client = null
 
-        this.tag = null
+        this.address = null
         this.path = null
     }
 
@@ -51,9 +51,11 @@ class Peer0 {
     }
 
     _requestFile = function () {
+console.log('PATH', this.path)
+console.log('TAG', this.address)
         const cmd = 'getFile'
         const innerPath = this.path
-        const site = this.tag
+        const site = this.address
         const request = { cmd, innerPath, site }
 
         const req_id = this._addRequest(request) // eslint-disable-line camelcase
@@ -63,7 +65,8 @@ class Peer0 {
         const params = { site, inner_path, location }
 
         const pkg = { cmd, req_id, params }
-
+console.log('SENDING PACKAGE', pkg)
+console.log('SENDING PACKAGE (encoded)', this._encode(pkg))
         /* Send request. */
         this.client.write(this._encode(pkg), function () {
             console.info('Client request for [ %s ]', inner_path)
@@ -117,12 +120,12 @@ class Peer0 {
     //     return port
     // }
 
-    getFile = function (_tag, _path, _start, _length) {
+    getFile = function (_address, _path, _start, _length) {
         /* Localize this. */
         const self = this
 
         /* Assign global holders. */
-        self.tag = _tag
+        self.address = _address
         self.path = _path
 
         return new Promise((resolve, reject) => {
@@ -156,7 +159,7 @@ class Peer0 {
                     /* Attempt to decode the data. */
                     const decoded = self._decode(self.payload)
 
-                    // console.log('Message #%d was received [%d bytes]', ++called, _data.length, _data, decoded)
+                    console.log('Message #%d was received [%d bytes]', ++called, _data.length, _data, decoded)
 
                     /* Handshake response. */
                     if (decoded.protocol === 'v2' && hasHandshake === false) {

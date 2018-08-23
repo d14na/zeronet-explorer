@@ -10,7 +10,7 @@ import {
 } from './models'
 
 class Store {
-    @persist('object', Account) @observable current = new Account
+    @persist('object', Account) @observable account = new Account
     @persist @observable authorized = false
     @observable title = 'P0rtal'
 
@@ -38,7 +38,7 @@ class Store {
         return new Promise((resolve, reject) => {
             if (username && password) {
                 this.authorized = true
-                this.current = { username, password }
+                this.account = { username, password }
                 resolve({ message: 'success' })
             } else {
                 reject({ message: 'Something is wrong with input data :(' })
@@ -49,7 +49,7 @@ class Store {
     @action logout = () => {
         return new Promise((resolve, reject) => {
             this.authorized = false
-            this.current = {}
+            this.account = {}
 
             resolve()
         });

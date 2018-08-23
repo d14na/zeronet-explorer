@@ -8,18 +8,18 @@ import {
     View
 } from 'react-native'
 
-import { Navigation } from 'react-native-navigation'
-
-import { observable } from 'mobx'
-import { observer } from 'mobx-react/native'
-import stores from '../stores'
-
 import {
     Button,
     Header,
     Icon,
     SearchBar
 } from 'react-native-elements'
+
+import { Navigation } from 'react-native-navigation'
+
+import { observable } from 'mobx'
+import { observer } from 'mobx-react/native'
+import stores from '../stores'
 
 import {
     Shared
@@ -48,6 +48,10 @@ export default class Stage extends React.Component {
 
         /* Initialize search bar holder. */
         this.search = null
+
+        /* Set the tag. */
+        this.tag = props.tag
+
     }
 
     render() {
@@ -86,6 +90,14 @@ export default class Stage extends React.Component {
                     { this._displayAddress() }
                     { this._displayDescription() }
                     { this._displayLastUpdate() }
+
+                    <Button
+                        containerViewStyle={ styles.mainButtons }
+                        borderRadius={ 3 }
+                        onPress={ () => this._openZite() }
+                        icon={{ name: 'university', type: 'font-awesome' }}
+                        title='OPEN ZITE' />
+
                     { this._displayFileList() }
 
                     <Text style={{ fontStyle: 'italic' }}>
@@ -193,6 +205,43 @@ export default class Stage extends React.Component {
                 { this._bundledFileList() }
             </View>
         }
+    }
+
+    _initZite(_tag) {
+        Navigation.push(this.props.componentId, {
+            component: {
+                id: 'zeronet.Webview',
+                name: 'zeronet.Webview',
+                options: {
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true
+                    }
+                },
+                passProps: { tag: _tag }
+            }
+        })
+
+        // FIXME For Debugging Purposes ONLY
+        Navigation.mergeOptions('zeronet.Stage', {
+            sideMenu: {
+                left: {
+                    visible: true
+                }
+            }
+        })
+    }
+
+    _openZite() {
+        /* Retrieve the address. */
+        const address = stores.Stage.ziteAddress
+
+        /* Initialize the path. */
+        const path = 'index.html'
+
+        /* Set the zite address. */
+        stores.Stage.openZite(address, path)
     }
 
 }

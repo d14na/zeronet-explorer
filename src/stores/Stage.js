@@ -4,14 +4,21 @@ import { Platform } from 'react-native'
 import { observable, action } from 'mobx'
 import { persist } from 'mobx-persist'
 
+import {
+    Zite
+} from './controllers'
+
 class Store {
+    /* Initialize debugging log. */
     @observable debugLog = ''
 
+    /* Initialize preset values. */
     @observable topBarColor = 'rgba(210, 210, 30, 1.0)'
     @observable backgroundColor = 'rgba(30, 30, 30, 0.7)'
 
-    @observable ziteTitle = ''
+    /* Initialize zite details. */
     @observable ziteAddress = ''
+    @observable ziteTitle = ''
     @observable ziteDescription = ''
     @observable ziteLastUpdate = ''
     @observable ziteFiles = []
@@ -21,9 +28,7 @@ class Store {
      */
     @observable displayAds = Platform.OS === 'android'
 
-    /**
-     * Add a debugging log entry.
-     */
+    /* Add a debugging log entry. */
     @action addDebugLog(_tag, _entry) {
         if (!_tag) return
 
@@ -34,24 +39,46 @@ class Store {
         }
     }
 
+    /* Set the background color. */
     @action setBackgroundColor(_color) {
         this.backgroundColor = _color
     }
 
-    @action updateZiteTitle(_title) {
-        this.ziteTitle = _title
-    }
-    @action updateZiteAddress(_address) {
+    /* Set the zite address. */
+    @action setZiteAddress(_address) {
         this.ziteAddress = _address
     }
-    @action updateZiteDescription(_description) {
+
+    /* Set the zite title. */
+    @action setZiteTitle(_title) {
+        this.ziteTitle = _title
+    }
+
+    /* Set the zite description. */
+    @action setZiteDescription(_description) {
         this.ziteDescription = _description
     }
-    @action updateZiteLastUpdate(_lastUpdate) {
+
+    /* Set the zite last update. */
+    @action setZiteLastUpdate(_lastUpdate) {
         this.ziteLastUpdate = _lastUpdate
     }
-    @action updateZiteFiles(_files) {
+
+    /* Set the zite files list. */
+    @action setZiteFiles(_files) {
         this.ziteFiles = _files
+    }
+
+    /* Set the zite files list. */
+    @action initZite(_address) {
+        /* Preload the zite (content.json). */
+        Zite.preload(_address)
+    }
+
+    /* Open the zite path. */
+    @action openZite(_address, _path) {
+        /* Open the zite specified path (default to index.html). */
+        Zite.open(_address, _path)
     }
 
 }
