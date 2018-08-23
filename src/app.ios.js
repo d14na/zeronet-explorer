@@ -141,8 +141,8 @@ Navigation.events().registerAppLaunchedListener(() => {
         stack: {
             children: [{
                 component: {
-                    id: 'zeronet.Startup',
-                    name: 'zeronet.Startup',
+                    id: 'zeronet.Main',
+                    name: 'zeronet.Main',
                     options: {
                         topBar: {
                             visible: false,

@@ -21,6 +21,8 @@ import {
     Styles
 } from '../constants'
 
+import Timer from 'react-native-timer'
+
 @observer
 export default class Webview extends React.Component {
     constructor(props) {
@@ -36,8 +38,8 @@ export default class Webview extends React.Component {
         this._btnBack = this._btnBack.bind(this)
         this._btnClose = this._btnClose.bind(this)
         this._getSource = this._getSource.bind(this)
-        this._initZite = this._initZite.bind(this)
-        this._loadZite = this._loadZite.bind(this)
+        // this._initZite = this._initZite.bind(this)
+        // this._loadZite = this._loadZite.bind(this)
 
         /* Initialize a reference to the webview. */
         this._webview = null
@@ -87,11 +89,9 @@ export default class Webview extends React.Component {
     }
 
     componentDidMount() {
-        /* Initialize the zite. */
-        this._initZite()
 
-        // this._loadZite()
-        // this._getZiteInfo()
+        const files = stores.Stage.ziteFiles
+        console.log('*** FILES', files)
 
         // Timer.setInterval(this, 'test10Interval', () => {
         //     console.log('this is a 10sec Timer.setInterval, :)')
@@ -108,7 +108,7 @@ export default class Webview extends React.Component {
         console.log('pressed close button')
 
         /* Close the webview. */
-        Navigation.popToRoot('zeronet.Startup')
+        Navigation.popToRoot('zeronet.Main')
             .catch(console.log)
     }
 
@@ -116,7 +116,7 @@ export default class Webview extends React.Component {
         console.log('pressed Webview back button')
 
         /* Close the webview. */
-        Navigation.popTo('zeronet.Startup')
+        Navigation.popTo('zeronet.Main')
             .catch(console.log)
     }
 
@@ -151,76 +151,6 @@ export default class Webview extends React.Component {
 
                 // this._initJquery()
             // }
-        }
-    }
-
-    async _getZiteInfo(_tag) {
-        /* Initailize Host0. */
-        const host0 = new Host0(RNFS)
-        console.log('host0', host0)
-
-        let content = await host0.listFiles(_tag)
-            .catch(err => { throw err })
-        console.log('host0 awaiting file list', content)
-
-        /* Return a promise with the content. */
-        // return new Promise(function (resolve, reject) {
-        //     resolve(content)
-        // })
-    }
-
-    async _loadZite() {
-        /* Initailize Host0. */
-        const host0 = new Host0(RNFS)
-        console.log('host0', host0)
-
-        /* Initailize Peer0. */
-        // const peer0 = new Peer0(net)
-        // console.log('peer0', peer0)
-
-        let content = await host0.getFile(this.tag, 'index.html')
-        // console.log('host0 awaiting index.html', content)
-
-        if (!content) {
-            let content = await Peer0.getFile(net, this.tag, 'index.html')
-            // let content = await peer0.getFile(this.tag, 'index.html')
-            console.log('peer0 awaiting index.html', content)
-
-            let saved = await host0.saveFile(this.tag, 'index.html', content)
-            // console.log('peer0 awaiting SAVED index.html', saved)
-        }
-
-        try {
-            /* Test for JSON. */
-            const config = JSON.parse(content)
-
-            let jsonDisplay = JSON.stringify(config, null, 4)
-            display = content.replace(/(?:\r\n|\r|\n)/g, '<br />')
-            source = { html: `<pre><code>${display}</code></pre>` }
-            this.setState({ source })
-        } catch (e) {
-            // console.log('FAILED TO PARSE JSON', e)
-
-            // let img = await this._loadFile(this.tag, 'images/project.png')
-            let img = await this._loadFile(this.tag, 'images/icon.png')
-            img = Buffer.from(img).toString('base64')
-            let imgData = 'data:' + 'image/png' + ';base64,' + img
-            // let imgData = 'data:' + 'image/png' + ';base64,' + new Buffer(img).toString('base64')
-            console.log('IMGDATA', img.length, imgData.length)
-            // content = content.replace('images/icon.png', 'data:image/gif;base64,R0lGOD lhCwAOAMQfAP////7+/vj4+Hh4eHd3d/v7+/Dw8HV1dfLy8ubm5vX19e3t7fr 6+nl5edra2nZ2dnx8fMHBwYODg/b29np6eujo6JGRkeHh4eTk5LCwsN3d3dfX 13Jycp2dnevr6////yH5BAEAAB8ALAAAAAALAA4AAAVq4NFw1DNAX/o9imAsB tKpxKRd1+YEWUoIiUoiEWEAApIDMLGoRCyWiKThenkwDgeGMiggDLEXQkDoTh CKNLpQDgjeAsY7MHgECgx8YR8oHwNHfwADBACGh4EDA4iGAYAEBAcQIg0DkgcEIQA7')
-            content = content.replace('images/icon.png', imgData)
-
-
-            content = content.replace('/d14na.bit/privacy.html', 'index.html')
-
-
-            const baseUrl = RNFS.DocumentDirectoryPath + '/' + this.tag + '/'
-            // const baseUrl = RNFS.DocumentDirectoryPath + '/' + this.tag + '/'
-            console.log('BASEURL', baseUrl, content)
-
-            source = { html: content, baseUrl }
-            // source = { html: content }
-            this.setState({ source })
         }
     }
 

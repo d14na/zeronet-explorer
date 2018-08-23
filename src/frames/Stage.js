@@ -52,6 +52,9 @@ export default class Stage extends React.Component {
         /* Set the tag. */
         this.tag = props.tag
 
+        this._closeStage = this._closeStage.bind(this)
+        this._closeZite = this._closeZite.bind(this)
+        this._openButton = this._openButton.bind(this)
     }
 
     render() {
@@ -90,14 +93,7 @@ export default class Stage extends React.Component {
                     { this._displayAddress() }
                     { this._displayDescription() }
                     { this._displayLastUpdate() }
-
-                    <Button
-                        containerViewStyle={ styles.mainButtons }
-                        borderRadius={ 3 }
-                        onPress={ () => this._openZite() }
-                        icon={{ name: 'university', type: 'font-awesome' }}
-                        title='OPEN ZITE' />
-
+                    { this._openButton() }
                     { this._displayFileList() }
 
                     <Text style={{ fontStyle: 'italic' }}>
@@ -115,19 +111,18 @@ export default class Stage extends React.Component {
     }
 
     _closeStage() {
+        Navigation.mergeOptions(this.props.componentId, {
+            sideMenu: { left: { visible: false } }
+        })
+    }
+
+    _closeZite() {
         /* Close the webview. */
         Navigation.popTo('zeronet.Main')
             .catch(console.log)
 
-        console.log('closing id', this.props.componentId)
-
-        Navigation.mergeOptions(this.props.componentId, {
-            sideMenu: {
-                left: {
-                    visible: false
-                }
-            }
-        })
+        /* Close the stage. */
+        this.closeStage()
     }
 
     _adManager() {
@@ -179,6 +174,19 @@ export default class Stage extends React.Component {
         }
     }
 
+    _openButton() {
+        if (stores.Stage.ziteAddress) {
+            return <View style={{ marginTop: 10 }}>
+                <Button
+                    containerViewStyle={ styles.mainButtons }
+                    borderRadius={ 3 }
+                    onPress={ () => this._openZite() }
+                    icon={{ name: 'university', type: 'font-awesome' }}
+                    title='OPEN ZITE' />
+            </View>
+        }
+    }
+
     _bundledFileList() {
         let list = []
         let index = 0
@@ -207,8 +215,20 @@ export default class Stage extends React.Component {
         }
     }
 
-    _initZite(_tag) {
-        Navigation.push(this.props.componentId, {
+    _openZite() {
+        /* Retrieve the address. */
+        const address = stores.Stage.ziteAddress
+
+        /* Initialize the path. */
+        const path = 'index.html'
+
+        /* Set the zite address. */
+        stores.Stage.openZite(address, path)
+
+        /* Close the stage. */
+        this._closeStage()
+
+        Navigation.push('zeronet.Main', {
             component: {
                 id: 'zeronet.Webview',
                 name: 'zeronet.Webview',
@@ -219,29 +239,9 @@ export default class Stage extends React.Component {
                         drawBehind: true
                     }
                 },
-                passProps: { tag: _tag }
+                // passProps: { tag: _tag }
             }
         })
-
-        // FIXME For Debugging Purposes ONLY
-        Navigation.mergeOptions('zeronet.Stage', {
-            sideMenu: {
-                left: {
-                    visible: true
-                }
-            }
-        })
-    }
-
-    _openZite() {
-        /* Retrieve the address. */
-        const address = stores.Stage.ziteAddress
-
-        /* Initialize the path. */
-        const path = 'index.html'
-
-        /* Set the zite address. */
-        stores.Stage.openZite(address, path)
     }
 
 }

@@ -37,7 +37,7 @@ import { P0rtalTopBar } from '../components'
 /* Register all screens of the app (including internal ones). */
 export function registerScreens() {
     /* Startup frame */
-    Navigation.registerComponent('zeronet.Startup', () => Startup)
+    Navigation.registerComponent('zeronet.Main', () => Startup)
 
     /* Graphics art & (lottie-style) animation canvas */
     Navigation.registerComponent('zeronet.Canvas', () => Canvas)
