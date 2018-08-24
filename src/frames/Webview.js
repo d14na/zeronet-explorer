@@ -38,13 +38,13 @@ export default class Webview extends React.Component {
         this._btnBack = this._btnBack.bind(this)
         this._btnClose = this._btnClose.bind(this)
         this._getSource = this._getSource.bind(this)
-        // this._initZite = this._initZite.bind(this)
-        // this._loadZite = this._loadZite.bind(this)
 
         /* Initialize a reference to the webview. */
         this._webview = null
 
         this.state = {
+            // source: { uri: 'https://getbootstrap.com/docs/3.3/examples/blog/' }
+            // source: { uri: 'http://185.142.236.207:43110/zitetags.bit' }
             source: { html: this.props.html }
         }
     }
@@ -54,17 +54,20 @@ export default class Webview extends React.Component {
     // @observable source = { html: '<h1>loading...</h1>' }
 
     render() {
+        const SCRIPT = `
+        const meta = document.createElement('meta');
+        meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+        meta.setAttribute('name', 'viewport');
+        document.head.appendChild(meta);
+        `;
+
         return <View style={ styles.container }>
             <WebView
                 ref={ ref => (this._webview = ref) }
                 source={ this.state.source }
-                style={ styles.webview }
-                javaScriptEnabled={ true }
-                mixedContentMode='always'
-                onLoadStart={ this._loadStarted }
-                onLoadEnd={ this._loadEnded }
-                onNavigationStateChange={ this._navStateChange }
-                onMessage={ this._onMessage } />
+                scalesPageToFit={false}
+                injectedJavaScript={SCRIPT}
+                 />
 
             <View style={ styles.footer }>
                 <Button

@@ -5,9 +5,9 @@ class Host0 {
         this.fs = _fs
     }
 
-    exists = async function (_tag, _path) {
+    exists = async function (_address, _path) {
         /* Check for file existence. */
-        const exists = await this.fs.exists(_tag + '/' + _path)
+        const exists = await this.fs.exists(_address + '/' + _path)
 
         return exists
     }
@@ -20,11 +20,11 @@ class Host0 {
         return createHash('sha512').update(_buf).digest()
     }
 
-    getFile = async function (_tag, _path, _metaData) {
+    getFile = async function (_address, _path, _metaData) {
         /* Localize this. */
         const self = this
 
-        const filePath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + _path
+        const filePath = self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path
 
         return new Promise(async function (resolve, reject) {
             const exists = await self.fs.exists(filePath)
@@ -52,11 +52,11 @@ class Host0 {
         })
     }
 
-    listFiles = async function (_tag) {
+    listFiles = async function (_address) {
         /* Localize this. */
         const self = this
 
-        const dirPath = self.fs.DocumentDirectoryPath + '/' + _tag + '/'
+        const dirPath = self.fs.DocumentDirectoryPath + '/' + _address + '/'
 
         // get a list of files and directories in the main bundle
         // On Android, use "this.fs.DocumentDirectoryPath" (MainBundlePath is not defined)
@@ -70,7 +70,7 @@ class Host0 {
             })
     }
 
-    saveFile = async function (_tag, _path, _data, _metaData) {
+    saveFile = async function (_address, _path, _data, _metaData) {
         /* Localize this. */
         const self = this
 
@@ -81,12 +81,12 @@ class Host0 {
         let success = null
 
         /* Check for zite folder. */
-        const installed = await this.exists(_tag)
+        const installed = await this.exists(_address)
 
         /* Create new folder if not already installed. */
         if (!installed) {
             /* Set new directory path. */
-            newDirPath = self.fs.DocumentDirectoryPath + '/' + _tag
+            newDirPath = self.fs.DocumentDirectoryPath + '/' + _address
 
             /* Create the new directory. */
             created = await self.fs.mkdir(newDirPath)
@@ -100,7 +100,7 @@ class Host0 {
             newDir = _path.slice(0, dirSplitPos)
 
             /* Set new directory path. */
-            newDirPath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + newDir
+            newDirPath = self.fs.DocumentDirectoryPath + '/' + _address + '/' + newDir
 
             /* Create the new directory. */
             created = await self.fs.mkdir(newDirPath)
@@ -109,7 +109,7 @@ class Host0 {
         }
 
         /* Initialize the file path. */
-        const filePath = self.fs.DocumentDirectoryPath + '/' + _tag + '/' + _path
+        const filePath = self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path
 
         return new Promise(async function (resolve, reject) {
             success = null
@@ -124,7 +124,7 @@ class Host0 {
             } else {
                 /* Convert buffer to string. */
                 const strData = Buffer.from(_data).toString('utf8')
-console.log(filePath, strData)
+// console.log(filePath, strData)
 
                 /* Write the data to disk. */
                 success = await self.fs.writeFile(filePath, strData, 'utf8')

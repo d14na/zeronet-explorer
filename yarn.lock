@@ -2772,7 +2772,7 @@ fbjs-scripts@^0.8.1:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.14, fbjs@^0.8.16, fbjs@^0.8.9:
+fbjs@^0.8.14, fbjs@^0.8.16, fbjs@^0.8.3, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -4850,7 +4850,7 @@ mobx@4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-4.3.1.tgz#334e5aab4916b1d43f0faf3605a64b1b4b3ccb8d"
 
-moment@^2.22.2:
+moment@2.22.2:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
@@ -5904,6 +5904,12 @@ react-native-vector-icons@5.0.0:
     lodash "^4.0.0"
     prop-types "^15.5.10"
     yargs "^8.0.2"
+
+react-native-wkwebview-reborn@^1.21.0:
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/react-native-wkwebview-reborn/-/react-native-wkwebview-reborn-1.21.0.tgz#ae355cd6b0b8e8f979c42165187b43de95a2743c"
+  dependencies:
+    fbjs "^0.8.3"
 
 react-native@0.54.0:
   version "0.54.0"

@@ -67,7 +67,8 @@ const Zite = {
         } else {
             contents = null
         }
-
+// FIXME Check to content.json to flag files needing an update
+contents = null
         /* Retrieve the contents from peer. */
         if (!contents) {
             contents = await this.peer0.getFile(_address, _path, 0, 89453)
@@ -144,8 +145,26 @@ const Zite = {
             Stage.setZiteContents(fileContents)
         }
 
+        /* Start building the body. */
+        let body = fileContents['index.html'].toString()
+
+//         /* Build the css. */
+//         let css = fileContents['css/bootstrap.min.css'].toString()
+// console.log('CSS', css)
+//
+//         /* Build the graphics. */
+//         let img = Buffer.from(fileContents['images/icon.png']).toString('base64')
+//         imgData = 'data:' + 'image/png' + ';base64,' + img
+// console.log('IMGDATA', img.length, imgData)
+//         body = body.replace('images/icon.png', imgData)
+//
+// body = body.replace('<link href="css/bootstrap.min.css" rel="stylesheet">', `<style>${css}</style>`)
+console.log('BODY', body)
+
+// <link href="css/bootstrap.min.css" rel="stylesheet">
+
         /* Build html body. */
-        const html = `<h1>${fileContents['index.html']}</h1>`
+        const html = `<h1>${body}</h1>`
 
         Navigation.mergeOptions('zeronet.Stage', {
             sideMenu: { left: { visible: false } }
