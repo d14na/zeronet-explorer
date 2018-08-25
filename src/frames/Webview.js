@@ -23,6 +23,8 @@ import {
 
 import Timer from 'react-native-timer'
 
+import RNFS from 'react-native-fs'
+
 @observer
 export default class Webview extends React.Component {
     constructor(props) {
@@ -42,10 +44,12 @@ export default class Webview extends React.Component {
         /* Initialize a reference to the webview. */
         this._webview = null
 
+        const dirPath = RNFS.DocumentDirectoryPath + '/1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J/index.html'
         this.state = {
             // source: { uri: 'https://getbootstrap.com/docs/3.3/examples/blog/' }
             // source: { uri: 'http://185.142.236.207:43110/zitetags.bit' }
-            source: { html: this.props.html }
+            source: { uri: dirPath }
+            // source: { html: this.props.html }
         }
     }
 
@@ -54,19 +58,10 @@ export default class Webview extends React.Component {
     // @observable source = { html: '<h1>loading...</h1>' }
 
     render() {
-        const SCRIPT = `
-        const meta = document.createElement('meta');
-        meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-        meta.setAttribute('name', 'viewport');
-        document.head.appendChild(meta);
-        `;
-
         return <View style={ styles.container }>
             <WebView
                 ref={ ref => (this._webview = ref) }
                 source={ this.state.source }
-                scalesPageToFit={false}
-                injectedJavaScript={SCRIPT}
                  />
 
             <View style={ styles.footer }>
@@ -76,13 +71,13 @@ export default class Webview extends React.Component {
                     onPress={ this._btnBack } />
 
                 <Button
-                    title='>'
-                    style={ styles.footerButton } />
-
-                <Button
                     title='Close'
                     style={ styles.footerButton }
                     onPress={ this._btnClose } />
+
+                <Button
+                    title='>'
+                    style={ styles.footerButton } />
             </View>
         </View>
     }
