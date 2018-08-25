@@ -27,7 +27,7 @@ import Timer from 'react-native-timer'
 import RNFS from 'react-native-fs'
 
 /* Initialize Zer0net gateway for TEMPORARY use by Android. */
-const ZERONET_GATEWAY = 'https://0net.io'
+const ZERONET_TEMP_GATEWAY = 'http://185.142.236.207:43110'
 
 @observer
 export default class Webview extends React.Component {
@@ -55,7 +55,7 @@ export default class Webview extends React.Component {
         // FIXME Problem with Android loading local files
         //       Temporarily use 0net proxy
         if (Platform.OS === 'android') {
-            target = ZERONET_GATEWAY + this.props.target
+            target = ZERONET_TEMP_GATEWAY + this.props.target
         } else {
             target = RNFS.DocumentDirectoryPath + this.props.target
         }

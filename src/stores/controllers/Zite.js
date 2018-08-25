@@ -100,6 +100,8 @@ const Zite = {
         /* Initialize display list. */
         let displayList = []
 
+        let passedAllChecks = true
+
         for (let filename of fileList) {
             console.info('Processing FILE', filename)
 
@@ -120,10 +122,13 @@ const Zite = {
 
             if (sha512 === checksum) {
                 /* Set verification flag. */
-                file['valid'] = 'SUCCESS'
+                file['valid'] = true
             } else {
                 /* Set verification flag. */
-                file['valid'] = 'FAILED'
+                file['valid'] = false
+
+                /* Set passed checks flag. */
+                passedAllChecks = false
             }
 
             /* Add filename to object. */
@@ -134,30 +139,43 @@ const Zite = {
 
             /* Set zites's file list. */
             Stage.setZiteFiles(displayList)
+
+            if (!passedAllChecks) {
+                // FIXME A custom alert will be much nicer.
+                //       Even better create a descriptive error screen.
+                alert(`Oops! ${filename} FAILED file verification!`)
+
+                /* Stop processing files. */
+                break
+            }
         }
 
-        Navigation.mergeOptions('zeronet.Stage', {
-            sideMenu: { left: { visible: false } }
-        })
+        /* Once all checks are passed, close the Stage and load WebView. */
+        if (passedAllChecks) {
+            /* Close the Stage. */
+            Navigation.mergeOptions('zeronet.Stage', {
+                sideMenu: { left: { visible: false } }
+            })
 
-        /* Initialize starting target (filepath). */
-        const target = `/${_address}/${_path}`
+            /* Initialize starting target (filepath). */
+            const target = `/${_address}/${_path}`
 
-        Navigation.push('zeronet.Main', {
-            component: {
-                id: 'zeronet.Webview',
-                name: 'zeronet.Webview',
-                options: {
-                    topBar: {
-                        visible: false,
-                        animate: false,
-                        drawBehind: true
-                    }
-                },
-                passProps: { target }
-            }
-        })
-
+            /* Open the WebView. */
+            Navigation.push('zeronet.Main', {
+                component: {
+                    id: 'zeronet.Webview',
+                    name: 'zeronet.Webview',
+                    options: {
+                        topBar: {
+                            visible: false,
+                            animate: false,
+                            drawBehind: true
+                        }
+                    },
+                    passProps: { target }
+                }
+            })
+        }
     }
 
 }

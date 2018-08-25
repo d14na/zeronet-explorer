@@ -187,6 +187,18 @@ export default class Stage extends React.Component {
         }
     }
 
+    _displayVerification(_isValid) {
+        if (_isValid) {
+            return <Text>
+                {'\n    '}File Verification: <Text style={ styles.passedText }>PASSED</Text>
+            </Text>
+        } else {
+            return <Text>
+                {'\n    '}File Verification: <Text style={ styles.failedText }>FAILED</Text>
+            </Text>
+        }
+    }
+
     _bundledFileList() {
         let list = []
         let index = 0
@@ -196,7 +208,7 @@ export default class Stage extends React.Component {
                 <Text key={ file['sha512'] } style={ styles.ziteDirectoryText }>
                     { ++index }. { file['name'] }
                     {'\n    '}Size: { file['size'] } bytes
-                    {'\n    '}Verified: { file['valid'] }
+                    { this._displayVerification(file['valid']) }
                 </Text>
             )
         }
@@ -283,6 +295,14 @@ const styles = StyleSheet.create({
         fontSize: 9,
         marginLeft: 20,
         marginBottom: 5
+    },
+    passedText: {
+        color: 'rgba(30, 210, 30, 1.0)',
+        fontWeight: 'bold'
+    },
+    failedText: {
+        color: 'rgba(210, 30, 30, 1.0)',
+        fontWeight: 'bold'
     },
 
     adSpace: {
