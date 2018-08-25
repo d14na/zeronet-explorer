@@ -145,30 +145,12 @@ contents = null
             Stage.setZiteContents(fileContents)
         }
 
-        /* Start building the body. */
-        let body = fileContents['index.html'].toString()
-
-//         /* Build the css. */
-//         let css = fileContents['css/bootstrap.min.css'].toString()
-// console.log('CSS', css)
-//
-//         /* Build the graphics. */
-//         let img = Buffer.from(fileContents['images/icon.png']).toString('base64')
-//         imgData = 'data:' + 'image/png' + ';base64,' + img
-// console.log('IMGDATA', img.length, imgData)
-//         body = body.replace('images/icon.png', imgData)
-//
-// body = body.replace('<link href="css/bootstrap.min.css" rel="stylesheet">', `<style>${css}</style>`)
-console.log('BODY', body)
-
-// <link href="css/bootstrap.min.css" rel="stylesheet">
-
-        /* Build html body. */
-        const html = `<h1>${body}</h1>`
-
         Navigation.mergeOptions('zeronet.Stage', {
             sideMenu: { left: { visible: false } }
         })
+
+        /* Initialize starting target (filepath). */
+        const target = `/${_address}/${_path}`
 
         Navigation.push('zeronet.Main', {
             component: {
@@ -181,7 +163,7 @@ console.log('BODY', body)
                         drawBehind: true
                     }
                 },
-                passProps: { html }
+                passProps: { target }
             }
         })
 

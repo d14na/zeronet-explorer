@@ -44,12 +44,9 @@ export default class Webview extends React.Component {
         /* Initialize a reference to the webview. */
         this._webview = null
 
-        const dirPath = RNFS.DocumentDirectoryPath + '/1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J/index.html'
+        const dirPath = RNFS.DocumentDirectoryPath + this.props.target
         this.state = {
-            // source: { uri: 'https://getbootstrap.com/docs/3.3/examples/blog/' }
-            // source: { uri: 'http://185.142.236.207:43110/zitetags.bit' }
             source: { uri: dirPath }
-            // source: { html: this.props.html }
         }
     }
 
@@ -62,7 +59,12 @@ export default class Webview extends React.Component {
             <WebView
                 ref={ ref => (this._webview = ref) }
                 source={ this.state.source }
-                 />
+                style={ styles.webview }
+                javaScriptEnabled={ true }
+                onLoadStart={ this._loadStarted }
+                onLoadEnd={ this._loadEnded }
+                onNavigationStateChange={ this._navStateChange }
+                onMessage={ this._onMessage } />
 
             <View style={ styles.footer }>
                 <Button
