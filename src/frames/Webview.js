@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+    Platform,
     StyleSheet,
     ScrollView,
     Text,
@@ -25,6 +26,9 @@ import Timer from 'react-native-timer'
 
 import RNFS from 'react-native-fs'
 
+/* Initialize Zer0net gateway for TEMPORARY use by Android. */
+const ZERONET_GATEWAY = 'https://0net.io'
+
 @observer
 export default class Webview extends React.Component {
     constructor(props) {
@@ -35,6 +39,7 @@ export default class Webview extends React.Component {
 
         this._loadStarted = this._loadStarted.bind(this)
         this._loadEnded = this._loadEnded.bind(this)
+        this._loadError = this._loadError.bind(this)
         this._navStateChange = this._navStateChange.bind(this)
         this._onMessage = this._onMessage.bind(this)
         this._btnBack = this._btnBack.bind(this)
@@ -44,9 +49,19 @@ export default class Webview extends React.Component {
         /* Initialize a reference to the webview. */
         this._webview = null
 
-        const dirPath = RNFS.DocumentDirectoryPath + this.props.target
+        /* Initialize target. */
+        let target = null
+
+        // FIXME Problem with Android loading local files
+        //       Temporarily use 0net proxy
+        if (Platform.OS === 'android') {
+            target = ZERONET_GATEWAY + this.props.target
+        } else {
+            target = RNFS.DocumentDirectoryPath + this.props.target
+        }
+
         this.state = {
-            source: { uri: dirPath }
+            source: { uri: target }
         }
     }
 
@@ -60,26 +75,30 @@ export default class Webview extends React.Component {
                 ref={ ref => (this._webview = ref) }
                 source={ this.state.source }
                 style={ styles.webview }
+                domStorageEnabled={ true }
                 javaScriptEnabled={ true }
+                startInLoadingState={ true }
+                mixedContentMode={ 'always' }
                 onLoadStart={ this._loadStarted }
                 onLoadEnd={ this._loadEnded }
+                onError={ this._loadError }
                 onNavigationStateChange={ this._navStateChange }
                 onMessage={ this._onMessage } />
 
-            <View style={ styles.footer }>
+            <View style={ styles.navBar }>
                 <Button
                     title='<'
-                    style={ styles.footerButton }
+                    style={ styles.navBarButton }
                     onPress={ this._btnBack } />
 
                 <Button
-                    title='Close'
-                    style={ styles.footerButton }
+                    title='CLOSE'
+                    style={ styles.navBarButton }
                     onPress={ this._btnClose } />
 
                 <Button
                     title='>'
-                    style={ styles.footerButton } />
+                    style={ styles.navBarButton } />
             </View>
         </View>
     }
@@ -90,8 +109,14 @@ export default class Webview extends React.Component {
 
     componentDidMount() {
 
-        const files = stores.Stage.ziteFiles
-        console.log('*** FILES', files)
+        // const files = stores.Stage.ziteFiles
+        // console.log('*** FILES', files)
+
+        const url = 'file:///data/user/0/com.zer0net/files/1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J/index.html'
+
+console.log('***FORCE onLoadStart', url)
+        // this._webview.source = this.state.source
+        this._webview.source = url
 
         // Timer.setInterval(this, 'test10Interval', () => {
         //     console.log('this is a 10sec Timer.setInterval, :)')
@@ -140,6 +165,10 @@ export default class Webview extends React.Component {
         console.log('_loadEnded')
     }
 
+    _loadError(err) {
+        console.log('_loadError', err)
+    }
+
     _navStateChange(_event) {
         // console.log('_navStateChange event', _event)
 
@@ -163,15 +192,15 @@ const styles = StyleSheet.create({
     webview: {
         flex: 1,
         width: '100%',
+        marginTop: 20
         // height: '100%'
     },
-    footer: {
+    navBar: {
         flexDirection: 'row',
-        width: 350,
-        height: 50
+        width: '100%',
+        height: 40
     },
-    footerButton: {
-        flex: 1,
-        width: 100
+    navBarButton: {
+        flex: 1
     }
 })

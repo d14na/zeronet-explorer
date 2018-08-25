@@ -68,7 +68,7 @@ const Zite = {
             contents = null
         }
 // FIXME Check to content.json to flag files needing an update
-contents = null
+// contents = null
         /* Retrieve the contents from peer. */
         if (!contents) {
             contents = await this.peer0.getFile(_address, _path, 0, 89453)
@@ -99,9 +99,6 @@ contents = null
 
         /* Initialize display list. */
         let displayList = []
-
-        /* Initialize contents. */
-        let fileContents = {}
 
         for (let filename of fileList) {
             console.info('Processing FILE', filename)
@@ -137,12 +134,6 @@ contents = null
 
             /* Set zites's file list. */
             Stage.setZiteFiles(displayList)
-
-            /* Add contents. */
-            fileContents[filename] = contents
-
-            /* Set zites contents. */
-            Stage.setZiteContents(fileContents)
         }
 
         Navigation.mergeOptions('zeronet.Stage', {
