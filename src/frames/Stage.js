@@ -170,6 +170,12 @@ export default class Stage extends React.Component {
                 <Text style={ styles.ziteDetailsText }>
                     { stores.Stage.ziteLastUpdate }
                 </Text>
+                <Text style={ styles.ziteDetailsText }>
+                    LIVE: { stores.Stage.ziteModified }
+                </Text>
+                <Text style={ styles.ziteDetailsText }>
+                    CACHED: { stores.Stage.ziteCachedConfig.modified }
+                </Text>
             </View>
         }
     }

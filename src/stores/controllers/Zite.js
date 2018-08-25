@@ -23,6 +23,26 @@ const Zite = {
         /* Initailize Peer0. */
         this.peer0 = new Peer0(net)
 
+        try {
+            /* Check the config (if available) cached on disk. */
+            let cachedConfig = await this.host0.getFile(this.address, 'content.json')
+                .catch(err => { throw err })
+
+            /* Decode the cache. */
+            cachedConfig = JSON.parse(cachedConfig)
+    console.log('CACHED CONFIG', cachedConfig)
+
+            /* Set cached config (if available). */
+            if (cachedConfig) {
+                /* Set the cached config.json. */
+                Stage.setZiteCachedConfig(cachedConfig)
+            }
+        } catch (e) {
+            /* Something has gone wrong if we cannot parse the content.json. */
+            // FIXME Handle this better in the UI
+            throw e
+        }
+
         /* Initialize caching flag. */
         const noCache = false
 
@@ -45,6 +65,7 @@ const Zite = {
             Stage.setZiteTitle(this.config['title'])
             Stage.setZiteAddress(this.config['address'])
             Stage.setZiteDescription(this.config['description'])
+            Stage.setZiteModified(this.config['modified'])
 
             const lastUpdate = moment.unix(this.config['modified']).fromNow() +
                 ' [ ' + moment.unix(this.config['modified']).format('ll') + ' ]'
@@ -88,6 +109,13 @@ const Zite = {
     },
 
     open: async function(_address, _path) {
+        /* Retrieve and decode content.json. */
+        const config = JSON.stringify(this.config)
+
+        /* Save the latest content.json. */
+        await this.host0.saveFile(_address, 'content.json', config)
+            .catch(err => { throw err })
+
         /* Initialize files holder. */
         const files = this.config['files']
 

@@ -25,16 +25,17 @@ class Host0 {
         const self = this
 
         const filePath = self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path
+console.log('FILEPATH', filePath)
 
         return new Promise(async function (resolve, reject) {
             const exists = await self.fs.exists(filePath)
                 .catch(reject)
-// console.log('getPath EXISTS', exists)
+console.log('getPath EXISTS', exists)
 
             if (exists) {
                 let contents = null
 
-                if (_path.slice(-3) === 'png') {
+                if (_path.slice(-3) === 'png' || _path.slice(-3) === 'jpg') {
                     contents = await self.fs.readFile(filePath, 'base64')
                         .catch(err => { throw err })
 

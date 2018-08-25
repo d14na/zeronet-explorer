@@ -197,8 +197,11 @@ const styles = StyleSheet.create({
     },
     navBar: {
         flexDirection: 'row',
-        width: '100%',
-        height: 40
+        // width: '100%',
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',        
+        backgroundColor: 'rgba(30, 30, 180, 0.2)'
     },
     navBarButton: {
         flex: 1

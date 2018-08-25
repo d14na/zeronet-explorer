@@ -21,6 +21,8 @@ class Store {
     @observable ziteTitle = ''
     @observable ziteDescription = ''
     @observable ziteLastUpdate = ''
+    @observable ziteModified = 0
+    @observable ziteCachedConfig = {}
     @observable ziteFiles = []
 
     /* FIXME Will only display blockchain ads on Android devices to avoid
@@ -62,6 +64,16 @@ class Store {
     /* Set the zite last update. */
     @action setZiteLastUpdate(_lastUpdate) {
         this.ziteLastUpdate = _lastUpdate
+    }
+
+    /* Set the zite modified. */
+    @action setZiteModified(_modified) {
+        this.ziteModified = _modified
+    }
+
+    /* Set the zite modified. */
+    @action setZiteCachedConfig(_cachedConfig) {
+        this.ziteCachedConfig = _cachedConfig
     }
 
     /* Set the zite files list. */
