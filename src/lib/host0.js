@@ -25,17 +25,17 @@ class Host0 {
         const self = this
 
         const filePath = self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path
-console.log('FILEPATH', filePath)
+// console.log('FILEPATH', filePath)
 
         return new Promise(async function (resolve, reject) {
             const exists = await self.fs.exists(filePath)
                 .catch(reject)
-console.log('getPath EXISTS', exists)
+// console.log('getPath EXISTS', exists)
 
             if (exists) {
                 let contents = null
 
-                if (_path.slice(-3) === 'png' || _path.slice(-3) === 'jpg') {
+                if (_path.slice(-3) === 'png' || _path.slice(-3) === 'jpg' || _path.slice(-3) === 'gif') {
                     contents = await self.fs.readFile(filePath, 'base64')
                         .catch(err => { throw err })
 
@@ -115,7 +115,7 @@ console.log('getPath EXISTS', exists)
         return new Promise(async function (resolve, reject) {
             success = null
 
-            if (_path.slice(-3) === 'png') {
+            if (_path.slice(-3) === 'png' || _path.slice(-3) === 'jpg' || _path.slice(-3) === 'gif') {
                 /* Convert the buffer to base64. */
                 const base64 = Buffer.from(_data).toString('base64')
 

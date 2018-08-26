@@ -171,10 +171,7 @@ export default class Stage extends React.Component {
                     { stores.Stage.ziteLastUpdate }
                 </Text>
                 <Text style={ styles.ziteDetailsText }>
-                    LIVE: { stores.Stage.ziteModified }
-                </Text>
-                <Text style={ styles.ziteDetailsText }>
-                    CACHED: { stores.Stage.ziteCachedConfig.modified }
+                    Device files are outdated by { stores.Stage.ziteCachedAge }
                 </Text>
             </View>
         }
@@ -187,7 +184,7 @@ export default class Stage extends React.Component {
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
                     onPress={ () => this._openZite() }
-                    icon={{ name: 'university', type: 'font-awesome' }}
+                    icon={{ name: 'window-restore', type: 'font-awesome' }}
                     title='OPEN ZITE' />
             </View>
         }

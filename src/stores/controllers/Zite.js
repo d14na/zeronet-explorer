@@ -30,7 +30,7 @@ const Zite = {
 
             /* Decode the cache. */
             cachedConfig = JSON.parse(cachedConfig)
-    console.log('CACHED CONFIG', cachedConfig)
+    // console.log('CACHED CONFIG', cachedConfig)
 
             /* Set cached config (if available). */
             if (cachedConfig) {
@@ -52,6 +52,7 @@ const Zite = {
 
         /* Convert to string. */
         config = Buffer.from(config).toString('utf8')
+// console.log('CONTENT.JSON', config)
 
         try {
             /* Parse the JSON. */
@@ -142,7 +143,7 @@ const Zite = {
             /* Retrieve file from remote. */
             contents = await this.loadFile(this.address, filename, file)
                 .catch(err => { throw err })
-            // console.log('READ %s [%d bytes]', filename, contents.length, contents)
+console.log('READ %s [%d bytes]', filename, contents.length, contents)
 
             const hash = this.host0.sha512(contents)
             // NOTE Checksum uses 32 (50%) of the full 64 bytes from sha512

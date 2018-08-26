@@ -1,8 +1,10 @@
 // @flow
 
 import { Platform } from 'react-native'
-import { observable, action } from 'mobx'
+import { observable, action, computed } from 'mobx'
 import { persist } from 'mobx-persist'
+
+import moment from 'moment'
 
 import {
     Zite
@@ -14,7 +16,7 @@ class Store {
 
     /* Initialize preset values. */
     @observable topBarColor = 'rgba(210, 210, 30, 1.0)'
-    @observable backgroundColor = 'rgba(30, 30, 30, 0.7)'
+    @observable backgroundColor = 'rgba(30, 30, 30, 0.95)'
 
     /* Initialize zite details. */
     @observable ziteAddress = ''
@@ -29,6 +31,16 @@ class Store {
      * any issues with Apple's TOS.
      */
     @observable displayAds = Platform.OS === 'android'
+
+    @computed get ziteCachedAge() {
+        /* Calculate the time difference. */
+        const diff = this.ziteModified - this.ziteCachedConfig.modified
+
+        /* Format the difference. */
+        const age = moment.duration(diff, 'seconds').humanize()
+
+        return age
+    }
 
     /* Add a debugging log entry. */
     @action addDebugLog(_tag, _entry) {

@@ -127,7 +127,7 @@ export default class StartupFrame extends React.Component {
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
                     onPress={ () => this._initZite('1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C') }
-                    icon={{ name: 'university', type: 'font-awesome' }}
+                    icon={{ name: 'legal', type: 'font-awesome' }}
                     title='D14NA' />
 
                 <Button
@@ -143,7 +143,7 @@ export default class StartupFrame extends React.Component {
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
                     onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
-                    icon={{ name: 'university', type: 'font-awesome' }}
+                    icon={{ name: 'support', type: 'font-awesome' }}
                     title='USER GUIDE' />
             </View>
         }
