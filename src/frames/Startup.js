@@ -63,7 +63,7 @@ export default class StartupFrame extends React.Component {
                         type='font-awesome'
                         color='rgba(134, 147, 158, 1.0)'
                         underlayColor='rgba(57, 62, 66, 1.0)'
-                        size={ 32 }
+                        size={ 28 }
                         containerStyle={ styles.btnQrCode }
                         onPress={ this._openScanner } />
 
@@ -73,7 +73,7 @@ export default class StartupFrame extends React.Component {
                         clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
                         containerStyle={ styles.searchInput }
                         inputStyle={ styles.searchInputText }
-                        placeholder='Looking for something interesting?'
+                        placeholder='Where will you explore next?'
                         onChangeText={ this._handleSearchInput }
                         onSubmitEditing={ this._handleSearchSubmit } />
                 </View>
@@ -158,9 +158,9 @@ export default class StartupFrame extends React.Component {
                     large
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
-                    onPress={ () => this._initZite('1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C') }
-                    icon={{ name: 'legal', type: 'font-awesome' }}
-                    title='D14NA' />
+                    onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
+                    icon={{ name: 'support', type: 'font-awesome' }}
+                    title='USER GUIDE' />
 
                 <Button
                     large
@@ -174,9 +174,9 @@ export default class StartupFrame extends React.Component {
                     large
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
-                    onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
-                    icon={{ name: 'support', type: 'font-awesome' }}
-                    title='USER GUIDE' />
+                    onPress={ () => this._initZite('1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C') }
+                    icon={{ name: 'legal', type: 'font-awesome' }}
+                    title='ABOUT D14NA' />
             </View>
         }
 
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     btnQrCode: {
         marginTop: 1,
         marginBottom: 1,
-        paddingLeft: 7,
+        paddingLeft: 8,
         backgroundColor: 'rgba(57, 62, 66, 1.0)'
     },
     searchInput: {

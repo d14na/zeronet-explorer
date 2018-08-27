@@ -54,7 +54,7 @@ export default class Camera extends React.Component {
                 <TouchableOpacity
                     onPress={ this._close }
                     style = { styles.close }>
-                    <Text style={{ fontSize: 14 }}>CANCEL SCANNER</Text>
+                    <Text style={{ fontSize: 14 }}>CANCEL CODE SCAN</Text>
                 </TouchableOpacity>
             </View>
       </View>
@@ -80,7 +80,7 @@ export default class Camera extends React.Component {
         if (address) {
             /* Close the camera. */
             this._close()
-            
+
             /* Set the zite address. */
             stores.Stage.initZite(address)
 

@@ -90,7 +90,7 @@ const Zite = {
             contents = null
         }
 // FIXME Check to content.json to flag files needing an update
-// contents = null
+contents = null
         /* Retrieve the contents from peer. */
         if (!contents) {
             contents = await this.peer0.getFile(_address, _path, 0, 89453)
@@ -143,7 +143,7 @@ const Zite = {
             /* Retrieve file from remote. */
             contents = await this.loadFile(this.address, filename, file)
                 .catch(err => { throw err })
-console.log('READ %s [%d bytes]', filename, contents.length, contents)
+// console.log('READ %s [%d bytes]', filename, contents.length, contents)
 
             const hash = this.host0.sha512(contents)
             // NOTE Checksum uses 32 (50%) of the full 64 bytes from sha512
