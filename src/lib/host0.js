@@ -5,9 +5,12 @@ class Host0 {
         this.fs = _fs
     }
 
-    exists = async function (_address, _path) {
+    exists = async function (_address, _path='') {
+        /* Initialize file path. */
+        const filePath = this.fs.DocumentDirectoryPath + '/' + _address + '/' + _path
+
         /* Check for file existence. */
-        const exists = await this.fs.exists(_address + '/' + _path)
+        const exists = await this.fs.exists(filePath)
 
         return exists
     }
@@ -83,6 +86,7 @@ class Host0 {
 
         /* Check for zite folder. */
         const installed = await this.exists(_address)
+// console.log('INSTALLED', installed, _address)
 
         /* Create new folder if not already installed. */
         if (!installed) {

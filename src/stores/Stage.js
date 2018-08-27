@@ -95,6 +95,15 @@ class Store {
 
     /* Set the zite files list. */
     @action initZite(_address) {
+        /* Reset all holders. */
+        this.ziteAddress = ''
+        this.ziteTitle = ''
+        this.ziteDescription = ''
+        this.ziteLastUpdate = ''
+        this.ziteModified = 0
+        this.ziteCachedConfig = {}
+        this.ziteFiles = []
+
         /* Preload the zite (content.json). */
         Zite.preload(_address)
     }

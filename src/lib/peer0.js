@@ -125,9 +125,23 @@ class Peer0 {
         self.address = _address
         self.path = _path
 
-        return new Promise((resolve, reject) => {
+        /* Initialize a NEW client connection/handshake (if needed). */
+        const promise = new Promise((resolve, reject) => {
+            /* Initialize promise holders. */
+            self.resolve = resolve
+            self.reject = reject
+        })
+
+        /* Initialize/verify our client connection. */
+        if (self.client) {
+            /* Request the file. */
+            self._requestFile()
+        } else {
+            /* Initialize the handshake. */
+            self.hasHandshake = false
+
             self.client = self.net.createConnection(self.hostPort, self.hostIp, () => {
-                console.info('Connected to peer!', self.hostPort, self.hostIp)
+                console.info('Opened a new peer connection!', self.hostPort, self.hostIp)
 
                 /* Initialize handshake package. */
                 const pkg = self._encode(self._handshakePkg())
@@ -137,13 +151,12 @@ class Peer0 {
             })
 
             self.client.on('error', function (error) {
-                console.error(error)
+                console.error('react-native-tcp', error)
 
-                reject(error)
+                self.reject(error)
             })
 
-            let called = 0
-            let hasHandshake = false
+            let numCalled = 0 // FOR DEBUGGING PURPOSES ONLY
 
             self.client.on('data', function(_data) {
                 try {
@@ -156,15 +169,15 @@ class Peer0 {
                     /* Attempt to decode the data. */
                     const decoded = self._decode(self.payload)
 
-                    // console.log('Message #%d was received [%d bytes]', ++called, _data.length, _data, decoded)
+                    // console.log('Message #%d was received [%d bytes]', ++numCalled, _data.length, _data, decoded)
 
                     /* Handshake response. */
-                    if (decoded.protocol === 'v2' && hasHandshake === false) {
+                    if (decoded.protocol === 'v2' && self.hasHandshake === false) {
                         /* Reset payload. */
                         self.payload = null
 
                         /* Set handshake flag. */
-                        hasHandshake = true
+                        self.hasHandshake = true
 
                         console.info('Handshake complete. Request the file!')
                         self._requestFile()
@@ -175,7 +188,7 @@ class Peer0 {
                         /* Reset payload. */
                         self.payload = null
 
-                        resolve(decoded.body)
+                        self.resolve(decoded.body)
                     }
                 } catch (e) {
                     // FIXME We should NOT attempt decoding until all data has
@@ -189,8 +202,10 @@ class Peer0 {
             self.client.on('close', function () {
                 console.info('Connection closed.')
             })
-        })
+        }
 
+        /* Return the promise. */
+        return promise
     }
 
 }

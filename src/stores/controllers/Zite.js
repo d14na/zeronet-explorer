@@ -30,7 +30,7 @@ const Zite = {
 
             /* Decode the cache. */
             cachedConfig = JSON.parse(cachedConfig)
-    // console.log('CACHED CONFIG', cachedConfig)
+// console.log('CACHED CONFIG', cachedConfig)
 
             /* Set cached config (if available). */
             if (cachedConfig) {
@@ -93,7 +93,7 @@ const Zite = {
 contents = null
         /* Retrieve the contents from peer. */
         if (!contents) {
-            contents = await this.peer0.getFile(_address, _path, 0, 89453)
+            contents = await this.peer0.getFile(_address, _path, 0, 1234567890)
                 .catch(err => { throw err })
 
             /* Save the contents to disk. */
@@ -138,16 +138,17 @@ contents = null
             const file = files[filename]
             const sha512 = file['sha512']
             const size = file['size']
-            // console.log('FILE DETAILS', filename, size, sha512)
+// console.log('(CONFIG) FILE DETAILS', filename, size, sha512)
 
             /* Retrieve file from remote. */
             contents = await this.loadFile(this.address, filename, file)
                 .catch(err => { throw err })
-// console.log('READ %s [%d bytes]', filename, contents.length, contents)
+// console.log('(READ) FILE DETAILS %s [%d bytes]', filename, contents.length, contents)
 
             const hash = this.host0.sha512(contents)
             // NOTE Checksum uses 32 (50%) of the full 64 bytes from sha512
             const checksum = Buffer.from(hash.slice(0, 32)).toString('hex')
+// console.log('CALC CHECKSUM', checksum)
 
             if (sha512 === checksum) {
                 /* Set verification flag. */
