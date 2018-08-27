@@ -107,8 +107,8 @@ android {
         applicationId "com.zer0net"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 180817
-        versionName "18.8.17"
+        versionCode 180826
+        versionName "18.8.26"
         missingDimensionStrategy "RNN.reactNativeVersion", "reactNative51" // <- See note below for further instruction regarding compatibility with other React Native versions
         // Available options:
         // reactNative51: Support for React Native 0.51-0.54
@@ -175,6 +175,14 @@ dependencies {
     implementation project(':react-native-navigation')
 
     api project(':bugsnag-react-native')
+//    api project(':react-native-camera')
+    compile (project(':react-native-camera')) {
+        exclude group: 'com.google.android.gms'
+        compile 'com.android.support:exifinterface:25.+'
+        compile ('com.google.android.gms:play-services-vision:12.0.1') {
+            force = true
+        }
+    }
     api project(':react-native-device-info')
     api project(':react-native-fs')
     api project(':react-native-tcp')

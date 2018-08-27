@@ -52,12 +52,13 @@ export default class Stage extends React.Component {
         /* Set the tag. */
         this.tag = props.tag
 
-        this._closeStage = this._closeStage.bind(this)
+        // this._closeStage = this._closeStage.bind(this)
         this._closeZite = this._closeZite.bind(this)
         this._openButton = this._openButton.bind(this)
     }
 
     render() {
+// FIXME Move to separate component
         function StageMenu(props) {
             /* Retrieve the parent. */
             const parent = props.parent
@@ -239,14 +240,6 @@ export default class Stage extends React.Component {
 
         /* Set the zite address. */
         stores.Stage.openZite(address, path)
-
-        /* Close the stage. */
-        // this._closeStage()
-
-        /* Retrieve the files. */
-//         const files = stores.Stage.ziteFiles
-// console.log('*** FILES', files.length, files, files[0])
-// Zite.open(_address, _path)
     }
 
 }

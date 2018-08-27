@@ -130,8 +130,6 @@ console.log('***FORCE onLoadStart', url)
     }
 
     _btnClose() {
-        console.log('pressed close button')
-
         /* Close the webview. */
         Navigation.popToRoot('zeronet.Main')
             .catch(console.log)
@@ -200,7 +198,7 @@ const styles = StyleSheet.create({
         // width: '100%',
         height: 40,
         justifyContent: 'center',
-        alignItems: 'center',        
+        alignItems: 'center',
         backgroundColor: 'rgba(30, 30, 180, 0.2)'
     },
     navBarButton: {

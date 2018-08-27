@@ -1,6 +1,6 @@
 {
   "name": "zer0net",
-  "version": "18.8.17",
+  "version": "18.8.26",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -33,6 +33,7 @@
     "react": "16.4.2",
     "react-native": "0.54.0",
     "react-native-animatable": "1.1.0",
+    "react-native-camera": "1.2.0",
     "react-native-crypto": "2.1.2",
     "react-native-device-info": "0.21.5",
     "react-native-elements": "0.19.1",

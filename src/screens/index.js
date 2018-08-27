@@ -3,6 +3,9 @@ import { Navigation } from 'react-native-navigation'
 /* STARTUP */
 import Startup from '../frames/Startup'
 
+/* CAMERA */
+import Camera from '../frames/Camera'
+
 /* CANVAS */
 import Canvas from '../frames/Canvas'
 
@@ -38,6 +41,9 @@ import { P0rtalTopBar } from '../components'
 export function registerScreens() {
     /* Startup frame */
     Navigation.registerComponent('zeronet.Main', () => Startup)
+
+    /* Photo and Video Camera */
+    Navigation.registerComponent('zeronet.Camera', () => Camera)
 
     /* Graphics art & (lottie-style) animation canvas */
     Navigation.registerComponent('zeronet.Canvas', () => Canvas)

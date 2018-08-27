@@ -8,6 +8,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.peel.react.TcpSocketsModule;
 import com.reactnativenavigation.NavigationApplication;
 import com.rnfs.RNFSPackage;
+import org.reactnative.camera.RNCameraPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,7 @@ public class MainApplication extends NavigationApplication {
     public List<ReactPackage> createAdditionalReactPackages() {
         return Arrays.<ReactPackage>asList(
                 BugsnagReactNative.getPackage(),
+                new RNCameraPackage(),
                 new RNDeviceInfo(),
                 new RNFSPackage(),
                 new TcpSocketsModule(),

@@ -15,6 +15,7 @@ import {
 import {
     Button,
     ButtonGroup,
+    Icon,
     SearchBar
 } from 'react-native-elements'
 
@@ -46,6 +47,7 @@ export default class StartupFrame extends React.Component {
 
         this._handleSearchInput = this._handleSearchInput.bind(this)
         this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
+        this._openScanner = this._openScanner.bind(this)
         this._updateIndex = this._updateIndex.bind(this)
         this._initZite = this._initZite.bind(this)
     }
@@ -55,20 +57,34 @@ export default class StartupFrame extends React.Component {
 
         return <ScrollView>
             <View style={ styles.container }>
-                <SearchBar
-                    ref={ search => this.search = search }
-                    icon={{ type: 'font-awesome', name: 'hashtag' }}
-                    clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
-                    inputStyle={ styles.searchInput }
-                    placeholder='Looking for something interesting?'
-                    onChangeText={ this._handleSearchInput }
-                    onSubmitEditing={ this._handleSearchSubmit } />
+                <View>
+                    <Icon
+                        name='qrcode'
+                        type='font-awesome'
+                        color='#fff'
+                        onPress={ this._openScanner } />
+
+                        <SearchBar
+                            ref={ search => this.search = search }
+                            icon={{ type: 'font-awesome', name: 'hashtag' }}
+                            clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
+                            inputStyle={ styles.searchInput }
+                            placeholder='Looking for something interesting?'
+                            onChangeText={ this._handleSearchInput }
+                            onSubmitEditing={ this._handleSearchSubmit } />
+                </View>
 
                 <View style={ styles.contentContainer }>
                     <Image
                         source={ require('../../res/img/startup-banner.png') }
                         resizeMode='stretch'
                         style={ styles.mainBanner } />
+
+                    <Icon
+                        name='qrcode'
+                        type='font-awesome'
+                        color='#333'
+                        onPress={ this._openScanner } />
 
                     <ButtonGroup
                           onPress={ this._updateIndex }
@@ -107,6 +123,24 @@ export default class StartupFrame extends React.Component {
         // console.log('handle search', _val)
         const searchVal = this.searchVal
         alert(`Now loading ${searchVal}...`)
+    }
+
+    _openScanner() {
+        /* Open the WebView. */
+        Navigation.push('zeronet.Main', {
+            component: {
+                id: 'zeronet.Camera',
+                name: 'zeronet.Camera',
+                options: {
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true
+                    }
+                },
+                // passProps: { target }
+            }
+        })
     }
 
     _updateIndex(_selectedIndex) {
