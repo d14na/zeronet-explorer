@@ -107,8 +107,8 @@ android {
         applicationId "com.zer0net"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 180826
-        versionName "18.8.26"
+        versionCode 180827
+        versionName "18.8.27"
         missingDimensionStrategy "RNN.reactNativeVersion", "reactNative51" // <- See note below for further instruction regarding compatibility with other React Native versions
         // Available options:
         // reactNative51: Support for React Native 0.51-0.54

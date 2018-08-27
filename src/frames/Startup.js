@@ -57,21 +57,25 @@ export default class StartupFrame extends React.Component {
 
         return <ScrollView>
             <View style={ styles.container }>
-                <View>
+                <View style={ styles.header }>
                     <Icon
                         name='qrcode'
                         type='font-awesome'
-                        color='#fff'
+                        color='rgba(134, 147, 158, 1.0)'
+                        underlayColor='rgba(57, 62, 66, 1.0)'
+                        size={ 32 }
+                        containerStyle={ styles.btnQrCode }
                         onPress={ this._openScanner } />
 
-                        <SearchBar
-                            ref={ search => this.search = search }
-                            icon={{ type: 'font-awesome', name: 'hashtag' }}
-                            clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
-                            inputStyle={ styles.searchInput }
-                            placeholder='Looking for something interesting?'
-                            onChangeText={ this._handleSearchInput }
-                            onSubmitEditing={ this._handleSearchSubmit } />
+                    <SearchBar
+                        ref={ search => this.search = search }
+                        icon={{ type: 'font-awesome', name: 'hashtag' }}
+                        clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
+                        containerStyle={ styles.searchInput }
+                        inputStyle={ styles.searchInputText }
+                        placeholder='Looking for something interesting?'
+                        onChangeText={ this._handleSearchInput }
+                        onSubmitEditing={ this._handleSearchSubmit } />
                 </View>
 
                 <View style={ styles.contentContainer }>
@@ -79,12 +83,6 @@ export default class StartupFrame extends React.Component {
                         source={ require('../../res/img/startup-banner.png') }
                         resizeMode='stretch'
                         style={ styles.mainBanner } />
-
-                    <Icon
-                        name='qrcode'
-                        type='font-awesome'
-                        color='#333'
-                        onPress={ this._openScanner } />
 
                     <ButtonGroup
                           onPress={ this._updateIndex }
@@ -220,7 +218,20 @@ const styles = StyleSheet.create({
         padding: 20
     },
 
+    header: {
+        flexDirection: 'row',
+        backgroundColor: 'rgba(0, 0, 0, 1.0)'
+    },
+    btnQrCode: {
+        marginTop: 1,
+        marginBottom: 1,
+        paddingLeft: 7,
+        backgroundColor: 'rgba(57, 62, 66, 1.0)'
+    },
     searchInput: {
+        flex: 1,
+    },
+    searchInputText: {
         paddingLeft: 40,
         paddingBottom: Platform.OS === 'ios' ? 0 : 9
     },

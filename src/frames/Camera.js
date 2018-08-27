@@ -31,26 +31,30 @@ export default class Camera extends React.Component {
         /* Track event. */
         Shared.TrackEvent('CAMERA_')
 
-        this._btnCancel = this._btnCancel.bind(this)
+        /* Initialize camera holder. */
+        this.camera = null
+
+        this._close = this._close.bind(this)
+        this._onBarcodeRead = this._onBarcodeRead.bind(this)
     }
 
     render() {
         return <View style={styles.container}>
             <RNCamera
-                ref={ref => {
-                    this.camera = ref;
-                }}
-                style = {styles.preview}
-                type={RNCamera.Constants.Type.back}
-                flashMode={RNCamera.Constants.FlashMode.on}
-                permissionDialogTitle={'Permission to use camera'}
-                permissionDialogMessage={'We need your permission to use your camera phone'} />
+                ref={ ref => { this.camera = ref }}
+                style={ styles.preview }
+                type={ RNCamera.Constants.Type.back }
+                flashMode={ RNCamera.Constants.FlashMode.on }
+                onBarCodeRead={ this._onBarcodeRead }
+                barCodeTypes={ [RNCamera.Constants.BarCodeType.qr] }
+                permissionDialogTitle={ 'Camera Permission Request' }
+                permissionDialogMessage={ 'We require permission to use your device\'s camera to continue.' } />
 
-            <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
+            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
                 <TouchableOpacity
-                    onPress={ this._btnCancel }
+                    onPress={ this._close }
                     style = { styles.close }>
-                    <Text style={{ fontSize: 14 }}>CANCEL</Text>
+                    <Text style={{ fontSize: 14 }}>CANCEL SCANNER</Text>
                 </TouchableOpacity>
             </View>
       </View>
@@ -60,10 +64,35 @@ export default class Camera extends React.Component {
 
     }
 
-    _btnCancel() {
+    _close() {
         /* Close the webview. */
         Navigation.popToRoot('zeronet.Main')
             .catch(console.log)
+    }
+
+    _onBarcodeRead(_event) {
+        /* Retrieve the data from event. */
+        const data = _event.data
+
+        /* Validate the data. */
+        const address = data
+
+        if (address) {
+            /* Close the camera. */
+            this._close()
+            
+            /* Set the zite address. */
+            stores.Stage.initZite(address)
+
+            /* Open the stage window. */
+            Navigation.mergeOptions('zeronet.Stage', {
+                sideMenu: {
+                    left: {
+                        visible: true
+                    }
+                }
+            })
+        }
     }
 }
 

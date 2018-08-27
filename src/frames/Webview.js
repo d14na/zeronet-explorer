@@ -112,11 +112,11 @@ export default class Webview extends React.Component {
         // const files = stores.Stage.ziteFiles
         // console.log('*** FILES', files)
 
-        const url = 'file:///data/user/0/com.zer0net/files/1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J/index.html'
+        // const url = 'file:///data/user/0/com.zer0net/files/1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J/index.html'
 
-console.log('***FORCE onLoadStart', url)
+// console.log('***FORCE onLoadStart', url)
         // this._webview.source = this.state.source
-        this._webview.source = url
+        // this._webview.source = url
 
         // Timer.setInterval(this, 'test10Interval', () => {
         //     console.log('this is a 10sec Timer.setInterval, :)')
