@@ -120,7 +120,11 @@ export default class StartupFrame extends React.Component {
     _handleSearchSubmit() {
         // console.log('handle search', _val)
         const searchVal = this.searchVal
-        alert(`Now loading ${searchVal}...`)
+
+// FIXME We must validate this as an address, or else perform a search
+        // this._initZite(searchVal)
+
+        alert(`Oops! ${searchVal} cannot be found.`)
     }
 
     _openScanner() {

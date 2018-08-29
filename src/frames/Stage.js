@@ -28,8 +28,12 @@ import {
 function _calcWidth() {
     /* Initialize device width. */
     const width = Shared.deviceWidth
+console.log('WIDTH', width)
 
-    if (width > 375) {
+    if (width === 414) { // iPhone 8 Plus
+        // Large devices (eg tablets)
+        return Shared.deviceWidth - 130 // NOTE iOS value
+    } else if (width > 375) {
         // Large devices (eg tablets)
         return Shared.deviceWidth - 150 // NOTE iOS value
     } else if (width > 320) {

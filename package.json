@@ -1,6 +1,6 @@
 {
   "name": "zer0net",
-  "version": "18.8.27",
+  "version": "18.8.28",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
