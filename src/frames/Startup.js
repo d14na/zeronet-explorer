@@ -4,6 +4,7 @@ import React from 'react'
 
 import {
     Image,
+    Linking,
     Platform,
     ScrollView,
     StyleSheet,
@@ -105,7 +106,12 @@ export default class StartupFrame extends React.Component {
     }
 
     componentDidMount() {
-
+        /* Handle registered app links. */
+        Linking.getInitialURL().then((url) => {
+            if (url) {
+                console.log('DEEP LINK DETECTED! Initial url is: ' + url)
+            }
+        }).catch(err => console.error('An error occurred', err))
     }
 
     componentWillUnmount() {
@@ -162,6 +168,14 @@ export default class StartupFrame extends React.Component {
                     large
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
+                    onPress={ () => this._test() }
+                    icon={{ name: 'support', type: 'font-awesome' }}
+                    title='TEST' />
+
+                <Button
+                    large
+                    containerViewStyle={ styles.mainButtons }
+                    borderRadius={ 3 }
                     onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
                     icon={{ name: 'support', type: 'font-awesome' }}
                     title='USER GUIDE' />
@@ -189,6 +203,23 @@ export default class StartupFrame extends React.Component {
                 <Text style={ styles.notFoundText }>no trending zites</Text>
             </View>
         }
+    }
+
+    _test() {
+        Navigation.push('zeronet.Main', {
+            component: {
+                id: 'zeronet.Webview',
+                name: 'zeronet.Webview',
+                options: {
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true
+                    }
+                },
+                // passProps: { target }
+            }
+        })
     }
 
     _initZite(_target, _path) {

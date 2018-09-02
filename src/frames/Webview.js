@@ -43,6 +43,7 @@ export default class Webview extends React.Component {
         this._navStateChange = this._navStateChange.bind(this)
         this._onMessage = this._onMessage.bind(this)
         this._btnBack = this._btnBack.bind(this)
+        this._btnForward = this._btnForward.bind(this)
         this._btnClose = this._btnClose.bind(this)
         this._getSource = this._getSource.bind(this)
 
@@ -55,13 +56,17 @@ export default class Webview extends React.Component {
         // FIXME Problem with Android loading local files
         //       Temporarily use 0net proxy
         if (Platform.OS === 'android') {
-            target = ZERONET_TEMP_GATEWAY + this.props.target
+console.log('Android is loading', RNFS.DocumentDirectoryPath + '/test.html');
+            target = RNFS.DocumentDirectoryPath + '/test.html'
+            // target = ZERONET_TEMP_GATEWAY + this.props.target
         } else {
             target = RNFS.DocumentDirectoryPath + this.props.target
         }
 
         this.state = {
-            source: { uri: target }
+            // source: { uri: '' }
+            source: { uri: 'https://google.com' }
+            // source: { uri: target }
         }
     }
 
@@ -70,6 +75,7 @@ export default class Webview extends React.Component {
     // @observable source = { html: '<h1>loading...</h1>' }
 
     render() {
+
         return <View style={ styles.container }>
             <WebView
                 ref={ ref => (this._webview = ref) }
@@ -98,29 +104,19 @@ export default class Webview extends React.Component {
 
                 <Button
                     title='>'
-                    style={ styles.navBarButton } />
+                    style={ styles.navBarButton }
+                    onPress={ this._btnForward } />
             </View>
         </View>
     }
 
     componentWillUnmount() {
-        Timer.clearTimeout(this)
+// FIXME Where do we control the data updates when viewing a Zite??
+        // Timer.clearTimeout(this)
     }
 
     componentDidMount() {
 
-        // const files = stores.Stage.ziteFiles
-        // console.log('*** FILES', files)
-
-        // const url = 'file:///data/user/0/com.zer0net/files/1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J/index.html'
-
-// console.log('***FORCE onLoadStart', url)
-        // this._webview.source = this.state.source
-        // this._webview.source = url
-
-        // Timer.setInterval(this, 'test10Interval', () => {
-        //     console.log('this is a 10sec Timer.setInterval, :)')
-        // }, 10000)
     }
 
     _getSource() {
@@ -138,9 +134,39 @@ export default class Webview extends React.Component {
     _btnBack() {
         console.log('pressed Webview back button')
 
-        /* Close the webview. */
-        Navigation.popTo('zeronet.Main')
-            .catch(console.log)
+        // /* Close the webview. */
+        // Navigation.popTo('zeronet.Main')
+        //     .catch(console.log)
+
+        const target = 'https://yahoo.com'
+        const source = { uri: target }
+console.log('this._webview', this._webview)
+
+        this.setState({ source })
+    }
+
+    _btnForward() {
+        console.log('pressed Webview forward button')
+
+        const target = 'file://' + RNFS.DocumentDirectoryPath + '/1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C/index.html'
+        // const target = RNFS.ExternalDirectoryPath + '/test.html'
+        // const target = 'file://' + RNFS.ExternalDirectoryPath + '/test.html'
+        // const target = RNFS.ExternalStorageDirectoryPath + '/test.html'
+console.log('TARGET', target)
+
+        const source = { uri: target }
+console.log('this._webview', this._webview)
+
+// console.log('MainBundlePath', RNFS.MainBundlePath)
+// console.log('CachesDirectoryPath', RNFS.CachesDirectoryPath)
+// console.log('ExternalCachesDirectoryPath', RNFS.ExternalCachesDirectoryPath)
+// console.log('DocumentDirectoryPath', RNFS.DocumentDirectoryPath)
+// console.log('TemporaryDirectoryPath', RNFS.TemporaryDirectoryPath)
+// console.log('LibraryDirectoryPath', RNFS.LibraryDirectoryPath)
+// console.log('ExternalDirectoryPath', RNFS.ExternalDirectoryPath)
+// console.log('ExternalStorageDirectoryPath', RNFS.ExternalStorageDirectoryPath)
+
+        this.setState({ source })
     }
 
     _onMessage() {
