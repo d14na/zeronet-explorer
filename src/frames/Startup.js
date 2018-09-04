@@ -106,10 +106,23 @@ export default class StartupFrame extends React.Component {
     }
 
     componentDidMount() {
+        /* Localize this. */
+        const self = this
+
         /* Handle registered app links. */
+// FIXME Android bug prevents deep linking when app is in BACKGROUND
+//       https://stackoverflow.com/a/47573863/514914
         Linking.getInitialURL().then((url) => {
             if (url) {
-                console.log('DEEP LINK DETECTED! Initial url is: ' + url)
+console.log('DEEP LINK DETECTED! Initial url is: ' + url)
+                /* Parse zite address. */
+                if (url.slice(0, 23) === 'http://127.0.0.1:43110/') {
+                    const target = url.slice(23)
+console.log('DEEP LINK DETECTED! target: ' + target)
+                }
+
+                /* Initialize the deep linked zite. */
+                self._initZite(target)
             }
         }).catch(err => console.error('An error occurred', err))
     }

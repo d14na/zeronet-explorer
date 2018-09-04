@@ -26,9 +26,6 @@ import Timer from 'react-native-timer'
 
 import RNFS from 'react-native-fs'
 
-/* Initialize Zer0net gateway for TEMPORARY use by Android. */
-const ZERONET_TEMP_GATEWAY = 'http://185.142.236.207:43110'
-
 @observer
 export default class Webview extends React.Component {
     constructor(props) {
@@ -56,17 +53,14 @@ export default class Webview extends React.Component {
         // FIXME Problem with Android loading local files
         //       Temporarily use 0net proxy
         if (Platform.OS === 'android') {
-console.log('Android is loading', RNFS.DocumentDirectoryPath + '/test.html');
-            target = RNFS.DocumentDirectoryPath + '/test.html'
-            // target = ZERONET_TEMP_GATEWAY + this.props.target
+            target = 'file://' + RNFS.DocumentDirectoryPath + this.props.target
         } else {
             target = RNFS.DocumentDirectoryPath + this.props.target
         }
+console.log('WEBVIEW is loading', target)
 
         this.state = {
-            // source: { uri: '' }
-            source: { uri: 'https://google.com' }
-            // source: { uri: target }
+            source: { uri: target }
         }
     }
 
@@ -135,38 +129,12 @@ console.log('Android is loading', RNFS.DocumentDirectoryPath + '/test.html');
         console.log('pressed Webview back button')
 
         // /* Close the webview. */
-        // Navigation.popTo('zeronet.Main')
-        //     .catch(console.log)
-
-        const target = 'https://yahoo.com'
-        const source = { uri: target }
-console.log('this._webview', this._webview)
-
-        this.setState({ source })
+        Navigation.popTo('zeronet.Main')
+            .catch(console.log)
     }
 
     _btnForward() {
         console.log('pressed Webview forward button')
-
-        const target = 'file://' + RNFS.DocumentDirectoryPath + '/1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C/index.html'
-        // const target = RNFS.ExternalDirectoryPath + '/test.html'
-        // const target = 'file://' + RNFS.ExternalDirectoryPath + '/test.html'
-        // const target = RNFS.ExternalStorageDirectoryPath + '/test.html'
-console.log('TARGET', target)
-
-        const source = { uri: target }
-console.log('this._webview', this._webview)
-
-// console.log('MainBundlePath', RNFS.MainBundlePath)
-// console.log('CachesDirectoryPath', RNFS.CachesDirectoryPath)
-// console.log('ExternalCachesDirectoryPath', RNFS.ExternalCachesDirectoryPath)
-// console.log('DocumentDirectoryPath', RNFS.DocumentDirectoryPath)
-// console.log('TemporaryDirectoryPath', RNFS.TemporaryDirectoryPath)
-// console.log('LibraryDirectoryPath', RNFS.LibraryDirectoryPath)
-// console.log('ExternalDirectoryPath', RNFS.ExternalDirectoryPath)
-// console.log('ExternalStorageDirectoryPath', RNFS.ExternalStorageDirectoryPath)
-
-        this.setState({ source })
     }
 
     _onMessage() {

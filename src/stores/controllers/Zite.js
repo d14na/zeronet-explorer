@@ -11,6 +11,7 @@ import { Navigation } from 'react-native-navigation'
 import moment from 'moment'
 import net from 'net'
 import RNFS from 'react-native-fs'
+import bitcoinMessage from 'bitcoinjs-message'
 
 const Zite = {
     preload: async function(_address) {
@@ -56,7 +57,7 @@ const Zite = {
         try {
             /* Parse the JSON. */
             this.config = JSON.parse(config)
-            console.log('CONFIG', this.config)
+            // console.log('CONFIG', this.config)
 return this.verifyConfig()
 
             /* Set the background color. */
@@ -79,20 +80,37 @@ return this.verifyConfig()
     },
 
     verifyConfig: async function() {
+        /**
+         * Escape unicode characters.
+         * Converts to a string representation of the unicode.
+         */
+        const escapeUnicode = function (str) {
+            return str.replace(/[^\0-~]/g, function (ch) {
+                return '\\u' + ('000' + ch.charCodeAt().toString(16)).slice(-4)
+            })
+        }
+
+        /* Localize config for `content.json` parsing & formatting. */
+        let config = this.config
+
         /* Retrieve the signature. */
-        const signature = this.config.signs[this.address]
-console.log('VERIFY CONTENT signature', signature)
+        const signature = config.signs[this.address]
+        console.info('content.json signature', signature)
 
         /* Delete signs (as we can't verify ourselves in the signature). */
-        delete this.config.signs
+        delete config.signs
 
-        /* Convert the JSON to a string (BUT mimick Python `json.dumps` spacing). */
-        this.config = JSON.stringify(this.config).replace(/":/g, '": ').replace(/,"/g, ', "')
-console.log('VERIFY CONTENT this.config', this.config)
+        /* Convert the JSON to a string. */
+        // NOTE: This matches the functionality of Python's `json.dumps` spacing.
+        config = JSON.stringify(config).replace(/":/g, '": ').replace(/,"/g, ', "')
+
+        /* Escape all unicode characters. */
+        // NOTE: This matches the functionality of Python's `unicode` handling.
+        config = escapeUnicode(config)
 
         /* Verify the Bitcoin signature. */
-        const isValid = bitcoinMessage.verify(this.config, address, signature)
-console.log('VERIFY CONTENT isValid', isValid)
+        const isValid = bitcoinMessage.verify(config, this.address, signature)
+        console.info('content.json isValid', isValid)
     },
 
     loadFile: async function(_address, _path, _metaData=null) {
