@@ -168,14 +168,6 @@ export default class StartupFrame extends React.Component {
                     large
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
-                    onPress={ () => this._test() }
-                    icon={{ name: 'support', type: 'font-awesome' }}
-                    title='TEST' />
-
-                <Button
-                    large
-                    containerViewStyle={ styles.mainButtons }
-                    borderRadius={ 3 }
                     onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
                     icon={{ name: 'support', type: 'font-awesome' }}
                     title='USER GUIDE' />
@@ -203,23 +195,6 @@ export default class StartupFrame extends React.Component {
                 <Text style={ styles.notFoundText }>no trending zites</Text>
             </View>
         }
-    }
-
-    _test() {
-        Navigation.push('zeronet.Main', {
-            component: {
-                id: 'zeronet.Webview',
-                name: 'zeronet.Webview',
-                options: {
-                    topBar: {
-                        visible: false,
-                        animate: false,
-                        drawBehind: true
-                    }
-                },
-                // passProps: { target }
-            }
-        })
     }
 
     _initZite(_target, _path) {

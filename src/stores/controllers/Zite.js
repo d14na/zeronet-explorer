@@ -52,12 +52,12 @@ const Zite = {
 
         /* Convert to string. */
         config = Buffer.from(config).toString('utf8')
-// console.log('CONTENT.JSON', config)
 
         try {
             /* Parse the JSON. */
             this.config = JSON.parse(config)
-            // console.log('CONFIG', this.config)
+            console.log('CONFIG', this.config)
+return this.verifyConfig()
 
             /* Set the background color. */
             Stage.setBackgroundColor(this.config['background-color'])
@@ -76,6 +76,23 @@ const Zite = {
             // FIXME Handle this better in the UI
             throw e
         }
+    },
+
+    verifyConfig: async function() {
+        /* Retrieve the signature. */
+        const signature = this.config.signs[this.address]
+console.log('VERIFY CONTENT signature', signature)
+
+        /* Delete signs (as we can't verify ourselves in the signature). */
+        delete this.config.signs
+
+        /* Convert the JSON to a string (BUT mimick Python `json.dumps` spacing). */
+        this.config = JSON.stringify(this.config).replace(/":/g, '": ').replace(/,"/g, ', "')
+console.log('VERIFY CONTENT this.config', this.config)
+
+        /* Verify the Bitcoin signature. */
+        const isValid = bitcoinMessage.verify(this.config, address, signature)
+console.log('VERIFY CONTENT isValid', isValid)
     },
 
     loadFile: async function(_address, _path, _metaData=null) {
