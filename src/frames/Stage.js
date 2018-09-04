@@ -28,8 +28,10 @@ import {
 function _calcWidth() {
     /* Initialize device width. */
     const width = Shared.deviceWidth
-console.log('WIDTH', width)
+console.log('WIDTH CALC for Stage', width)
 
+// TODO Let's hard-code ALL of the possible iOS values,
+//      then use relative sizing for Android (best fit).
     if (width === 414) { // iPhone 8 Plus
         // Large devices (eg tablets)
         return Shared.deviceWidth - 130 // NOTE iOS value
@@ -176,7 +178,7 @@ export default class Stage extends React.Component {
                     { stores.Stage.ziteLastUpdate }
                 </Text>
                 <Text style={ styles.ziteDetailsText }>
-                    Device files are outdated by { stores.Stage.ziteCachedAge }
+                    { stores.Stage.ziteCachedAge }
                 </Text>
             </View>
         }

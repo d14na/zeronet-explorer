@@ -58,7 +58,12 @@ const Zite = {
             /* Parse the JSON. */
             this.config = JSON.parse(config)
             // console.log('CONFIG', this.config)
-return this.verifyConfig()
+
+            const verified = this.verifyConfig()
+
+            if (!verified) {
+                return alert('Oops! content.json could NOT be verified..')
+            }
 
             /* Set the background color. */
             Stage.setBackgroundColor(this.config['background-color'])
@@ -70,7 +75,7 @@ return this.verifyConfig()
             Stage.setZiteModified(this.config['modified'])
 
             const lastUpdate = moment.unix(this.config['modified']).fromNow() +
-                ' [ ' + moment.unix(this.config['modified']).format('ll') + ' ]'
+                ' on ' + moment.unix(this.config['modified']).format('ll')
             Stage.setZiteLastUpdate(lastUpdate)
         } catch (e) {
             /* Something has gone wrong if we cannot parse the content.json. */
@@ -111,6 +116,8 @@ return this.verifyConfig()
         /* Verify the Bitcoin signature. */
         const isValid = bitcoinMessage.verify(config, this.address, signature)
         console.info('content.json isValid', isValid)
+
+        return isValid
     },
 
     loadFile: async function(_address, _path, _metaData=null) {

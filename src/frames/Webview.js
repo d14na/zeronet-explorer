@@ -15,7 +15,10 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react/native'
 import stores from '../stores'
 
-import { Button } from 'react-native-elements'
+import {
+    Button,
+    Icon
+} from 'react-native-elements'
 
 import {
     Shared,
@@ -39,10 +42,13 @@ export default class Webview extends React.Component {
         this._loadError = this._loadError.bind(this)
         this._navStateChange = this._navStateChange.bind(this)
         this._onMessage = this._onMessage.bind(this)
+        this._getSource = this._getSource.bind(this)
+
         this._btnBack = this._btnBack.bind(this)
         this._btnForward = this._btnForward.bind(this)
-        this._btnClose = this._btnClose.bind(this)
-        this._getSource = this._getSource.bind(this)
+        this._btnShare = this._btnShare.bind(this)
+        this._btnTabs = this._btnTabs.bind(this)
+        this._btnMenu = this._btnMenu.bind(this)
 
         /* Initialize a reference to the webview. */
         this._webview = null
@@ -57,7 +63,6 @@ export default class Webview extends React.Component {
         } else {
             target = RNFS.DocumentDirectoryPath + this.props.target
         }
-console.log('WEBVIEW is loading', target)
 
         this.state = {
             source: { uri: target }
@@ -86,20 +91,35 @@ console.log('WEBVIEW is loading', target)
                 onMessage={ this._onMessage } />
 
             <View style={ styles.navBar }>
-                <Button
-                    title='<'
-                    style={ styles.navBarButton }
+                <Icon
+                    name='arrow-back'
+                    containerStyle={ styles.navBarButtonContainer }
+                    iconStyle={ styles.navBarButtonInactive }
                     onPress={ this._btnBack } />
 
-                <Button
-                    title='CLOSE'
-                    style={ styles.navBarButton }
-                    onPress={ this._btnClose } />
-
-                <Button
-                    title='>'
-                    style={ styles.navBarButton }
+                <Icon
+                    name='arrow-forward'
+                    containerStyle={ styles.navBarButtonContainer }
+                    iconStyle={ styles.navBarButtonInactive }
                     onPress={ this._btnForward } />
+
+                <Icon
+                    name='screen-share'
+                    containerStyle={ styles.navBarButtonContainer }
+                    iconStyle={ styles.navBarButton }
+                    onPress={ this._btnShare } />
+
+                <Icon
+                    name='view-carousel'
+                    containerStyle={ styles.navBarButtonContainer }
+                    iconStyle={ styles.navBarButtonInactive }
+                    onPress={ this._btnTabs } />
+
+                <Icon
+                    name='more-horiz'
+                    containerStyle={ styles.navBarButtonContainer }
+                    iconStyle={ styles.navBarButton }
+                    onPress={ this._btnMenu } />
             </View>
         </View>
     }
@@ -135,6 +155,18 @@ console.log('WEBVIEW is loading', target)
 
     _btnForward() {
         console.log('pressed Webview forward button')
+    }
+
+    _btnShare() {
+        console.log('pressed Share button')
+    }
+
+    _btnTabs() {
+        console.log('pressed Tabs button')
+    }
+
+    _btnMenu() {
+        console.log('pressed Menu button')
     }
 
     _onMessage() {
@@ -189,13 +221,19 @@ const styles = StyleSheet.create({
     },
     navBar: {
         flexDirection: 'row',
-        // width: '100%',
+        width: '100%',
         height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(30, 30, 180, 0.2)'
+        justifyContent: 'space-around',
+        // alignItems: 'center',
+        backgroundColor: 'rgba(210, 210, 210, 0.85)'
     },
     navBarButton: {
+        color: 'rgba(90, 90, 90, 0.9)'
+    },
+    navBarButtonInactive: {
+        color: 'rgba(180, 180, 180, 0.9)'
+    },
+    navBarButtonContainer: {
         flex: 1
     }
 })

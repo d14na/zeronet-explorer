@@ -36,10 +36,14 @@ class Store {
         /* Calculate the time difference. */
         const diff = this.ziteModified - this.ziteCachedConfig.modified
 
-        /* Format the difference. */
-        const age = moment.duration(diff, 'seconds').humanize()
+        if (diff <= 0) {
+            return `Your zite files are up-to-date!`
+        } else {
+            /* Format the difference. */
+            const age = moment.duration(diff, 'seconds').humanize()
 
-        return age
+            return `Your zite files are outdated by ${age}`
+        }
     }
 
     /* Add a debugging log entry. */

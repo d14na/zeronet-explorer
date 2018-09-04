@@ -181,6 +181,14 @@ console.log('DEEP LINK DETECTED! target: ' + target)
                     large
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
+                    onPress={ () => this._test() }
+                    icon={{ name: 'support', type: 'font-awesome' }}
+                    title='TEST' />
+
+                <Button
+                    large
+                    containerViewStyle={ styles.mainButtons }
+                    borderRadius={ 3 }
                     onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
                     icon={{ name: 'support', type: 'font-awesome' }}
                     title='USER GUIDE' />
@@ -208,6 +216,10 @@ console.log('DEEP LINK DETECTED! target: ' + target)
                 <Text style={ styles.notFoundText }>no trending zites</Text>
             </View>
         }
+    }
+
+    _test() {
+        alert(`let's get PEX working`)
     }
 
     _initZite(_target, _path) {
