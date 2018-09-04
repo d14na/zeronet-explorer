@@ -25,25 +25,31 @@ import {
     Shared
 } from '../constants'
 
+const ANDROID_DRAWER_RATIO = 0.80 // 80% of screen width
+
 function _calcWidth() {
     /* Initialize device width. */
     const width = Shared.deviceWidth
-console.log('WIDTH CALC for Stage', width)
+    console.info('Device width used for Stage calc', width)
 
+    /* Calc and return Android. */
+    if (stores.App.isAndroid) {
+        return Shared.deviceWidth * ANDROID_DRAWER_RATIO
+    }
+
+    /* Calc and return iOS. */
 // TODO Let's hard-code ALL of the possible iOS values,
 //      then use relative sizing for Android (best fit).
+
+    /* Calc and return iOS. */
     if (width === 414) { // iPhone 8 Plus
-        // Large devices (eg tablets)
-        return Shared.deviceWidth - 130 // NOTE iOS value
+        return Shared.deviceWidth - 130
     } else if (width > 375) {
-        // Large devices (eg tablets)
-        return Shared.deviceWidth - 150 // NOTE iOS value
+        return Shared.deviceWidth - 150
     } else if (width > 320) {
-        // Standard devices (eg most phones)
-        return Shared.deviceWidth - 85 // NOTE iOS value
+        return Shared.deviceWidth - 85
     } else {
-        // Small devices (eg compact phones)
-        return Shared.deviceWidth - 40 // NOTE iOS value
+        return Shared.deviceWidth - 40 // small iOS devices (eg 4, 4s)
     }
 }
 

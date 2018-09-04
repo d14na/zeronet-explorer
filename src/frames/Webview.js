@@ -94,7 +94,7 @@ export default class Webview extends React.Component {
                 <Icon
                     name='arrow-back'
                     containerStyle={ styles.navBarButtonContainer }
-                    iconStyle={ styles.navBarButtonInactive }
+                    iconStyle={ styles.navBarButton }
                     onPress={ this._btnBack } />
 
                 <Icon

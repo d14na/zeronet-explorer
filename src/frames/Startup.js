@@ -40,9 +40,6 @@ export default class StartupFrame extends React.Component {
     constructor(props) {
         super(props)
 
-        /* Device width. */
-        console.info('Current device width:', Shared.deviceWidth)
-
         /* Track event. */
         Shared.TrackEvent('STARTUP_')
 
