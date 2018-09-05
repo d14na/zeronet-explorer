@@ -5017,6 +5017,10 @@ react-native-fs@2.10.14:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
 
+react-native-keychain@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-3.0.0.tgz#29da1dfa43c2581f76bf9420914fd38a1558cf18"
+
 react-native-navigation@react-native-navigation@alpha:
   version "2.0.2382"
   resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2382.tgz#0ee6bafcf985c59eeae8e2c85e70f0e4ff2054da"

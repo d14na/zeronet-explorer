@@ -4,10 +4,12 @@ import com.bugsnag.BugsnagReactNative;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.peel.react.TcpSocketsModule;
 import com.reactnativenavigation.NavigationApplication;
 import com.rnfs.RNFSPackage;
+
 import org.reactnative.camera.RNCameraPackage;
 
 import java.util.Arrays;
@@ -23,6 +25,7 @@ public class MainApplication extends NavigationApplication {
     public List<ReactPackage> createAdditionalReactPackages() {
         return Arrays.<ReactPackage>asList(
                 BugsnagReactNative.getPackage(),
+                new KeychainPackage(),
                 new RNCameraPackage(),
                 new RNDeviceInfo(),
                 new RNFSPackage(),

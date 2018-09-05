@@ -1,13 +1,12 @@
 //import Timer from 'react-native-timer'
 
 class Peer0 {
-    constructor(_net) {
+    constructor(_net, _hostIp=null, _hostPort=null) {
         this.net = _net
         this.peerId = '-0NET00-180814FFFFFF'
-        // this.peerId = '-UT3530-FFFFFFFFFFFF'
 
-        this.hostIp = '185.142.236.207' // OUR TEST SERVER
-        this.hostPort = 10346
+        this.hostIp = _hostIp || '185.142.236.207' // SUPeer test server
+        this.hostPort = _hostPort || 10443 // SUPeer default port
         this.host = {
             host: this.hostIp,
             port: this.hostPort
@@ -36,40 +35,6 @@ class Peer0 {
         return this.reqId
     }
 
-    _encode = function (_msg) {
-        const msgpack = require('zeronet-msgpack')()
-        const encode = msgpack.encode
-
-        return encode(_msg)
-    }
-
-    _decode = function (_msg) {
-        const msgpack = require('zeronet-msgpack')()
-        const decode = msgpack.decode
-
-        return decode(_msg)
-    }
-
-    _requestFile = function () {
-        const cmd = 'getFile'
-        const innerPath = this.path
-        const site = this.address
-        const request = { cmd, innerPath, site }
-
-        const req_id = this._addRequest(request) // eslint-disable-line camelcase
-
-        const inner_path = innerPath // eslint-disable-line camelcase
-        const location = 0
-        const params = { site, inner_path, location }
-
-        const pkg = { cmd, req_id, params }
-
-        /* Send request. */
-        this.client.write(this._encode(pkg), function () {
-            console.info('Client request for [ %s ]', inner_path)
-        })
-    }
-
     _handshakePkg = function () {
         const cmd = 'handshake'
         const request = { cmd }
@@ -78,7 +43,7 @@ class Peer0 {
         const crypt = null
         const crypt_supported = []
         // const crypt_supported = ['tls-rsa']
-        const fileserver_port = 15441
+        const fileserver_port = this.hostPort // 15441
         const protocol = 'v2'
         const port_opened = true
         const peer_id = this.peerId
@@ -116,6 +81,157 @@ class Peer0 {
     //
     //     return port
     // }
+
+    _encode = function (_msg) {
+        const msgpack = require('zeronet-msgpack')()
+        const encode = msgpack.encode
+
+        return encode(_msg)
+    }
+
+    _decode = function (_msg) {
+        const msgpack = require('zeronet-msgpack')()
+        const decode = msgpack.decode
+
+        return decode(_msg)
+    }
+
+    _requestPeers = function () {
+        const cmd = 'pex'
+        const site = this.address
+        const peers = []
+        const peers_onion = [] // eslint-disable-line camelcase
+        const need = 5
+
+        const request = { cmd, site, need }
+
+        const req_id = this._addRequest(request) // eslint-disable-line camelcase
+
+        const params = { site, peers, peers_onion, need }
+
+        const pkg = { cmd, req_id, params }
+
+        /* Send request. */
+        this.client.write(this._encode(pkg), function () {
+            console.info('Client request for %d peers for [ %s ]', need, site)
+        })
+    }
+
+    _requestFile = function () {
+        const cmd = 'getFile'
+        const innerPath = this.path
+        const site = this.address
+        const request = { cmd, innerPath, site }
+
+        const req_id = this._addRequest(request) // eslint-disable-line camelcase
+
+        const inner_path = innerPath // eslint-disable-line camelcase
+        const location = 0
+        const params = { site, inner_path, location }
+
+        const pkg = { cmd, req_id, params }
+
+        /* Send request. */
+        this.client.write(this._encode(pkg), function () {
+            console.info('Client request for [ %s ]', inner_path)
+        })
+    }
+
+    pex = function (_address) {
+        /* Localize this. */
+        const self = this
+
+        /* Assign global holders. */
+        self.address = _address
+
+        /* Initialize a NEW client connection/handshake (if needed). */
+        const promise = new Promise((resolve, reject) => {
+            /* Initialize promise holders. */
+            self.resolve = resolve
+            self.reject = reject
+        })
+
+        /* Initialize/verify our client connection. */
+        if (self.client) {
+            /* Request the file. */
+            self._requestPeers()
+        } else {
+            /* Initialize the handshake. */
+            self.hasHandshake = false
+
+            self.client = self.net.createConnection(self.hostPort, self.hostIp, () => {
+                console.info('Opened a new peer connection!', self.hostPort, self.hostIp)
+
+                /* Initialize handshake package. */
+                const pkg = self._encode(self._handshakePkg())
+
+                /* Send package. */
+                self.client.write(pkg)
+            })
+
+            self.client.on('error', function (error) {
+                console.error('react-native-tcp', error)
+
+                self.reject(error)
+            })
+
+            let numCalled = 0 // FOR DEBUGGING PURPOSES ONLY
+
+            self.client.on('data', function(_data) {
+                try {
+                    if (self.payload) {
+                        self.payload = Buffer.concat([self.payload, _data])
+                    } else {
+                        self.payload = _data
+                    }
+
+                    /* Attempt to decode the data. */
+                    const decoded = self._decode(self.payload)
+
+                    // console.log('Message #%d was received [%d bytes]', ++numCalled, _data.length, _data, decoded)
+
+                    /* Handshake response. */
+                    if (decoded.protocol === 'v2' && self.hasHandshake === false) {
+                        /* Reset payload. */
+                        self.payload = null
+
+                        /* Set handshake flag. */
+                        self.hasHandshake = true
+
+                        console.info('Handshake complete. Request the peers!')
+                        self._requestPeers()
+                    }
+
+                    /* Body parts. */
+                    if (decoded.peers || decoded.peers_onion) {
+                        /* Reset payload. */
+                        self.payload = null
+
+                        /* Build response. */
+                        const pkg = {
+                            peers: decoded.peers,
+                            peersOnion: decoded.peers_onion
+                        }
+
+                        self.resolve(pkg)
+                    }
+                } catch (e) {
+                    // FIXME We should NOT attempt decoding until all data has
+                    //       been downloaded
+                    //       (must account for payload size in addition to body)
+                    // ignore the errors
+                    // console.log('Failed to decode data', e, _data)
+                }
+            })
+
+            self.client.on('close', function () {
+                console.info('Connection closed.')
+            })
+        }
+
+        /* Return the promise. */
+        return promise
+    }
 
     getFile = function (_address, _path, _start, _length) {
         /* Localize this. */

@@ -184,6 +184,7 @@ dependencies {
     }
     api project(':react-native-device-info')
     api project(':react-native-fs')
+    api project(':react-native-keychain')
     api project(':react-native-tcp')
     api project(':react-native-vector-icons')
 }

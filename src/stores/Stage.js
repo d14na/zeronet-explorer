@@ -1,8 +1,14 @@
 // @flow
 
-import { Platform } from 'react-native'
+import {
+    AsyncStorage,
+    Platform
+} from 'react-native'
+
 import { observable, action, computed } from 'mobx'
 import { persist } from 'mobx-persist'
+
+import * as Keychain from 'react-native-keychain'
 
 import moment from 'moment'
 
@@ -116,6 +122,70 @@ class Store {
     @action openZite(_address, _path) {
         /* Open the zite specified path (default to index.html). */
         Zite.open(_address, _path)
+    }
+
+    /* Add a new peer to the secure data storage. */
+    @action async addPeer(_peer) {
+        console.log(`Adding new peer to secure data storage`, _peer)
+
+        /* Initialize peer id. */
+        const peerId = `${_peer.ip}:${_peer.port}`
+
+        /* Retrieve list of all peers. */
+        let peers = await getAllPeers()
+
+        /* Verify, add, then save new peer to list. */
+        if (!peers[peerId]) {
+            /* Add new peers. */
+            peers[peerId] = {
+                success: 0,
+                addedAt: moment().unix(),
+                updatedAt: moment().unix()
+            }
+
+            /* Save updated peer list. */
+            AsyncStorage.setItem('peers', peers)
+        }
+    }
+
+    /* Remove a peer from the list of all peers. */
+    @action async removePeer(_peerId) {
+        /* Retrieve list of all peers. */
+        let peers = await getAllPeers()
+
+        /* Verify, delete, then save new peer to list. */
+        if (peers[_peerId]) {
+            /* Delete the peer from list. */
+            delete peers[_peerId]
+
+            /* Save updated peer list. */
+            AsyncStorage.setItem('peers', peers)
+        }
+    }
+
+    /* Retrieve a peer's details from the secure data storage. */
+    @action async getPeer(_peerId) {
+        console.log(`Retreiving [ peer: %s ] from 'insecure' data storage`, _peerId)
+
+        /* Retrieve list of all peers. */
+        let peers = await getAllPeers()
+
+        if (peers[_peerId]) {
+            return peers[_peerId]
+        } else {
+            return null
+        }
+    }
+
+    /* List all peers from the secure data storage. */
+    @action async getAllPeers() {
+        /* Initialize peers list. */
+        let peers = {}
+
+        /* Retrieve list of all peers. */
+        peers = await AsyncStorage.getItem('peers')
+
+        console.log(`All saved peers`, peers)
     }
 
 }

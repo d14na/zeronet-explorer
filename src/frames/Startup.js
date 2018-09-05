@@ -32,6 +32,9 @@ import {
     Styles
 } from '../constants'
 
+import Peer0 from '../lib/peer0'
+import net from 'net'
+
 @observer
 export default class StartupFrame extends React.Component {
     @observable searchVal = ''
@@ -248,26 +251,16 @@ console.log('DEEP LINK DETECTED! Clicked url was: ' + url)
         ]
     }
 
-    _pex() {
-        const cmd = 'pex'
-        // const site = '1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D'
-        const site = '1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F'
-        const peers = []
-        const peers_onion = [] // eslint-disable-line camelcase
-        const need = 5
+    async _pex() {
+console.log('Peer0', Peer0)
+console.log('net', net)
 
-        const request = { cmd, site, need }
+        /* Initailize Peer0. */
+        const peer0 = new Peer0(net)
+        console.log('peer0', peer0)
 
-        const req_id = this._addRequest(request) // eslint-disable-line camelcase
-
-        const params = { site, peers, peers_onion, need }
-
-        const pkg = { cmd, req_id, params }
-
-        /* Send request. */
-        this.client.send(this._encode(pkg), function () {
-            console.log('Sent request for [ %s ]', cmd)
-        })
+        const peers = await peer0.pex('1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F')
+        console.log('RECEIVED PEERS', peers)
     }
 
     _initZite(_target, _path) {
