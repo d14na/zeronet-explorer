@@ -47,7 +47,9 @@ export default class StartupFrame extends React.Component {
         this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
         this._openScanner = this._openScanner.bind(this)
         this._updateIndex = this._updateIndex.bind(this)
+
         this._initZite = this._initZite.bind(this)
+        this._pex = this._pex.bind(this)
     }
 
     render() {
@@ -111,11 +113,19 @@ export default class StartupFrame extends React.Component {
 //       https://stackoverflow.com/a/47573863/514914
         Linking.getInitialURL().then((url) => {
             if (url) {
-console.log('DEEP LINK DETECTED! Initial url is: ' + url)
+console.log('DEEP LINK DETECTED! Clicked url was: ' + url)
+
                 /* Parse zite address. */
                 if (url.slice(0, 23) === 'http://127.0.0.1:43110/') {
                     const target = url.slice(23)
-console.log('DEEP LINK DETECTED! target: ' + target)
+                } else if (url.slice(0, 16) === 'https://0net.io/') {
+                    const target = url.slice(16)
+                } else if (url.slice(0, 15) === 'http://0net.io/') {
+                    const target = url.slice(15)
+                } else if (url.slice(0, 7) === '0net://') {
+                    const target = url.slice(7)
+                } else if (url.slice(0, 7) === 'zero://') {
+                    const target = url.slice(7)
                 }
 
                 /* Initialize the deep linked zite. */
@@ -216,7 +226,48 @@ console.log('DEEP LINK DETECTED! target: ' + target)
     }
 
     _test() {
+        // alert(`let's request new peers from trackers`)
+        // this._announce()
+
         alert(`let's get PEX working`)
+        this._pex()
+    }
+
+    _getTrackers() {
+        return [
+            'zero://185.142.236.207', // Our TEST Server
+
+            'zero://45.77.23.92',
+            'zero://103.73.66.144',
+            'zero://106.83.116.159',
+            'zero://107.172.237.134',
+            'zero://115.192.117.73',
+            'zero://144.48.7.45',
+            'zero://207.148.123.94',
+            'zero://212.64.18.194'
+        ]
+    }
+
+    _pex() {
+        const cmd = 'pex'
+        // const site = '1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D'
+        const site = '1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F'
+        const peers = []
+        const peers_onion = [] // eslint-disable-line camelcase
+        const need = 5
+
+        const request = { cmd, site, need }
+
+        const req_id = this._addRequest(request) // eslint-disable-line camelcase
+
+        const params = { site, peers, peers_onion, need }
+
+        const pkg = { cmd, req_id, params }
+
+        /* Send request. */
+        this.client.send(this._encode(pkg), function () {
+            console.log('Sent request for [ %s ]', cmd)
+        })
     }
 
     _initZite(_target, _path) {

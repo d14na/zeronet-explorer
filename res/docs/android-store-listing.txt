@@ -1,19 +1,61 @@
+<b>Zero Censorship. Zero Limits. Zero BS.</b>
+<i>"This feels like the Linux version of the WWW." - Satoshi Nakamoto -</i>
 
-Zeronet Explorer — TrustLess Republic™
+<b>Zeronet [zeer-oh-net] n. :</b> a maximum security, peer-to-peer, communications network enabling the lightning fast, uncensored exchange of web content without the use of centralized servers.
+----------
 
-________________________________________________________________________________
+🗣 <b>Ummm, can you say that in English?</b>
 
-Zeronet Explorer is your personal guide onto the decentralized web and beyond.
+The Zeronet delivers you all the information freedom, identity protection and data privacy that you want from the Internet, but without the creepy funkiness you often see across the Darkweb.
 
-________________________________________________________________________________
+🗣 <b>Never heard of it, so gimme the highlights?</b>
 
-Zer0net delivers you greater information freedom, identity protection and data privacy than the Internet, without the creepy funk of the Darkweb. You're welcome!
+🏆🏆🏆 World's largest un-censorable, peer-to-peer web community
+🔐🔐🔐 No need to trust anyone with YOUR data ever again
+🏡🏡🏡 Safest home for Decentralized Apps <i>(DApps & LApps)</i>
 
-Throwback 20 years, it's 1998 again, and Internet Explorer just took 3½ minutes to download your first web page off a private web server halfway around the world. Jump back to 2018, and Zeronet Explorer is about to peer you with your first zite off the decentralized web currently swarming your local city. Yeah we know, go on, we'll wait right here...
+🗣 <b>Sounds interesting, but why should I care?</b>
 
-Zeronet websites, or zites, function more similar to a mobile app than a traditional website. You download & install all the information once, then its becomes extremely fast interacting with the zite.
+🎟 <b>100% Data Control:</b> Aren't you completely fed up with being sold to advertisers by the social media giants? Take back control of YOUR data, by forcing your favorite services to start "asking" permission for YOUR data when they want to use it.
 
-What is the Zer0net?
+🚫 <b>100% Censorship-proof:</b> Zeronet works by removing the need for centralized servers. So nobody but YOU has the power to shut down your website <i>(zite),</i> even if they don't agree with your <i>(political, religious, ...)</i> message.
 
-"It feels like the Linux version of the WWW. Zero ownership. Zero limits. Zero bulls@#$!"
-- Satoshi Nakamoto -
+📡 <b>100% Secure Communications:</b> Every bit of data on the Zeronet is protected by military-grade security. It’s impossible for government organizations like the NSA or GCHQ to steal or alter your data without your knowledge. HTTPS is broken <i>(see below).</i>
+
+🗣 <b>I like what I hear, so why do I need Zeronet Explorer?</b>
+
+There are NO web servers on the Zeronet, so normal web browsers can't retrieve the web pages you want to visit. Zeronet Explorer works just like your favorite BitTorrent client 😜😜 remember Limewire and Kazaa 🤣🤣 it allows you to view and communicate with the peers holding the web data you want.
+
+🗣 <b>The Internet's almost 30 years old! How will it change now?</b>
+
+☆ <b>YOUR DATA:</b> Sold to advertisers ➧➧➧ Controlled by you
+☆ <b>PRIVACY:</b> Tracked everywhere ➧➧➧ Protected always
+☆ <b>LOGIN:</b> Username/password ➧➧➧ Public/private keys
+☆ <b>HOSTING:</b> Client/server ➧➧➧ Peer-to-peer
+☆ <b>STORAGE:</b> Cloud datacenters ➧➧➧ Torrents
+☆ <b>CHAT:</b> Private rooms ➧➧➧ Public chans
+☆ <b>SECURITY:</b> Plain text ➧➧➧ AES text
+
+🗣 <b>I'm LOVIN the Zeronet! What ya'll got planned next?</b>
+
+🚀 Monero, Bitcoin Cash & Tether support
+🚀 Virtual private networks <i>(0̸PN & 0̸PEN)</i>
+🚀 Lightning & Raiden networks support
+🚀 Postal Service over Swarm <i>(PSS) support</i>
+🚀 BitMessage support
+
+We'd ❤️ to hear from you. Please stop by anytime:
+https://twitter.com/ZeronetExplorer
+https://www.reddit.com/r/ZeronetExplorer/
+----------
+
+<b>Some important links we'd like to share</b>
+
+How is SSL hopelessly broken? Let us count the ways
+https://www.theregister.co.uk/2011/04/11/state_of_ssl_analysis/
+----------
+
+Decentralization Authority is a US-based, non-profit with a continuing mission to create, share and support the very BEST of open-sourced decentralization with every corner of our TrustLess Republic™.
+
+https://d14na.org
+support@d14na.org

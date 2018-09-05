@@ -1,0 +1,61 @@
+Zero Censorship. Zero Limits. Zero BS.
+"This feels like the Linux version of the WWW." - Satoshi Nakamoto -
+
+Zeronet [zeer-oh-net] n. : a maximum security, peer-to-peer, communications network enabling the lightning fast, uncensored exchange of web content without the use of centralized servers.
+----------
+
+▸ Ummm, can you say that in English?
+
+The Zeronet delivers you all the information freedom, identity protection and data privacy that you want from the Internet, but without the creepy funkiness you often see across the Darkweb.
+
+▸ Never heard of it, so gimme the highlights?
+
+◆ World's largest un-censorable, peer-to-peer web community
+◆ No need to trust anyone with YOUR data ever again
+◆ Safest home for Decentralized Apps (DApps & LApps)
+
+▸ Sounds interesting, but why should I care?
+
+◆ 100% Data Control: Aren't you completely fed up with being sold to advertisers by the social media giants? Take back control of YOUR data, by forcing your favorite services to start "asking" permission for YOUR data when they want to use it.
+
+◆ 100% Censorship-proof: Zeronet works by removing the need for centralized servers. So nobody but YOU has the power to shut down your website (zite), even if they don't agree with your (political, religious, ...) message.
+
+◆ 100% Secure Communications: Every bit of data on the Zeronet is protected by military-grade security. It’s impossible for government organizations like the NSA or GCHQ to steal or alter your data without your knowledge. HTTPS is broken (see below).
+
+▸ I like what I hear, so why do I need Zeronet Explorer?
+
+There are NO web servers on the Zeronet, so normal web browsers can't retrieve the web pages you want to visit. Zeronet Explorer works just like your favorite BitTorrent client, it allows you to view and communicate with the peers holding the web data you want.
+
+▸ The Internet's almost 30 years old! How will it change now?
+
+√ YOUR DATA: Sold to advertisers ▸▸▸ Controlled by you
+√ PRIVACY: Tracked everywhere ▸▸▸ Protected always
+√ LOGIN: Username/password ▸▸▸ Public/private keys
+√ HOSTING: Client/server ▸▸▸ Peer-to-peer
+√ STORAGE: Cloud datacenters ▸▸▸ Torrents
+√ CHAT: Private rooms ▸▸▸ Public chans
+√ SECURITY: Plain text ▸▸▸ AES text
+
+▸ I'm LOVIN the Zeronet! What ya'll got planned next?
+
+√ Monero, Bitcoin Cash & Tether support
+√ Virtual private networks (0PN & 0PEN)
+√ Lightning & Raiden networks support
+√ Postal Service over Swarm (PSS) support
+√ BitMessage support
+
+We'd LOVE to hear from you. Please stop by anytime:
+https://twitter.com/ZeronetExplorer
+https://www.reddit.com/r/ZeronetExplorer/
+----------
+
+Some important links we'd like to share
+
+How is SSL hopelessly broken? Let us count the ways
+https://www.theregister.co.uk/2011/04/11/state_of_ssl_analysis/
+----------
+
+Decentralization Authority is a US-based, non-profit with a continuing mission to create, share and support the very BEST of open-sourced decentralization with every corner of our TrustLess Republic™.
+
+https://d14na.org
+support@d14na.org
