@@ -1600,13 +1600,6 @@ bitcoinjs-message@2.0.0:
     secp256k1 "^3.0.1"
     varuint-bitcoin "^1.0.1"
 
-bl@^1.2.1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.2.tgz#a160911717103c07410cef63ef51b397c025af9c"
-  dependencies:
-    readable-stream "^2.3.5"
-    safe-buffer "^5.1.1"
-
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.11.3, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
@@ -5017,7 +5010,7 @@ react-native-fs@2.10.14:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
 
-react-native-keychain@^3.0.0:
+react-native-keychain@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-3.0.0.tgz#29da1dfa43c2581f76bf9420914fd38a1558cf18"
 
@@ -6459,12 +6452,3 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
-
-zeronet-msgpack@3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/zeronet-msgpack/-/zeronet-msgpack-3.6.0.tgz#deb3e766aba45b9e343479fa60f7f57025368b0f"
-  dependencies:
-    bl "^1.2.1"
-    inherits "^2.0.3"
-    readable-stream "^2.3.3"
-    safe-buffer "^5.1.1"

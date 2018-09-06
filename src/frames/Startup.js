@@ -142,18 +142,43 @@ console.log('DEEP LINK DETECTED! Clicked url was: ' + url)
     }
 
     _handleSearchInput(_val) {
-        console.log('handle search', _val)
+console.log('_handleSearchInput', _val)
+
+        /* Update search value. */
         this.searchVal = _val
     }
 
     _handleSearchSubmit() {
-        // console.log('handle search', _val)
+        /* Retrieve the search value. */
         const searchVal = this.searchVal
 
-// FIXME We must validate this as an address, or else perform a search
-        // this._initZite(searchVal)
+        /* Search for a Zitetag. */
+        if (searchVal.indexOf('.bit') !== -1) {
+            /* Retrieve dotBit names. */
+            const names = require('../../res/names.json')
 
-        alert(`Oops! ${searchVal} cannot be found.`)
+            /* Initialize the endoint. */
+            const endpoint = names[searchVal]
+
+            /* Handle unregistered dot-bit. */
+            if (!endpoint) {
+                return alert(`Oops! [ ${searchVal} ] is NOT registered on the Zeronet.`)
+            }
+
+            /* Initialize the zite. */
+            return this._initZite(endpoint)
+        }
+
+        /* Search for Bitcoin address. */
+        // FIXME We must validate for "valid" Bitcoin address
+        if (searchVal.match(/^[1][a-km-zA-HJ-NP-Z1-9]{25,34}$/)) {
+            /* Initialize the zite. */
+            return this._initZite(searchVal)
+        }
+
+        /* Handle unavailable zite. */
+        alert(`Oops! [ ${searchVal} ] cannot be found. ` +
+              `Please check the address/tag and try your request again.`)
     }
 
     _openScanner() {
@@ -191,14 +216,6 @@ console.log('DEEP LINK DETECTED! Clicked url was: ' + url)
                     large
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
-                    onPress={ () => this._test() }
-                    icon={{ name: 'support', type: 'font-awesome' }}
-                    title='TEST' />
-
-                <Button
-                    large
-                    containerViewStyle={ styles.mainButtons }
-                    borderRadius={ 3 }
                     onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
                     icon={{ name: 'support', type: 'font-awesome' }}
                     title='USER GUIDE' />
@@ -226,14 +243,6 @@ console.log('DEEP LINK DETECTED! Clicked url was: ' + url)
                 <Text style={ styles.notFoundText }>no trending zites</Text>
             </View>
         }
-    }
-
-    _test() {
-        // alert(`let's request new peers from trackers`)
-        // this._announce()
-
-        alert(`let's get PEX working`)
-        this._pex()
     }
 
     async _pex() {

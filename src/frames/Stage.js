@@ -216,13 +216,23 @@ export default class Stage extends React.Component {
     }
 
     _bundledFileList() {
+        let files = []
         let list = []
         let index = 0
 
-        for (let file of stores.Stage.ziteFiles) {
+        /* Retrieve the list of files. */
+        files = stores.Stage.ziteFiles
+
+        /* Update index. */
+        index = files.length
+
+        /* Reverse the list. */
+        files = files.reverse()
+
+        for (let file of files) {
             list.push(
                 <Text key={ file['sha512'] } style={ styles.ziteDirectoryText }>
-                    { ++index }. { file['name'] }
+                    { index-- }. { file['name'] }
                     {'\n    '}Size: { file['size'] } bytes
                     { this._displayVerification(file['valid']) }
                 </Text>
