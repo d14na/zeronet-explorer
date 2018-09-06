@@ -67,20 +67,21 @@ class Peer0 {
         return { cmd, req_id, params }
     }
 
-    // parseIp = function (_buf) {
-    //     const ip = _buf.readUInt8(0) +
-    //         '.' + _buf.readUInt8(1) +
-    //         '.' + _buf.readUInt8(2) +
-    //         '.' + _buf.readUInt8(3)
-    //
-    //     return ip
-    // }
+    _parseIp = function (_buf) {
+        const ip = _buf.readUInt8(0) +
+            '.' + _buf.readUInt8(1) +
+            '.' + _buf.readUInt8(2) +
+            '.' + _buf.readUInt8(3)
 
-    // parsePort = function (_buf) {
-    //     const port = (_buf.readUInt8(1) * 256) + _buf.readUInt8(0)
-    //
-    //     return port
-    // }
+        return ip
+    }
+
+    _parsePort = function (_buf) {
+        const port = (_buf.readUInt8(5) * 256) + _buf.readUInt8(4)
+        // const port = (_buf.readUInt8(1) * 256) + _buf.readUInt8(0)
+
+        return port
+    }
 
     _encode = function (_msg) {
         const msgpack = require('zeronet-msgpack')()
@@ -101,7 +102,7 @@ class Peer0 {
         const site = this.address
         const peers = []
         const peers_onion = [] // eslint-disable-line camelcase
-        const need = 5
+        const need = 10
 
         const request = { cmd, site, need }
 
@@ -206,6 +207,16 @@ class Peer0 {
                     if (decoded.peers || decoded.peers_onion) {
                         /* Reset payload. */
                         self.payload = null
+
+console.log('ALL PEERS', decoded.peers)
+                        let peer1 = Buffer.from(decoded.peers[0], 'binary')
+                        let peer2 = Buffer.from(decoded.peers[1], 'binary')
+                        console.log('PEER 1 (binary)', peer1)
+                        console.log('PEER 1 IP', self._parseIp(peer1))
+                        console.log('PEER 1 PORT', self._parsePort(peer1))
+                        console.log('PEER 2 (binary)', peer2)
+                        console.log('PEER 2 IP', self._parseIp(peer2))
+                        console.log('PEER 2 PORT', self._parsePort(peer2))
 
                         /* Build response. */
                         const pkg = {

@@ -236,27 +236,9 @@ console.log('DEEP LINK DETECTED! Clicked url was: ' + url)
         this._pex()
     }
 
-    _getTrackers() {
-        return [
-            'zero://185.142.236.207', // Our TEST Server
-
-            'zero://45.77.23.92',
-            'zero://103.73.66.144',
-            'zero://106.83.116.159',
-            'zero://107.172.237.134',
-            'zero://115.192.117.73',
-            'zero://144.48.7.45',
-            'zero://207.148.123.94',
-            'zero://212.64.18.194'
-        ]
-    }
-
     async _pex() {
-console.log('Peer0', Peer0)
-console.log('net', net)
-
         /* Initailize Peer0. */
-        const peer0 = new Peer0(net)
+        const peer0 = new Peer0(net, '104.129.16.31', 443) // zero.booth.moe
         console.log('peer0', peer0)
 
         const peers = await peer0.pex('1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F')
