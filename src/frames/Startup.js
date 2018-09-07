@@ -216,6 +216,14 @@ console.log('_handleSearchInput', _val)
                     large
                     containerViewStyle={ styles.mainButtons }
                     borderRadius={ 3 }
+                    onPress={ () => this._test() }
+                    icon={{ name: 'support', type: 'font-awesome' }}
+                    title='TEST REALM' />
+
+                <Button
+                    large
+                    containerViewStyle={ styles.mainButtons }
+                    borderRadius={ 3 }
                     onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
                     icon={{ name: 'support', type: 'font-awesome' }}
                     title='USER GUIDE' />
@@ -243,6 +251,63 @@ console.log('_handleSearchInput', _val)
                 <Text style={ styles.notFoundText }>no trending zites</Text>
             </View>
         }
+    }
+
+    _test() {
+        const Realm = require('realm');
+
+        // Define your models and their properties
+        const CarSchema = {
+          name: 'Car',
+          properties: {
+            make:  'string',
+            model: 'string',
+            miles: {type: 'int', default: 0},
+          }
+        };
+        const PersonSchema = {
+          name: 'Person',
+          properties: {
+            name:     'string',
+            birthday: 'date',
+            cars:     'Car[]',
+            picture:  'data?' // optional property
+          }
+        };
+
+        Realm.open({schema: [CarSchema, PersonSchema]})
+          .then(realm => {
+            // Create Realm objects and write to local storage
+            realm.write(() => {
+              const myCar = realm.create('Car', {
+                make: 'Honda',
+                model: 'Civic',
+                miles: 1000,
+              });
+              myCar.miles += 20; // Update a property value
+            });
+
+            // Query Realm for all cars with a high mileage
+            const cars = realm.objects('Car').filtered('miles > 1000');
+
+            // Will return a Results object with our 1 car
+            console.log('# of cars', cars.length);
+
+            // Add another car
+            realm.write(() => {
+              const myCar = realm.create('Car', {
+                make: 'Ford',
+                model: 'Focus',
+                miles: 2000,
+              });
+            });
+
+            // Query results are updated in realtime
+            console.log('# of cars', cars.length);
+          })
+          .catch(error => {
+            console.log(error);
+          });
     }
 
     async _pex() {

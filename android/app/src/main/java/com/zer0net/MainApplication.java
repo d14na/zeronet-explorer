@@ -15,6 +15,8 @@ import org.reactnative.camera.RNCameraPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import io.realm.react.RealmReactPackage;
+
 public class MainApplication extends NavigationApplication {
     @Override
     public boolean isDebug() {
@@ -26,6 +28,7 @@ public class MainApplication extends NavigationApplication {
         return Arrays.<ReactPackage>asList(
                 BugsnagReactNative.getPackage(),
                 new KeychainPackage(),
+                new RealmReactPackage(),
                 new RNCameraPackage(),
                 new RNDeviceInfo(),
                 new RNFSPackage(),
