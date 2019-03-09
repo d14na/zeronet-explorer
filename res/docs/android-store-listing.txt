@@ -39,7 +39,7 @@ There are NO web servers on the Zeronet, so normal web browsers can't retrieve t
 🗣 <b>I'm LOVIN the Zeronet! What ya'll got planned next?</b>
 
 🚀 Monero, Bitcoin Cash & Tether support
-🚀 Virtual private networks <i>(0̸PN & 0̸PEN)</i>
+🚀 Virtual private networks <i>(0PN & 0PEN)</i>
 🚀 Lightning & Raiden networks support
 🚀 Postal Service over Swarm <i>(PSS) support</i>
 🚀 BitMessage support

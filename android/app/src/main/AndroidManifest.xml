@@ -35,10 +35,11 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http[s]://0net.io” -->
+                <!-- Accepts URIs that begin with "http[s]://0net.[io|xyz]” -->
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="0net.io" />
+                <data android:host="0net.xyz" />
             </intent-filter>
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
@@ -46,12 +47,11 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!--
                 Accepts URIs that begin with
-                Zer0net: 0net|zero|zeronet
+                Zer0net: zero
                 Ethereum: ethereum|ens|eth|bzz|pss|shh
                 Bitcoin: bitcoin|btc
                 BitMessage: bitmessage|bm
                 -->
-                <data android:scheme="0net" />
                 <data android:scheme="zero”" />
             </intent-filter>
         </activity>

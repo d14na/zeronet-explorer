@@ -42,7 +42,7 @@ export default class Welcome extends React.Component {
 
                 <View>
                     <Text style={ styles.heading }>
-                        WELCOME TO YOUR P0̸RTAL
+                        WELCOME TO YOUR P0RTAL
                     </Text>
                 </View>
 

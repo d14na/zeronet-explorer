@@ -152,7 +152,7 @@ export default class Stage extends React.Component {
         if (stores.Stage.ziteAddress) {
             return <View style={ styles.ziteDetails }>
                 <Text style={ styles.ziteDetailsHeader }>
-                    Zer0̸net Address
+                    Zer0net Address
                 </Text>
                 <Text style={ styles.ziteDetailsText }>
                     { stores.Stage.ziteAddress }
