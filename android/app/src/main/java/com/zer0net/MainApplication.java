@@ -3,9 +3,11 @@ package com.zer0net;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.peel.react.TcpSocketsModule;
 import com.reactnativenavigation.NavigationApplication;
+import com.rnfs.RNFSPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,11 +24,11 @@ public class MainApplication extends NavigationApplication {
   public List<ReactPackage> createAdditionalReactPackages() {
     return Arrays.<ReactPackage>asList(
 //                BugsnagReactNative.getPackage(),
-//                new KeychainPackage(),
+                new KeychainPackage(),
             new RealmReactPackage(),
 //                new RNCameraPackage(),
             new RNDeviceInfo(),
-//                new RNFSPackage()
+                new RNFSPackage(),
             new TcpSocketsModule(),
             new VectorIconsPackage()
     );

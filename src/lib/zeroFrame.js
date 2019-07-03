@@ -2,28 +2,28 @@ _initJquery() {
     /* Localize this. */
     const self = this
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/jquery.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/jquery.js'
 
     fetch('https://pastebin.com/raw/Cbx4VPD6')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.info('jQuery successfully injected');
-            //         self._debugLog(self, `jQuery successfully injected`)
-            //
-            //         self._initIdenticon()
-            //
-            //         // Timer.setTimeout(self, 'testJquery', () => {
-            //         //     self._debugLog(self, `jQuery is STILL working after all this time [5sec]`)
-            //         //     self._testPastebin()
-            //         // }, 0)
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.info('jQuery successfully injected');
+                    self._debugLog(self, `jQuery successfully injected`)
+
+                    self._initIdenticon()
+
+                    // Timer.setTimeout(self, 'testJquery', () => {
+                    //     self._debugLog(self, `jQuery is STILL working after all this time [5sec]`)
+                    //     self._testPastebin()
+                    // }, 0)
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
 
@@ -31,22 +31,22 @@ _initIdenticon() {
     /* Localize this. */
     const self = this
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/identicon.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/identicon.js'
 
     fetch('https://pastebin.com/raw/32x72c2K')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.info('Identicon successfully injected');
-            //         // self._debugLog(self, `Identicon successfully injected`)
-            //         self._initMarked()
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.info('Identicon successfully injected');
+                    // self._debugLog(self, `Identicon successfully injected`)
+                    self._initMarked()
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
 
@@ -54,22 +54,22 @@ _initMarked() {
     /* Localize this. */
     const self = this
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/marked.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/marked.js'
 
     fetch('https://pastebin.com/raw/C6Ln7Sp3')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.info('Marked successfully injected');
-            //         // self._debugLog(self, `Marked successfully injected`)
-            //         self._initPngLib()
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.info('Marked successfully injected');
+                    // self._debugLog(self, `Marked successfully injected`)
+                    self._initPngLib()
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
 
@@ -100,22 +100,22 @@ _initClass() {
     /* Localize this. */
     const self = this
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/Class.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/Class.js'
 
     fetch('https://pastebin.com/raw/BsQabK6M')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.info('Class successfully injected');
-            //         // self._debugLog(self, `Class successfully injected`)
-            //         self._initText()
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.info('Class successfully injected');
+                    // self._debugLog(self, `Class successfully injected`)
+                    self._initText()
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
 
@@ -123,22 +123,22 @@ _initText() {
     /* Localize this. */
     const self = this
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/Text.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/Text.js'
 
     fetch('https://pastebin.com/raw/0G8fgLn8')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.info('Text successfully injected');
-            //         // self._debugLog(self, `Text successfully injected`)
-            //         self._initTime()
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.info('Text successfully injected');
+                    // self._debugLog(self, `Text successfully injected`)
+                    self._initTime()
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
 
@@ -146,22 +146,22 @@ _initTime() {
     /* Localize this. */
     const self = this
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/Time.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/Time.js'
 
     fetch('https://pastebin.com/raw/kfjK1VPU')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.info('Time successfully injected');
-            //         // self._debugLog(self, `Time successfully injected`)
-            //         self._initZeroFrame()
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.info('Time successfully injected');
+                    // self._debugLog(self, `Time successfully injected`)
+                    self._initZeroFrame()
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
 
@@ -283,22 +283,22 @@ window.postMessage('\n\n**WEBVIEW** ' + JSON.stringify(message).slice(0, 50));
 
     return
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/ZeroFrame.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/ZeroFrame.js'
 
     fetch('https://pastebin.com/raw/PWjUFVsA')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.info('ZeroFrame successfully injected');
-            //         // self._debugLog(self, `ZeroFrame successfully injected`)
-            //         self._initZeroBlog()
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.info('ZeroFrame successfully injected');
+                    // self._debugLog(self, `ZeroFrame successfully injected`)
+                    self._initZeroBlog()
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
 
@@ -616,22 +616,22 @@ window.postMessage('HEY HEY HEY, this.event_site_info.resolve(site_info)');
 
     return
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/ZeroBlog.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/ZeroBlog.js'
 
     fetch('https://pastebin.com/raw/WqYH9exp')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.info('ZeroBlog successfully injected');
-            //         self._debugLog(self, `ZeroBlog successfully injected`)
-            //         // self._initNext()
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.info('ZeroBlog successfully injected');
+                    self._debugLog(self, `ZeroBlog successfully injected`)
+                    // self._initNext()
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
 
@@ -639,21 +639,21 @@ _testPastebin() {
     /* Localize this. */
     const self = this
 
-    // const RNFS = require('react-native-fs')
-    // var path = RNFS.DocumentDirectoryPath + '/Pastebin.js'
+    const RNFS = require('react-native-fs')
+    var path = RNFS.DocumentDirectoryPath + '/Pastebin.js'
 
     fetch('https://pastebin.com/raw/AAmuGGXP')
         .then(result => result.text())
         .then(val => {
-            // RNFS.writeFile(path, val, 'utf8')
-            //     .then((success) => {
-            //         self._webview.injectJavaScript(val)
-            //         console.log('Pastebin successfully injected');
-            //         self._debugLog(self, `Pastebin successfully injected`)
-            //         // self._initNext()
-            //     })
-            //     .catch((err) => {
-            //         console.log(err.message);
-            //     })
+            RNFS.writeFile(path, val, 'utf8')
+                .then((success) => {
+                    self._webview.injectJavaScript(val)
+                    console.log('Pastebin successfully injected');
+                    self._debugLog(self, `Pastebin successfully injected`)
+                    // self._initNext()
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         })
 }
