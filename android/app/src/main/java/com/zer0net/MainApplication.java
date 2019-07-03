@@ -1,46 +1,47 @@
 package com.zer0net;
 
-import com.bugsnag.BugsnagReactNative;
+import android.app.Application;
+
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.oblador.keychain.KeychainPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.peel.react.TcpSocketsModule;
-import com.reactnativenavigation.NavigationApplication;
-import com.rnfs.RNFSPackage;
-
-import org.reactnative.camera.RNCameraPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
-import io.realm.react.RealmReactPackage;
+public class MainApplication extends Application implements ReactApplication {
 
-public class MainApplication extends NavigationApplication {
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
-    public boolean isDebug() {
-        return BuildConfig.DEBUG;
+    public boolean getUseDeveloperSupport() {
+      return BuildConfig.DEBUG;
     }
 
     @Override
-    public List<ReactPackage> createAdditionalReactPackages() {
-        return Arrays.<ReactPackage>asList(
-                BugsnagReactNative.getPackage(),
-                new KeychainPackage(),
-                new RealmReactPackage(),
-                new RNCameraPackage(),
-                new RNDeviceInfo(),
-                new RNFSPackage(),
-                new TcpSocketsModule(),
-                new VectorIconsPackage()
-        );
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+              new RNDeviceInfo(),
+          new MainReactPackage()
+      );
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        BugsnagReactNative.start(this);
-        SoLoader.init(this, /* native exopackage */ false);
+    protected String getJSMainModuleName() {
+      return "index";
     }
+  };
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+  }
 }
