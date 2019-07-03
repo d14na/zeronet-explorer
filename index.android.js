@@ -1,9 +1,6 @@
-/**
- * @format
- */
+// @flow
 
-import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+// import { Client } from 'bugsnag-react-native'
+// const bugsnag = new Client('39cb0d55dbf7da980a54e646595be44a')
 
-AppRegistry.registerComponent(appName, () => App);
+import App from './src/app.android'

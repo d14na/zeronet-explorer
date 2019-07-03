@@ -1797,9 +1797,9 @@ buffer@^5.2.1:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-bugsnag-react-native@2.10.0:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.10.0.tgz#40a274ac13f36d888b724aa0dfc8dc974faf5e2a"
+bugsnag-react-native@2.21.1:
+  version "2.21.1"
+  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.21.1.tgz#d80da18def91961d484c96b6bcb19d2a8e4a7c9a"
   dependencies:
     iserror "^0.0.2"
     promise "^7"
@@ -5312,12 +5312,11 @@ react-native-animatable@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.1.0.tgz#1ca3e8a00e441979d5711805651ff62a2d3b245a"
 
-react-native-camera@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-1.2.0.tgz#fa93b39726d15bdbb02fac06f4a23957b0be403a"
+react-native-camera@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-2.11.0.tgz#480de13f0ac192e950c406d8ca0157cf4bb5f41a"
   dependencies:
-    lodash "^4.17.4"
-    prop-types "^15.5.10"
+    prop-types "^15.6.2"
 
 react-native-crypto@2.1.2:
   version "2.1.2"
@@ -5346,9 +5345,9 @@ react-native-elements@0.19.1:
     opencollective "^1.0.3"
     prop-types "^15.5.8"
 
-react-native-fs@2.10.14:
-  version "2.10.14"
-  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.10.14.tgz#394721801825db8330b62e92ae36861fd9864084"
+react-native-fs@2.11.17:
+  version "2.11.17"
+  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.11.17.tgz#045b9edfd478acaa80fc03a163577749a4ed17d8"
   dependencies:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
@@ -5357,9 +5356,9 @@ react-native-keychain@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-3.0.0.tgz#29da1dfa43c2581f76bf9420914fd38a1558cf18"
 
-react-native-navigation@2.22.3:
-  version "2.22.3"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.22.3.tgz#95744da9b687bc7b32c6d90787ea529ac5e0271d"
+react-native-navigation@3.0.0-alpha.2:
+  version "3.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-3.0.0-alpha.2.tgz#c8066f1d13a103268de94ec4392b69b6e8029f52"
   dependencies:
     hoist-non-react-statics "3.x.x"
     lodash "4.17.x"

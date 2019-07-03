@@ -4,7 +4,7 @@ import Amplitude from 'amplitude'
 
 import DeviceInfo from 'react-native-device-info'
 
-import { Client } from 'bugsnag-react-native'
+// import { Client } from 'bugsnag-react-native'
 
 /* Calculate device dimensions. */
 const deviceWidth  = Dimensions.get('window').width

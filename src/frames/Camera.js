@@ -21,7 +21,7 @@ import {
     Styles
 } from '../constants'
 
-import { RNCamera } from 'react-native-camera'
+// import { RNCamera } from 'react-native-camera'
 
 @observer
 export default class Camera extends React.Component {
@@ -40,15 +40,17 @@ export default class Camera extends React.Component {
 
     render() {
         return <View style={styles.container}>
-            <RNCamera
-                ref={ ref => { this.camera = ref }}
-                style={ styles.preview }
-                type={ RNCamera.Constants.Type.back }
-                flashMode={ RNCamera.Constants.FlashMode.on }
-                onBarCodeRead={ this._onBarcodeRead }
-                barCodeTypes={ [RNCamera.Constants.BarCodeType.qr] }
-                permissionDialogTitle={ 'Camera Permission Request' }
-                permissionDialogMessage={ 'We require permission to use your device\'s camera to continue.' } />
+            {
+                // <RNCamera
+                //     ref={ ref => { this.camera = ref }}
+                //     style={ styles.preview }
+                //     type={ RNCamera.Constants.Type.back }
+                //     flashMode={ RNCamera.Constants.FlashMode.on }
+                //     onBarCodeRead={ this._onBarcodeRead }
+                //     barCodeTypes={ [RNCamera.Constants.BarCodeType.qr] }
+                //     permissionDialogTitle={ 'Camera Permission Request' }
+                //     permissionDialogMessage={ 'We require permission to use your device\'s camera to continue.' } />
+            }
 
             <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
                 <TouchableOpacity
