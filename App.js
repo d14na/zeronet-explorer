@@ -21,6 +21,60 @@ type Props = {};
 const appName = DeviceInfo.getApplicationName();
 const deviceId = DeviceInfo.getDeviceId();
 const systemVersion = DeviceInfo.getSystemVersion();
+
+const Realm = require('realm');
+
+Realm.open({
+      schema: [{name: 'Dog', properties: {name: 'string', age: 'int'}}]
+    }).then(realm => {
+      realm.write(() => {
+        realm.create('Dog', {name: 'Rex', age: 3});
+      });
+  });
+// class Dog {}
+// Dog.schema = {
+//     name: 'Dog',
+//     primaryKey: 'name',
+//     properties: {
+//         name: 'string',
+//         age: 'int',
+//     }
+// };
+
+// let realm = new Realm({schema: [Dog]});
+
+// realm.write(() => {
+//     realm.create('Dog', { name: 'Rex', age: 3 });
+// });
+
+// class Person {}
+// Person.schema = {
+//     name: 'Person',
+//     primaryKey: 'name',
+//     properties: {
+//         name: 'string',
+//         age: {type: 'int', default: 0},
+//     },
+// };
+
+// const realm = new Realm({schema: [Person]});
+
+// Query
+// let people = 123;
+// let people = realm.objects('Dog', 'age >= 17');
+// let people = realm.objects('Person', 'age >= 17');
+
+// Write
+// realm.write(() => {
+//     savedPerson = realm.create('Person', {
+//         name: 'Hal Incandenza',
+//         age: 17,
+//     });
+// });
+
+// let found = people.length | 0
+//     found = found + ''
+
 export default class App extends Component<Props> {
   render() {
     return (

@@ -1416,7 +1416,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
   _reactNative.AppRegistry.registerComponent(_app.name, function () {
     return _App2.default;
   });
-},11,[12,336,340],"index.android.js");
+},11,[12,336,364],"index.android.js");
 __d(function (global, _require, module, exports, _dependencyMap) {
   'use strict';
 
@@ -54563,6 +54563,25 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
   var systemVersion = _reactNativeDeviceInfo2.default.getSystemVersion();
 
+  var Realm = _require(_dependencyMap[3], 'realm');
+
+  Realm.open({
+    schema: [{
+      name: 'Dog',
+      properties: {
+        name: 'string',
+        age: 'int'
+      }
+    }]
+  }).then(function (realm) {
+    realm.write(function () {
+      realm.create('Dog', {
+        name: 'Rex',
+        age: 3
+      });
+    });
+  });
+
   var App = function (_Component) {
     babelHelpers.inherits(App, _Component);
 
@@ -54580,7 +54599,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
             style: styles.container,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 27
+              lineNumber: 81
             }
           },
           _react2.default.createElement(
@@ -54589,7 +54608,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
               style: styles.welcome,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 28
+                lineNumber: 82
               }
             },
             "Welcome to Zeronet Explorer!"
@@ -54600,7 +54619,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
               style: styles.instructions,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 29
+                lineNumber: 83
               }
             },
             "To get started, edit App.js"
@@ -54611,7 +54630,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
               style: styles.instructions,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 30
+                lineNumber: 84
               }
             },
             instructions
@@ -54622,7 +54641,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
               style: styles.instructions,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 31
+                lineNumber: 85
               }
             },
             "appName: ",
@@ -54634,7 +54653,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
               style: styles.instructions,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 32
+                lineNumber: 86
               }
             },
             "deviceId: ",
@@ -54646,7 +54665,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
               style: styles.instructions,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 33
+                lineNumber: 87
               }
             },
             "systemVersion: ",
@@ -54678,7 +54697,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
       marginBottom: 5
     }
   });
-},336,[111,12,337],"App.js");
+},336,[111,12,337,340],"App.js");
 __d(function (global, _require, module, exports, _dependencyMap) {
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -55233,10 +55252,3946 @@ __d(function (global, _require, module, exports, _dependencyMap) {
   };
 },339,[],"node_modules/react-native-device-info/default/index.js");
 __d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    var require_method = _require;
+
+    function nodeRequire(module) {
+        return require_method(module);
+    }
+
+    function getContext() {
+        if (typeof process === 'object' && process + '' === '[object process]') {
+            if (typeof global !== 'undefined' && global.__debug__) {
+                return 'vscodedebugger';
+            }
+
+            return process.type === 'renderer' ? 'electron' : 'node.js';
+        }
+
+        if (typeof jest === 'object') {
+            return 'node.js';
+        }
+
+        if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+            if (typeof navigator !== 'undefined' && /Chrome/.test(navigator.userAgent)) {
+                return 'chromedebugger';
+            }
+
+            if (typeof atob !== 'undefined') {
+                return 'chromedebugger';
+            }
+
+            if (typeof Realm === 'undefined') {
+                throw new Error('Missing Realm constructor. Did you run "react-native link realm"? Please see https://realm.io/docs/react-native/latest/#missing-realm-constructor for troubleshooting');
+            }
+
+            return 'reactnative';
+        }
+
+        if (typeof Realm !== 'undefined') {
+            return 'jscore';
+        }
+
+        if (typeof global !== 'undefined' && global.__debug__) {
+            return 'vscodedebugger';
+        }
+
+        if (typeof navigator !== 'undefined' && /Chrome/.test(navigator.userAgent)) {
+            return 'chromedebugger';
+        }
+
+        throw Error("Unknown execution context");
+    }
+
+    var realmConstructor;
+    var context = getContext();
+
+    switch (context) {
+        case 'node.js':
+        case 'electron':
+            nodeRequire('./submit-analytics')('Run', context);
+            var binary = nodeRequire('node-pre-gyp');
+            var path = nodeRequire('path');
+            var pkg = path.resolve(path.join(__dirname, '../package.json'));
+            var binding_path = binary.find(pkg);
+            realmConstructor = require_method(binding_path).Realm;
+            break;
+
+        case 'reactnative':
+        case 'jscore':
+            realmConstructor = Realm;
+            break;
+
+        case 'chromedebugger':
+        case 'vscodedebugger':
+            if (__DEV__) {
+                realmConstructor = _require(_dependencyMap[0], './browser').default;
+            } else {
+                throw new Error('Can\'t use debugger if __DEV__ isn\'t true.');
+            }
+
+            break;
+    }
+
+    if (!realmConstructor) {
+        throw Error("Error trying to establish execution context");
+    }
+
+    _require(_dependencyMap[1], './extensions')(realmConstructor, context);
+
+    if (realmConstructor.Sync) {
+        if (context === 'node.js') {
+            nodeRequire('./notifier')(realmConstructor);
+
+            if (!realmConstructor.Worker) {
+                Object.defineProperty(realmConstructor, 'Worker', {
+                    value: nodeRequire('./worker')
+                });
+            }
+        }
+    }
+
+    module.exports = realmConstructor;
+},340,[341,361],"node_modules/realm/lib/index.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+
+    var _reactNative = _require(_dependencyMap[0], "react-native");
+
+    var _constants = _require(_dependencyMap[1], "./constants");
+
+    var _collections = _require(_dependencyMap[2], "./collections");
+
+    var _collections2 = babelHelpers.interopRequireDefault(_collections);
+
+    var _lists = _require(_dependencyMap[3], "./lists");
+
+    var _lists2 = babelHelpers.interopRequireDefault(_lists);
+
+    var _results = _require(_dependencyMap[4], "./results");
+
+    var _results2 = babelHelpers.interopRequireDefault(_results);
+
+    var _objects = _require(_dependencyMap[5], "./objects");
+
+    var objects = babelHelpers.interopRequireWildcard(_objects);
+
+    var _user = _require(_dependencyMap[6], "./user");
+
+    var _user2 = babelHelpers.interopRequireDefault(_user);
+
+    var _session = _require(_dependencyMap[7], "./session");
+
+    var _session2 = babelHelpers.interopRequireDefault(_session);
+
+    var _subscription = _require(_dependencyMap[8], "./subscription");
+
+    var _subscription2 = babelHelpers.interopRequireDefault(_subscription);
+
+    var _rpc = _require(_dependencyMap[9], "./rpc");
+
+    var rpc = babelHelpers.interopRequireWildcard(_rpc);
+
+    var _util = _require(_dependencyMap[10], "./util");
+
+    var util = babelHelpers.interopRequireWildcard(_util);
+
+    var _userMethods = _require(_dependencyMap[11], "../user-methods");
+
+    var _NativeModules$Realm = _reactNative.NativeModules.Realm,
+        debugHosts = _NativeModules$Realm.debugHosts,
+        debugPort = _NativeModules$Realm.debugPort;
+    rpc.registerTypeConverter(_constants.objectTypes.LIST, _lists.createList);
+    rpc.registerTypeConverter(_constants.objectTypes.RESULTS, _results.createResults);
+    rpc.registerTypeConverter(_constants.objectTypes.OBJECT, objects.createObject);
+    rpc.registerTypeConverter(_constants.objectTypes.REALM, createRealm);
+    rpc.registerTypeConverter(_constants.objectTypes.USER, _user.createUser);
+    rpc.registerTypeConverter(_constants.objectTypes.SESSION, _session.createSession);
+    rpc.registerTypeConverter(_constants.objectTypes.SUBSCRIPTION, _subscription.createSubscription);
+
+    function createRealm(_, info) {
+        var realm = Object.create(Realm.prototype);
+        setupRealm(realm, info);
+        return realm;
+    }
+
+    function setupRealm(realm, info) {
+        realm[_constants.keys.id] = info.id;
+        realm[_constants.keys.realm] = info.realmId;
+        realm[_constants.keys.type] = _constants.objectTypes.REALM;
+        ['empty', 'schema', 'schemaVersion', 'isInTransaction', 'isClosed'].forEach(function (name) {
+            Object.defineProperty(realm, name, {
+                get: util.getterForProperty(name)
+            });
+        });
+
+        for (var key in info.data) {
+            realm[key] = rpc.deserialize(info.id, info.data[key]);
+        }
+    }
+
+    function getObjectType(realm, type) {
+        if (typeof type == 'function') {
+            return objects.typeForConstructor(realm[_constants.keys.realm], type);
+        }
+
+        return type;
+    }
+
+    var Realm = function () {
+        function Realm(config) {
+            babelHelpers.classCallCheck(this, Realm);
+            var schemas = typeof config === 'object' && config.schema;
+            var constructors = schemas ? {} : null;
+            var isPartial = false;
+
+            if (config && typeof config.sync === 'object') {
+                if (typeof config.sync.fullSynchronization !== 'undefined') {
+                    isPartial = !config.sync.fullSynchronization;
+                } else if (typeof config.sync.partial !== 'undefined') {
+                    isPartial = config.sync.partial;
+                }
+            }
+
+            if (schemas && isPartial) {
+                Realm._extendQueryBasedSchema(schemas);
+            }
+
+            for (var i = 0, len = schemas ? schemas.length : 0; i < len; i++) {
+                var item = schemas[i];
+
+                if (typeof item == 'function') {
+                    var schema = item.schema;
+
+                    if (!schema || typeof schema != 'object') {
+                        throw new Error("Realm object constructor must have a 'schema' property.");
+                    }
+
+                    var name = schema.name,
+                        properties = schema.properties;
+
+                    if (!name || typeof name != 'string') {
+                        throw new Error("Failed to read ObjectSchema: name must be of type 'string', got (" + typeof name + ")");
+                    } else if (!properties || typeof properties != 'object') {
+                        throw new Error("Failed to read ObjectSchema: properties must be of type 'object', got (" + typeof properties + ")");
+                    }
+
+                    schemas.splice(i, 1, schema);
+                    constructors[name] = item;
+                }
+            }
+
+            var info = rpc.createRealm(Array.from(arguments));
+            setupRealm(this, info);
+            objects.registerConstructors(info.realmId, this.path, constructors);
+        }
+
+        babelHelpers.createClass(Realm, [{
+            key: "create",
+            value: function create(type) {
+                var method = util.createMethod(_constants.objectTypes.REALM, 'create', true);
+
+                for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                    args[_key - 1] = arguments[_key];
+                }
+
+                return method.apply(this, [getObjectType(this, type)].concat(args));
+            }
+        }, {
+            key: "objects",
+            value: function objects(type) {
+                var method = util.createMethod(_constants.objectTypes.REALM, 'objects');
+
+                for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                    args[_key2 - 1] = arguments[_key2];
+                }
+
+                return method.apply(this, [getObjectType(this, type)].concat(args));
+            }
+        }, {
+            key: "objectForPrimaryKey",
+            value: function objectForPrimaryKey(type) {
+                var method = util.createMethod(_constants.objectTypes.REALM, 'objectForPrimaryKey');
+
+                for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+                    args[_key3 - 1] = arguments[_key3];
+                }
+
+                return method.apply(this, [getObjectType(this, type)].concat(args));
+            }
+        }]);
+        return Realm;
+    }();
+
+    exports.default = Realm;
+    util.createMethods(Realm.prototype, _constants.objectTypes.REALM, ['addListener', 'removeListener', 'removeAllListeners', 'privileges', 'writeCopyTo', '_waitForDownload', '_objectForObjectId']);
+    util.createMethods(Realm.prototype, _constants.objectTypes.REALM, ['delete', 'deleteModel', 'deleteAll', 'write', 'compact', 'close', 'beginTransaction', 'commitTransaction', 'cancelTransaction'], true);
+    var Sync = {
+        '_initializeSyncManager': function _initializeSyncManager(userAgent) {
+            return rpc._initializeSyncManager([userAgent]);
+        },
+        'reconnect': function reconnect() {
+            return rpc.reconnect();
+        },
+        '_hasExistingSessions': function _hasExistingSessions() {
+            return rpc.hasExistingSessions();
+        },
+        User: _user2.default,
+        Session: _session2.default,
+        Subscription: _subscription2.default
+    };
+    Object.defineProperties(Realm, {
+        Collection: {
+            value: _collections2.default
+        },
+        List: {
+            value: _lists2.default
+        },
+        Results: {
+            value: _results2.default
+        },
+        Object: {
+            value: objects.default
+        },
+        Sync: {
+            value: Sync
+        },
+        defaultPath: {
+            get: util.getterForProperty('defaultPath', false),
+            set: util.setterForProperty('defaultPath')
+        },
+        schemaVersion: {
+            value: function value(_path, _encryptionKey) {
+                return rpc.callMethod(undefined, Realm[_constants.keys.id], 'schemaVersion', Array.from(arguments));
+            }
+        },
+        deleteFile: {
+            value: function value(config) {
+                return rpc.callMethod(undefined, Realm[_constants.keys.id], 'deleteFile', Array.from(arguments));
+            }
+        },
+        copyBundledRealmFiles: {
+            value: function value() {
+                return rpc.callMethod(undefined, Realm[_constants.keys.id], 'copyBundledRealmFiles', []);
+            }
+        },
+        clearTestState: {
+            value: function value() {
+                objects.clearRegisteredConstructors();
+                util.invalidateCache();
+                rpc.clearTestState();
+            }
+        },
+        _asyncOpen: {
+            value: function value(config, callback) {
+                return rpc.asyncOpenRealm(Realm[_constants.keys.id], config, callback);
+            }
+        }
+    });
+
+    for (var i = 0, len = debugHosts.length; i < len; i++) {
+        try {
+            var refreshAccessTokenCallback = _userMethods.static._refreshAccessToken.bind(_user2.default);
+
+            Realm[_constants.keys.id] = rpc.createSession(refreshAccessTokenCallback, debugHosts[i] + ':' + debugPort);
+            break;
+        } catch (e) {
+            if (i < len - 1) {
+                continue;
+            }
+
+            console.error(e);
+            throw new Error('Realm failed to connect to the embedded debug server inside the app. ' + 'If attempting to use Chrome debugging from a device, ensure the device is ' + 'reachable on the same network as this machine.');
+        }
+    }
+},341,[12,342,343,347,348,349,350,351,352,345,344,353],"node_modules/realm/lib/browser/index.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    var keys = exports.keys = {};
+    var objectTypes = exports.objectTypes = {};
+    var propTypes = exports.propTypes = {};
+    ['id', 'realm', 'type'].forEach(function (name) {
+        keys[name] = Symbol(name);
+    });
+    ['DATA', 'DATE', 'DICT', 'FUNCTION', 'LIST', 'OBJECT', 'REALM', 'RESULTS', 'USER', 'SESSION', 'SUBSCRIPTION', 'UNDEFINED'].forEach(function (type) {
+        Object.defineProperty(objectTypes, type, {
+            value: type.toLowerCase()
+        });
+    });
+    ['BOOL', 'INT', 'FLOAT', 'DOUBLE', 'STRING', 'DATE', 'DATA', 'OBJECT', 'LIST'].forEach(function (type) {
+        Object.defineProperty(propTypes, type, {
+            value: type.toLowerCase(),
+            enumerable: true
+        });
+    });
+},342,[],"node_modules/realm/lib/browser/constants.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    exports.createCollection = createCollection;
+
+    var _constants = _require(_dependencyMap[0], "./constants");
+
+    var _util = _require(_dependencyMap[1], "./util");
+
+    var util = babelHelpers.interopRequireWildcard(_util);
+
+    var _rpc = _require(_dependencyMap[2], "./rpc");
+
+    var rpc = babelHelpers.interopRequireWildcard(_rpc);
+
+    var Collection = function Collection() {
+        babelHelpers.classCallCheck(this, Collection);
+        throw new TypeError('Illegal constructor');
+    };
+
+    exports.default = Collection;
+
+    function isIndex(propertyName) {
+        return typeof propertyName === 'number' || typeof propertyName === 'string' && /^-?\d+$/.test(propertyName);
+    }
+
+    var mutable = Symbol('mutable');
+    var traps = {
+        get: function get(collection, property, receiver) {
+            if (isIndex(property)) {
+                return util.getProperty(collection, property);
+            }
+
+            return Reflect.get(collection, property, collection);
+        },
+        set: function set(collection, property, value, receiver) {
+            if (isIndex(property)) {
+                if (!collection[mutable]) {
+                    return false;
+                }
+
+                util.invalidateCache(collection[_constants.keys.realm]);
+                rpc.setProperty(collection[_constants.keys.realm], collection[_constants.keys.id], property, value);
+                return true;
+            }
+
+            if (!Reflect.set(collection, property, value, collection)) {
+                throw new TypeError("Cannot assign to read only property '" + property + "'");
+            }
+
+            return true;
+        },
+        ownKeys: function ownKeys(collection) {
+            return Reflect.ownKeys(collection).concat(Array.from({
+                length: collection.length
+            }, function (value, key) {
+                return String(key);
+            }));
+        },
+        getOwnPropertyDescriptor: function getOwnPropertyDescriptor(collection, property) {
+            var _this = this;
+
+            if (isIndex(property)) {
+                var descriptor = {
+                    enumerable: true,
+                    configurable: true,
+                    writable: collection[mutable]
+                };
+                Reflect.defineProperty(descriptor, "value", {
+                    get: function get() {
+                        return _this.get(collection, property);
+                    }
+                });
+                return descriptor;
+            }
+
+            return Reflect.getOwnPropertyDescriptor(collection, property);
+        },
+        has: function has(collection, property) {
+            if (isIndex(property)) {
+                return true;
+            }
+
+            return Reflect.has(collection, property);
+        }
+    };
+
+    function createCollection(prototype, realmId, info, _mutable) {
+        var collection = Object.create(prototype);
+        Object.defineProperties(collection, {
+            'length': {
+                get: util.getterForProperty('length')
+            },
+            'type': {
+                value: info.dataType
+            },
+            'optional': {
+                value: info.optional
+            }
+        });
+        collection[_constants.keys.realm] = realmId;
+        collection[_constants.keys.id] = info.id;
+        collection[_constants.keys.type] = info.type;
+        collection[mutable] = _mutable;
+        return new Proxy(collection, traps);
+    }
+},343,[342,344,345],"node_modules/realm/lib/browser/collections.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.createMethods = createMethods;
+    exports.createMethod = createMethod;
+    exports.invalidateCache = invalidateCache;
+    exports.cacheObject = cacheObject;
+    exports.getProperty = getProperty;
+    exports.getterForProperty = getterForProperty;
+    exports.setterForProperty = setterForProperty;
+
+    var _constants = _require(_dependencyMap[0], "./constants");
+
+    var _rpc = _require(_dependencyMap[1], "./rpc");
+
+    var rpc = babelHelpers.interopRequireWildcard(_rpc);
+
+    function createMethods(prototype, type, methodNames, mutating) {
+        var props = {};
+        methodNames.forEach(function (name) {
+            props[name] = {
+                value: createMethod(type, name, mutating)
+            };
+        });
+        Object.defineProperties(prototype, props);
+    }
+
+    function createMethod(type, name, mutating) {
+        return function () {
+            var realmId = this[_constants.keys.realm];
+            var id = this[_constants.keys.id];
+
+            if (!realmId || !id) {
+                throw new TypeError(type + "." + name + " was called on non-Realm object " + this + "!");
+            }
+
+            if (this[_constants.keys.type] !== type) {
+                throw new TypeError(type + "." + name + " was called on Realm object of type " + this[_constants.keys.type] + "!");
+            }
+
+            if (mutating) {
+                invalidateCache(realmId);
+            }
+
+            try {
+                return rpc.callMethod(realmId, id, name, Array.from(arguments));
+            } finally {
+                if (mutating) {
+                    invalidateCache(realmId);
+                }
+            }
+        };
+    }
+
+    var propertyCache = {};
+
+    function invalidateCache(realmId) {
+        if (realmId) {
+            propertyCache[realmId] = {};
+        } else {
+            propertyCache = {};
+        }
+    }
+
+    function getRealmCache(realmId) {
+        var realmCache = propertyCache[realmId];
+
+        if (!realmCache) {
+            realmCache = propertyCache[realmId] = {};
+        }
+
+        return realmCache;
+    }
+
+    function cacheObject(realmId, id, value) {
+        getRealmCache(realmId)[id] = value;
+    }
+
+    function getProperty(obj, name) {
+        var cache = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+        var realmId = obj[_constants.keys.realm];
+        var id = obj[_constants.keys.id];
+
+        if (!cache || realmId === undefined) {
+            return rpc.getProperty(realmId, id, name);
+        }
+
+        var realmCache = getRealmCache(realmId);
+        var objCache = realmCache[id];
+
+        if (!objCache) {
+            objCache = realmCache[id] = rpc.getObject(realmId, id, name);
+            return objCache[name];
+        }
+
+        if (name in objCache) {
+            return objCache[name];
+        }
+
+        return objCache[name] = rpc.getProperty(realmId, id, name);
+    }
+
+    function getterForProperty(name) {
+        var cache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        return function () {
+            return getProperty(this, name, cache);
+        };
+    }
+
+    function setterForProperty(name) {
+        return function (value) {
+            invalidateCache(this[_constants.keys.realm]);
+            rpc.setProperty(this[_constants.keys.realm], this[_constants.keys.id], name, value);
+        };
+    }
+},344,[342,345],"node_modules/realm/lib/browser/util.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.registerTypeConverter = registerTypeConverter;
+    exports.createSession = createSession;
+    exports.createRealm = createRealm;
+    exports.asyncOpenRealm = asyncOpenRealm;
+    exports.createUser = createUser;
+    exports._adminUser = _adminUser;
+    exports._getExistingUser = _getExistingUser;
+    exports.reconnect = reconnect;
+    exports._initializeSyncManager = _initializeSyncManager;
+    exports.hasExistingSessions = hasExistingSessions;
+    exports.callMethod = callMethod;
+    exports.getObject = getObject;
+    exports.getProperty = getProperty;
+    exports.setProperty = setProperty;
+    exports.getAllUsers = getAllUsers;
+    exports.clearTestState = clearTestState;
+    exports.deserialize = deserialize;
+
+    var _base = _require(_dependencyMap[0], "./base64");
+
+    var base64 = babelHelpers.interopRequireWildcard(_base);
+
+    var _util = _require(_dependencyMap[1], "./util");
+
+    var util = babelHelpers.interopRequireWildcard(_util);
+
+    var _constants = _require(_dependencyMap[2], "./constants");
+
+    var idKey = _constants.keys.id,
+        _realmKey = _constants.keys.realm;
+    var registeredCallbacks = [];
+    var typeConverters = {};
+    var persistentCallback = Symbol("persistentCallback");
+    var XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
+    var sessionHost = void 0;
+    var sessionId = void 0;
+
+    if (XMLHttpRequest.__proto__ != global.XMLHttpRequestEventTarget) {
+        var fakeXMLHttpRequest = XMLHttpRequest;
+        delete global.XMLHttpRequest;
+        XMLHttpRequest = global.XMLHttpRequest;
+        global.XMLHttpRequest = fakeXMLHttpRequest;
+    }
+
+    registerTypeConverter(_constants.objectTypes.DATA, function (_, _ref) {
+        var value = _ref.value;
+        return base64.decode(value);
+    });
+    registerTypeConverter(_constants.objectTypes.DATE, function (_, _ref2) {
+        var value = _ref2.value;
+        return new Date(value);
+    });
+    registerTypeConverter(_constants.objectTypes.DICT, deserializeDict);
+    registerTypeConverter(_constants.objectTypes.FUNCTION, deserializeFunction);
+
+    function registerTypeConverter(type, handler) {
+        typeConverters[type] = handler;
+    }
+
+    function createSession(refreshAccessToken, host) {
+        refreshAccessToken[persistentCallback] = true;
+        sessionId = sendRequest('create_session', {
+            refreshAccessToken: serialize(undefined, refreshAccessToken)
+        }, host);
+        sessionHost = host;
+        return sessionId;
+    }
+
+    function beforeNotify(realm) {
+        util.invalidateCache(realm[_constants.keys.realm]);
+    }
+
+    function createRealm(args) {
+        if (args) {
+            args = args.map(function (arg) {
+                return serialize(null, arg);
+            });
+        }
+
+        return sendRequest('create_realm', {
+            arguments: args,
+            beforeNotify: serialize(null, beforeNotify)
+        });
+    }
+
+    function asyncOpenRealm(id, config, callback) {
+        sendRequest('call_method', {
+            id: id,
+            name: '_asyncOpen',
+            arguments: [serialize(null, config), serialize(null, function (realm, error) {
+                if (realm) {
+                    realm.addListener('beforenotify', beforeNotify);
+                }
+
+                callback(realm, error);
+            })]
+        });
+    }
+
+    function createUser(args) {
+        args = args.map(function (arg) {
+            return serialize(null, arg);
+        });
+        var result = sendRequest('create_user', {
+            arguments: args
+        });
+        return deserialize(undefined, result);
+    }
+
+    function _adminUser(args) {
+        args = args.map(function (arg) {
+            return serialize(null, arg);
+        });
+        var result = sendRequest('_adminUser', {
+            arguments: args
+        });
+        return deserialize(undefined, result);
+    }
+
+    function _getExistingUser(args) {
+        args = args.map(function (arg) {
+            return serialize(null, arg);
+        });
+        var result = sendRequest('_getExistingUser', {
+            arguments: args
+        });
+        return deserialize(undefined, result);
+    }
+
+    function reconnect(args) {
+        sendRequest('reconnect', {
+            arguments: []
+        });
+    }
+
+    function _initializeSyncManager(args) {
+        args = args.map(function (arg) {
+            return serialize(null, arg);
+        });
+        sendRequest('_initializeSyncManager', {
+            arguments: args
+        });
+    }
+
+    function hasExistingSessions(args) {
+        return deserialize(undefined, sendRequest('_hasExistingSessions', {
+            arguments: []
+        }));
+    }
+
+    function callMethod(realmId, id, name, args) {
+        if (args) {
+            args = args.map(function (arg) {
+                return serialize(realmId, arg);
+            });
+        }
+
+        var result = sendRequest('call_method', {
+            realmId: realmId,
+            id: id,
+            name: name,
+            arguments: args
+        });
+        return deserialize(realmId, result);
+    }
+
+    function getObject(realmId, id, name) {
+        var result = sendRequest('get_object', {
+            realmId: realmId,
+            id: id,
+            name: name
+        });
+
+        if (!result) {
+            return result;
+        }
+
+        for (var key in result) {
+            result[key] = deserialize(realmId, result[key]);
+        }
+
+        return result;
+    }
+
+    function getProperty(realmId, id, name) {
+        var result = sendRequest('get_property', {
+            realmId: realmId,
+            id: id,
+            name: name
+        });
+        return deserialize(realmId, result);
+    }
+
+    function setProperty(realmId, id, name, value) {
+        value = serialize(realmId, value);
+        sendRequest('set_property', {
+            realmId: realmId,
+            id: id,
+            name: name,
+            value: value
+        });
+    }
+
+    function getAllUsers() {
+        var result = sendRequest('get_all_users');
+        return deserialize(undefined, result);
+    }
+
+    function clearTestState() {
+        sendRequest('clear_test_state');
+        registeredCallbacks = registeredCallbacks.filter(function (cb) {
+            return Reflect.has(cb, persistentCallback);
+        });
+    }
+
+    function registerCallback(callback) {
+        var key = registeredCallbacks.indexOf(callback);
+        return key >= 0 ? key : registeredCallbacks.push(callback) - 1;
+    }
+
+    function serialize(realmId, value) {
+        if (typeof value == 'undefined') {
+            return {
+                type: _constants.objectTypes.UNDEFINED
+            };
+        }
+
+        if (typeof value == 'function') {
+            return {
+                type: _constants.objectTypes.FUNCTION,
+                value: registerCallback(value)
+            };
+        }
+
+        if (!value || typeof value != 'object') {
+            return {
+                value: value
+            };
+        }
+
+        var id = value[idKey];
+
+        if (id) {
+            return {
+                id: id
+            };
+        }
+
+        if (value instanceof Date) {
+            return {
+                type: _constants.objectTypes.DATE,
+                value: value.getTime()
+            };
+        }
+
+        if (Array.isArray(value)) {
+            var array = value.map(function (item) {
+                return serialize(realmId, item);
+            });
+            return {
+                value: array
+            };
+        }
+
+        if (value instanceof ArrayBuffer || ArrayBuffer.isView(value)) {
+            return {
+                type: _constants.objectTypes.DATA,
+                value: base64.encode(value)
+            };
+        }
+
+        var keys = Object.keys(value);
+        var values = keys.map(function (key) {
+            return serialize(realmId, value[key]);
+        });
+        return {
+            type: _constants.objectTypes.DICT,
+            keys: keys,
+            values: values
+        };
+    }
+
+    function deserialize(realmId, info) {
+        var type = info.type;
+        var handler = type && typeConverters[type];
+
+        if (handler) {
+            return handler(realmId, info);
+        }
+
+        var value = info.value;
+
+        if (value && Array.isArray(value)) {
+            return value.map(function (item) {
+                return deserialize(realmId, item);
+            });
+        }
+
+        return value;
+    }
+
+    function deserializeDict(realmId, info) {
+        var keys = info.keys,
+            values = info.values;
+        var object = {};
+
+        for (var i = 0, len = keys.length; i < len; i++) {
+            object[keys[i]] = deserialize(realmId, values[i]);
+        }
+
+        return object;
+    }
+
+    function deserializeFunction(realmId, info) {
+        return registeredCallbacks[info.value];
+    }
+
+    function makeRequest(url, data) {
+        var statusCode = void 0;
+        var responseText = void 0;
+
+        if (global.__debug__) {
+            var request = global.__debug__.require('sync-request');
+
+            var response = request('POST', url, {
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "text/plain;charset=UTF-8"
+                }
+            });
+            statusCode = response.statusCode;
+            responseText = response.body.toString('utf-8');
+        } else {
+            var body = JSON.stringify(data);
+
+            var _request = new XMLHttpRequest();
+
+            _request.open('POST', url, false);
+
+            _request.send(body);
+
+            statusCode = _request.status;
+            responseText = _request.responseText;
+        }
+
+        if (statusCode != 200) {
+            throw new Error(responseText);
+        }
+
+        return JSON.parse(responseText);
+    }
+
+    var pollTimeoutId = void 0;
+    var pollTimeout = 10;
+
+    function deserialize_json_value(value) {
+        var result = {};
+
+        for (var index = 0; index < value.keys.length; index++) {
+            var propName = value.keys[index];
+            var propValue = value.values[index];
+
+            if (propValue.type && propValue.type == 'dict') {
+                result[propName] = deserialize_json_value(propValue);
+            } else {
+                result[propName] = propValue.value;
+            }
+        }
+
+        return result;
+    }
+
+    function sendRequest(command, data) {
+        var host = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : sessionHost;
+        clearTimeout(pollTimeoutId);
+
+        try {
+            if (!host) {
+                throw new Error('Must first create RPC session with a valid host');
+            }
+
+            data = babelHelpers.extends({}, data, sessionId ? {
+                sessionId: sessionId
+            } : null);
+            var url = 'http://' + host + '/' + command;
+            var response = makeRequest(url, data);
+            var callback = response && response.callback;
+
+            if (callback || command !== 'callbacks_poll') {
+                pollTimeout = 10;
+            } else if (pollTimeout < 1000) {
+                pollTimeout *= 2;
+            }
+
+            if (!response || response.error) {
+                var error = response && response.error;
+
+                if (error && error.replace) {
+                    error = error.replace(/^[a-z]+: /i, '');
+                } else if (error.type && error.type === 'dict') {
+                    var responseError = deserialize_json_value(error);
+                    var responeMessage = void 0;
+
+                    if (response.message && response.message !== '') {
+                        responeMessage = response.message.replace(/^[a-z]+: /i, '');
+                    }
+
+                    var exceptionToReport = new Error(responeMessage);
+                    babelHelpers.extends(exceptionToReport, responseError);
+                    throw exceptionToReport;
+                }
+
+                throw new Error(error || "Invalid response for \"" + command + "\"");
+            }
+
+            if (callback != null) {
+                var result = void 0,
+                    _error = void 0,
+                    stack = void 0;
+
+                try {
+                    var realmId = data.realmId;
+                    var thisObject = deserialize(realmId, response.this);
+                    var args = deserialize(realmId, response.arguments);
+                    var fn = registeredCallbacks[callback];
+
+                    if (fn) {
+                        result = serialize(realmId, fn.apply(thisObject, args));
+                    } else {
+                        _error = "Unknown callback id: " + callback;
+                    }
+                } catch (e) {
+                    _error = e.message || '' + e;
+
+                    if (e.stack) {
+                        stack = JSON.stringify(e.stack);
+                    }
+                }
+
+                var callbackCommand = "callback_result";
+
+                if (command === 'callbacks_poll' || command === 'callback_poll_result') {
+                    callbackCommand = "callback_poll_result";
+                }
+
+                return sendRequest(callbackCommand, {
+                    callback: callback,
+                    result: result,
+                    error: _error,
+                    stack: stack,
+                    "callback_call_counter": response.callback_call_counter
+                });
+            }
+
+            return response.result;
+        } finally {
+            pollTimeoutId = setTimeout(function () {
+                return sendRequest('callbacks_poll');
+            }, pollTimeout);
+        }
+    }
+},345,[346,344,342],"node_modules/realm/lib/browser/rpc.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.decode = decode;
+    exports.encode = encode;
+    var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    var CHAR_MAP = {};
+    Array.from(CHARS, function (char, i) {
+        return CHAR_MAP[char] = i;
+    });
+
+    function decode(base64) {
+        var length = base64.length;
+        var byteCount = length * 0.75;
+
+        if (base64[length - 1] === '=') {
+            byteCount--;
+
+            if (base64[length - 2] === '=') {
+                byteCount--;
+            }
+        }
+
+        var buffer = new ArrayBuffer(byteCount);
+        var bytes = new Uint8Array(buffer);
+
+        for (var i = 0, j = 0; i < length; i += 4) {
+            var index1 = CHAR_MAP[base64[i]];
+            var index2 = CHAR_MAP[base64[i + 1]];
+            var index3 = CHAR_MAP[base64[i + 2]];
+            var index4 = CHAR_MAP[base64[i + 3]];
+            bytes[j++] = (index1 << 2) + ((index2 & 0x30) >> 4);
+            bytes[j++] = ((index2 & 0x0f) << 4) + ((index3 & 0x3c) >> 2);
+            bytes[j++] = ((index3 & 0x03) << 6) + index4;
+        }
+
+        return buffer;
+    }
+
+    function encode(data) {
+        var byteOffset = 0;
+        var buffer;
+
+        if (data instanceof ArrayBuffer) {
+            buffer = data;
+        } else if (ArrayBuffer.isView(data)) {
+            buffer = data.buffer;
+            byteOffset = data.byteOffset;
+        } else {
+            throw new TypeError('Can only base64 encode ArrayBuffer and ArrayBufferView objects');
+        }
+
+        var byteCount = data.byteLength;
+        var bytes = new Uint8Array(buffer, byteOffset, byteCount);
+        var base64 = '';
+
+        for (var i = 0; i < byteCount; i += 3) {
+            base64 += CHARS[(bytes[i] & 0xfc) >> 2];
+            base64 += CHARS[((bytes[i] & 0x03) << 4) + ((bytes[i + 1] & 0xf0) >> 4)];
+            base64 += CHARS[((bytes[i + 1] & 0x0f) << 2) + ((bytes[i + 2] & 0xc0) >> 6)];
+            base64 += CHARS[bytes[i + 2] & 0x3f];
+        }
+
+        switch (byteCount % 3) {
+            case 1:
+                return base64.slice(0, -2) + '==';
+
+            case 2:
+                return base64.slice(0, -1) + '=';
+
+            default:
+                return base64;
+        }
+    }
+},346,[],"node_modules/realm/lib/browser/base64.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    exports.createList = createList;
+
+    var _collections = _require(_dependencyMap[0], "./collections");
+
+    var _collections2 = babelHelpers.interopRequireDefault(_collections);
+
+    var _constants = _require(_dependencyMap[1], "./constants");
+
+    var _util = _require(_dependencyMap[2], "./util");
+
+    var List = function (_Collection) {
+        babelHelpers.inherits(List, _Collection);
+
+        function List() {
+            babelHelpers.classCallCheck(this, List);
+            return babelHelpers.possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).apply(this, arguments));
+        }
+
+        return List;
+    }(_collections2.default);
+
+    exports.default = List;
+    (0, _util.createMethods)(List.prototype, _constants.objectTypes.LIST, ['filtered', 'sorted', 'snapshot', 'isValid', 'isEmpty', 'indexOf', 'min', 'max', 'sum', 'avg', 'addListener', 'removeListener', 'removeAllListeners']);
+    (0, _util.createMethods)(List.prototype, _constants.objectTypes.LIST, ['pop', 'shift', 'push', 'unshift', 'splice'], true);
+
+    function createList(realmId, info) {
+        return (0, _collections.createCollection)(List.prototype, realmId, info, true);
+    }
+},347,[343,342,344],"node_modules/realm/lib/browser/lists.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    exports.createResults = createResults;
+
+    var _collections = _require(_dependencyMap[0], "./collections");
+
+    var _collections2 = babelHelpers.interopRequireDefault(_collections);
+
+    var _constants = _require(_dependencyMap[1], "./constants");
+
+    var _util = _require(_dependencyMap[2], "./util");
+
+    var Results = function (_Collection) {
+        babelHelpers.inherits(Results, _Collection);
+
+        function Results() {
+            babelHelpers.classCallCheck(this, Results);
+            return babelHelpers.possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).apply(this, arguments));
+        }
+
+        return Results;
+    }(_collections2.default);
+
+    exports.default = Results;
+    (0, _util.createMethods)(Results.prototype, _constants.objectTypes.RESULTS, ['description', 'filtered', 'sorted', 'snapshot', 'subscribe', 'isValid', 'isEmpty', 'indexOf', 'min', 'max', 'sum', 'avg', 'addListener', 'removeListener', 'removeAllListeners']);
+    (0, _util.createMethods)(Results.prototype, _constants.objectTypes.RESULTS, ['update'], true);
+
+    function createResults(realmId, info) {
+        return (0, _collections.createCollection)(Results.prototype, realmId, info);
+    }
+},348,[343,342,344],"node_modules/realm/lib/browser/results.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    exports.clearRegisteredConstructors = clearRegisteredConstructors;
+    exports.createObject = createObject;
+    exports.registerConstructors = registerConstructors;
+    exports.typeForConstructor = typeForConstructor;
+
+    var _constants = _require(_dependencyMap[0], "./constants");
+
+    var _util = _require(_dependencyMap[1], "./util");
+
+    var _rpc = _require(_dependencyMap[2], "./rpc");
+
+    var rpc = babelHelpers.interopRequireWildcard(_rpc);
+    var registeredConstructors = {};
+    var registeredRealmPaths = {};
+
+    var RealmObject = function RealmObject() {
+        babelHelpers.classCallCheck(this, RealmObject);
+    };
+
+    exports.default = RealmObject;
+    (0, _util.createMethods)(RealmObject.prototype, _constants.objectTypes.OBJECT, ['isValid', 'objectSchema', 'linkingObjects', 'linkingObjectsCount', '_objectId', '_isSameObject', 'addListener', 'removeListener', 'removeAllListeners']);
+
+    function clearRegisteredConstructors() {
+        registeredConstructors = {};
+        registeredRealmPaths = {};
+    }
+
+    function createObject(realmId, info) {
+        var schema = info.schema;
+        var realmPath = registeredRealmPaths[realmId];
+        var constructor = (registeredConstructors[realmPath] || {})[schema.name];
+        var object = Object.create(constructor ? constructor.prototype : RealmObject.prototype);
+        object[_constants.keys.realm] = realmId;
+        object[_constants.keys.id] = info.id;
+        object[_constants.keys.type] = info.type;
+        schema.properties.forEach(function (name) {
+            Object.defineProperty(object, name, {
+                enumerable: true,
+                get: (0, _util.getterForProperty)(name),
+                set: (0, _util.setterForProperty)(name)
+            });
+        });
+
+        if (constructor) {
+            var result = constructor.call(object);
+
+            if (result != null && result != object) {
+                throw new Error('Realm object constructor must not return another value');
+            }
+        }
+
+        for (var key in info.cache) {
+            info.cache[key] = rpc.deserialize(undefined, info.cache[key]);
+        }
+
+        (0, _util.cacheObject)(realmId, info.id, info.cache);
+        return object;
+    }
+
+    function registerConstructors(realmId, realmPath, constructors) {
+        registeredRealmPaths[realmId] = realmPath;
+
+        if (constructors) {
+            registeredConstructors[realmPath] = constructors;
+        }
+    }
+
+    function typeForConstructor(realmId, constructor) {
+        var realmPath = registeredRealmPaths[realmId];
+        var constructors = registeredConstructors[realmPath];
+
+        for (var name in constructors) {
+            if (constructors[name] == constructor) {
+                return name;
+            }
+        }
+
+        throw new Error("Constructor was not registered in the schema for this Realm");
+    }
+},349,[342,344,345],"node_modules/realm/lib/browser/objects.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    exports.createUser = createUser;
+
+    var _rpc = _require(_dependencyMap[0], "./rpc");
+
+    var _constants = _require(_dependencyMap[1], "./constants");
+
+    var _util = _require(_dependencyMap[2], "./util");
+
+    var User = function () {
+        function User() {
+            babelHelpers.classCallCheck(this, User);
+        }
+
+        babelHelpers.createClass(User, null, [{
+            key: "createUser",
+            value: function createUser(server, identity, token, isAdminToken, isAdminUser) {
+                return (0, _rpc.createUser)(Array.from(arguments));
+            }
+        }, {
+            key: "_adminUser",
+            value: function _adminUser(adminToken, server) {
+                return (0, _rpc._adminUser)(Array.from(arguments));
+            }
+        }, {
+            key: "_getExistingUser",
+            value: function _getExistingUser(server, identity) {
+                return (0, _rpc._getExistingUser)(Array.from(arguments));
+            }
+        }, {
+            key: "all",
+            get: function get() {
+                return (0, _rpc.getAllUsers)();
+            }
+        }]);
+        return User;
+    }();
+
+    exports.default = User;
+    Object.defineProperties(User.prototype, {
+        token: {
+            get: (0, _util.getterForProperty)('token')
+        }
+    });
+    (0, _util.createMethods)(User.prototype, _constants.objectTypes.USER, ['_logout', '_sessionForOnDiskPath']);
+
+    function createUser(realmId, info) {
+        var userProxy = Object.create(User.prototype);
+        userProxy[_constants.keys.realm] = "(User object)";
+        userProxy[_constants.keys.id] = info.id;
+        userProxy[_constants.keys.type] = _constants.objectTypes.USER;
+        babelHelpers.extends(userProxy, info.data);
+        return userProxy;
+    }
+},350,[345,342,344],"node_modules/realm/lib/browser/user.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    exports.createSession = createSession;
+
+    var _constants = _require(_dependencyMap[0], "./constants");
+
+    var _util = _require(_dependencyMap[1], "./util");
+
+    var _rpc = _require(_dependencyMap[2], "./rpc");
+
+    var Session = function Session() {
+        babelHelpers.classCallCheck(this, Session);
+    };
+
+    exports.default = Session;
+    Object.defineProperties(Session.prototype, {
+        connectionState: {
+            get: (0, _util.getterForProperty)('connectionState', false)
+        },
+        state: {
+            get: (0, _util.getterForProperty)('state', false)
+        },
+        url: {
+            get: (0, _util.getterForProperty)('url', false)
+        }
+    });
+    (0, _util.createMethods)(Session.prototype, _constants.objectTypes.SESSION, ['_refreshAccessToken', '_simulateError', 'addProgressNotification', 'removeProgressNotification', 'addConnectionNotification', 'removeConnectionNotification', 'isConnected', 'resume', 'pause', '_waitForDownloadCompletion', '_waitForUploadCompletion']);
+
+    function createSession(realmId, info) {
+        var sessionProxy = Object.create(Session.prototype);
+        sessionProxy[_constants.keys.realm] = "(Session object)";
+        sessionProxy[_constants.keys.id] = info.id;
+        sessionProxy[_constants.keys.type] = _constants.objectTypes.SESSION;
+        sessionProxy.user = (0, _rpc.deserialize)(realmId, info.data.user);
+        sessionProxy.config = (0, _rpc.deserialize)(realmId, info.data.config);
+        return sessionProxy;
+    }
+},351,[342,344,345],"node_modules/realm/lib/browser/session.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    exports.createSubscription = createSubscription;
+
+    var _constants = _require(_dependencyMap[0], "./constants");
+
+    var _util = _require(_dependencyMap[1], "./util");
+
+    var Subscription = function Subscription() {
+        babelHelpers.classCallCheck(this, Subscription);
+    };
+
+    exports.default = Subscription;
+    Object.defineProperties(Subscription.prototype, {
+        error: {
+            get: (0, _util.getterForProperty)('error')
+        },
+        state: {
+            get: (0, _util.getterForProperty)('state')
+        },
+        name: {
+            get: (0, _util.getterForProperty)('name')
+        }
+    });
+    (0, _util.createMethods)(Subscription.prototype, _constants.objectTypes.SUBSCRIPTION, ['addListener', 'removeListener', 'removeAllListeners']);
+    (0, _util.createMethods)(Subscription.prototype, _constants.objectTypes.SUBSCRIPTION, ['unsubscribe'], true);
+
+    function createSubscription(realmId, info) {
+        var subscription = Object.create(Subscription.prototype);
+        subscription[_constants.keys.realm] = realmId;
+        subscription[_constants.keys.id] = info.id;
+        subscription[_constants.keys.type] = _constants.objectTypes.SUBSCRIPTION;
+        return subscription;
+    }
+},352,[342,344],"node_modules/realm/lib/browser/subscription.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    var AuthError = _require(_dependencyMap[0], './errors').AuthError;
+
+    var permissionApis = _require(_dependencyMap[1], './permission-api');
+
+    var merge = _require(_dependencyMap[2], 'deepmerge');
+
+    var require_method = _require;
+
+    var URL = _require(_dependencyMap[3], 'url-parse');
+
+    var refreshTimers = {};
+    var retryInterval = 5 * 1000;
+    var refreshBuffer = 20 * 1000;
+    var refreshLowerBound = 10 * 1000;
+
+    function node_require(module) {
+        return require_method(module);
+    }
+
+    function checkTypes(args, types) {
+        args = Array.prototype.slice.call(args);
+
+        for (var i = 0; i < types.length; ++i) {
+            if (args.length > i && typeof args[i] !== types[i]) {
+                throw new TypeError('param ' + i + ' must be of type ' + types[i]);
+            }
+        }
+    }
+
+    function checkObjectTypes(obj, types) {
+        for (var _iterator = Object.getOwnPropertyNames(types), _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[typeof Symbol === "function" ? Symbol.iterator : "@@iterator"]();;) {
+            var _ref;
+
+            if (_isArray) {
+                if (_i >= _iterator.length) break;
+                _ref = _iterator[_i++];
+            } else {
+                _i = _iterator.next();
+                if (_i.done) break;
+                _ref = _i.value;
+            }
+
+            var name = _ref;
+            var actualType = typeof obj[name];
+            var targetType = types[name];
+            var isOptional = targetType[targetType.length - 1] === '?';
+
+            if (isOptional) {
+                targetType = targetType.slice(0, -1);
+            }
+
+            if (!isOptional && actualType === 'undefined') {
+                throw new Error(name + " is required, but a value was not provided.");
+            }
+
+            if (actualType !== targetType) {
+                throw new TypeError(name + " must be of type '" + targetType + "' but was of type '" + actualType + "' instead.");
+            }
+        }
+    }
+
+    function normalizeSyncUrl(authUrl, syncUrl) {
+        var parsedAuthUrl = new URL(authUrl);
+        var realmProtocol = parsedAuthUrl.protocol === "https:" ? "realms" : "realm";
+        var port = parsedAuthUrl.port ? ":" + parsedAuthUrl.port : "";
+        var baseUrl = realmProtocol + "://" + parsedAuthUrl.hostname + port;
+
+        if (!syncUrl) {
+            syncUrl = "/default";
+        }
+
+        return new URL(syncUrl, baseUrl, false).toString();
+    }
+
+    function fetchWithTimeout(input, init) {
+        var request = new Request(input, init);
+        var xhr = new XMLHttpRequest();
+        xhr.timeout = init.timeout || 0;
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                var options = {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    url: xhr.responseURL,
+                    headers: xhr.responseHeaders
+                };
+
+                if (!options.headers) {
+                    options.headers = {
+                        'content-type': xhr.getResponseHeader('content-type')
+                    };
+                }
+
+                var body = 'response' in xhr ? xhr.response : xhr.responseText;
+                resolve(new Response(body, options));
+            };
+
+            xhr.onerror = function () {
+                return reject(new TypeError('Network request failed'));
+            };
+
+            xhr.ontimeout = function () {
+                return reject(new TypeError('Network request failed'));
+            };
+
+            xhr.open(request.method, request.url, true);
+            request.headers.forEach(function (value, name) {
+                return xhr.setRequestHeader(name, value);
+            });
+            xhr.send(typeof request._bodyInit === 'undefined' ? init.body : request._bodyInit);
+        });
+    }
+
+    var performFetch = function () {
+        var doFetch = typeof fetch === 'undefined' ? node_require('node-fetch') : fetchWithTimeout;
+        var queue = [];
+        var count = 0;
+        var maxCount = 5;
+
+        var next = function next() {
+            if (count >= maxCount) {
+                return;
+            }
+
+            var req = queue.shift();
+
+            if (!req) {
+                return;
+            }
+
+            var _req = babelHelpers.slicedToArray(req, 4),
+                url = _req[0],
+                options = _req[1],
+                resolve = _req[2],
+                reject = _req[3];
+
+            if (options.headers === undefined) {
+                options.headers = {};
+            }
+
+            if (typeof options.body !== "undefined") {
+                if (typeof options.body === "object") {
+                    options.body = JSON.stringify(options.body);
+                }
+
+                if (typeof options.headers['content-type'] === "undefined") {
+                    options.headers['content-type'] = 'application/json;charset=utf-8';
+                }
+            }
+
+            if (!options.headers['accept']) {
+                options.headers['accept'] = 'application/json';
+            }
+
+            ++count;
+            doFetch(url, options).then(function (response) {
+                --count;
+                next();
+                resolve(response);
+            }).catch(function (error) {
+                --count;
+                next();
+                reject(error);
+            });
+        };
+
+        return function (url, options) {
+            return new Promise(function (resolve, reject) {
+                queue.push([url, options, resolve, reject]);
+                next();
+            });
+        };
+    }();
+
+    var url_parse = _require(_dependencyMap[3], 'url-parse');
+
+    function append_url(server, path) {
+        return server + (server.charAt(server.length - 1) != '/' ? '/' : '') + path;
+    }
+
+    function scheduleAccessTokenRefresh(user, localRealmPath, realmUrl, expirationDate) {
+        var userTimers = refreshTimers[user.identity];
+
+        if (!userTimers) {
+            refreshTimers[user.identity] = userTimers = {};
+        }
+
+        if (!userTimers[localRealmPath]) {
+            var timeout = Math.max(expirationDate - Date.now() - refreshBuffer, refreshLowerBound);
+            userTimers[localRealmPath] = setTimeout(function () {
+                delete userTimers[localRealmPath];
+                refreshAccessToken(user, localRealmPath, realmUrl);
+            }, timeout);
+        }
+    }
+
+    function print_error() {
+        (console.error || console.log).apply(console, arguments);
+    }
+
+    function validateRefresh(user, localRealmPath, response, json) {
+        var session = user._sessionForOnDiskPath(localRealmPath);
+
+        if (!session) {
+            return;
+        }
+
+        var errorHandler = session.config.error;
+
+        if (response.status != 200) {
+            var error = new AuthError(json);
+
+            if (errorHandler) {
+                errorHandler(session, error);
+            } else {
+                print_error("Unhandled session token refresh error for user " + user.identity + " at path " + localRealmPath, error);
+            }
+
+            return;
+        }
+
+        if (session.state === 'invalid') {
+            return;
+        }
+
+        return session;
+    }
+
+    function refreshAdminToken(user, localRealmPath, realmUrl) {
+        var token = user.token;
+        var server = user.server;
+        var parsedRealmUrl = url_parse(realmUrl);
+        var url = append_url(user.server, 'realms/files/' + encodeURIComponent(parsedRealmUrl.pathname));
+        performFetch(url, {
+            method: 'GET',
+            timeout: 10000.0,
+            headers: {
+                Authorization: user.token
+            }
+        }).then(function (response) {
+            if (response.status === 404 || response.status === 503) {
+                return {
+                    response: {
+                        status: 200
+                    },
+                    json: {
+                        path: parsedRealmUrl.pathname,
+                        syncLabel: '_direct'
+                    }
+                };
+            } else {
+                return response.json().then(function (json) {
+                    return {
+                        response: response,
+                        json: json
+                    };
+                });
+            }
+        }).then(function (responseAndJson) {
+            var response = responseAndJson.response;
+            var json = responseAndJson.json;
+            var credentials = credentialsMethods.adminToken(token);
+            var newUser = user.constructor.login(server, credentials);
+            var session = validateRefresh(newUser, localRealmPath, response, json);
+
+            if (session) {
+                parsedRealmUrl.set('pathname', json.path);
+
+                session._refreshAccessToken(user.token, parsedRealmUrl.href, json.syncLabel);
+            }
+        }).catch(function (e) {
+            print_error(e);
+            setTimeout(function () {
+                return refreshAccessToken(user, localRealmPath, realmUrl);
+            }, retryInterval);
+        });
+    }
+
+    function refreshAccessToken(user, localRealmPath, realmUrl) {
+        if (!user._sessionForOnDiskPath(localRealmPath)) {
+            return;
+        }
+
+        if (!user.server) {
+            throw new Error("Server for user must be specified");
+        }
+
+        var parsedRealmUrl = url_parse(realmUrl);
+        var path = parsedRealmUrl.pathname;
+
+        if (!path) {
+            throw new Error("Unexpected Realm path inferred from url '" + realmUrl + "'. The path section of the url should be a non-empty string.");
+        }
+
+        if (user.isAdminToken) {
+            return refreshAdminToken(user, localRealmPath, realmUrl);
+        }
+
+        var url = append_url(user.server, 'auth');
+        var options = {
+            method: 'POST',
+            body: {
+                data: user.token,
+                path: path,
+                provider: 'realm',
+                app_id: ''
+            },
+            timeout: 10000.0
+        };
+        var server = user.server;
+        var identity = user.identity;
+        performFetch(url, options).then(function (response) {
+            return response.json().then(function (json) {
+                return {
+                    response: response,
+                    json: json
+                };
+            });
+        }).then(function (responseAndJson) {
+            var response = responseAndJson.response;
+            var json = responseAndJson.json;
+
+            var newUser = user.constructor._getExistingUser(server, identity);
+
+            if (!newUser) {
+                return;
+            }
+
+            var session = validateRefresh(newUser, localRealmPath, response, json);
+
+            if (!session) {
+                return;
+            }
+
+            var tokenData = json.access_token.token_data;
+            parsedRealmUrl.set('pathname', tokenData.path);
+
+            session._refreshAccessToken(json.access_token.token, parsedRealmUrl.href, tokenData.sync_label);
+
+            var errorHandler = session.config.error;
+
+            if (errorHandler && errorHandler._notifyOnAccessTokenRefreshed) {
+                errorHandler(session, errorHandler._notifyOnAccessTokenRefreshed);
+            }
+
+            var tokenExpirationDate = new Date(tokenData.expires * 1000);
+            scheduleAccessTokenRefresh(newUser, localRealmPath, realmUrl, tokenExpirationDate);
+        }).catch(function (e) {
+            print_error(e);
+            setTimeout(function () {
+                return refreshAccessToken(user, localRealmPath, realmUrl);
+            }, retryInterval);
+        });
+    }
+
+    function _authenticate(userConstructor, server, json, retries) {
+        json.app_id = '';
+        var url = append_url(server, 'auth');
+        var options = {
+            method: 'POST',
+            body: json,
+            open_timeout: 5000,
+            timeout: 5000
+        };
+        return performFetch(url, options).then(function (response) {
+            var contentType = response.headers.get('Content-Type');
+
+            if (contentType.indexOf('application/json') === -1) {
+                return response.text().then(function (body) {
+                    throw new AuthError({
+                        title: "Could not authenticate: Realm Object Server didn't respond with valid JSON",
+                        body: body
+                    });
+                });
+            } else if (!response.ok) {
+                return response.json().then(function (body) {
+                    return Promise.reject(new AuthError(body));
+                });
+            } else {
+                return response.json().then(function (body) {
+                    var token = body.refresh_token.token;
+                    var identity = body.refresh_token.token_data.identity;
+                    var isAdmin = body.refresh_token.token_data.is_admin;
+                    return userConstructor.createUser(server, identity, token, false, isAdmin);
+                });
+            }
+        }, function (err) {
+            if (retries < 3) {
+                return _authenticate(userConstructor, server, json, retries + 1);
+            } else {
+                throw err;
+            }
+        });
+    }
+
+    function _updateAccount(userConstructor, server, json) {
+        var url = append_url(server, 'auth/password/updateAccount');
+        var options = {
+            method: 'POST',
+            body: json,
+            open_timeout: 5000
+        };
+        return performFetch(url, options).then(function (response) {
+            var contentType = response.headers.get('Content-Type');
+
+            if (contentType.indexOf('application/json') === -1) {
+                return response.text().then(function (body) {
+                    throw new AuthError({
+                        title: "Could not update user account: Realm Object Server didn't respond with valid JSON",
+                        body: body
+                    });
+                });
+            }
+
+            if (!response.ok) {
+                return response.json().then(function (body) {
+                    return Promise.reject(new AuthError(body));
+                });
+            }
+        });
+    }
+
+    var credentialsMethods = {
+        usernamePassword: function usernamePassword(username, password, createUser) {
+            checkTypes(arguments, ['string', 'string', 'boolean']);
+            return new Credentials('password', username, {
+                register: createUser,
+                password: password
+            });
+        },
+        facebook: function facebook(token) {
+            checkTypes(arguments, ['string']);
+            return new Credentials('facebook', token);
+        },
+        google: function google(token) {
+            checkTypes(arguments, ['string']);
+            return new Credentials('google', token);
+        },
+        anonymous: function anonymous() {
+            return new Credentials('anonymous');
+        },
+        nickname: function nickname(value, isAdmin) {
+            checkTypes(arguments, ['string', 'boolean']);
+            return new Credentials('nickname', value, {
+                is_admin: isAdmin || false
+            });
+        },
+        azureAD: function azureAD(token) {
+            checkTypes(arguments, ['string']);
+            return new Credentials('azuread', token);
+        },
+        jwt: function jwt(token, providerName) {
+            checkTypes(arguments, ['string', 'string']);
+            return new Credentials(providerName || 'jwt', token);
+        },
+        adminToken: function adminToken(token) {
+            checkTypes(arguments, ['string']);
+            return new Credentials('adminToken', token);
+        },
+        custom: function custom(providerName, token, userInfo) {
+            if (userInfo) {
+                checkTypes(arguments, ['string', 'string', 'object']);
+            } else {
+                checkTypes(arguments, ['string', 'string']);
+            }
+
+            return new Credentials(providerName, token, userInfo);
+        }
+    };
+    var staticMethods = {
+        get current() {
+            var allUsers = this.all;
+            var keys = Object.keys(allUsers);
+
+            if (keys.length === 0) {
+                return undefined;
+            } else if (keys.length > 1) {
+                throw new Error("Multiple users are logged in");
+            }
+
+            return allUsers[keys[0]];
+        },
+
+        login: function login(server, credentials) {
+            if (arguments.length === 3) {
+                checkTypes(arguments, ['string', 'string', 'string']);
+                console.warn("User.login is deprecated. Please use User.login(server, Credentials.usernamePassword(...)) instead.");
+                var newCredentials = credentialsMethods.usernamePassword(arguments[1], arguments[2], false);
+                return this.login(server, newCredentials);
+            }
+
+            checkTypes(arguments, ['string', 'object']);
+
+            if (credentials.identityProvider === 'adminToken') {
+                var u = this._adminUser(server, credentials.token);
+
+                return u;
+            }
+
+            return _authenticate(this, server, credentials, 0);
+        },
+        deserialize: function deserialize(serialized) {
+            if (serialized.adminToken) {
+                checkObjectTypes(serialized, {
+                    server: 'string',
+                    adminToken: 'string'
+                });
+                return this._adminUser(serialized.server, serialized.adminToken);
+            }
+
+            checkObjectTypes(serialized, {
+                server: 'string',
+                identity: 'string',
+                refreshToken: 'string',
+                isAdmin: 'boolean'
+            });
+            return this.createUser(serialized.server, serialized.identity, serialized.refreshToken, false, serialized.isAdmin || false);
+        },
+        requestPasswordReset: function requestPasswordReset(server, email) {
+            checkTypes(arguments, ['string', 'string']);
+            var json = {
+                provider_id: email,
+                data: {
+                    action: 'reset_password'
+                }
+            };
+            return _updateAccount(this, server, json);
+        },
+        completePasswordReset: function completePasswordReset(server, resetToken, newPassword) {
+            checkTypes(arguments, ['string', 'string']);
+            var json = {
+                data: {
+                    action: 'complete_reset',
+                    token: resetToken,
+                    new_password: newPassword
+                }
+            };
+            return _updateAccount(this, server, json);
+        },
+        requestEmailConfirmation: function requestEmailConfirmation(server, email) {
+            checkTypes(arguments, ['string', 'string']);
+            var json = {
+                provider_id: email,
+                data: {
+                    action: 'request_email_confirmation'
+                }
+            };
+            return _updateAccount(this, server, json);
+        },
+        confirmEmail: function confirmEmail(server, confirmationToken) {
+            checkTypes(arguments, ['string', 'string']);
+            var json = {
+                data: {
+                    action: 'confirm_email',
+                    token: confirmationToken
+                }
+            };
+            return _updateAccount(this, server, json);
+        },
+        _refreshAccessToken: refreshAccessToken,
+        adminUser: function adminUser(token, server) {
+            checkTypes(arguments, ['string', 'string']);
+            console.warn("User.adminUser is deprecated. Please use User.login(server, Credentials.adminToken(token)) instead.");
+            var credentials = credentialsMethods.adminToken(token);
+            return this.login(server, credentials);
+        },
+        register: function register(server, username, password) {
+            checkTypes(arguments, ['string', 'string', 'string']);
+            console.warn("User.register is deprecated. Please use User.login(server, Credentials.usernamePassword(...)) instead.");
+            var credentials = credentialsMethods.usernamePassword(username, password, true);
+            return this.login(server, credentials);
+        },
+        registerWithProvider: function registerWithProvider(server, options) {
+            checkTypes(arguments, ['string', 'object']);
+            console.warn("User.registerWithProvider is deprecated. Please use User.login(server, Credentials.SOME-PROVIDER(...)) instead.");
+            var credentials = credentialsMethods.custom(options.provider, options.providerToken, options.userInfo);
+            return this.login(server, credentials);
+        },
+        authenticate: function authenticate(server, provider, options) {
+            checkTypes(arguments, ['string', 'string', 'object']);
+            console.warn("User.authenticate is deprecated. Please use User.login(server, Credentials.SOME-PROVIDER(...)) instead.");
+            var credentials = void 0;
+
+            switch (provider.toLowerCase()) {
+                case 'jwt':
+                    credentials = credentialsMethods.jwt(options.token, 'jwt');
+                    break;
+
+                case 'password':
+                    credentials = credentialsMethods.usernamePassword(options.username, options.password);
+                    break;
+
+                default:
+                    credentials = credentialsMethods.custom(provider, options.data, options.user_info || options.userInfo);
+                    break;
+            }
+
+            return this.login(server, credentials);
+        }
+    };
+    var instanceMethods = {
+        logout: function logout() {
+            this._logout();
+
+            var userTimers = refreshTimers[this.identity];
+
+            if (userTimers) {
+                Object.keys(userTimers).forEach(function (key) {
+                    clearTimeout(userTimers[key]);
+                });
+                delete refreshTimers[this.identity];
+            }
+
+            var url = url_parse(this.server);
+            url.set('pathname', '/auth/revoke');
+            var options = {
+                method: 'POST',
+                headers: {
+                    Authorization: this.token
+                },
+                body: {
+                    token: this.token
+                },
+                open_timeout: 5000
+            };
+            return performFetch(url.href, options).catch(function (e) {
+                return print_error('An error occurred while logging out a user', e);
+            });
+        },
+        serialize: function serialize() {
+            if (this.isAdminToken) {
+                return {
+                    server: this.server,
+                    adminToken: this.token
+                };
+            }
+
+            return {
+                server: this.server,
+                refreshToken: this.token,
+                identity: this.identity,
+                isAdmin: this.isAdmin
+            };
+        },
+        openManagementRealm: function openManagementRealm() {
+            var url = url_parse(this.server);
+
+            if (url.protocol === 'http:') {
+                url.set('protocol', 'realm:');
+            } else if (url.protocol === 'https:') {
+                url.set('protocol', 'realms:');
+            } else {
+                throw new Error("Unexpected user auth url: " + this.server);
+            }
+
+            url.set('pathname', '/~/__management');
+            return new this.constructor._realmConstructor({
+                schema: _require(_dependencyMap[4], './management-schema'),
+                sync: {
+                    user: this,
+                    url: url.href
+                }
+            });
+        },
+        retrieveAccount: function retrieveAccount(provider, provider_id) {
+            checkTypes(arguments, ['string', 'string']);
+            var url = url_parse(this.server);
+            url.set('pathname', "/auth/users/" + provider + "/" + provider_id);
+            var options = {
+                method: 'GET',
+                headers: {
+                    Authorization: this.token
+                },
+                open_timeout: 5000
+            };
+            return performFetch(url.href, options).then(function (response) {
+                if (response.status !== 200) {
+                    return response.json().then(function (body) {
+                        throw new AuthError(body);
+                    });
+                } else {
+                    return response.json();
+                }
+            });
+        },
+        createConfiguration: function createConfiguration(config) {
+            if (config && config.sync) {
+                if (config.sync.user && console.warn !== undefined) {
+                    console.warn("'user' property will be overridden by " + this.identity);
+                }
+
+                if (config.sync.partial !== undefined && config.sync.fullSynchronization !== undefined) {
+                    throw new Error("'partial' and 'fullSynchronization' were both set. 'partial' has been deprecated, use only 'fullSynchronization'");
+                }
+            }
+
+            var defaultConfig = {
+                sync: {
+                    user: this
+                }
+            };
+
+            if (!(config && config.sync && config.sync.partial)) {
+                defaultConfig.sync.fullSynchronization = false;
+            }
+
+            var mergedConfig = config === undefined ? defaultConfig : merge(defaultConfig, config);
+            mergedConfig.sync.user = this;
+            mergedConfig.sync.url = normalizeSyncUrl(this.server, config && config.sync ? config.sync.url : undefined);
+            return mergedConfig;
+        }
+    };
+
+    var Credentials = function () {
+        function Credentials(identityProvider, token, userInfo) {
+            babelHelpers.classCallCheck(this, Credentials);
+            this.identityProvider = identityProvider;
+            this.token = token;
+            this.userInfo = userInfo || {};
+        }
+
+        babelHelpers.createClass(Credentials, [{
+            key: "toJSON",
+            value: function toJSON() {
+                return {
+                    data: this.token,
+                    provider: this.identityProvider,
+                    user_info: this.userInfo
+                };
+            }
+        }]);
+        return Credentials;
+    }();
+
+    babelHelpers.extends(instanceMethods, permissionApis);
+    module.exports = {
+        static: staticMethods,
+        instance: instanceMethods,
+        credentials: credentialsMethods
+    };
+},353,[354,355,360,356,359],"node_modules/realm/lib/user-methods.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    function AuthError(problem) {
+        var error = Error.call(this, problem.title);
+        this.name = 'AuthError';
+        this.message = error.message;
+        this.stack = error.stack;
+        babelHelpers.extends(this, problem);
+    }
+
+    AuthError.__proto__ = Error;
+    AuthError.prototype.__proto__ = Error.prototype;
+    exports['AuthError'] = AuthError;
+},354,[],"node_modules/realm/lib/errors.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+  'use strict';
+
+  var url_parse = _require(_dependencyMap[0], 'url-parse');
+
+  var managementSchema = _require(_dependencyMap[1], './management-schema');
+
+  function generateUniqueId() {
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0,
+          v = c == 'x' ? r : r & 0x3 | 0x8;
+      return v.toString(16);
+    });
+    return uuid;
+  }
+
+  var permissionSchema = [{
+    name: 'Permission',
+    properties: {
+      userId: {
+        type: 'string'
+      },
+      path: {
+        type: 'string'
+      },
+      mayRead: {
+        type: 'bool',
+        optional: false
+      },
+      mayWrite: {
+        type: 'bool',
+        optional: false
+      },
+      mayManage: {
+        type: 'bool',
+        optional: false
+      },
+      updatedAt: {
+        type: 'date',
+        optional: false
+      }
+    }
+  }];
+  var specialPurposeRealmsKey = '_specialPurposeRealms';
+
+  function getSpecialPurposeRealm(user, realmName, schema) {
+    if (!user.hasOwnProperty(specialPurposeRealmsKey)) {
+      user[specialPurposeRealmsKey] = {};
+    }
+
+    if (user[specialPurposeRealmsKey].hasOwnProperty(realmName)) {
+      return Promise.resolve(user[specialPurposeRealmsKey][realmName]);
+    }
+
+    var url = url_parse(user.server);
+
+    if (url.protocol === 'http:') {
+      url.set('protocol', 'realm:');
+    } else if (url.protocol === 'https:') {
+      url.set('protocol', 'realms:');
+    } else {
+      throw new Error("Unexpected user auth url: " + user.server);
+    }
+
+    url.set('pathname', "/~/" + realmName);
+    var config = {
+      schema: schema,
+      sync: {
+        user: user,
+        url: url.href,
+        fullSynchronization: true
+      }
+    };
+    var Realm = user.constructor._realmConstructor;
+    return Realm.open(config).then(function (realm) {
+      user[specialPurposeRealmsKey][realmName] = realm;
+      return realm;
+    });
+  }
+
+  function createInManagementRealm(user, modelName, modelInitializer) {
+    return getSpecialPurposeRealm(user, '__management', managementSchema).then(function (managementRealm) {
+      return new Promise(function (resolve, reject) {
+        try {
+          var o = void 0;
+
+          var listener = function listener() {
+            if (!o) {
+              return;
+            }
+
+            var statusCode = o.statusCode;
+
+            if (typeof statusCode === 'number') {
+              managementRealm.removeListener('change', listener);
+
+              if (statusCode === 0) {
+                setTimeout(function () {
+                  return resolve(o);
+                }, 1);
+              } else {
+                var e = new Error(o.statusMessage);
+                e.statusCode = statusCode;
+                e.managementObject = o;
+                setTimeout(function () {
+                  return reject(e);
+                }, 1);
+              }
+            }
+          };
+
+          managementRealm.addListener('change', listener);
+          managementRealm.write(function () {
+            o = managementRealm.create(modelName, modelInitializer);
+          });
+        } catch (e) {
+          reject(e);
+        }
+      });
+    });
+  }
+
+  var accessLevels = ['none', 'read', 'write', 'admin'];
+  var offerAccessLevels = ['read', 'write', 'admin'];
+  module.exports = {
+    getGrantedPermissions: function getGrantedPermissions(recipient) {
+      var _this = this;
+
+      if (recipient && ['currentUser', 'otherUser', 'any'].indexOf(recipient) === -1) {
+        return Promise.reject(new Error("'" + recipient + "' is not a valid recipient type. Must be 'any', 'currentUser' or 'otherUser'."));
+      }
+
+      return getSpecialPurposeRealm(this, '__permission', permissionSchema).then(function (permissionRealm) {
+        var permissions = permissionRealm.objects('Permission').filtered('NOT path ENDSWITH "__permission" AND NOT path ENDSWITH "__management"');
+
+        if (recipient === 'currentUser') {
+          permissions = permissions.filtered('userId = $0', _this.identity);
+        } else if (recipient === 'otherUser') {
+          permissions = permissions.filtered('userId != $0', _this.identity);
+        }
+
+        return permissions;
+      });
+    },
+    applyPermissions: function applyPermissions(condition, realmUrl, accessLevel) {
+      if (!realmUrl) {
+        return Promise.reject(new Error('realmUrl must be specified'));
+      }
+
+      if (accessLevels.indexOf(accessLevel) === -1) {
+        return Promise.reject(new Error("'" + accessLevel + "' is not a valid access level. Must be " + accessLevels.join(', ') + "."));
+      }
+
+      var mayRead = accessLevel === 'read' || accessLevel === 'write' || accessLevel === 'admin';
+      var mayWrite = accessLevel === 'write' || accessLevel === 'admin';
+      var mayManage = accessLevel === 'admin';
+      var permissionChange = {
+        id: generateUniqueId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        realmUrl: realmUrl,
+        mayRead: mayRead,
+        mayWrite: mayWrite,
+        mayManage: mayManage
+      };
+
+      if (condition.hasOwnProperty('userId')) {
+        permissionChange.userId = condition.userId;
+      } else {
+        permissionChange.userId = '';
+        permissionChange.metadataKey = condition.metadataKey;
+        permissionChange.metadataValue = condition.metadataValue;
+      }
+
+      return createInManagementRealm(this, 'PermissionChange', permissionChange);
+    },
+    offerPermissions: function offerPermissions(realmUrl, accessLevel, expiresAt) {
+      if (!realmUrl) {
+        return Promise.reject(new Error('realmUrl must be specified'));
+      }
+
+      if (offerAccessLevels.indexOf(accessLevel) === -1) {
+        return Promise.reject(new Error("'" + accessLevel + "' is not a valid access level. Must be " + offerAccessLevels.join(', ') + "."));
+      }
+
+      var mayRead = true;
+      var mayWrite = accessLevel === 'write' || accessLevel === 'admin';
+      var mayManage = accessLevel === 'admin';
+      var permissionOffer = {
+        id: generateUniqueId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        expiresAt: expiresAt,
+        realmUrl: realmUrl,
+        mayRead: mayRead,
+        mayWrite: mayWrite,
+        mayManage: mayManage
+      };
+      return createInManagementRealm(this, 'PermissionOffer', permissionOffer).then(function (appliedOffer) {
+        return appliedOffer.token;
+      });
+    },
+    acceptPermissionOffer: function acceptPermissionOffer(token) {
+      if (!token) {
+        return Promise.reject(new Error('Offer token must be specified'));
+      }
+
+      var permissionOfferResponse = {
+        id: generateUniqueId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        token: token
+      };
+      return createInManagementRealm(this, 'PermissionOfferResponse', permissionOfferResponse).then(function (appliedReponse) {
+        return appliedReponse.realmUrl;
+      });
+    },
+    invalidatePermissionOffer: function invalidatePermissionOffer(permissionOfferOrToken) {
+      return getSpecialPurposeRealm(this, '__management', managementSchema).then(function (managementRealm) {
+        var permissionOffer = void 0;
+
+        if (typeof permissionOfferOrToken === 'string') {
+          var q = managementRealm.objects('PermissionOffer').filtered('token = $0', permissionOfferOrToken);
+
+          if (q.length === 0) {
+            throw new Error("No permission offers with the given token were found");
+          }
+
+          permissionOffer = q[0];
+        } else {
+          permissionOffer = permissionOfferOrToken;
+        }
+
+        managementRealm.write(function () {
+          permissionOffer.expiresAt = new Date();
+        });
+      });
+    }
+  };
+},355,[356,359],"node_modules/realm/lib/permission-api.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+  'use strict';
+
+  var required = _require(_dependencyMap[0], 'requires-port'),
+      qs = _require(_dependencyMap[1], 'querystringify'),
+      slashes = /^[A-Za-z][A-Za-z0-9+-.]*:\/\//,
+      protocolre = /^([a-z][a-z0-9.+-]*:)?(\/\/)?([\S\s]*)/i,
+      whitespace = "[\\x09\\x0A\\x0B\\x0C\\x0D\\x20\\xA0\\u1680\\u180E\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200A\\u202F\\u205F\\u3000\\u2028\\u2029\\uFEFF]",
+      left = new RegExp('^' + whitespace + '+');
+
+  function trimLeft(str) {
+    return (str ? str : '').toString().replace(left, '');
+  }
+
+  var rules = [['#', 'hash'], ['?', 'query'], function sanitize(address) {
+    return address.replace('\\', '/');
+  }, ['/', 'pathname'], ['@', 'auth', 1], [NaN, 'host', undefined, 1, 1], [/:(\d+)$/, 'port', undefined, 1], [NaN, 'hostname', undefined, 1, 1]];
+  var ignore = {
+    hash: 1,
+    query: 1
+  };
+
+  function lolcation(loc) {
+    var globalVar;
+    if (typeof window !== 'undefined') globalVar = window;else if (typeof global !== 'undefined') globalVar = global;else if (typeof self !== 'undefined') globalVar = self;else globalVar = {};
+    var location = globalVar.location || {};
+    loc = loc || location;
+    var finaldestination = {},
+        type = typeof loc,
+        key;
+
+    if ('blob:' === loc.protocol) {
+      finaldestination = new Url(unescape(loc.pathname), {});
+    } else if ('string' === type) {
+      finaldestination = new Url(loc, {});
+
+      for (key in ignore) {
+        delete finaldestination[key];
+      }
+    } else if ('object' === type) {
+      for (key in loc) {
+        if (key in ignore) continue;
+        finaldestination[key] = loc[key];
+      }
+
+      if (finaldestination.slashes === undefined) {
+        finaldestination.slashes = slashes.test(loc.href);
+      }
+    }
+
+    return finaldestination;
+  }
+
+  function extractProtocol(address) {
+    address = trimLeft(address);
+    var match = protocolre.exec(address);
+    return {
+      protocol: match[1] ? match[1].toLowerCase() : '',
+      slashes: !!match[2],
+      rest: match[3]
+    };
+  }
+
+  function resolve(relative, base) {
+    if (relative === '') return base;
+    var path = (base || '/').split('/').slice(0, -1).concat(relative.split('/')),
+        i = path.length,
+        last = path[i - 1],
+        unshift = false,
+        up = 0;
+
+    while (i--) {
+      if (path[i] === '.') {
+        path.splice(i, 1);
+      } else if (path[i] === '..') {
+        path.splice(i, 1);
+        up++;
+      } else if (up) {
+        if (i === 0) unshift = true;
+        path.splice(i, 1);
+        up--;
+      }
+    }
+
+    if (unshift) path.unshift('');
+    if (last === '.' || last === '..') path.push('');
+    return path.join('/');
+  }
+
+  function Url(address, location, parser) {
+    address = trimLeft(address);
+
+    if (!(this instanceof Url)) {
+      return new Url(address, location, parser);
+    }
+
+    var relative,
+        extracted,
+        parse,
+        instruction,
+        index,
+        key,
+        instructions = rules.slice(),
+        type = typeof location,
+        url = this,
+        i = 0;
+
+    if ('object' !== type && 'string' !== type) {
+      parser = location;
+      location = null;
+    }
+
+    if (parser && 'function' !== typeof parser) parser = qs.parse;
+    location = lolcation(location);
+    extracted = extractProtocol(address || '');
+    relative = !extracted.protocol && !extracted.slashes;
+    url.slashes = extracted.slashes || relative && location.slashes;
+    url.protocol = extracted.protocol || location.protocol || '';
+    address = extracted.rest;
+    if (!extracted.slashes) instructions[3] = [/(.*)/, 'pathname'];
+
+    for (; i < instructions.length; i++) {
+      instruction = instructions[i];
+
+      if (typeof instruction === 'function') {
+        address = instruction(address);
+        continue;
+      }
+
+      parse = instruction[0];
+      key = instruction[1];
+
+      if (parse !== parse) {
+        url[key] = address;
+      } else if ('string' === typeof parse) {
+        if (~(index = address.indexOf(parse))) {
+          if ('number' === typeof instruction[2]) {
+            url[key] = address.slice(0, index);
+            address = address.slice(index + instruction[2]);
+          } else {
+            url[key] = address.slice(index);
+            address = address.slice(0, index);
+          }
+        }
+      } else if (index = parse.exec(address)) {
+        url[key] = index[1];
+        address = address.slice(0, index.index);
+      }
+
+      url[key] = url[key] || (relative && instruction[3] ? location[key] || '' : '');
+      if (instruction[4]) url[key] = url[key].toLowerCase();
+    }
+
+    if (parser) url.query = parser(url.query);
+
+    if (relative && location.slashes && url.pathname.charAt(0) !== '/' && (url.pathname !== '' || location.pathname !== '')) {
+      url.pathname = resolve(url.pathname, location.pathname);
+    }
+
+    if (!required(url.port, url.protocol)) {
+      url.host = url.hostname;
+      url.port = '';
+    }
+
+    url.username = url.password = '';
+
+    if (url.auth) {
+      instruction = url.auth.split(':');
+      url.username = instruction[0] || '';
+      url.password = instruction[1] || '';
+    }
+
+    url.origin = url.protocol && url.host && url.protocol !== 'file:' ? url.protocol + '//' + url.host : 'null';
+    url.href = url.toString();
+  }
+
+  function set(part, value, fn) {
+    var url = this;
+
+    switch (part) {
+      case 'query':
+        if ('string' === typeof value && value.length) {
+          value = (fn || qs.parse)(value);
+        }
+
+        url[part] = value;
+        break;
+
+      case 'port':
+        url[part] = value;
+
+        if (!required(value, url.protocol)) {
+          url.host = url.hostname;
+          url[part] = '';
+        } else if (value) {
+          url.host = url.hostname + ':' + value;
+        }
+
+        break;
+
+      case 'hostname':
+        url[part] = value;
+        if (url.port) value += ':' + url.port;
+        url.host = value;
+        break;
+
+      case 'host':
+        url[part] = value;
+
+        if (/:\d+$/.test(value)) {
+          value = value.split(':');
+          url.port = value.pop();
+          url.hostname = value.join(':');
+        } else {
+          url.hostname = value;
+          url.port = '';
+        }
+
+        break;
+
+      case 'protocol':
+        url.protocol = value.toLowerCase();
+        url.slashes = !fn;
+        break;
+
+      case 'pathname':
+      case 'hash':
+        if (value) {
+          var char = part === 'pathname' ? '/' : '#';
+          url[part] = value.charAt(0) !== char ? char + value : value;
+        } else {
+          url[part] = value;
+        }
+
+        break;
+
+      default:
+        url[part] = value;
+    }
+
+    for (var i = 0; i < rules.length; i++) {
+      var ins = rules[i];
+      if (ins[4]) url[ins[1]] = url[ins[1]].toLowerCase();
+    }
+
+    url.origin = url.protocol && url.host && url.protocol !== 'file:' ? url.protocol + '//' + url.host : 'null';
+    url.href = url.toString();
+    return url;
+  }
+
+  function toString(stringify) {
+    if (!stringify || 'function' !== typeof stringify) stringify = qs.stringify;
+    var query,
+        url = this,
+        protocol = url.protocol;
+    if (protocol && protocol.charAt(protocol.length - 1) !== ':') protocol += ':';
+    var result = protocol + (url.slashes ? '//' : '');
+
+    if (url.username) {
+      result += url.username;
+      if (url.password) result += ':' + url.password;
+      result += '@';
+    }
+
+    result += url.host + url.pathname;
+    query = 'object' === typeof url.query ? stringify(url.query) : url.query;
+    if (query) result += '?' !== query.charAt(0) ? '?' + query : query;
+    if (url.hash) result += url.hash;
+    return result;
+  }
+
+  Url.prototype = {
+    set: set,
+    toString: toString
+  };
+  Url.extractProtocol = extractProtocol;
+  Url.location = lolcation;
+  Url.trimLeft = trimLeft;
+  Url.qs = qs;
+  module.exports = Url;
+},356,[357,358],"node_modules/url-parse/index.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+  'use strict';
+
+  module.exports = function required(port, protocol) {
+    protocol = protocol.split(':')[0];
+    port = +port;
+    if (!port) return false;
+
+    switch (protocol) {
+      case 'http':
+      case 'ws':
+        return port !== 80;
+
+      case 'https':
+      case 'wss':
+        return port !== 443;
+
+      case 'ftp':
+        return port !== 21;
+
+      case 'gopher':
+        return port !== 70;
+
+      case 'file':
+        return false;
+    }
+
+    return port !== 0;
+  };
+},357,[],"node_modules/requires-port/index.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+  'use strict';
+
+  var has = Object.prototype.hasOwnProperty,
+      undef;
+
+  function decode(input) {
+    try {
+      return decodeURIComponent(input.replace(/\+/g, ' '));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function encode(input) {
+    try {
+      return encodeURIComponent(input);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function querystring(query) {
+    var parser = /([^=?&]+)=?([^&]*)/g,
+        result = {},
+        part;
+
+    while (part = parser.exec(query)) {
+      var key = decode(part[1]),
+          value = decode(part[2]);
+      if (key === null || value === null || key in result) continue;
+      result[key] = value;
+    }
+
+    return result;
+  }
+
+  function querystringify(obj, prefix) {
+    prefix = prefix || '';
+    var pairs = [],
+        value,
+        key;
+    if ('string' !== typeof prefix) prefix = '?';
+
+    for (key in obj) {
+      if (has.call(obj, key)) {
+        value = obj[key];
+
+        if (!value && (value === null || value === undef || isNaN(value))) {
+          value = '';
+        }
+
+        key = encodeURIComponent(key);
+        value = encodeURIComponent(value);
+        if (key === null || value === null) continue;
+        pairs.push(key + '=' + value);
+      }
+    }
+
+    return pairs.length ? prefix + pairs.join('&') : '';
+  }
+
+  exports.stringify = querystringify;
+  exports.parse = querystring;
+},358,[],"node_modules/querystringify/index.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    module.exports = [{
+        name: 'PermissionChange',
+        primaryKey: 'id',
+        properties: {
+            id: {
+                type: 'string'
+            },
+            createdAt: {
+                type: 'date',
+                default: new Date()
+            },
+            updatedAt: {
+                type: 'date',
+                default: new Date()
+            },
+            statusCode: {
+                type: 'int',
+                optional: true
+            },
+            statusMessage: {
+                type: 'string',
+                optional: true
+            },
+            userId: {
+                type: 'string'
+            },
+            realmUrl: {
+                type: 'string'
+            },
+            metadataKey: {
+                type: 'string',
+                optional: true
+            },
+            metadataValue: {
+                type: 'string',
+                optional: true
+            },
+            mayRead: {
+                type: 'bool',
+                optional: true
+            },
+            mayWrite: {
+                type: 'bool',
+                optional: true
+            },
+            mayManage: {
+                type: 'bool',
+                optional: true
+            }
+        }
+    }, {
+        name: 'PermissionOffer',
+        primaryKey: 'id',
+        properties: {
+            id: {
+                type: 'string',
+                optional: false,
+                indexed: true
+            },
+            createdAt: {
+                type: 'date',
+                default: new Date()
+            },
+            updatedAt: {
+                type: 'date',
+                default: new Date()
+            },
+            statusCode: {
+                type: 'int',
+                optional: true
+            },
+            statusMessage: {
+                type: 'string',
+                optional: true
+            },
+            token: {
+                type: 'string',
+                optional: true,
+                indexed: true
+            },
+            realmUrl: {
+                type: 'string'
+            },
+            mayRead: {
+                type: 'bool',
+                default: false
+            },
+            mayWrite: {
+                type: 'bool',
+                default: false
+            },
+            mayManage: {
+                type: 'bool',
+                default: false
+            },
+            expiresAt: {
+                type: 'date',
+                optional: true
+            }
+        }
+    }, {
+        name: 'PermissionOfferResponse',
+        primaryKey: 'id',
+        properties: {
+            id: {
+                type: 'string',
+                optional: false
+            },
+            createdAt: {
+                type: 'date',
+                default: new Date()
+            },
+            updatedAt: {
+                type: 'date',
+                default: new Date()
+            },
+            statusCode: {
+                type: 'int',
+                optional: true
+            },
+            statusMessage: {
+                type: 'string',
+                optional: true
+            },
+            token: {
+                type: 'string'
+            },
+            realmUrl: {
+                type: 'string',
+                optional: true
+            }
+        }
+    }];
+},359,[],"node_modules/realm/lib/management-schema.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+	(function (global, factory) {
+		typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.deepmerge = factory();
+	})(this, function () {
+		'use strict';
+
+		var isMergeableObject = function isMergeableObject(value) {
+			return isNonNullObject(value) && !isSpecial(value);
+		};
+
+		function isNonNullObject(value) {
+			return !!value && typeof value === 'object';
+		}
+
+		function isSpecial(value) {
+			var stringValue = Object.prototype.toString.call(value);
+			return stringValue === '[object RegExp]' || stringValue === '[object Date]' || isReactElement(value);
+		}
+
+		var canUseSymbol = typeof Symbol === 'function' && (typeof Symbol === "function" ? Symbol.for : "@@for");
+		var REACT_ELEMENT_TYPE = canUseSymbol ? (typeof Symbol === "function" ? Symbol.for : "@@for")('react.element') : 0xeac7;
+
+		function isReactElement(value) {
+			return value.$$typeof === REACT_ELEMENT_TYPE;
+		}
+
+		function emptyTarget(val) {
+			return Array.isArray(val) ? [] : {};
+		}
+
+		function cloneUnlessOtherwiseSpecified(value, options) {
+			return options.clone !== false && options.isMergeableObject(value) ? deepmerge(emptyTarget(value), value, options) : value;
+		}
+
+		function defaultArrayMerge(target, source, options) {
+			return target.concat(source).map(function (element) {
+				return cloneUnlessOtherwiseSpecified(element, options);
+			});
+		}
+
+		function mergeObject(target, source, options) {
+			var destination = {};
+
+			if (options.isMergeableObject(target)) {
+				Object.keys(target).forEach(function (key) {
+					destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
+				});
+			}
+
+			Object.keys(source).forEach(function (key) {
+				if (!options.isMergeableObject(source[key]) || !target[key]) {
+					destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
+				} else {
+					destination[key] = deepmerge(target[key], source[key], options);
+				}
+			});
+			return destination;
+		}
+
+		function deepmerge(target, source, options) {
+			options = options || {};
+			options.arrayMerge = options.arrayMerge || defaultArrayMerge;
+			options.isMergeableObject = options.isMergeableObject || isMergeableObject;
+			var sourceIsArray = Array.isArray(source);
+			var targetIsArray = Array.isArray(target);
+			var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
+
+			if (!sourceAndTargetTypesMatch) {
+				return cloneUnlessOtherwiseSpecified(source, options);
+			} else if (sourceIsArray) {
+				return options.arrayMerge(target, source, options);
+			} else {
+				return mergeObject(target, source, options);
+			}
+		}
+
+		deepmerge.all = function deepmergeAll(array, options) {
+			if (!Array.isArray(array)) {
+				throw new Error('first argument should be an array');
+			}
+
+			return array.reduce(function (prev, next) {
+				return deepmerge(prev, next, options);
+			}, {});
+		};
+
+		var deepmerge_1 = deepmerge;
+		return deepmerge_1;
+	});
+},360,[],"node_modules/deepmerge/dist/umd.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    var URL = _require(_dependencyMap[0], 'url-parse');
+
+    var getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors || function (obj) {
+        return Object.getOwnPropertyNames(obj).reduce(function (descriptors, name) {
+            descriptors[name] = Object.getOwnPropertyDescriptor(obj, name);
+            return descriptors;
+        }, {});
+    };
+
+    var subscriptionObjectNameRegex = /^(class_)?(.*?)(_matches)?$/gm;
+
+    function setConstructorOnPrototype(klass) {
+        if (klass.prototype.constructor !== klass) {
+            Object.defineProperty(klass.prototype, 'constructor', {
+                value: klass,
+                configurable: true,
+                writable: true
+            });
+        }
+    }
+
+    function findOrCreatePermissionForRole(realmObject, permissions, roleName) {
+        var realm = realmObject._realm;
+
+        if (!realm.isInTransaction) {
+            throw Error("'findOrCreate' can only be called inside a write transaction.");
+        }
+
+        var permissionsObj = permissions.filtered("role.name = '" + roleName + "'")[0];
+
+        if (permissionsObj === undefined) {
+            var role = realm.objects("__Role").filtered("name = '" + roleName + "'")[0];
+
+            if (role === undefined) {
+                role = realm.create("__Role", {
+                    'name': roleName
+                });
+            }
+
+            permissionsObj = realm.create("__Permission", {
+                'role': role
+            });
+            permissions.push(permissionsObj);
+        }
+
+        return permissionsObj;
+    }
+
+    function addSchemaIfNeeded(schemaList, schemaObj) {
+        var name = schemaObj.schema.name;
+
+        if (schemaList.find(function (obj) {
+            return obj && (obj.name === name || obj.schema && obj.schema.name === name);
+        }) === undefined) {
+            schemaList.push(schemaObj);
+        }
+    }
+
+    function waitForCompletion(session, fn, timeout, timeoutErrorMessage) {
+        var waiter = new Promise(function (resolve, reject) {
+            fn.call(session, function (error) {
+                if (error === undefined) {
+                    setTimeout(function () {
+                        return resolve();
+                    }, 1);
+                } else {
+                    setTimeout(function () {
+                        return reject(error);
+                    }, 1);
+                }
+            });
+        });
+
+        if (timeout === undefined) {
+            return waiter;
+        }
+
+        return Promise.race([waiter, new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                reject(timeoutErrorMessage);
+            }, timeout);
+        })]);
+    }
+
+    module.exports = function (realmConstructor, context) {
+        Object.defineProperties(realmConstructor.Collection.prototype, _require(_dependencyMap[1], './collection-methods'));
+        setConstructorOnPrototype(realmConstructor.Collection);
+        setConstructorOnPrototype(realmConstructor.List);
+        setConstructorOnPrototype(realmConstructor.Results);
+        setConstructorOnPrototype(realmConstructor.Object);
+        Object.defineProperties(realmConstructor, getOwnPropertyDescriptors({
+            open: function open(config) {
+                if (config === undefined) {
+                    config = {};
+                }
+
+                if (!("sync" in config)) {
+                    var _promise = Promise.resolve(new realmConstructor(config));
+
+                    _promise.progress = function (callback) {};
+
+                    return _promise;
+                }
+
+                var syncSession = void 0;
+                var promise = new Promise(function (resolve, reject) {
+                    syncSession = realmConstructor._asyncOpen(config, function (realm, error) {
+                        if (error) {
+                            setTimeout(function () {
+                                reject(error);
+                            }, 1);
+                        } else {
+                            setTimeout(function () {
+                                resolve(realm);
+                            }, 1);
+                        }
+                    });
+                });
+
+                promise.progress = function (callback) {
+                    if (syncSession) {
+                        syncSession.addProgressNotification('download', 'forCurrentlyOutstandingWork', callback);
+                    }
+
+                    return promise;
+                };
+
+                return promise;
+            },
+            openAsync: function openAsync(config, callback, progressCallback) {
+                var message = "Realm.openAsync is now deprecated in favor of Realm.open. This function will be removed in future versions.";
+                (console.warn || console.log).call(console, message);
+                var promise = this.open(config);
+
+                if (progressCallback) {
+                    promise.progress(progressCallback);
+                }
+
+                promise.then(function (realm) {
+                    callback(null, realm);
+                }).catch(function (error) {
+                    callback(error);
+                });
+            },
+            createTemplateObject: function createTemplateObject(objectSchema) {
+                var obj = {};
+
+                for (var key in objectSchema.properties) {
+                    var type = void 0;
+
+                    if (typeof objectSchema.properties[key] === 'string' || objectSchema.properties[key] instanceof String) {
+                        type = objectSchema.properties[key];
+                    } else {
+                        var property = objectSchema.properties[key];
+
+                        if (property.optional === true) {
+                            continue;
+                        }
+
+                        if (property.default !== undefined) {
+                            obj[key] = property.default;
+                            continue;
+                        }
+
+                        type = property.type;
+                    }
+
+                    switch (type) {
+                        case 'bool':
+                            obj[key] = false;
+                            break;
+
+                        case 'int':
+                            obj[key] = 0;
+                            break;
+
+                        case 'float':
+                            obj[key] = 0.0;
+                            break;
+
+                        case 'double':
+                            obj[key] = 0.0;
+                            break;
+
+                        case 'string':
+                            obj[key] = "";
+                            break;
+
+                        case 'data':
+                            obj[key] = new ArrayBuffer(0);
+                            break;
+
+                        case 'date':
+                            obj[key] = new Date(0);
+                            break;
+                    }
+                }
+
+                return obj;
+            }
+        }));
+        var updateModeType = {
+            All: 'all',
+            Modified: 'modified',
+            Never: 'never'
+        };
+
+        if (!realmConstructor.UpdateMode) {
+            Object.defineProperty(realmConstructor, 'UpdateMode', {
+                value: updateModeType,
+                configurable: false
+            });
+        }
+
+        if (realmConstructor.Sync) {
+            var userMethods = _require(_dependencyMap[2], './user-methods');
+
+            Object.defineProperties(realmConstructor.Sync.User, getOwnPropertyDescriptors(userMethods.static));
+            Object.defineProperties(realmConstructor.Sync.User.prototype, getOwnPropertyDescriptors(userMethods.instance));
+            Object.defineProperty(realmConstructor.Sync.User, '_realmConstructor', {
+                value: realmConstructor
+            });
+            realmConstructor.Sync.Credentials = {};
+            Object.defineProperties(realmConstructor.Sync.Credentials, getOwnPropertyDescriptors(userMethods.credentials));
+            realmConstructor.Sync.AuthError = _require(_dependencyMap[3], './errors').AuthError;
+
+            if (realmConstructor.Sync.removeAllListeners) {
+                process.on('exit', realmConstructor.Sync.removeAllListeners);
+                process.on('SIGINT', function () {
+                    realmConstructor.Sync.removeAllListeners();
+                    process.exit(2);
+                });
+                process.on('uncaughtException', function (e) {
+                    realmConstructor.Sync.removeAllListeners();
+                    console.log(e.stack);
+                    process.exit(99);
+                });
+            }
+
+            if (!realmConstructor.Sync.setSyncLogger) {
+                realmConstructor.Sync.setSyncLogger = function (level, message) {
+                    realmConstructor.Sync.setLogger(level, message);
+                };
+            }
+
+            setConstructorOnPrototype(realmConstructor.Sync.User);
+            setConstructorOnPrototype(realmConstructor.Sync.Session);
+
+            realmConstructor.automaticSyncConfiguration = function () {
+                var user = void 0;
+
+                if (arguments.length === 0) {
+                    var users = this.Sync.User.all;
+                    var identities = Object.keys(users);
+
+                    if (identities.length === 1) {
+                        user = users[identities[0]];
+                    } else {
+                        new Error("One and only one user should be logged in but found " + users.length + " users.");
+                    }
+                } else if (arguments.length === 1) {
+                    user = arguments[0];
+                } else {
+                    new Error("Zero or one argument expected.");
+                }
+
+                var url = new URL(user.server);
+                var secure = url.protocol === 'https:' ? 's' : '';
+                var port = url.port === undefined ? '9080' : url.port;
+                var realmUrl = "realm" + secure + "://" + url.hostname + ":" + port + "/default";
+                var config = {
+                    sync: {
+                        user: user,
+                        url: realmUrl
+                    }
+                };
+                return config;
+            };
+
+            realmConstructor.Sync.setFeatureToken = function () {
+                console.log('Realm.Sync.setFeatureToken() is deprecated and you can remove any calls to it.');
+            };
+
+            realmConstructor.Sync.Session.prototype.uploadAllLocalChanges = function (timeout) {
+                return waitForCompletion(this, this._waitForUploadCompletion, timeout, "Uploading changes did not complete in " + timeout + " ms.");
+            };
+
+            realmConstructor.Sync.Session.prototype.downloadAllServerChanges = function (timeout) {
+                return waitForCompletion(this, this._waitForDownloadCompletion, timeout, "Downloading changes did not complete in " + timeout + " ms.");
+            };
+
+            realmConstructor.Sync.SubscriptionState = {
+                Error: -1,
+                Creating: 2,
+                Pending: 0,
+                Complete: 1,
+                Invalidated: 3
+            };
+            realmConstructor.Sync.ConnectionState = {
+                Disconnected: "disconnected",
+                Connecting: "connecting",
+                Connected: "connected"
+            };
+
+            var Permission = function Permission() {};
+
+            Permission.schema = Object.freeze({
+                name: '__Permission',
+                properties: {
+                    role: '__Role',
+                    canRead: {
+                        type: 'bool',
+                        default: false
+                    },
+                    canUpdate: {
+                        type: 'bool',
+                        default: false
+                    },
+                    canDelete: {
+                        type: 'bool',
+                        default: false
+                    },
+                    canSetPermissions: {
+                        type: 'bool',
+                        default: false
+                    },
+                    canQuery: {
+                        type: 'bool',
+                        default: false
+                    },
+                    canCreate: {
+                        type: 'bool',
+                        default: false
+                    },
+                    canModifySchema: {
+                        type: 'bool',
+                        default: false
+                    }
+                }
+            });
+
+            var User = function User() {};
+
+            User.schema = Object.freeze({
+                name: '__User',
+                primaryKey: 'id',
+                properties: {
+                    id: 'string',
+                    role: '__Role'
+                }
+            });
+
+            var Role = function Role() {};
+
+            Role.schema = Object.freeze({
+                name: '__Role',
+                primaryKey: 'name',
+                properties: {
+                    name: 'string',
+                    members: '__User[]'
+                }
+            });
+
+            var Class = function Class() {};
+
+            Class.schema = Object.freeze({
+                name: '__Class',
+                primaryKey: 'name',
+                properties: {
+                    name: 'string',
+                    permissions: '__Permission[]'
+                }
+            });
+
+            Class.prototype.findOrCreate = function (roleName) {
+                return findOrCreatePermissionForRole(this, this.permissions, roleName);
+            };
+
+            var Realm = function Realm() {};
+
+            Realm.schema = Object.freeze({
+                name: '__Realm',
+                primaryKey: 'id',
+                properties: {
+                    id: 'int',
+                    permissions: '__Permission[]'
+                }
+            });
+
+            Realm.prototype.findOrCreate = function (roleName) {
+                return findOrCreatePermissionForRole(this, this.permissions, roleName);
+            };
+
+            var permissionsSchema = {
+                'Class': Class,
+                'Permission': Permission,
+                'Realm': Realm,
+                'Role': Role,
+                'User': User
+            };
+
+            if (!realmConstructor.Permissions) {
+                Object.defineProperty(realmConstructor, 'Permissions', {
+                    value: permissionsSchema,
+                    configurable: false
+                });
+            }
+
+            var ResultSets = function ResultSets() {};
+
+            ResultSets.schema = Object.freeze({
+                name: '__ResultSets',
+                properties: {
+                    _name: {
+                        type: 'string',
+                        indexed: true,
+                        mapTo: 'name'
+                    },
+                    _query: {
+                        type: 'string',
+                        mapTo: 'query'
+                    },
+                    _matchesProperty: {
+                        type: 'string',
+                        mapTo: 'matches_property'
+                    },
+                    _queryParseCounter: {
+                        type: 'int',
+                        mapTo: 'query_parse_counter'
+                    },
+                    _state: {
+                        type: 'int',
+                        mapTo: 'status'
+                    },
+                    _errorMessage: {
+                        type: 'string',
+                        mapTo: 'error_message'
+                    },
+                    _createdAt: {
+                        type: 'date',
+                        mapTo: 'created_at'
+                    },
+                    _updatedAt: {
+                        type: 'date',
+                        mapTo: 'updated_at'
+                    },
+                    _expiresAt: {
+                        type: 'date',
+                        optional: true,
+                        mapTo: 'expires_at'
+                    },
+                    _timeToLive: {
+                        type: 'int',
+                        optional: true,
+                        mapTo: 'time_to_live'
+                    }
+                }
+            });
+
+            ResultSets.prototype._subscriptionUpdated = function (sub) {
+                this._updatedAt = new Date();
+                this._expiresAt = new Date(sub._updatedAt.getTime() + sub._timeToLive);
+            };
+
+            Object.defineProperties(ResultSets.prototype, {
+                objectType: {
+                    enumerable: true,
+                    get: function get() {
+                        return this._matchesProperty.replace(subscriptionObjectNameRegex, '$2');
+                    }
+                },
+                name: {
+                    enumerable: true,
+                    get: function get() {
+                        return this._name;
+                    }
+                },
+                query: {
+                    enumerable: true,
+                    set: function set(val) {
+                        if (typeof val === 'string' || val instanceof String) {
+                            this._query = val;
+                        } else {
+                            var queryDescription = val.description();
+
+                            if (queryDescription === undefined) {
+                                throw new Error("Updating a query must be done either using a String or a Results object.");
+                            }
+
+                            this._query = queryDescription;
+                        }
+
+                        this._errorMessage = '';
+                        this._state = 0;
+
+                        this._subscriptionUpdated(this);
+                    },
+                    get: function get() {
+                        return this._query;
+                    }
+                },
+                state: {
+                    enumerable: true,
+                    get: function get() {
+                        return this._state;
+                    }
+                },
+                error: {
+                    enumerable: true,
+                    get: function get() {
+                        return this._errorMessage === '' ? undefined : this._errorMessage;
+                    }
+                },
+                createdAt: {
+                    enumerable: true,
+                    get: function get() {
+                        return this._createdAt;
+                    }
+                },
+                updatedAt: {
+                    enumerable: true,
+                    get: function get() {
+                        return this._updatedAt;
+                    }
+                },
+                expiresAt: {
+                    enumerable: true,
+                    get: function get() {
+                        return this._expiresAt;
+                    }
+                },
+                timeToLive: {
+                    enumerable: true,
+                    set: function set(val) {
+                        this._timeToLive = val;
+
+                        this._subscriptionUpdated(this);
+                    },
+                    get: function get() {
+                        return this._timeToLive;
+                    }
+                }
+            });
+            var subscriptionSchema = {
+                'ResultSets': ResultSets
+            };
+
+            if (!realmConstructor.Subscription) {
+                Object.defineProperty(realmConstructor, 'Subscription', {
+                    value: subscriptionSchema,
+                    configurable: false
+                });
+            }
+
+            Object.defineProperties(realmConstructor.prototype, getOwnPropertyDescriptors({
+                permissions: function permissions(arg) {
+                    if (!this._isPartialRealm) {
+                        throw new Error("Wrong Realm type. 'permissions()' is only available for Query-based Realms.");
+                    }
+
+                    if (arg === undefined) {
+                        return this.objects('__Realm').filtered("id = 0")[0];
+                    } else {
+                        var schemaName = this._schemaName(arg);
+
+                        var classPermissions = this.objects('__Class').filtered("name = '" + schemaName + "'");
+
+                        if (classPermissions.length === 0) {
+                            throw Error("Could not find Class-level permissions for '" + schemaName + "'");
+                        }
+
+                        return classPermissions[0];
+                    }
+                },
+                subscriptions: function subscriptions(name) {
+                    if (!this._isPartialRealm) {
+                        throw new Error("Wrong Realm type. 'subscriptions()' is only available for Query-based Realms.");
+                    }
+
+                    var allSubscriptions = this.objects('__ResultSets');
+
+                    if (name) {
+                        if (typeof name !== 'string') {
+                            throw new Error("string expected - got " + typeof name + ".");
+                        }
+
+                        if (name.includes('*') || name.includes('?')) {
+                            allSubscriptions = allSubscriptions.filtered("name LIKE '" + name + "'");
+                        } else {
+                            allSubscriptions = allSubscriptions.filtered("name == '" + name + "'");
+                        }
+                    }
+
+                    return allSubscriptions;
+                },
+                unsubscribe: function unsubscribe(name) {
+                    if (!this._isPartialRealm) {
+                        throw new Error("Wrong Realm type. 'unsubscribe()' is only available for Query-based Realms.");
+                    }
+
+                    if (typeof name === 'string') {
+                        if (name !== '') {
+                            var named_subscriptions = this.objects('__ResultSets').filtered("name == '" + name + "'");
+
+                            if (named_subscriptions.length === 0) {
+                                return;
+                            }
+
+                            var doCommit = false;
+
+                            if (!this.isInTransaction) {
+                                this.beginTransaction();
+                                doCommit = true;
+                            }
+
+                            this.delete(named_subscriptions);
+
+                            if (doCommit) {
+                                this.commitTransaction();
+                            }
+                        } else {
+                            throw new Error('Non-empty string expected.');
+                        }
+                    } else {
+                        throw new Error("string expected - got " + typeof name + ".");
+                    }
+                }
+            }));
+            Object.defineProperties(realmConstructor, getOwnPropertyDescriptors({
+                _extendQueryBasedSchema: function _extendQueryBasedSchema(schema) {
+                    addSchemaIfNeeded(schema, realmConstructor.Permissions.Class);
+                    addSchemaIfNeeded(schema, realmConstructor.Permissions.Permission);
+                    addSchemaIfNeeded(schema, realmConstructor.Permissions.Realm);
+                    addSchemaIfNeeded(schema, realmConstructor.Permissions.Role);
+                    addSchemaIfNeeded(schema, realmConstructor.Permissions.User);
+                    addSchemaIfNeeded(schema, realmConstructor.Subscription.ResultSets);
+                },
+                _createUserAgentDescription: function _createUserAgentDescription() {
+                    try {
+                        var userAgent = "RealmJS/";
+                        userAgent = userAgent + _require(_dependencyMap[4], '../package.json').version + " (" + context + ", ";
+
+                        if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+                            var Platform = _require(_dependencyMap[5], 'react-native').Platform;
+
+                            userAgent += Platform.OS + ", v" + Platform.Version;
+                        } else {
+                            userAgent += process.version;
+                        }
+
+                        return userAgent += ")";
+                    } catch (e) {
+                        return "RealmJS/Unknown";
+                    }
+                }
+            }));
+        }
+
+        var types = Object.freeze({
+            'BOOL': 'bool',
+            'INT': 'int',
+            'FLOAT': 'float',
+            'DOUBLE': 'double',
+            'STRING': 'string',
+            'DATE': 'date',
+            'DATA': 'data',
+            'OBJECT': 'object',
+            'LIST': 'list'
+        });
+        Object.defineProperty(realmConstructor, 'Types', {
+            get: function get() {
+                if (typeof console != 'undefined') {
+                    var stack = new Error().stack.split("\n").slice(2).join("\n");
+                    var msg = '`Realm.Types` is deprecated! Please specify the type name as lowercase string instead!\n' + stack;
+
+                    if (console.warn != undefined) {
+                        console.warn(msg);
+                    } else {
+                        console.log(msg);
+                    }
+                }
+
+                return types;
+            },
+            configurable: true
+        });
+    };
+},361,[356,362,353,354,363,12],"node_modules/realm/lib/extensions.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+    'use strict';
+
+    var arrayPrototype = Array.prototype;
+    var iteratorPrototype = {};
+    Object.defineProperty(iteratorPrototype, typeof Symbol === "function" ? Symbol.iterator : "@@iterator", {
+        value: function () {
+            return this;
+        }
+    });
+    ['toString', 'toLocaleString', 'concat', 'join', 'slice', 'lastIndexOf', 'every', 'some', 'forEach', 'find', 'findIndex', 'map', 'filter', 'reduce', 'reduceRight'].forEach(function (methodName) {
+        var method = arrayPrototype[methodName];
+
+        if (method) {
+            exports[methodName] = {
+                value: method,
+                configurable: true,
+                writable: true
+            };
+        }
+    });
+    ['entries', 'keys', 'values'].forEach(function (methodName) {
+        var method = function method() {
+            var self = this.snapshot();
+            var index = 0;
+            return Object.create(iteratorPrototype, {
+                next: {
+                    value: function value() {
+                        if (!self || index >= self.length) {
+                            self = null;
+                            return {
+                                done: true,
+                                value: undefined
+                            };
+                        }
+
+                        var value;
+
+                        switch (methodName) {
+                            case 'entries':
+                                value = [index, self[index]];
+                                break;
+
+                            case 'keys':
+                                value = index;
+                                break;
+
+                            default:
+                                value = self[index];
+                        }
+
+                        index++;
+                        return {
+                            done: false,
+                            value: value
+                        };
+                    }
+                }
+            });
+        };
+
+        exports[methodName] = {
+            value: method,
+            configurable: true,
+            writable: true
+        };
+    });
+    exports[typeof Symbol === "function" ? Symbol.iterator : "@@iterator"] = exports.values;
+},362,[],"node_modules/realm/lib/collection-methods.js");
+__d(function (global, _require, module, exports, _dependencyMap) {
+  module.exports = {
+    "name": "realm",
+    "description": "Realm is a mobile database: an alternative to SQLite and key-value stores",
+    "version": "2.28.1",
+    "license": "See the actual license in the file LICENSE",
+    "homepage": "https://realm.io",
+    "keywords": ["database", "db", "react", "react-native", "persistence", "localstorage", "sqlite", "asyncstorage", "rocksdb", "leveldb", "realm"],
+    "author": {
+      "name": "Realm",
+      "email": "help@realm.io",
+      "url": "https://realm.io"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/realm/realm-js.git"
+    },
+    "bugs": {
+      "url": "https://github.com/realm/realm-js/issues"
+    },
+    "typings": "./lib/index.d.ts",
+    "main": "lib/index.js",
+    "files": ["android", "lib", "react-native", "scripts", "src", "vendor", "binding.gyp", "realm.gypi", "target_defaults.gypi", "dependencies.list"],
+    "scripts": {
+      "get-version": "node -p process.env.npm_package_version",
+      "set-version": "scripts/set-version.sh",
+      "lint": "eslint",
+      "test": "scripts/test.sh",
+      "package": "npm ci --build-from-source=realm && node-pre-gyp package",
+      "install": "node-pre-gyp install --fallback-to-build",
+      "build-changes": "node-pre-gyp build --debug",
+      "rebuild-changes": "node-pre-gyp rebuild --debug && cd tests && npm install",
+      "prepublish": "echo prepublishing && node scripts/prepublish.js",
+      "eslint": "npm install && npm run lint .",
+      "license-check": "npm install && license-checker --exclude \"MIT,ISC,BSD,Apache-2.0,BSD-2-Clause,BSD-3-Clause,WTFPL,Unlicense,(MIT AND CC-BY-3.0)\" | node scripts/handle-license-check.js",
+      "jsdoc:clean": "rimraf ./docs/output",
+      "jsdoc": "npm install && npm run jsdoc:clean && jsdoc -u docs/tutorials -p package.json -c docs/conf.json",
+      "start-ros": "./scripts/download-object-server.sh && node ./scripts/test-ros-server.js",
+      "prenode-tests": "npm install --build-from-source=realm && cd tests && npm install",
+      "node-tests": "cd tests && npm run test && cd ..",
+      "test-runner:ava": "cd tests/test-runners/ava && npm install --build-from-source=realm && npm test",
+      "test-runner:mocha": "cd tests/test-runners/mocha && npm install --build-from-source=realm && npm test",
+      "test-runner:jest": "cd tests/test-runners/jest && npm install --build-from-source=realm && npm test",
+      "test-runners": "npm run test-runner:ava && npm run test-runner:mocha && npm run test-runner:jest",
+      "isWin": "node -p \"if (process.platform == 'win32') { process.exit(0); } else { process.exit(-1); }\"",
+      "prealias:win:apply": "git config alias.apply-win-symlink-aliases \"!f() { $(scripts/git-win-symlink-aliases); }; f\"",
+      "alias:win:apply": "git apply-win-symlink-aliases",
+      "postalias:win:apply": "git config --unset alias.apply-win-symlink-aliases",
+      "alias:win:revert": "git config alias.rm-symlink \"\" && git config alias.rm-symlinks \"\" && git config alias.checkout-symlinks \"\"",
+      "win-fix-symlinks": "npm run isWin -s && npm run alias:win:apply && git checkout-symlinks && git rm-symlinks || echo . ",
+      "win-revert-symlinks": "npm run isWin -s &&  npm run alias:win:apply && git checkout-symlinks && npm run alias:win:revert || echo .",
+      "prereact-tests-android": "npm run isWin -s && npm run win-fix-symlinks || echo . ",
+      "react-tests-android": "node scripts/react-tests-android.js || npm run postreact-tests-android",
+      "postreact-tests-android": "npm run win-revert-symlinks",
+      "check-environment": "node scripts/check-environment.js"
+    },
+    "dependencies": {
+      "command-line-args": "^4.0.6",
+      "decompress": "^4.2.0",
+      "deepmerge": "2.1.0",
+      "fs-extra": "^4.0.3",
+      "https-proxy-agent": "^2.2.1",
+      "ini": "^1.3.5",
+      "nan": "^2.12.1",
+      "node-fetch": "^1.7.3",
+      "node-machine-id": "^1.1.10",
+      "node-pre-gyp": "^0.11.0",
+      "progress": "^2.0.3",
+      "prop-types": "^15.6.2",
+      "request": "^2.88.0",
+      "stream-counter": "^1.0.0",
+      "sync-request": "^3.0.1",
+      "url-parse": "^1.4.4"
+    },
+    "devDependencies": {
+      "@types/node": "^4.9.1",
+      "babel-eslint": "^8.2.6",
+      "eslint": "^5.12.1",
+      "eslint-plugin-flowtype": "^3.4.2",
+      "eslint-plugin-jasmine": "^2.10.1",
+      "eslint-plugin-react": "^7.12.4",
+      "eslint-plugin-react-native": "^3.6.0",
+      "eslint-visitor-keys": "^1.0.0",
+      "jasmine": "^3.4.0",
+      "jasmine-console-reporter": "^3.1.0",
+      "jasmine-xml-reporter": "^1.2.1",
+      "jsdoc": "^3.6.2",
+      "license-checker": "^8.0.3",
+      "mockery": "^2.0.0",
+      "rimraf": "^2.6.3",
+      "semver": "^5.6.0",
+      "shelljs": "^0.7.7",
+      "shx": "^0.2.2"
+    },
+    "rnpm": {
+      "ios": {
+        "project": "react-native/ios/RealmReact.xcodeproj",
+        "sharedLibraries": ["libc++", "libz"]
+      }
+    },
+    "engines": {
+      "node": ">=8"
+    },
+    "binary": {
+      "module_name": "realm",
+      "module_path": "./compiled/{node_abi}_{platform}_{arch}/",
+      "host": "https://static.realm.io",
+      "remote_path": "/node-pre-gyp/{version}/"
+    }
+  };
+},363,[],"node_modules/realm/package.json");
+__d(function (global, _require, module, exports, _dependencyMap) {
   module.exports = {
     "name": "zer0net",
     "displayName": "zer0net"
   };
-},340,[],"app.json");
+},364,[],"app.json");
 require(23);
 require(11);
