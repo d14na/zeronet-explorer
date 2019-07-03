@@ -5509,9 +5509,9 @@ react-native-randombytes@3.4.0:
     buffer "^4.9.1"
     sjcl "^1.0.3"
 
-react-native-tcp@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-tcp/-/react-native-tcp-3.3.0.tgz#8eea75b7b2c2c6db4b91f38f171fba3b2a1b60ee"
+react-native-tcp@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-tcp/-/react-native-tcp-3.3.1.tgz#dfb35ac48356fa8b707dafe69a971feb0845d88b"
   dependencies:
     base64-js "0.0.8"
     buffer "^5.0.0"
@@ -5524,7 +5524,7 @@ react-native-timer@1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/react-native-timer/-/react-native-timer-1.3.3.tgz#6dcd48bac37e89f17964a0f5404dae08bd9dfb19"
 
-react-native-vector-icons@^6.6.0:
+react-native-vector-icons@6.6.0:
   version "6.6.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-6.6.0.tgz#66cf004918eb05d90778d64bd42077c1800d481b"
   dependencies:

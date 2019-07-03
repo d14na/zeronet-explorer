@@ -4,6 +4,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.peel.react.TcpSocketsModule;
 import com.reactnativenavigation.NavigationApplication;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public class MainApplication extends NavigationApplication {
 //                new RNCameraPackage(),
             new RNDeviceInfo(),
 //                new RNFSPackage()
-//            new TcpSocketsModule(),
+            new TcpSocketsModule(),
             new VectorIconsPackage()
     );
   }
