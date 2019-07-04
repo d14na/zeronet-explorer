@@ -107,8 +107,8 @@ android {
         applicationId "com.zer0net"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 180827
-        versionName "18.8.27"
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
         missingDimensionStrategy "react-native-camera", "general"
         missingDimensionStrategy "RNN.reactNativeVersion", "reactNative51" // <- See note below for further instruction regarding compatibility with other React Native versions
         // Available options:

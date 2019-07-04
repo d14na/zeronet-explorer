@@ -40,4 +40,6 @@ ext {
     compileSdkVersion = 28
     targetSdkVersion = 28
     supportLibVersion = "26.1.0"
+    versionCode = 190704
+    versionName = "19.7.4"
 }
