@@ -9,6 +9,8 @@ import com.peel.react.TcpSocketsModule;
 import com.reactnativenavigation.NavigationApplication;
 import com.rnfs.RNFSPackage;
 
+import org.reactnative.camera.RNCameraPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,11 +26,11 @@ public class MainApplication extends NavigationApplication {
   public List<ReactPackage> createAdditionalReactPackages() {
     return Arrays.<ReactPackage>asList(
 //                BugsnagReactNative.getPackage(),
-                new KeychainPackage(),
+            new KeychainPackage(),
             new RealmReactPackage(),
-//                new RNCameraPackage(),
+            new RNCameraPackage(),
             new RNDeviceInfo(),
-                new RNFSPackage(),
+            new RNFSPackage(),
             new TcpSocketsModule(),
             new VectorIconsPackage()
     );

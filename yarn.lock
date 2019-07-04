@@ -5448,7 +5448,7 @@ react-native-animatable@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.1.0.tgz#1ca3e8a00e441979d5711805651ff62a2d3b245a"
 
-react-native-camera@2.11.0:
+react-native-camera@^2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-2.11.0.tgz#480de13f0ac192e950c406d8ca0157cf4bb5f41a"
   dependencies:
@@ -5509,7 +5509,7 @@ react-native-randombytes@3.4.0:
     buffer "^4.9.1"
     sjcl "^1.0.3"
 
-react-native-tcp@^3.3.1:
+react-native-tcp@3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/react-native-tcp/-/react-native-tcp-3.3.1.tgz#dfb35ac48356fa8b707dafe69a971feb0845d88b"
   dependencies:

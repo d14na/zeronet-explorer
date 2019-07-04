@@ -109,6 +109,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 180827
         versionName "18.8.27"
+        missingDimensionStrategy "react-native-camera", "general"
         missingDimensionStrategy "RNN.reactNativeVersion", "reactNative51" // <- See note below for further instruction regarding compatibility with other React Native versions
         // Available options:
         // reactNative51: Support for React Native 0.51-0.54
@@ -172,13 +173,9 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-camera')
     implementation project(':react-native-navigation')
     implementation project(':realm')
-
-    implementation 'org.jetbrains:annotations:16.0.2'
-//    implementation 'androidx.appcompat:appcompat:1.0.2'
-//    implementation 'androidx.annotation:annotation:1.0.2'
-//    implementation 'com.android.support:support-annotations:+'
 
 //    api project(':bugsnag-react-native')
 //    api (project(':react-native-camera')) {
