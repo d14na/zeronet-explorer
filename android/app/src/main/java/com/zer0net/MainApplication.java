@@ -1,5 +1,6 @@
 package com.zer0net;
 
+import com.bugsnag.BugsnagReactNative;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -25,7 +26,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
     return Arrays.<ReactPackage>asList(
-//                BugsnagReactNative.getPackage(),
+            BugsnagReactNative.getPackage(),
             new KeychainPackage(),
             new RealmReactPackage(),
             new RNCameraPackage(),
@@ -39,7 +40,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-//    BugsnagReactNative.start(this);
+    BugsnagReactNative.start(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

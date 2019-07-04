@@ -177,14 +177,7 @@ dependencies {
     implementation project(':react-native-navigation')
     implementation project(':realm')
 
-//    api project(':bugsnag-react-native')
-//    api (project(':react-native-camera')) {
-//        exclude group: 'com.google.android.gms'
-//        api 'com.android.support:exifinterface:25.+'
-//        api ('com.google.android.gms:play-services-vision:12.0.1') {
-//            force = true
-//        }
-//    }
+    api project(':bugsnag-react-native')
     api project(':react-native-device-info')
     api project(':react-native-fs')
     api project(':react-native-keychain')
