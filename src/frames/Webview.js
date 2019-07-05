@@ -27,7 +27,7 @@ import {
 
 import Timer from 'react-native-timer'
 
-// import RNFS from 'react-native-fs'
+import RNFS from 'react-native-fs'
 
 @observer
 export default class Webview extends React.Component {
@@ -59,9 +59,9 @@ export default class Webview extends React.Component {
         // FIXME Problem with Android loading local files
         //       Temporarily use 0net proxy
         if (Platform.OS === 'android') {
-            // target = 'file://' + RNFS.DocumentDirectoryPath + this.props.target
+            target = 'file://' + RNFS.DocumentDirectoryPath + this.props.target
         } else {
-            // target = RNFS.DocumentDirectoryPath + this.props.target
+            target = RNFS.DocumentDirectoryPath + this.props.target
         }
 
         this.state = {
