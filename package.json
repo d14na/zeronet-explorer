@@ -1,24 +1,30 @@
 {
-  "name": "zeronet_explorer",
-  "version": "0.0.1",
-  "private": true,
+  "name": "zer0net",
+  "version": "19.7.5",
   "scripts": {
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "android-prod": "npm test && react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --sourcemap-output android/app/src/main/assets/index.android.bundle.map --assets-dest android/app/src/main/res && npm run android-sourcemaps",
+    "android-dev": "react-native bundle --platform android --dev true --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android",
+    "android-sourcemaps": "bugsnag-sourcemaps upload --api-key 39cb0d55dbf7da980a54e646595be44a --minified-url index.android.bundle --source-map android/app/src/main/assets/index.android.bundle.map --minified-file android/app/src/main/assets/index.android.bundle --upload-sources",
+    "geny": "adb shell \"date `date +%m%d%H%M%Y.%S`\" && react-native run-android",
+    "ios-prod": "npm test && react-native bundle --platform ios --dev false --entry-file index.ios.js --bundle-output ios/main.jsbundle --sourcemap-output ios/main.jsbundle.map && npm run ios-sourcemaps",
+    "ios-dev": "react-native bundle --platform ios --dev true --entry-file index.ios.js --bundle-output ios/main.jsbundle && react-native run-ios",
+    "ios-sourcemaps": "bugsnag-sourcemaps upload --api-key 39cb0d55dbf7da980a54e646595be44a --minified-url ios/main.jsbundle --source-map ios/main.jsbundle.map --minified-file ios/main.jsbundle --upload-sources"
   },
   "dependencies": {
     "react": "16.8.6",
     "react-native": "0.60.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/runtime": "^7.5.5",
-    "@react-native-community/eslint-config": "^0.0.5",
-    "babel-jest": "^24.9.0",
-    "eslint": "^6.2.2",
-    "jest": "^24.9.0",
-    "metro-react-native-babel-preset": "^0.56.0",
+    "@babel/core": "7.5.5",
+    "@babel/runtime": "7.5.5",
+    "@react-native-community/eslint-config": "0.0.5",
+    "babel-jest": "24.9.0",
+    "eslint": "6.2.2",
+    "jest": "24.9.0",
+    "metro-react-native-babel-preset": "0.56.0",
     "react-test-renderer": "16.8.6"
   },
   "jest": {

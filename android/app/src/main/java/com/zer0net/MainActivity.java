@@ -1,4 +1,4 @@
-package com.zeronet_explorer;
+package com.zer0net;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "zeronet_explorer";
+        return "zer0net";
     }
 }

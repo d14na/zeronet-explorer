@@ -1,4 +1,4 @@
-package com.zeronet_explorer;
+package com.zer0net;
 
 import android.app.Application;
 import android.util.Log;
