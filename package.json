@@ -1,75 +1,27 @@
 {
-  "name": "zer0net",
-  "version": "19.7.5",
+  "name": "zeronet_explorer",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "react-native start",
     "test": "jest",
-    "android-prod": "npm test && react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --sourcemap-output android/app/src/main/assets/index.android.bundle.map --assets-dest android/app/src/main/res && npm run android-sourcemaps",
-    "android-dev": "react-native bundle --platform android --dev true --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android",
-    "android-sourcemaps": "bugsnag-sourcemaps upload --api-key 39cb0d55dbf7da980a54e646595be44a --minified-url index.android.bundle --source-map android/app/src/main/assets/index.android.bundle.map --minified-file android/app/src/main/assets/index.android.bundle --upload-sources",
-    "geny": "adb shell \"date `date +%m%d%H%M%Y.%S`\" && react-native run-android",
-    "ios-prod": "npm test && react-native bundle --platform ios --dev false --entry-file index.ios.js --bundle-output ios/main.jsbundle --sourcemap-output ios/main.jsbundle.map && npm run ios-sourcemaps",
-    "ios-dev": "react-native bundle --platform ios --dev true --entry-file index.ios.js --bundle-output ios/main.jsbundle && react-native run-ios",
-    "ios-sourcemaps": "bugsnag-sourcemaps upload --api-key 39cb0d55dbf7da980a54e646595be44a --minified-url ios/main.jsbundle --source-map ios/main.jsbundle.map --minified-file ios/main.jsbundle --upload-sources",
-    "postinstall": "rn-nodeify --install events --hack; rm -rf ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json"
+    "lint": "eslint ."
   },
   "dependencies": {
-    "amplitude": "3.5.0",
-    "babel-preset-es2015": "6.24.1",
-    "babel-preset-react-native-stage-0": "1.0.1",
-    "bitcoinjs-message": "2.0.0",
-    "buffer-equal": "1.0.0",
-    "bugsnag-react-native": "2.21.1",
-    "elliptic": "6.4.0",
-    "ethers": "3.0.25",
-    "events": "1.1.1",
-    "jsc-android": "224109.0.0",
-    "mobx": "4.3.1",
-    "mobx-persist": "0.4.1",
-    "mobx-react": "5.2.3",
-    "moment": "2.22.2",
-    "netcat": "1.3.5",
-    "node-libs-browser": "2.1.0",
-    "react": "16.4.2",
-    "react-native": "0.54.0",
-    "react-native-animatable": "1.1.0",
-    "react-native-camera": "2.11.0",
-    "react-native-crypto": "2.1.2",
-    "react-native-device-info": "2.1.3",
-    "react-native-elements": "0.19.1",
-    "react-native-fs": "2.11.17",
-    "react-native-keychain": "3.0.0",
-    "react-native-navigation": "3.0.0-alpha.2",
-    "react-native-randombytes": "3.4.0",
-    "react-native-tcp": "3.3.1",
-    "react-native-timer": "1.3.3",
-    "react-native-vector-icons": "6.6.0",
-    "realm": "2.28.1",
-    "secp256k1": "3.5.0",
-    "xml-js": "1.6.7",
-    "zeronet-msgpack": "3.6.0"
+    "react": "16.8.6",
+    "react-native": "0.60.5"
   },
   "devDependencies": {
-    "babel-jest": "23.2.0",
-    "babel-plugin-transform-decorators-legacy": "1.3.5",
-    "babel-preset-react-native": "4.0.0",
-    "jest": "23.2.0",
-    "react-test-renderer": "16.4.1",
-    "rn-nodeify": "10.0.0"
+    "@babel/core": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.2.2",
+    "jest": "^24.9.0",
+    "metro-react-native-babel-preset": "^0.56.0",
+    "react-test-renderer": "16.8.6"
   },
   "jest": {
     "preset": "react-native"
-  },
-  "react-native": {
-    "net": "react-native-tcp"
-  },
-  "browser": {
-    "net": "react-native-tcp"
-  },
-  "rnpm": {
-    "assets": [
-      "./res/fonts"
-    ]
   }
 }
