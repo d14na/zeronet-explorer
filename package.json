@@ -1,6 +1,6 @@
 {
   "name": "zer0net",
-  "version": "19.7.5",
+  "version": "19.8.28",
   "scripts": {
     "start": "react-native start",
     "test": "jest",
