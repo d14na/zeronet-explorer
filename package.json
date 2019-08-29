@@ -14,6 +14,8 @@
     "ios-sourcemaps": "bugsnag-sourcemaps upload --api-key 39cb0d55dbf7da980a54e646595be44a --minified-url ios/main.jsbundle --source-map ios/main.jsbundle.map --minified-file ios/main.jsbundle --upload-sources"
   },
   "dependencies": {
+    "ethers": "^4.0.36",
+    "numeral": "^2.0.6",
     "react": "16.8.6",
     "react-native": "0.60.5",
     "react-native-navigation": "3.1.2"

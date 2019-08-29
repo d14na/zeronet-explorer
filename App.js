@@ -24,6 +24,8 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import EtherText from './src/components/EtherText';
+
 const App = () => {
     return (
         <Fragment>
@@ -52,7 +54,7 @@ const App = () => {
                         </View>
                         <View style={styles.sectionContainer}>
                             <Text style={styles.sectionTitle}>
-                                See Your Changes
+                                Current Block [ <EtherText prefix="!!~()">Hi</EtherText> ]
                             </Text>
                             <Text style={styles.sectionDescription}>
                                 <ReloadInstructions />
