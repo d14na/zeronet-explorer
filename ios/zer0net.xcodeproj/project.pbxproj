@@ -18,6 +18,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* zer0netTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* zer0netTests.m */; };
 		90433603D731AD86B2533004 /* libPods-zer0net-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F589258A826B6B073D7F3E5 /* libPods-zer0net-tvOSTests.a */; };
 		D8FC5281D2C168D206E4B228 /* libPods-zer0net-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 581644E896CF8939F48AE451 /* libPods-zer0net-tvOS.a */; };
+		EC74E9882317A26900D88CCB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		FA9F28CDA8EBAF48CE6F436F /* libPods-zer0netTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEB0C9B10AA9CB5D95D0B91 /* libPods-zer0netTests.a */; };
 /* End PBXBuildFile section */
 
@@ -527,6 +528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC74E9882317A26900D88CCB /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

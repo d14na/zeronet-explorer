@@ -60,6 +60,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
+
+        missingDimensionStrategy "RNN.reactNativeVersion", "reactNative60"
     }
     splits {
         abi {
@@ -117,6 +119,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-navigation')
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
