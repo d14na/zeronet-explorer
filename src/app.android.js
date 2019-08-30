@@ -173,11 +173,12 @@ Navigation.events().registerAppLaunchedListener(() => {
     }
 
     /* Initialize side menu layout. */
-    const sideMenu = { left, center, right }
+    const sideMenu = {center}
+    // const sideMenu = {left, center, right}
 
     /* Initialize navigation root. */
-    const root = { sideMenu }
+    const root = {sideMenu};
 
     /* Set navigation root. */
-    Navigation.setRoot({ root })
+    Navigation.setRoot({root});
 })

@@ -54,7 +54,7 @@ const App = () => {
                         </View>
                         <View style={styles.sectionContainer}>
                             <Text style={styles.sectionTitle}>
-                                Current Block [ <EtherText prefix="!!~()">Hi</EtherText> ]
+                                Current BLOCK [ <EtherText prefix="!!~()">Hi</EtherText> ]
                             </Text>
                             <Text style={styles.sectionDescription}>
                                 <ReloadInstructions />
