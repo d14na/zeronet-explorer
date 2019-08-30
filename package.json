@@ -14,6 +14,7 @@
     "ios-sourcemaps": "bugsnag-sourcemaps upload --api-key 39cb0d55dbf7da980a54e646595be44a --minified-url ios/main.jsbundle --source-map ios/main.jsbundle.map --minified-file ios/main.jsbundle --upload-sources"
   },
   "dependencies": {
+    "bugsnag-react-native": "2.23.0",
     "ethers": "4.0.36",
     "mobx": "5.13.0",
     "mobx-persist": "0.4.1",
@@ -26,7 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.5.5",
-    "@babel/plugin-proposal-decorators": "^7.4.4",
+    "@babel/plugin-proposal-decorators": "7.4.4",
     "@babel/runtime": "7.5.5",
     "@react-native-community/eslint-config": "0.0.5",
     "babel-jest": "24.9.0",
