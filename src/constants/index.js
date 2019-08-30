@@ -1,9 +1,6 @@
 // @flow
 
-import Shared from './Shared'
-import Styles from './Styles'
+import Shared from './Shared';
+import Styles from './Styles';
 
-export {
-    Shared,
-    Styles
-}
+export {Shared, Styles};

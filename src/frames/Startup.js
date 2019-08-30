@@ -11,25 +11,25 @@ import {
     WebView
 } from 'react-native'
 
-// import {
-//     Button,
-//     ButtonGroup,
-//     Icon,
-//     SearchBar
-// } from 'react-native-elements'
+import {
+    Button,
+    ButtonGroup,
+    Icon,
+    SearchBar
+} from 'react-native-elements'
 
-// import { Navigation } from 'react-native-navigation'
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import { Navigation } from 'react-native-navigation'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 // import { observer } from 'mobx-react/native'
 import stores from '../stores'
 
-// import {
-//     Shared,
-//     Styles
-// } from '../constants'
+import {
+    Shared,
+    Styles
+} from '../constants'
 
 // import Peer0 from '../lib/peer0'
 // import net from 'net'
@@ -39,28 +39,62 @@ export default class StartupFrame extends React.Component {
     @observable searchVal = ''
     @observable selectedIndex = 1
 
-    // constructor(props) {
-    //     super(props)
-    //
-    //     /* Track event. */
-    //     Shared.TrackEvent('STARTUP_')
-    //
-    //     this._handleSearchInput = this._handleSearchInput.bind(this)
-    //     this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
-    //     this._openScanner = this._openScanner.bind(this)
-    //     this._updateIndex = this._updateIndex.bind(this)
-    //
-    //     this._initZite = this._initZite.bind(this)
-    //     this._pex = this._pex.bind(this)
-    // }
+    constructor(props) {
+        super(props)
+
+        /* Track event. */
+        Shared.TrackEvent('STARTUP_');
+
+        // this._handleSearchInput = this._handleSearchInput.bind(this)
+        // this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
+        // this._openScanner = this._openScanner.bind(this)
+        // this._updateIndex = this._updateIndex.bind(this)
+        //
+        // this._initZite = this._initZite.bind(this)
+        // this._pex = this._pex.bind(this)
+    }
 
     render() {
         const buttons = ['Recent', 'Favorites', 'Trending'];
 
         return (
             <ScrollView>
-                <View style={styles.container}>
-                    <Text>Hi there!</Text>
+                <View style={ styles.container }>
+                    <View style={ styles.header }>
+                        <Icon
+                            name='qrcode'
+                            type='font-awesome'
+                            color='rgba(134, 147, 158, 1.0)'
+                            underlayColor='rgba(57, 62, 66, 1.0)'
+                            size={ 28 }
+                            containerStyle={ styles.btnQrCode }
+                            onPress={ this._openScanner } />
+
+                        <SearchBar
+                            ref={ search => this.search = search }
+                            icon={{ type: 'font-awesome', name: 'hashtag' }}
+                            clearIcon={{ color: 'rgba(220, 90, 90, 0.35)', type: 'font-awesome', name: 'times-circle', style: { marginRight: 5 } }}
+                            containerStyle={ styles.searchInput }
+                            inputStyle={ styles.searchInputText }
+                            placeholder='Where will you explore next?'
+                            onChangeText={ this._handleSearchInput }
+                            onSubmitEditing={ this._handleSearchSubmit } />
+                    </View>
+
+                    <View style={ styles.contentContainer }>
+                        <Image
+                            source={ require('../../res/img/startup-banner.png') }
+                            resizeMode='stretch'
+                            style={ styles.mainBanner } />
+
+                        <ButtonGroup
+                              onPress={ this._updateIndex }
+                              selectedIndex={ this.selectedIndex }
+                              buttons={ buttons }
+                              containerStyle={{ height: 30 }} />
+
+                          { this._displayZites() }
+                    </View>
                 </View>
             </ScrollView>
         );
@@ -74,7 +108,7 @@ export default class StartupFrame extends React.Component {
         console.log('RNN', 'CTB.componentDidDisappear');
     }
 
-//     componentDidMount() {
+    componentDidMount() {
 //         /* Localize this. */
 //         const self = this
 //
@@ -102,20 +136,20 @@ export default class StartupFrame extends React.Component {
 //                 self._initZite(target)
 //             }
 //         }).catch(err => console.error('An error occurred', err))
-//     }
+    }
 
-    // componentWillUnmount() {
-    //     console.log('RNN', `CTB.componentWillUnmount`)
-    // }
+    componentWillUnmount() {
+        console.log('RNN', `CTB.componentWillUnmount`)
+    }
 
-//     _handleSearchInput(_val) {
-// console.log('_handleSearchInput', _val)
-//
-//         /* Update search value. */
-//         this.searchVal = _val
-//     }
+    _handleSearchInput(_val) {
+        console.log('_handleSearchInput', _val)
 
-    // _handleSearchSubmit() {
+        /* Update search value. */
+        this.searchVal = _val
+    }
+
+    _handleSearchSubmit() {
     //     /* Retrieve the search value. */
     //     const searchVal = this.searchVal
     //
@@ -146,9 +180,9 @@ export default class StartupFrame extends React.Component {
     //     /* Handle unavailable zite. */
     //     alert(`Oops! [ ${searchVal} ] cannot be found. ` +
     //           `Please check the address/tag and try your request again.`)
-    // }
+    }
 
-    // _openScanner() {
+    _openScanner() {
     //     /* Open the WebView. */
     //     Navigation.push('zeronet.Main', {
     //         component: {
@@ -164,13 +198,13 @@ export default class StartupFrame extends React.Component {
     //             // passProps: { target }
     //         }
     //     })
-    // }
+    }
 
-    // _updateIndex(_selectedIndex) {
-    //     this.selectedIndex = _selectedIndex
-    // }
+    _updateIndex(_selectedIndex) {
+        this.selectedIndex = _selectedIndex
+    }
 
-    // _displayZites() {
+    _displayZites() {
     //     if (this.selectedIndex == 0) {
     //         return <View style={ [Styles.centerView, styles.notFound] }>
     //             <Text style={ styles.notFoundText }>no recent zites</Text>
@@ -218,9 +252,9 @@ export default class StartupFrame extends React.Component {
     //             <Text style={ styles.notFoundText }>no trending zites</Text>
     //         </View>
     //     }
-    // }
+    }
 
-    // _test() {
+    _test() {
     //     const Realm = require('realm');
     //
     //     // Define your models and their properties
@@ -276,18 +310,18 @@ export default class StartupFrame extends React.Component {
     //     .catch(error => {
     //         console.log(error);
     //     });
-    // }
+    }
 
-    // async _pex() {
+    async _pex() {
     //     /* Initailize Peer0. */
     //     const peer0 = new Peer0(net, '104.129.16.31', 443) // zero.booth.moe
     //     console.log('peer0', peer0)
     //
     //     const peers = await peer0.pex('1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F')
     //     console.log('RECEIVED PEERS', peers)
-    // }
+    }
 
-    // _initZite(_target, _path) {
+    _initZite(_target, _path) {
     //     // FIXME If the tag is NOT an address then we need to do a
     //     //       ZeroName lookup to retrieve the address
     //     const address = _target
@@ -306,7 +340,7 @@ export default class StartupFrame extends React.Component {
     //             }
     //         }
     //     })
-    // }
+    }
 }
 
 const styles = StyleSheet.create({
