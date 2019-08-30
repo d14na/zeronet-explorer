@@ -26,7 +26,10 @@
     "react-native": "0.60.5",
     "react-native-elements": "1.1.0",
     "react-native-navigation": "3.1.2",
-    "react-native-vector-icons": "6.6.0"
+    "react-native-tcp": "3.3.1",
+    "react-native-vector-icons": "6.6.0",
+    "realm": "2.29.2",
+    "zeronet-msgpack": "3.6.0"
   },
   "devDependencies": {
     "@babel/core": "7.5.5",
@@ -37,6 +40,7 @@
     "eslint": "6.2.2",
     "jest": "24.9.0",
     "metro-react-native-babel-preset": "0.56.0",
+    "node-libs-browser": "2.2.1",
     "react-test-renderer": "16.8.6"
   },
   "jest": {

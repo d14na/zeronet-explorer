@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import {
     Image,
@@ -30,8 +30,8 @@ import {
     Styles
 } from '../constants'
 
-// import Peer0 from '../lib/peer0'
-// import net from 'net'
+import Peer0 from '../lib/peer0'
+import net from 'react-native-tcp'
 
 @observer
 export default class StartupFrame extends React.Component {
@@ -44,13 +44,13 @@ export default class StartupFrame extends React.Component {
         /* Track event. */
         Shared.TrackEvent('STARTUP_');
 
-        // this._handleSearchInput = this._handleSearchInput.bind(this)
-        // this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
-        // this._openScanner = this._openScanner.bind(this)
-        // this._updateIndex = this._updateIndex.bind(this)
+        this._handleSearchInput = this._handleSearchInput.bind(this)
+        this._handleSearchSubmit = this._handleSearchSubmit.bind(this)
+        this._openScanner = this._openScanner.bind(this)
+        this._updateIndex = this._updateIndex.bind(this)
         //
-        // this._initZite = this._initZite.bind(this)
-        // this._pex = this._pex.bind(this)
+        this._initZite = this._initZite.bind(this)
+        this._pex = this._pex.bind(this)
     }
 
     render() {
@@ -108,33 +108,33 @@ export default class StartupFrame extends React.Component {
     }
 
     componentDidMount() {
-//         /* Localize this. */
-//         const self = this
-//
-//         /* Handle registered app links. */
-// // FIXME Android bug prevents deep linking when app is in BACKGROUND
-// //       https://stackoverflow.com/a/47573863/514914
-//         Linking.getInitialURL().then((url) => {
-//             if (url) {
-// console.log('DEEP LINK DETECTED! Clicked url was: ' + url)
-//
-//                 /* Parse zite address. */
-//                 if (url.slice(0, 23) === 'http://127.0.0.1:43110/') {
-//                     const target = url.slice(23)
-//                 } else if (url.slice(0, 16) === 'https://0net.io/') {
-//                     const target = url.slice(16)
-//                 } else if (url.slice(0, 15) === 'http://0net.io/') {
-//                     const target = url.slice(15)
-//                 } else if (url.slice(0, 7) === '0net://') {
-//                     const target = url.slice(7)
-//                 } else if (url.slice(0, 7) === 'zero://') {
-//                     const target = url.slice(7)
-//                 }
-//
-//                 /* Initialize the deep linked zite. */
-//                 self._initZite(target)
-//             }
-//         }).catch(err => console.error('An error occurred', err))
+        /* Localize this. */
+        const self = this
+
+        /* Handle registered app links. */
+        // FIXME Android bug prevents deep linking when app is in BACKGROUND
+        //       https://stackoverflow.com/a/47573863/514914
+        Linking.getInitialURL().then((url) => {
+            if (url) {
+                console.log('DEEP LINK DETECTED! Clicked url was: ' + url)
+
+                /* Parse zite address. */
+                if (url.slice(0, 23) === 'http://127.0.0.1:43110/') {
+                    const target = url.slice(23)
+                } else if (url.slice(0, 16) === 'https://0net.io/') {
+                    const target = url.slice(16)
+                } else if (url.slice(0, 15) === 'http://0net.io/') {
+                    const target = url.slice(15)
+                } else if (url.slice(0, 7) === '0net://') {
+                    const target = url.slice(7)
+                } else if (url.slice(0, 7) === 'zero://') {
+                    const target = url.slice(7)
+                }
+
+                /* Initialize the deep linked zite. */
+                self._initZite(target)
+            }
+        }).catch(err => console.error('An error occurred', err))
     }
 
     componentWillUnmount() {
@@ -149,54 +149,54 @@ export default class StartupFrame extends React.Component {
     }
 
     _handleSearchSubmit() {
-    //     /* Retrieve the search value. */
-    //     const searchVal = this.searchVal
-    //
-    //     /* Search for a Zitetag. */
-    //     if (searchVal.indexOf('.bit') !== -1) {
-    //         /* Retrieve dotBit names. */
-    //         const names = require('../../res/names.json')
-    //
-    //         /* Initialize the endoint. */
-    //         const endpoint = names[searchVal]
-    //
-    //         /* Handle unregistered dot-bit. */
-    //         if (!endpoint) {
-    //             return alert(`Oops! [ ${searchVal} ] is NOT registered on the Zeronet.`)
-    //         }
-    //
-    //         /* Initialize the zite. */
-    //         return this._initZite(endpoint)
-    //     }
-    //
-    //     /* Search for Bitcoin address. */
-    //     // FIXME We must validate for "valid" Bitcoin address
-    //     if (searchVal.match(/^[1][a-km-zA-HJ-NP-Z1-9]{25,34}$/)) {
-    //         /* Initialize the zite. */
-    //         return this._initZite(searchVal)
-    //     }
-    //
-    //     /* Handle unavailable zite. */
-    //     alert(`Oops! [ ${searchVal} ] cannot be found. ` +
-    //           `Please check the address/tag and try your request again.`)
+        /* Retrieve the search value. */
+        const searchVal = this.searchVal
+
+        /* Search for a Zitetag. */
+        if (searchVal.indexOf('.bit') !== -1) {
+            /* Retrieve dotBit names. */
+            const names = require('../../res/names.json')
+
+            /* Initialize the endoint. */
+            const endpoint = names[searchVal]
+
+            /* Handle unregistered dot-bit. */
+            if (!endpoint) {
+                return alert(`Oops! [ ${searchVal} ] is NOT registered on the Zeronet.`)
+            }
+
+            /* Initialize the zite. */
+            return this._initZite(endpoint)
+        }
+
+        /* Search for Bitcoin address. */
+        // FIXME We must validate for "valid" Bitcoin address
+        if (searchVal.match(/^[1][a-km-zA-HJ-NP-Z1-9]{25,34}$/)) {
+            /* Initialize the zite. */
+            return this._initZite(searchVal)
+        }
+
+        /* Handle unavailable zite. */
+        alert(`Oops! [ ${searchVal} ] cannot be found. ` +
+              `Please check the address/tag and try your request again.`)
     }
 
     _openScanner() {
-    //     /* Open the WebView. */
-    //     Navigation.push('zeronet.Main', {
-    //         component: {
-    //             id: 'zeronet.Camera',
-    //             name: 'zeronet.Camera',
-    //             options: {
-    //                 topBar: {
-    //                     visible: false,
-    //                     animate: false,
-    //                     drawBehind: true
-    //                 }
-    //             },
-    //             // passProps: { target }
-    //         }
-    //     })
+        /* Open the WebView. */
+        Navigation.push('zeronet.Main', {
+            component: {
+                id: 'zeronet.Camera',
+                name: 'zeronet.Camera',
+                options: {
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true
+                    }
+                },
+                // passProps: { target }
+            }
+        })
     }
 
     _updateIndex(_selectedIndex) {
@@ -204,141 +204,141 @@ export default class StartupFrame extends React.Component {
     }
 
     _displayZites() {
-    //     if (this.selectedIndex == 0) {
-    //         return <View style={ [Styles.centerView, styles.notFound] }>
-    //             <Text style={ styles.notFoundText }>no recent zites</Text>
-    //         </View>
-    //     }
-    //
-    //     if (this.selectedIndex == 1) {
-    //         return <View>
-    //             <Button
-    //                 large
-    //                 containerViewStyle={ styles.mainButtons }
-    //                 borderRadius={ 3 }
-    //                 onPress={ () => this._test() }
-    //                 icon={{ name: 'support', type: 'font-awesome' }}
-    //                 title='TEST REALM' />
-    //
-    //             <Button
-    //                 large
-    //                 containerViewStyle={ styles.mainButtons }
-    //                 borderRadius={ 3 }
-    //                 onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
-    //                 icon={{ name: 'support', type: 'font-awesome' }}
-    //                 title='USER GUIDE' />
-    //
-    //             <Button
-    //                 large
-    //                 containerViewStyle={ styles.mainButtons }
-    //                 borderRadius={ 3 }
-    //                 onPress={ () => this._initZite('1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J') }
-    //                 icon={{ name: 'hashtag', type: 'font-awesome' }}
-    //                 title='ZITETAGS' />
-    //
-    //             <Button
-    //                 large
-    //                 containerViewStyle={ styles.mainButtons }
-    //                 borderRadius={ 3 }
-    //                 onPress={ () => this._initZite('1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C') }
-    //                 icon={{ name: 'legal', type: 'font-awesome' }}
-    //                 title='ABOUT D14NA' />
-    //         </View>
-    //     }
-    //
-    //     if (this.selectedIndex == 2) {
-    //         return <View style={ [Styles.centerView, styles.notFound] }>
-    //             <Text style={ styles.notFoundText }>no trending zites</Text>
-    //         </View>
-    //     }
+        if (this.selectedIndex == 0) {
+            return <View style={ [Styles.centerView, styles.notFound] }>
+                <Text style={ styles.notFoundText }>no recent zites</Text>
+            </View>
+        }
+
+        if (this.selectedIndex == 1) {
+            return <View>
+                <Button
+                    large
+                    containerViewStyle={ styles.mainButtons }
+                    borderRadius={ 3 }
+                    onPress={ () => this._test() }
+                    icon={{ name: 'support', type: 'font-awesome' }}
+                    title='TEST REALM' />
+
+                <Button
+                    large
+                    containerViewStyle={ styles.mainButtons }
+                    borderRadius={ 3 }
+                    onPress={ () => this._initZite('1GUiDEr5E5XaFLBJBr78UTTZQgtC99Z8oa') }
+                    icon={{ name: 'support', type: 'font-awesome' }}
+                    title='USER GUIDE' />
+
+                <Button
+                    large
+                    containerViewStyle={ styles.mainButtons }
+                    borderRadius={ 3 }
+                    onPress={ () => this._initZite('1ZTAGS56qz1zDDxW2Ky19pKzvnyqJDy6J') }
+                    icon={{ name: 'hashtag', type: 'font-awesome' }}
+                    title='ZITETAGS' />
+
+                <Button
+                    large
+                    containerViewStyle={ styles.mainButtons }
+                    borderRadius={ 3 }
+                    onPress={ () => this._initZite('1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C') }
+                    icon={{ name: 'legal', type: 'font-awesome' }}
+                    title='ABOUT D14NA' />
+            </View>
+        }
+
+        if (this.selectedIndex == 2) {
+            return <View style={ [Styles.centerView, styles.notFound] }>
+                <Text style={ styles.notFoundText }>no trending zites</Text>
+            </View>
+        }
     }
 
     _test() {
-    //     const Realm = require('realm');
-    //
-    //     // Define your models and their properties
-    //     const CarSchema = {
-    //         name: 'Car',
-    //         properties: {
-    //             make:  'string',
-    //             model: 'string',
-    //             miles: {type: 'int', default: 0},
-    //         }
-    //     };
-    //
-    //     const PersonSchema = {
-    //         name: 'Person',
-    //         properties: {
-    //             name:     'string',
-    //             birthday: 'date',
-    //             cars:     'Car[]',
-    //             picture:  'data?' // optional property
-    //         }
-    //     };
-    //
-    //     Realm.open({schema: [CarSchema, PersonSchema]})
-    //         .then(realm => {
-    //             // Create Realm objects and write to local storage
-    //             realm.write(() => {
-    //                 const myCar = realm.create('Car', {
-    //                     make: 'Honda',
-    //                     model: 'Civic',
-    //                     miles: 1000,
-    //                 });
-    //                 myCar.miles += 20; // Update a property value
-    //             });
-    //
-    //         // Query Realm for all cars with a high mileage
-    //         const cars = realm.objects('Car').filtered('miles > 1000');
-    //
-    //         // Will return a Results object with our 1 car
-    //         console.log('# of cars', cars.length);
-    //
-    //         // Add another car
-    //         realm.write(() => {
-    //             const myCar = realm.create('Car', {
-    //                 make: 'Ford',
-    //                 model: 'Focus',
-    //                 miles: 2000,
-    //             });
-    //         });
-    //
-    //         // Query results are updated in realtime
-    //         console.log('# of cars', cars.length);
-    //     })
-    //     .catch(error => {
-    //         console.log(error);
-    //     });
+        const Realm = require('realm');
+
+        // Define your models and their properties
+        const CarSchema = {
+            name: 'Car',
+            properties: {
+                make:  'string',
+                model: 'string',
+                miles: {type: 'int', default: 0},
+            }
+        };
+
+        const PersonSchema = {
+            name: 'Person',
+            properties: {
+                name:     'string',
+                birthday: 'date',
+                cars:     'Car[]',
+                picture:  'data?' // optional property
+            }
+        };
+
+        Realm.open({schema: [CarSchema, PersonSchema]})
+            .then(realm => {
+                // Create Realm objects and write to local storage
+                realm.write(() => {
+                    const myCar = realm.create('Car', {
+                        make: 'Honda',
+                        model: 'Civic',
+                        miles: 1000,
+                    });
+                    myCar.miles += 20; // Update a property value
+                });
+
+            // Query Realm for all cars with a high mileage
+            const cars = realm.objects('Car').filtered('miles > 1000');
+
+            // Will return a Results object with our 1 car
+            console.log('# of cars', cars.length);
+
+            // Add another car
+            realm.write(() => {
+                const myCar = realm.create('Car', {
+                    make: 'Ford',
+                    model: 'Focus',
+                    miles: 2000,
+                });
+            });
+
+            // Query results are updated in realtime
+            console.log('# of cars', cars.length);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }
 
     async _pex() {
-    //     /* Initailize Peer0. */
-    //     const peer0 = new Peer0(net, '104.129.16.31', 443) // zero.booth.moe
-    //     console.log('peer0', peer0)
-    //
-    //     const peers = await peer0.pex('1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F')
-    //     console.log('RECEIVED PEERS', peers)
+        /* Initailize Peer0. */
+        const peer0 = new Peer0(net, '104.129.16.31', 443) // zero.booth.moe
+        console.log('peer0', peer0)
+
+        const peers = await peer0.pex('1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F')
+        console.log('RECEIVED PEERS', peers)
     }
 
     _initZite(_target, _path) {
-    //     // FIXME If the tag is NOT an address then we need to do a
-    //     //       ZeroName lookup to retrieve the address
-    //     const address = _target
-    //
-    //     // FIXME Handle the path
-    //     const path = _path
-    //
-    //     /* Set the zite address. */
-    //     stores.Stage.initZite(address)
-    //
-    //     /* Open the stage window. */
-    //     Navigation.mergeOptions('zeronet.Stage', {
-    //         sideMenu: {
-    //             left: {
-    //                 visible: true
-    //             }
-    //         }
-    //     })
+        // FIXME If the tag is NOT an address then we need to do a
+        //       ZeroName lookup to retrieve the address
+        const address = _target
+
+        // FIXME Handle the path
+        const path = _path
+
+        /* Set the zite address. */
+        stores.Stage.initZite(address)
+
+        /* Open the stage window. */
+        Navigation.mergeOptions('zeronet.Stage', {
+            sideMenu: {
+                left: {
+                    visible: true
+                }
+            }
+        })
     }
 }
 
