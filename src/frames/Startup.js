@@ -22,8 +22,7 @@ import { Navigation } from 'react-native-navigation'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 import { observable } from 'mobx'
-import { observer } from 'mobx-react'
-// import { observer } from 'mobx-react/native'
+import { observer } from 'mobx-react/native'
 import stores from '../stores'
 
 import {
