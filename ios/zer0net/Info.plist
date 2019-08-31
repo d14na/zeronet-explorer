@@ -63,5 +63,7 @@
 		<string>MaterialIcons.ttf</string>
 		<string>MaterialCommunityIcons.ttf</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Allows QR codes to be scanned and automatically decoded.</string>
 </dict>
 </plist>

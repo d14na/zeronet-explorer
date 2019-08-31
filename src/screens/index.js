@@ -4,35 +4,35 @@ import {Navigation} from 'react-native-navigation';
 import Startup from '../frames/Startup';
 
 /* CAMERA */
-// import Camera from '../frames/Camera';
+import Camera from '../frames/Camera';
 
 /* CANVAS */
-// import Canvas from '../frames/Canvas';
+import Canvas from '../frames/Canvas';
 
 /* GAMEPAD */
-// import Player0ne from '../frames/Player0ne';
+import Player0ne from '../frames/Player0ne';
 
 /* P0RTAL */
 import P0rtal from '../frames/P0rtal';
 
-// import {
-//     C0urier as P0rtalC0urier,
-//     Help as P0rtalHelp,
-//     Influence as P0rtalInfluence,
-//     Profile as P0rtalProfile,
-//     Signin as P0rtalSignin,
-//     Signup as P0rtalSignup,
-//     Streams as P0rtalStreams,
-// } from './P0rtal';
+import {
+    C0urier as P0rtalC0urier,
+    Chans as P0rtalChans,
+    Help as P0rtalHelp,
+    Influence as P0rtalInfluence,
+    Profile as P0rtalProfile,
+    Signin as P0rtalSignin,
+    Signup as P0rtalSignup,
+} from './P0rtal';
 
 /* STAGE */
 import Stage from '../frames/Stage';
 
 /* STUDIO */
-// import Studi0 from '../frames/Studi0';
+import Studi0 from '../frames/Studi0';
 
 /* WEBVIEW */
-// import Webview from '../frames/Webview';
+import Webview from '../frames/Webview';
 
 /* COMPONENTS */
 import {P0rtalTopBar} from '../components';
@@ -43,35 +43,35 @@ export function registerScreens() {
     Navigation.registerComponent('zeronet.Main', () => Startup);
 
     /* Photo and Video Camera */
-    // Navigation.registerComponent('zeronet.Camera', () => Camera);
+    Navigation.registerComponent('zeronet.Camera', () => Camera);
 
     /* Graphics art & (lottie-style) animation canvas */
-    // Navigation.registerComponent('zeronet.Canvas', () => Canvas);
+    Navigation.registerComponent('zeronet.Canvas', () => Canvas);
 
     /* Player0ne Gamepad Controller */
-    // Navigation.registerComponent('zeronet.Player0ne', () => Player0ne);
+    Navigation.registerComponent('zeronet.Player0ne', () => Player0ne);
 
     /* Personalized user p0rtal */
     Navigation.registerComponent('zeronet.P0rtal', () => P0rtal);
-    // Navigation.registerComponent('zeronet.P0rtal.C0urier', () => P0rtalC0urier);
-    // Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp);
-    // Navigation.registerComponent(
-    //     'zeronet.P0rtal.Influence',
-    //     () => P0rtalInfluence,
-    // );
-    // Navigation.registerComponent('zeronet.P0rtal.Profile', () => P0rtalProfile);
-    // Navigation.registerComponent('zeronet.P0rtal.Signin', () => P0rtalSignin);
-    // Navigation.registerComponent('zeronet.P0rtal.Signup', () => P0rtalSignup);
-    // Navigation.registerComponent('zeronet.P0rtal.Streams', () => P0rtalStreams);
+    Navigation.registerComponent('zeronet.P0rtal.C0urier', () => P0rtalC0urier);
+    Navigation.registerComponent('zeronet.P0rtal.Chans', () => P0rtalChans);
+    Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp);
+    Navigation.registerComponent(
+        'zeronet.P0rtal.Influence',
+        () => P0rtalInfluence,
+    );
+    Navigation.registerComponent('zeronet.P0rtal.Profile', () => P0rtalProfile);
+    Navigation.registerComponent('zeronet.P0rtal.Signin', () => P0rtalSignin);
+    Navigation.registerComponent('zeronet.P0rtal.Signup', () => P0rtalSignup);
 
     /* Contextual stage */
     Navigation.registerComponent('zeronet.Stage', () => Stage);
 
     /* Audio and visual media studio */
-    // Navigation.registerComponent('zeronet.Studi0', () => Studi0);
+    Navigation.registerComponent('zeronet.Studi0', () => Studi0);
 
     /* Standard webview */
-    // Navigation.registerComponent('zeronet.Webview', () => Webview);
+    Navigation.registerComponent('zeronet.Webview', () => Webview);
 
     /* Navigational Components */
     Navigation.registerComponent('zeronet.P0rtalTopBar', () => P0rtalTopBar);

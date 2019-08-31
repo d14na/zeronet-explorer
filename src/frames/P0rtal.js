@@ -6,9 +6,10 @@ import {Navigation} from 'react-native-navigation';
 import {observer} from 'mobx-react/native';
 import stores from '../stores';
 
-// import {Shared, Styles} from '../constants';
+import {Shared, Styles} from '../constants';
 
-import {Dashboard, Welcome} from '../screens/P0rtal';
+// import {Dashboard, Welcome} from '../screens/Startup';
+import {Text} from 'react-native';
 
 @observer
 class P0rtal extends React.Component {
@@ -17,11 +18,12 @@ class P0rtal extends React.Component {
     }
 
     render() {
-        if (!stores.P0rtal.authorized) {
-            return <Welcome componentId={'zeronet.P0rtal'} />;
-        }
-
-        return <Dashboard componentId={'zeronet.P0rtal'} />;
+        // if (!stores.P0rtal.authorized) {
+        //     return <Welcome componentId={'zeronet.P0rtal'} />;
+        // }
+        //
+        // return <Dashboard componentId={'zeronet.P0rtal'} />;
+        return <Text>Welcome to P0rtal</Text>;
     }
 
     componentDidMount() {

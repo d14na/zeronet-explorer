@@ -121,7 +121,7 @@ Navigation.events().registerAppLaunchedListener(() => {
             id: 'zeronet.Stage',
             name: 'zeronet.Stage',
             passProps: {
-                text: 'The Main ZeroNet Stage for native content.',
+                text: 'Zeronet Explorer Stage',
             },
         },
     };
@@ -135,8 +135,7 @@ Navigation.events().registerAppLaunchedListener(() => {
                         id: 'zeronet.P0rtal',
                         name: 'zeronet.P0rtal',
                         passProps: {
-                            text:
-                                'Suite of built-in decentralized features and services.',
+                            text: 'Zer0net P0rtal',
                         },
                     },
                 },

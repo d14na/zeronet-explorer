@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyleSheet, ScrollView, Text, View} from 'react-native';
+import {Button, StyleSheet, ScrollView, Text, View} from 'react-native';
 
 import {Navigation} from 'react-native-navigation';
 
@@ -8,28 +8,27 @@ import {observable} from 'mobx';
 import {observer} from 'mobx-react/native';
 import stores from '../../stores';
 
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {Shared, Styles} from '../../constants';
 
 @observer
-class Courier extends React.Component {
+class Chans extends React.Component {
     constructor(props) {
         super(props);
 
         /* Track event. */
-        Shared.TrackEvent('C0URIER_');
+        Shared.TrackEvent('CHANS_');
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={[Styles.centerView, {paddingBottom: 100}]}>
-                    <Icon name={'at'} style={styles.icon} />
+                    <Icon name={'rss'} style={styles.icon} />
 
                     <Text style={styles.heading}>
-                        Courier Messaging
+                        Streaming Feeds
                         {'\n'}coming soon...
                     </Text>
                 </View>
@@ -38,7 +37,7 @@ class Courier extends React.Component {
     }
 
     componentDidMount() {
-        stores.P0rtal.setP0rtalTitle('C0urier');
+        stores.P0rtal.setP0rtalTitle('Chans');
 
         Navigation.mergeOptions(this.props.componentId, {
             topBar: {
@@ -74,4 +73,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Courier;
+export default Chans;
