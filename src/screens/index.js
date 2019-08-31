@@ -13,7 +13,7 @@ import Startup from '../frames/Startup';
 // import Player0ne from '../frames/Player0ne';
 
 /* P0RTAL */
-// import P0rtal from '../frames/P0rtal';
+import P0rtal from '../frames/P0rtal';
 
 // import {
 //     C0urier as P0rtalC0urier,
@@ -26,7 +26,7 @@ import Startup from '../frames/Startup';
 // } from './P0rtal';
 
 /* STAGE */
-// import Stage from '../frames/Stage';
+import Stage from '../frames/Stage';
 
 /* STUDIO */
 // import Studi0 from '../frames/Studi0';
@@ -35,7 +35,7 @@ import Startup from '../frames/Startup';
 // import Webview from '../frames/Webview';
 
 /* COMPONENTS */
-// import {P0rtalTopBar} from '../components';
+import {P0rtalTopBar} from '../components';
 
 /* Register all screens of the app (including internal ones). */
 export function registerScreens() {
@@ -52,7 +52,7 @@ export function registerScreens() {
     // Navigation.registerComponent('zeronet.Player0ne', () => Player0ne);
 
     /* Personalized user p0rtal */
-    // Navigation.registerComponent('zeronet.P0rtal', () => P0rtal);
+    Navigation.registerComponent('zeronet.P0rtal', () => P0rtal);
     // Navigation.registerComponent('zeronet.P0rtal.C0urier', () => P0rtalC0urier);
     // Navigation.registerComponent('zeronet.P0rtal.Help', () => P0rtalHelp);
     // Navigation.registerComponent(
@@ -65,7 +65,7 @@ export function registerScreens() {
     // Navigation.registerComponent('zeronet.P0rtal.Streams', () => P0rtalStreams);
 
     /* Contextual stage */
-    // Navigation.registerComponent('zeronet.Stage', () => Stage);
+    Navigation.registerComponent('zeronet.Stage', () => Stage);
 
     /* Audio and visual media studio */
     // Navigation.registerComponent('zeronet.Studi0', () => Studi0);
@@ -74,5 +74,5 @@ export function registerScreens() {
     // Navigation.registerComponent('zeronet.Webview', () => Webview);
 
     /* Navigational Components */
-    // Navigation.registerComponent('zeronet.P0rtalTopBar', () => P0rtalTopBar);
+    Navigation.registerComponent('zeronet.P0rtalTopBar', () => P0rtalTopBar);
 }

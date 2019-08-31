@@ -1,7 +1,5 @@
 // @flow
 
-import Zite from './Zite'
+import Zite from './Zite';
 
-export {
-    Zite
-}
+export {Zite};

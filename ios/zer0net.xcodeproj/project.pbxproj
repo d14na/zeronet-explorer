@@ -63,6 +63,7 @@
 		C0882D4778B3CD8C89CC54BE /* libPods-zer0net.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-zer0net.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5E01EB6A9E10E6B08DB5F2D /* Pods-zer0net-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zer0net-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-zer0net-tvOS/Pods-zer0net-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		E0CB7457FCD5E838E00F9C4B /* Pods-zer0net.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zer0net.debug.xcconfig"; path = "Target Support Files/Pods-zer0net/Pods-zer0net.debug.xcconfig"; sourceTree = "<group>"; };
+		EC74E98923191FD500D88CCB /* zer0net.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = zer0net.entitlements; path = zer0net/zer0net.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EFA43780E8F91FE02B213345 /* Pods-zer0net-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zer0net-tvOS.release.xcconfig"; path = "Target Support Files/Pods-zer0net-tvOS/Pods-zer0net-tvOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		13B07FAE1A68108700A75B9A /* zer0net */ = {
 			isa = PBXGroup;
 			children = (
+				EC74E98923191FD500D88CCB /* zer0net.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -291,6 +293,14 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = KX2FG3LXJH;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -677,6 +687,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = KX2FG3LXJH;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -719,6 +730,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KX2FG3LXJH;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

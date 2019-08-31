@@ -32,7 +32,7 @@ const TrackEvent = function(_eventType) {
 
     /* Call Amplitude api (DO NOT 'REPORT' THESE ERRORS). */
     // FIXME Filter the common error `Error: Unsuccessful HTTP response`
-    amplitude.track(trackingData).catch(e => console.log(e));
+    amplitude.track(trackingData).catch(e => console.error(e));
 };
 
 const Shared = {

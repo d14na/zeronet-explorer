@@ -2,134 +2,144 @@
 
 class Host0 {
     constructor(_fs) {
-        this.fs = _fs
+        this.fs = _fs;
     }
 
-    exists = async function (_address, _path='') {
+    exists = async function(_address, _path = '') {
         /* Initialize file path. */
-        const filePath = this.fs.DocumentDirectoryPath + '/' + _address + '/' + _path
+        const filePath =
+            this.fs.DocumentDirectoryPath + '/' + _address + '/' + _path;
 
         /* Check for file existence. */
-        const exists = await this.fs.exists(filePath)
+        const exists = await this.fs.exists(filePath);
 
-        return exists
-    }
+        return exists;
+    };
 
-    sha512 = function (_buf) {
+    sha512 = function(_buf) {
+        return new Buffer.alloc(0);
         /* Initialize create hash. */
-        const createHash = require('crypto').createHash
+        // const createHash = require('crypto').createHash;
 
         /* Return the sha512 hash. */
-        return createHash('sha512').update(_buf).digest()
-    }
+        // return createHash('sha512')
+        //     .update(_buf)
+        //     .digest();
+    };
 
-    getFile = async function (_address, _path, _metaData) {
+    getFile = async function(_address, _path, _metaData) {
         /* Localize this. */
-        const self = this
+        const self = this;
 
-        const filePath = self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path
-// console.log('FILEPATH', filePath)
+        const filePath =
+            self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path;
 
-        return new Promise(async function (resolve, reject) {
-            const exists = await self.fs.exists(filePath)
-                .catch(reject)
-// console.log('getPath EXISTS', exists)
+        // console.log('FILEPATH', filePath)
+
+        return new Promise(async function(resolve, reject) {
+            const exists = await self.fs.exists(filePath).catch(reject);
+            // console.log('getPath EXISTS', exists)
 
             if (exists) {
-                let contents = null
+                let contents = null;
 
                 if (_path.slice(-3) === 'png' || _path.slice(-3) === 'jpg' || _path.slice(-3) === 'gif') {
                     contents = await self.fs.readFile(filePath, 'base64')
-                        .catch(err => { throw err })
+                        .catch(err => {throw err})
 
                     /* Convert to binary. */
                     contents = Buffer.from(contents, 'base64')
                 } else {
                     contents = await self.fs.readFile(filePath, 'utf8')
-                        .catch(err => { throw err })
+                        .catch(err => {throw err})
                 }
 
-                return resolve(contents)
+                return resolve(contents);
             } else {
-                return resolve(null)
+                return resolve(null);
             }
-        })
-    }
+        });
+    };
 
-    listFiles = async function (_address) {
+    listFiles = async function(_address) {
         /* Localize this. */
-        const self = this
+        const self = this;
 
-        const dirPath = self.fs.DocumentDirectoryPath + '/' + _address + '/'
+        const dirPath = self.fs.DocumentDirectoryPath + '/' + _address + '/';
 
         // get a list of files and directories in the main bundle
         // On Android, use "this.fs.DocumentDirectoryPath" (MainBundlePath is not defined)
         return self.fs.readDir(dirPath)
-            .then((result) => {
+            .then(result => {
                 // TODO We should perform a `STAT` for additional details
-                return result
+                return result;
             })
-            .catch((err) => {
-                console.log(err.message, err.code)
+            .catch(err => {
+                console.log(err.message, err.code);
             })
     }
 
     saveFile = async function (_address, _path, _data, _metaData) {
         /* Localize this. */
-        const self = this
+        const self = this;
 
         /* Initialize holders. */
-        let newDir = null
-        let newDirPath = null
-        let created = null
-        let success = null
+        let newDir = null;
+        let newDirPath = null;
+        let created = null;
+        let success = null;
 
         /* Check for zite folder. */
-        const installed = await this.exists(_address)
-// console.log('INSTALLED', installed, _address)
+        const installed = await this.exists(_address);
+
+        // console.log('INSTALLED', installed, _address)
 
         /* Create new folder if not already installed. */
         if (!installed) {
             /* Set new directory path. */
-            newDirPath = self.fs.DocumentDirectoryPath + '/' + _address
+            newDirPath = self.fs.DocumentDirectoryPath + '/' + _address;
 
             /* Create the new directory. */
-            created = await self.fs.mkdir(newDirPath)
+            created = await self.fs.mkdir(newDirPath);
 
-            console.info('Created new zite installation folder', newDirPath)
+            console.info('Created new zite installation folder', newDirPath);
         }
 
-        const dirSplitPos = _path.lastIndexOf('/')
+        const dirSplitPos = _path.lastIndexOf('/');
+
         if (dirSplitPos > -1) {
             /* Retrieve new directory name. */
             newDir = _path.slice(0, dirSplitPos)
 
             /* Set new directory path. */
-            newDirPath = self.fs.DocumentDirectoryPath + '/' + _address + '/' + newDir
+            newDirPath =
+                self.fs.DocumentDirectoryPath + '/' + _address + '/' + newDir;
 
             /* Create the new directory. */
-            created = await self.fs.mkdir(newDirPath)
+            created = await self.fs.mkdir(newDirPath);
 
-            console.info('Created new zite sub-folder', newDirPath)
+            console.info('Created new zite sub-folder', newDirPath);
         }
 
         /* Initialize the file path. */
-        const filePath = self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path
+        const filePath =
+            self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path;
 
         return new Promise(async function (resolve, reject) {
-            success = null
+            success = null;
 
             if (_path.slice(-3) === 'png' || _path.slice(-3) === 'jpg' || _path.slice(-3) === 'gif') {
                 /* Convert the buffer to base64. */
-                const base64 = Buffer.from(_data).toString('base64')
+                const base64 = Buffer.from(_data).toString('base64');
 
                 /* Write the data to disk. */
                 success = await self.fs.writeFile(filePath, base64, 'base64')
                     .catch(reject)
             } else {
                 /* Convert buffer to string. */
-                const strData = Buffer.from(_data).toString('utf8')
-// console.log(filePath, strData)
+                const strData = Buffer.from(_data).toString('utf8');
+
+                // console.log(filePath, strData)
 
                 /* Write the data to disk. */
                 success = await self.fs.writeFile(filePath, strData, 'utf8')
@@ -137,16 +147,16 @@ class Host0 {
             }
 
             // FIXME How do we verify, when this always returns `undefined`
-            resolve(success)
-        })
-    }
+            resolve(success);
+        });
+    };
 }
 
-const announce = function () {
+const announce = function() {
     /* Localize this. */
-    const self = this
+    const self = this;
 
-    console.log('Announcing...')
+    console.log('Announcing...');
 
     //
     // const crypto = require('crypto')
@@ -189,39 +199,43 @@ const announce = function () {
     //     wrtc: {},
     // }
 
-    var client = new Client(requiredOpts)
+    var client = new Client(requiredOpts);
 
-    client.on('error', function (err) {
+    client.on('error', function(err) {
         // fatal client error!
-        console.log(err.message)
-    })
+        console.log(err.message);
+    });
 
-    client.on('warning', function (err) {
+    client.on('warning', function(err) {
         // a tracker was unavailable or sent bad data to the client. you can probably ignore it
-        console.log(err.message)
-    })
+        console.log(err.message);
+    });
 
     // start getting peers from the tracker
-    client.start()
+    client.start();
 
-    client.on('update', function (data) {
-        console.log('got an announce response from tracker: ', data.announce)
-        console.log('number of seeders vs. leechers in the swarm: ', data.complete, data.incomplete)
-    })
+    client.on('update', function(data) {
+        console.log('got an announce response from tracker: ', data.announce);
+        console.log(
+            'number of seeders vs. leechers in the swarm: ',
+            data.complete,
+            data.incomplete,
+        );
+    });
 
-    client.once('peer', function (_address) {
-        console.log('found a peer: ' + _address) // 85.10.239.191:48623
+    client.once('peer', function(_address) {
+        console.log('found a peer: ' + _address); // 85.10.239.191:48623
 
-        const ipAddress = _address.split(':')[0]
-        const port = _address.split(':')[1]
+        const ipAddress = _address.split(':')[0];
+        const port = _address.split(':')[1];
 
-        const peer = { ipAddress, port }
+        const peer = {ipAddress, port};
 
-        self.hostIp = ipAddress
-        self.hostPort = port
+        self.hostIp = ipAddress;
+        self.hostPort = port;
 
-        self._addPeerToDb(infoHash, peer)
-    })
+        self._addPeerToDb(infoHash, peer);
+    });
 
     // announce that download has completed (and you are now a seeder)
     // client.complete()
@@ -244,13 +258,17 @@ const announce = function () {
     // client.destroy()
 
     // scrape
-    client.scrape()
+    client.scrape();
 
-    client.on('scrape', function (data) {
-        console.log('got a scrape response from tracker: ', data.announce)
-        console.log('number of seeders vs. leechers in the swarm: ', data.complete, data.incomplete)
+    client.on('scrape', function(data) {
+        console.log('got a scrape response from tracker: ', data.announce);
+        console.log(
+            'number of seeders vs. leechers in the swarm: ',
+            data.complete,
+            data.incomplete,
+        );
         // console.log('number of total downloads of this torrent: ', data.downloaded)
-    })
-}
+    });
+};
 
-export default Host0
+export default Host0;

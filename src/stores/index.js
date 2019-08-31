@@ -1,20 +1,20 @@
 // @flow
 
-// import {create} from 'mobx-persist';
-// import {AsyncStorage} from 'react-native';
+import {create} from 'mobx-persist';
+import {AsyncStorage} from 'react-native';
 
 import App from './App';
-// import P0rtal from './P0rtal'
-// import Stage from './Stage'
+import P0rtal from './P0rtal';
+import Stage from './Stage';
 
-// const hydrate = create({storage: AsyncStorage});
+const hydrate = create({storage: AsyncStorage});
 
 // you can hydrate stores here with mobx-persist
-// hydrate('Account', stores.Account)
-// hydrate('authorized', P0rtal)
+// hydrate('Account', stores.Account);
+hydrate('authorized', P0rtal);
 
 module.exports = {
     App,
-    // P0rtal,
-    // Stage
+    P0rtal,
+    Stage,
 };

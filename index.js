@@ -83,20 +83,6 @@ Navigation.events().registerAppLaunchedListener(() => {
                         interpolation: 'accelerate',
                     },
                 },
-                // bottomTabs: {
-                //     y: {
-                //         from: 0,
-                //         to: 100,
-                //         duration: 500,
-                //         interpolation: 'accelerate',
-                //     },
-                //     alpha: {
-                //         from: 1,
-                //         to: 0,
-                //         duration: 500,
-                //         interpolation: 'accelerate',
-                //     },
-                // },
                 bottomTabs: {
                     y: {
                         from: 0,
@@ -149,7 +135,8 @@ Navigation.events().registerAppLaunchedListener(() => {
                         id: 'zeronet.P0rtal',
                         name: 'zeronet.P0rtal',
                         passProps: {
-                            text: 'Suite of built-in decentralized features and services.',
+                            text:
+                                'Suite of built-in decentralized features and services.',
                         },
                     },
                 },
@@ -181,8 +168,7 @@ Navigation.events().registerAppLaunchedListener(() => {
     };
 
     /* Initialize side menu layout. */
-    const sideMenu = {center};
-    // const sideMenu = {left, center, right};
+    const sideMenu = {left, center, right};
 
     /* Initialize navigation root. */
     const root = {sideMenu};

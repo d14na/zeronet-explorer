@@ -30,8 +30,8 @@ import {
     Styles
 } from '../constants'
 
-import Peer0 from '../lib/peer0'
-import net from 'react-native-tcp'
+// import Peer0 from '../lib/peer0'
+// import net from 'react-native-tcp'
 
 @observer
 export default class StartupFrame extends React.Component {
@@ -148,7 +148,7 @@ export default class StartupFrame extends React.Component {
         this.searchVal = _val
     }
 
-    _handleSearchSubmit() {
+    _handleSearchSubmit () {
         /* Retrieve the search value. */
         const searchVal = this.searchVal
 

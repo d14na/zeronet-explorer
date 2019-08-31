@@ -35,6 +35,10 @@ target 'zer0net' do
   pod 'ReactNativeNavigation', :podspec => '../node_modules/react-native-navigation/ReactNativeNavigation.podspec'
   
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  
+  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
+  
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   use_native_modules!
 end
