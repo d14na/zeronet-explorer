@@ -2,9 +2,11 @@ package com.zer0net;
 
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
+import com.rnfs.RNFSPackage;
 
 import org.reactnative.camera.RNCameraPackage;
 
@@ -31,7 +33,9 @@ public class MainApplication extends NavigationApplication {
 
   protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
-            new RNCameraPackage()
+      new RNCameraPackage(),
+      new RNCWebViewPackage(),
+      new RNFSPackage()
     );
   }
 

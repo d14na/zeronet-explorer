@@ -1,6 +1,8 @@
 import React from 'react';
 
-import {Platform, StyleSheet, View, WebView} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
+
+import {WebView} from 'react-native-webview';
 
 import {Navigation} from 'react-native-navigation';
 
@@ -14,7 +16,7 @@ import {Shared} from '../constants';
 
 // import Timer from 'react-native-timer';
 
-// import RNFS from 'react-native-fs';
+import RNFS from 'react-native-fs';
 
 @observer
 class Webview extends React.Component {
@@ -46,9 +48,9 @@ class Webview extends React.Component {
         // FIXME Problem with Android loading local files
         //       Temporarily use 0net proxy
         if (Platform.OS === 'android') {
-            // target = 'file://' + RNFS.DocumentDirectoryPath + this.props.target;
+            target = 'file://' + RNFS.DocumentDirectoryPath + this.props.target;
         } else {
-            // target = RNFS.DocumentDirectoryPath + this.props.target;
+            target = RNFS.DocumentDirectoryPath + this.props.target;
         }
 
         this.state = {

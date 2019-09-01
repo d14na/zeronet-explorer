@@ -27,6 +27,8 @@ target 'zer0net' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+
+
   target 'zer0netTests' do
     inherit! :search_paths
     # Pods for testing
@@ -39,6 +41,8 @@ target 'zer0net' do
   pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
   
   pod 'react-native-camera', path: '../node_modules/react-native-camera'
+  
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   use_native_modules!
 end

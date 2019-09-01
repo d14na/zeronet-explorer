@@ -238,6 +238,19 @@ class StartupFrame extends React.Component {
                         large
                         containerStyle={styles.mainButtons}
                         type="outline"
+                        onPress={() => this._test2()}
+                        icon={{
+                            name: 'support',
+                            type: 'font-awesome',
+                            color: 'rgba(30, 30, 180, 0.8)',
+                        }}
+                        title="TEST WEBVIEW"
+                    />
+
+                    <Button
+                        large
+                        containerStyle={styles.mainButtons}
+                        type="outline"
                         onPress={() => this._test()}
                         icon={{
                             name: 'support',
@@ -302,6 +315,25 @@ class StartupFrame extends React.Component {
                 </View>
             );
         }
+    }
+
+    _test2() {
+        const target = '/1D14naQY4s65YR6xrJDBHk9ufj2eLbK49C/index.html';
+
+        Navigation.push('zeronet.Main', {
+            component: {
+                id: 'zeronet.Webview',
+                name: 'zeronet.Webview',
+                options: {
+                    topBar: {
+                        visible: false,
+                        animate: false,
+                        drawBehind: true,
+                    },
+                },
+                passProps: {target},
+            },
+        });
     }
 
     _test() {
