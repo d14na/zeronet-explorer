@@ -44,7 +44,7 @@ class Camera extends React.Component {
                     barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
                     permissionDialogTitle={'Camera Permission Request'}
                     permissionDialogMessage={
-                        "We require permission to use your device's camera to continue."
+                        'Allows QR codes to be scanned and automatically decoded.'
                     }
                 />
 
