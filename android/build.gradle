@@ -17,8 +17,8 @@ buildscript {
         // 201907041 [cpu-32]
         // 201907042 [arm-64]
         // 201907043 [cpu-64]
-        versionCode = 1908280
-        versionName = "19.8.28"
+        versionCode = 1909010
+        versionName = "19.9.1"
     }
     repositories {
         google()

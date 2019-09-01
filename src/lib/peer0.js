@@ -1,3 +1,9 @@
+/* FIXME: Verify that we actually need `self`. */
+/* eslint consistent-this: ["error", "self"] */
+
+/* global Buffer */
+// import Client from 'zeronet-tracker'
+
 //import Timer from 'react-native-timer'
 
 class Peer0 {
@@ -166,27 +172,29 @@ class Peer0 {
 
             self.client = self.net.createConnection(
                 self.hostPort,
-                self.hostIp, () => {
+                self.hostIp,
+                () => {
                     console.info(
                         'Opened a new peer connection!',
                         self.hostPort,
                         self.hostIp,
                     );
 
-                /* Initialize handshake package. */
-                const pkg = self._encode(self._handshakePkg());
+                    /* Initialize handshake package. */
+                    const pkg = self._encode(self._handshakePkg());
 
-                /* Send package. */
-                self.client.write(pkg);
-            });
+                    /* Send package. */
+                    self.client.write(pkg);
+                },
+            );
 
-            self.client.on('error', function (error) {
+            self.client.on('error', function(error) {
                 console.error('react-native-tcp', error);
 
                 self.reject(error);
-            })
+            });
 
-            let numCalled = 0; // FOR DEBUGGING PURPOSES ONLY
+            // let numCalled = 0; // FOR DEBUGGING PURPOSES ONLY
 
             self.client.on('data', function(_data) {
                 try {
@@ -202,7 +210,10 @@ class Peer0 {
                     // console.log('Message #%d was received [%d bytes]', ++numCalled, _data.length, _data, decoded)
 
                     /* Handshake response. */
-                    if (decoded.protocol === 'v2' && self.hasHandshake === false) {
+                    if (
+                        decoded.protocol === 'v2' &&
+                        self.hasHandshake === false
+                    ) {
                         /* Reset payload. */
                         self.payload = null;
 
@@ -237,7 +248,7 @@ class Peer0 {
                         };
 
                         self.resolve(pkg);
-                    };
+                    }
                 } catch (e) {
                     // FIXME We should NOT attempt decoding until all data has
                     //       been downloaded
@@ -257,6 +268,7 @@ class Peer0 {
     };
 
     getFile = function(_address, _path, _start, _length) {
+        console.log('PEER ZERO -- GET FILE');
         /* Localize this. */
         const self = this;
 
@@ -270,6 +282,9 @@ class Peer0 {
             self.resolve = resolve;
             self.reject = reject;
         });
+
+        console.log('self.client', self.client);
+        console.log('self.net', self.net);
 
         /* Initialize/verify our client connection. */
         if (self.client) {
@@ -303,7 +318,7 @@ class Peer0 {
                 self.reject(error);
             });
 
-            let numCalled = 0; // FOR DEBUGGING PURPOSES ONLY
+            // let numCalled = 0; // FOR DEBUGGING PURPOSES ONLY
 
             self.client.on('data', function(_data) {
                 try {
@@ -319,7 +334,10 @@ class Peer0 {
                     // console.log('Message #%d was received [%d bytes]', ++numCalled, _data.length, _data, decoded)
 
                     /* Handshake response. */
-                    if (decoded.protocol === 'v2' && self.hasHandshake === false) {
+                    if (
+                        decoded.protocol === 'v2' &&
+                        self.hasHandshake === false
+                    ) {
                         /* Reset payload. */
                         self.payload = null;
 

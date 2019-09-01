@@ -1,3 +1,7 @@
+/* FIXME: Verify that we actually need `self`. */
+/* eslint consistent-this: ["error", "self"] */
+
+/* global Buffer */
 // import Client from 'zeronet-tracker'
 
 class Host0 {
@@ -43,15 +47,25 @@ class Host0 {
             if (exists) {
                 let contents = null;
 
-                if (_path.slice(-3) === 'png' || _path.slice(-3) === 'jpg' || _path.slice(-3) === 'gif') {
-                    contents = await self.fs.readFile(filePath, 'base64')
-                        .catch(err => {throw err})
+                if (
+                    _path.slice(-3) === 'png' ||
+                    _path.slice(-3) === 'jpg' ||
+                    _path.slice(-3) === 'gif'
+                ) {
+                    contents = await self.fs
+                        .readFile(filePath, 'base64')
+                        .catch(err => {
+                            throw err;
+                        });
 
                     /* Convert to binary. */
-                    contents = Buffer.from(contents, 'base64')
+                    contents = Buffer.from(contents, 'base64');
                 } else {
-                    contents = await self.fs.readFile(filePath, 'utf8')
-                        .catch(err => {throw err})
+                    contents = await self.fs
+                        .readFile(filePath, 'utf8')
+                        .catch(err => {
+                            throw err;
+                        });
                 }
 
                 return resolve(contents);
@@ -69,17 +83,18 @@ class Host0 {
 
         // get a list of files and directories in the main bundle
         // On Android, use "this.fs.DocumentDirectoryPath" (MainBundlePath is not defined)
-        return self.fs.readDir(dirPath)
+        return self.fs
+            .readDir(dirPath)
             .then(result => {
                 // TODO We should perform a `STAT` for additional details
                 return result;
             })
             .catch(err => {
                 console.log(err.message, err.code);
-            })
-    }
+            });
+    };
 
-    saveFile = async function (_address, _path, _data, _metaData) {
+    saveFile = async function(_address, _path, _data, _metaData) {
         /* Localize this. */
         const self = this;
 
@@ -109,7 +124,7 @@ class Host0 {
 
         if (dirSplitPos > -1) {
             /* Retrieve new directory name. */
-            newDir = _path.slice(0, dirSplitPos)
+            newDir = _path.slice(0, dirSplitPos);
 
             /* Set new directory path. */
             newDirPath =
@@ -125,16 +140,21 @@ class Host0 {
         const filePath =
             self.fs.DocumentDirectoryPath + '/' + _address + '/' + _path;
 
-        return new Promise(async function (resolve, reject) {
+        return new Promise(async function(resolve, reject) {
             success = null;
 
-            if (_path.slice(-3) === 'png' || _path.slice(-3) === 'jpg' || _path.slice(-3) === 'gif') {
+            if (
+                _path.slice(-3) === 'png' ||
+                _path.slice(-3) === 'jpg' ||
+                _path.slice(-3) === 'gif'
+            ) {
                 /* Convert the buffer to base64. */
                 const base64 = Buffer.from(_data).toString('base64');
 
                 /* Write the data to disk. */
-                success = await self.fs.writeFile(filePath, base64, 'base64')
-                    .catch(reject)
+                success = await self.fs
+                    .writeFile(filePath, base64, 'base64')
+                    .catch(reject);
             } else {
                 /* Convert buffer to string. */
                 const strData = Buffer.from(_data).toString('utf8');
@@ -142,8 +162,9 @@ class Host0 {
                 // console.log(filePath, strData)
 
                 /* Write the data to disk. */
-                success = await self.fs.writeFile(filePath, strData, 'utf8')
-                    .catch(reject)
+                success = await self.fs
+                    .writeFile(filePath, strData, 'utf8')
+                    .catch(reject);
             }
 
             // FIXME How do we verify, when this always returns `undefined`

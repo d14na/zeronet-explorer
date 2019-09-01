@@ -1,7 +1,7 @@
 // @flow
 /* global Buffer */
 
-// import Host0 from '../../lib/host0';
+import Host0 from '../../lib/host0';
 import Peer0 from '../../lib/peer0';
 import Stage from '../Stage';
 
@@ -9,7 +9,7 @@ import {Navigation} from 'react-native-navigation';
 
 import moment from 'moment';
 import net from 'react-native-tcp';
-// import RNFS from 'react-native-fs';
+import RNFS from 'react-native-fs';
 import bitcoinMessage from 'bitcoinjs-message';
 
 const Zite = {
@@ -18,7 +18,7 @@ const Zite = {
         this.address = _address;
 
         /* Initailize Host0. */
-        // this.host0 = new Host0(RNFS);
+        this.host0 = new Host0(RNFS);
 
         /* Initailize Peer0. */
         this.peer0 = new Peer0(net);
