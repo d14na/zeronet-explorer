@@ -28,6 +28,14 @@ export default StyleSheet.create({
     },
     scrollContainer: {},
 
+    /* Text */
+    bold: {
+        fontWeight: 'bold',
+    },
+    italic: {
+        fontStyle: 'italic',
+    },
+
     /* Headings */
     banner: {
         // width: Layout.width,

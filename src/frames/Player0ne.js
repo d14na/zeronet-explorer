@@ -1,55 +1,47 @@
-import React from 'react'
+import React from 'react';
 
-import {
-    StyleSheet,
-    ScrollView,
-    Text,
-    View
-} from 'react-native'
+import {StyleSheet, Text, View} from 'react-native';
 
-import { Navigation } from 'react-native-navigation'
+import {Navigation} from 'react-native-navigation';
 
-import { observable } from 'mobx'
-import { observer } from 'mobx-react/native'
-import stores from '../stores'
+// import {observable} from 'mobx';
+import {observer} from 'mobx-react/native';
+// import stores from '../stores';
 
-import { Button } from 'react-native-elements'
+import {Button} from 'react-native-elements';
 
-import {
-    Shared,
-    Styles
-} from '../constants'
+import {Shared} from '../constants';
 
 @observer
-export default class Canvas extends React.Component {
+class PlayerOne extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         /* Track event. */
-        Shared.TrackEvent('PLAYERONE_')
+        Shared.TrackEvent('PLAYERONE_');
     }
 
     render() {
-        return <View style={ styles.container }>
-            <Button
-                onPress={ this._close.bind(this) }
-                icon={{name: 'window-close', type: 'font-awesome'}}
-                title='Close' />
+        return (
+            <View style={styles.container}>
+                <Button
+                    onPress={this._close.bind(this)}
+                    icon={{name: 'window-close', type: 'font-awesome'}}
+                    title="Close"
+                />
 
-            <View style={ styles.centerView }>
-                <Text>GAMEPAD (LOCAL &amp; REMOTE) CONTROLLER</Text>
+                <View style={styles.centerView}>
+                    <Text>GAMEPAD (LOCAL &amp; REMOTE) CONTROLLER</Text>
+                </View>
             </View>
-
-        </View>
+        );
     }
 
-    componentDidMount() {
-
-    }
+    componentDidMount() {}
 
     _close() {
-        Navigation.pop(this.props.componentId)
-        // Navigation.dismissModal(this.props.componentId)
+        Navigation.pop(this.props.componentId);
+        // Navigation.dismissModal(this.props.componentId);
     }
 
     _hide() {
@@ -57,9 +49,9 @@ export default class Canvas extends React.Component {
             topBar: {
                 visible: true,
                 animate: true,
-                drawBehind: false
-            }
-        })
+                drawBehind: false,
+            },
+        });
     }
 }
 
@@ -71,6 +63,8 @@ const styles = StyleSheet.create({
     centerView: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
+        justifyContent: 'center',
+    },
+});
+
+export default PlayerOne;

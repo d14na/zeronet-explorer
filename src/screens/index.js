@@ -29,7 +29,7 @@ import {
 import Stage from '../frames/Stage';
 
 /* STUDIO */
-import Studi0 from '../frames/Studi0';
+import Studio from '../frames/Studio';
 
 /* WEBVIEW */
 import Webview from '../frames/Webview';
@@ -68,7 +68,7 @@ export function registerScreens() {
     Navigation.registerComponent('zeronet.Stage', () => Stage);
 
     /* Audio and visual media studio */
-    Navigation.registerComponent('zeronet.Studi0', () => Studi0);
+    Navigation.registerComponent('zeronet.Studio', () => Studio);
 
     /* Standard webview */
     Navigation.registerComponent('zeronet.Webview', () => Webview);

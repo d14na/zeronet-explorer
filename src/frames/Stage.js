@@ -10,7 +10,7 @@ import {Navigation} from 'react-native-navigation';
 import {observer} from 'mobx-react/native';
 import stores from '../stores';
 
-import {Shared} from '../constants';
+import {Shared, Styles} from '../constants';
 
 const ANDROID_DRAWER_RATIO = 0.8; // 80% of screen width
 
@@ -97,7 +97,7 @@ class Stage extends React.Component {
                     placeholder={ 'Search #' + stores.Stage.ziteTitle } />
                 */}
 
-                <ScrollView style={{flex: 1}}>
+                <ScrollView style={Styles.container}>
                     <View style={styles.contentContainer}>
                         {this._displayAddress()}
                         {this._displayDescription()}
@@ -105,7 +105,7 @@ class Stage extends React.Component {
                         {this._openButton()}
                         {this._displayFileList()}
 
-                        <Text style={{fontStyle: 'italic'}}>
+                        <Text style={Styles.italic}>
                             {stores.Stage.debugLog}
                         </Text>
                     </View>
@@ -189,7 +189,7 @@ class Stage extends React.Component {
     _openButton() {
         if (stores.Stage.ziteAddress) {
             return (
-                <View style={{marginTop: 10}}>
+                <View style={styles.openButton}>
                     <Button
                         containerViewStyle={styles.mainButtons}
                         borderRadius={3}
@@ -299,6 +299,10 @@ const styles = StyleSheet.create({
     searchInput: {
         paddingLeft: 40,
         paddingBottom: Platform.OS === 'ios' ? 0 : 9,
+    },
+
+    openButton: {
+        marginTop: 10,
     },
 
     ziteDetails: {

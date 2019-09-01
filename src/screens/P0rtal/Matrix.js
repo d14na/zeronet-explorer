@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {StyleSheet, ScrollView, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 import {Navigation} from 'react-native-navigation';
 
-import {observable} from 'mobx';
+// import {observable} from 'mobx';
 import {observer} from 'mobx-react/native';
 import stores from '../../stores';
 
@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Shared, Styles} from '../../constants';
 
 @observer
-class Courier extends React.Component {
+class Matrix extends React.Component {
     constructor(props) {
         super(props);
 
@@ -25,11 +25,11 @@ class Courier extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={[Styles.centerView, {paddingBottom: 100}]}>
+                <View style={[Styles.centerView, styles.extraBottom]}>
                     <Icon name={'at'} style={styles.icon} />
 
                     <Text style={styles.heading}>
-                        Courier Messaging
+                        Matrix Messaging
                         {'\n'}coming soon...
                     </Text>
                 </View>
@@ -72,6 +72,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 25,
     },
+    extraBottom: {
+        paddingBottom: 100,
+    },
 });
 
-export default Courier;
+export default Matrix;
