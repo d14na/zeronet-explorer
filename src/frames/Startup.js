@@ -24,7 +24,7 @@ import stores from '../stores';
 
 import {Shared, Styles} from '../constants';
 
-import Peer0 from '../lib/peer0';
+// import Peer0 from '../lib/peer0';
 // import net from 'react-native-tcp';
 
 @observer
@@ -44,7 +44,7 @@ class StartupFrame extends React.Component {
         this._updateIndex = this._updateIndex.bind(this);
 
         this._initZite = this._initZite.bind(this);
-        this._pex = this._pex.bind(this);
+        // this._pex = this._pex.bind(this);
     }
 
     render() {
@@ -365,14 +365,14 @@ class StartupFrame extends React.Component {
             });
     }
 
-    async _pex() {
-        /* Initailize Peer0. */
-        const peer0 = new Peer0(net, '104.129.16.31', 443); // zero.booth.moe
-        console.log('peer0', peer0);
-
-        const peers = await peer0.pex('1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F');
-        console.log('RECEIVED PEERS', peers);
-    }
+    // async _pex() {
+    //     /* Initailize Peer0. */
+    //     const peer0 = new Peer0(net, '104.129.16.31', 443); // zero.booth.moe
+    //     console.log('peer0', peer0);
+    //
+    //     const peers = await peer0.pex('1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F');
+    //     console.log('RECEIVED PEERS', peers);
+    // }
 
     _initZite(_target, _path) {
         // FIXME If the tag is NOT an address then we need to do a
