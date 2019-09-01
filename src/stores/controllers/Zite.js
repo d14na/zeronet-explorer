@@ -71,9 +71,7 @@ const Zite = {
             if (!verified) {
                 // FIXME A custom alert will be much nicer.
                 //       Even better create a descriptive error screen.
-                return throw new Error(
-                    'Oops! content.json could NOT be verified..',
-                );
+                throw 'Oops! content.json could NOT be verified..';
             }
 
             /* Set the background color. */

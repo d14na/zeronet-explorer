@@ -25,7 +25,7 @@ import stores from '../stores';
 import {Shared, Styles} from '../constants';
 
 // import Peer0 from '../lib/peer0';
-// import net from 'react-native-tcp';
+import net from 'react-native-tcp';
 
 @observer
 class StartupFrame extends React.Component {
@@ -176,9 +176,7 @@ class StartupFrame extends React.Component {
             /* Handle unregistered dot-bit. */
             if (!endpoint) {
                 // FIXME Provide the user with a popup message.
-                throw new Error(
-                    `Oops! [ ${searchVal} ] is NOT registered on the Zeronet.`,
-                );
+                throw `Oops! [ ${searchVal} ] is NOT registered on the Zeronet.`;
             }
 
             /* Initialize the zite. */
@@ -194,10 +192,8 @@ class StartupFrame extends React.Component {
 
         /* Handle unavailable zite. */
         // FIXME: Provide the user with a popup message.
-        throw new Error(
-            `Oops! [ ${searchVal} ] cannot be found. ` +
-                'Please check the address/tag and try your request again.',
-        );
+        throw `Oops! [ ${searchVal} ] cannot be found. ` +
+            'Please check the address/tag and try your request again.';
     }
 
     _openScanner() {
@@ -238,11 +234,24 @@ class StartupFrame extends React.Component {
                         large
                         containerStyle={styles.mainButtons}
                         type="outline"
+                        onPress={() => this._test3()}
+                        icon={{
+                            name: 'support',
+                            type: 'font-awesome',
+                            color: 'rgba(30, 180, 180, 0.8)',
+                        }}
+                        title="TEST TCP"
+                    />
+
+                    <Button
+                        large
+                        containerStyle={styles.mainButtons}
+                        type="outline"
                         onPress={() => this._test2()}
                         icon={{
                             name: 'support',
                             type: 'font-awesome',
-                            color: 'rgba(30, 30, 180, 0.8)',
+                            color: 'rgba(30, 180, 30, 0.8)',
                         }}
                         title="TEST WEBVIEW"
                     />
@@ -315,6 +324,28 @@ class StartupFrame extends React.Component {
                 </View>
             );
         }
+    }
+
+    _test3() {
+        console.log(net);
+
+        // const server = net
+        //     .createServer(function(socket) {
+        //         socket.write('excellent!');
+        //     })
+        //     .listen(12345);
+        //
+        // console.log(server);
+
+        const client = net.createConnection(12345);
+
+        client.on('error', function(error) {
+            console.log(error);
+        });
+
+        client.on('data', function(data) {
+            console.log('message was received', data);
+        });
     }
 
     _test2() {

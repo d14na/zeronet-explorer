@@ -9,7 +9,7 @@ import {observable, action, computed} from 'mobx';
 
 import moment from 'moment';
 
-// import {Zite} from './controllers';
+import {Zite} from './controllers';
 
 class Store {
     /* Initialize debugging log. */
@@ -139,7 +139,7 @@ class Store {
         this.ziteFiles = [];
 
         /* Preload the zite (content.json). */
-        // Zite.preload(_address);
+        Zite.preload(_address);
     }
 
     /* Open the zite path. */
