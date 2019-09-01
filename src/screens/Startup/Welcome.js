@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyleSheet, ScrollView, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 import {Navigation} from 'react-native-navigation';
 

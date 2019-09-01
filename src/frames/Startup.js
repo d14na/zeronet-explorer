@@ -1,3 +1,6 @@
+/* FIXME: Verify that we actually need `self`. */
+/* eslint consistent-this: ["error", "self"] */
+
 import React from 'react';
 
 import {
@@ -21,8 +24,8 @@ import stores from '../stores';
 
 import {Shared, Styles} from '../constants';
 
-// import Peer0 from '../lib/peer0'
-// import net from 'react-native-tcp'
+import Peer0 from '../lib/peer0';
+// import net from 'react-native-tcp';
 
 @observer
 class StartupFrame extends React.Component {
@@ -89,7 +92,7 @@ class StartupFrame extends React.Component {
                             onPress={this._updateIndex}
                             selectedIndex={this.selectedIndex}
                             buttons={buttons}
-                            containerStyle={{height: 30}}
+                            containerStyle={styles.menuHeight}
                         />
 
                         {this._displayZites()}
@@ -172,7 +175,8 @@ class StartupFrame extends React.Component {
 
             /* Handle unregistered dot-bit. */
             if (!endpoint) {
-                return alert(
+                // FIXME Provide the user with a popup message.
+                throw new Error(
                     `Oops! [ ${searchVal} ] is NOT registered on the Zeronet.`,
                 );
             }
@@ -189,7 +193,8 @@ class StartupFrame extends React.Component {
         }
 
         /* Handle unavailable zite. */
-        alert(
+        // FIXME: Provide the user with a popup message.
+        throw new Error(
             `Oops! [ ${searchVal} ] cannot be found. ` +
                 'Please check the address/tag and try your request again.',
         );
@@ -348,6 +353,8 @@ class StartupFrame extends React.Component {
                         model: 'Focus',
                         miles: 2000,
                     });
+
+                    console.log(myCar);
                 });
 
                 // Query results are updated in realtime
@@ -373,7 +380,7 @@ class StartupFrame extends React.Component {
         const address = _target;
 
         // FIXME Handle the path
-        const path = _path;
+        // const path = _path;
 
         /* Set the zite address. */
         stores.Stage.initZite(address);
@@ -405,7 +412,7 @@ const styles = StyleSheet.create({
     btnQrCode: {
         marginTop: 1,
         marginBottom: 1,
-        paddingTop: 20,
+        paddingTop: Platform.OS === 'ios' ? 15 : 20,
         paddingLeft: 8,
         backgroundColor: 'rgba(57, 62, 66, 1.0)',
     },
@@ -414,9 +421,12 @@ const styles = StyleSheet.create({
     },
     searchInputText: {
         // paddingLeft: 5,
-        paddingBottom: Platform.OS === 'ios' ? 0 : 9,
+        paddingBottom: Platform.OS === 'ios' ? -5 : 9,
     },
 
+    menuHeight: {
+        height: 30,
+    },
     mainBanner: {
         width: '100%',
         height: 160,

@@ -1,9 +1,8 @@
 // @flow
+/* global Buffer */
 
-import Host0 from '../../lib/host0';
+// import Host0 from '../../lib/host0';
 import Peer0 from '../../lib/peer0';
-// import Host0 from 'host0';
-// import Peer0 from 'peer0';
 import Stage from '../Stage';
 
 import {Navigation} from 'react-native-navigation';
@@ -70,7 +69,11 @@ const Zite = {
             const verified = this.verifyConfig();
 
             if (!verified) {
-                return alert('Oops! content.json could NOT be verified..');
+                // FIXME A custom alert will be much nicer.
+                //       Even better create a descriptive error screen.
+                return throw new Error(
+                    'Oops! content.json could NOT be verified..',
+                );
             }
 
             /* Set the background color. */
@@ -82,7 +85,8 @@ const Zite = {
             Stage.setZiteDescription(this.config.description);
             Stage.setZiteModified(this.config.modified);
 
-            const lastUpdate = moment.unix(this.config.modified).fromNow() +
+            const lastUpdate =
+                moment.unix(this.config.modified).fromNow() +
                 ' on ' +
                 moment.unix(this.config.modified).format('ll');
             Stage.setZiteLastUpdate(lastUpdate);
@@ -191,20 +195,20 @@ const Zite = {
         const fileList = Object.keys(files);
 
         /* Set file count. */
-        const numFiles = fileList.length;
+        // const numFiles = fileList.length;
 
         /* Initialize display list. */
         let displayList = [];
 
         let passedAllChecks = true;
 
-        for (let filename of fileList) {
-            console.info('Processing FILE', filename)
+        for (var filename of fileList) {
+            console.info('Processing FILE', filename);
 
             /* Retrieve file details. */
             const file = files[filename];
             const sha512 = file.sha512;
-            const size = file.size;
+            // const size = file.size;
             // console.log('(CONFIG) FILE DETAILS', filename, size, sha512)
 
             /* Retrieve file from remote. */
@@ -245,10 +249,7 @@ const Zite = {
             if (!passedAllChecks) {
                 // FIXME A custom alert will be much nicer.
                 //       Even better create a descriptive error screen.
-                alert(`Oops! ${filename} FAILED file verification!`);
-
-                /* Stop processing files. */
-                break;
+                throw new Error(`Oops! ${filename} FAILED file verification!`);
             }
         }
 

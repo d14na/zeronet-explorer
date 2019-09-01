@@ -38,7 +38,6 @@ target 'zer0net' do
   
   pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
   
-  
   pod 'react-native-camera', path: '../node_modules/react-native-camera'
 
   use_native_modules!
