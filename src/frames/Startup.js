@@ -371,6 +371,9 @@ class StartupFrame extends React.Component {
             /* Verify the Bitcoin signature. */
             const isValid = bitcoinMessage.verify(config, address, signature);
             console.info('content.json isValid', isValid);
+
+            let test3Txt = this.state.test3Txt + '\n' + isValid;
+            this.setState({test3Txt});
         } catch (err) {
             // FIXME WTF is going on here with `config.signs` being undefined.
             console.log('VERIFICATION ERROR: (we may just ignore)', err);
