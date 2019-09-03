@@ -26,6 +26,7 @@ import stores from '../stores';
 
 import {Shared, Styles} from '../constants';
 
+import bitcoinMessage from 'bitcoinjs-message';
 // import Peer0 from '../lib/peer0';
 // import net from 'react-native-tcp';
 
@@ -336,7 +337,7 @@ class StartupFrame extends React.Component {
     }
 
     verifyConfig(config, address) {
-        const bitcoinMessage = require('bitcoinjs-message');
+        // const bitcoinMessage = require('bitcoinjs-message');
         console.log('bitcoinMessage', bitcoinMessage);
 
         /**
@@ -349,26 +350,31 @@ class StartupFrame extends React.Component {
             });
         };
 
-        /* Retrieve the signature. */
-        const signature = config.signs[address];
-        console.info('content.json signature', signature);
+        try {
+            /* Retrieve the signature. */
+            const signature = config.signs[address];
+            console.info('content.json signature', signature);
 
-        /* Delete signs (as we can't verify ourselves in the signature). */
-        delete config.signs;
+            /* Delete signs (as we can't verify ourselves in the signature). */
+            delete config.signs;
 
-        /* Convert the JSON to a string. */
-        // NOTE: This matches the functionality of Python's `json.dumps` spacing.
-        config = JSON.stringify(config)
-            .replace(/":/g, '": ')
-            .replace(/,"/g, ', "');
+            /* Convert the JSON to a string. */
+            // NOTE: This matches the functionality of Python's `json.dumps` spacing.
+            config = JSON.stringify(config)
+                .replace(/":/g, '": ')
+                .replace(/,"/g, ', "');
 
-        /* Escape all unicode characters. */
-        // NOTE: This matches the functionality of Python's `unicode` handling.
-        config = escapeUnicode(config);
+            /* Escape all unicode characters. */
+            // NOTE: This matches the functionality of Python's `unicode` handling.
+            config = escapeUnicode(config);
 
-        /* Verify the Bitcoin signature. */
-        const isValid = bitcoinMessage.verify(config, address, signature);
-        console.info('content.json isValid', isValid);
+            /* Verify the Bitcoin signature. */
+            const isValid = bitcoinMessage.verify(config, address, signature);
+            console.info('content.json isValid', isValid);
+        } catch (err) {
+            // FIXME WTF is going on here with `config.signs` being undefined.
+            console.log('VERIFICATION ERROR: (we may just ignore)', err);
+        }
     }
 
     _test3() {

@@ -1,5 +1,7 @@
 // @flow
 
+import './shim';
+
 /* Import navigation. */
 import {Navigation} from 'react-native-navigation';
 
