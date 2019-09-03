@@ -7,8 +7,18 @@
 //import Timer from 'react-native-timer'
 
 class Peer0 {
-    constructor(_net, _hostIp = null, _hostPort = null) {
-        this.net = _net;
+    constructor(_net = null, _hostIp = null, _hostPort = null) {
+        if (_net) {
+            this.net = _net;
+        } else {
+            // const hostPort = 8888;
+            // const hostIp = '185.142.236.207';
+
+            // const ws = new WebSocket(`ws://${hostIp}:${hostPort}`);
+
+            this.socket = _net;
+        }
+
         this.peerId = '-0NET00-180814FFFFFF';
 
         this.hostIp = _hostIp || '185.142.236.207'; // SUPeer test server
@@ -189,7 +199,7 @@ class Peer0 {
             );
 
             self.client.on('error', function(error) {
-                console.error('react-native-tcp', error);
+                console.error('peer client', error);
 
                 self.reject(error);
             });
@@ -313,7 +323,7 @@ class Peer0 {
             );
 
             self.client.on('error', function(error) {
-                console.error('react-native-tcp', error);
+                console.error('peer client', error);
 
                 self.reject(error);
             });

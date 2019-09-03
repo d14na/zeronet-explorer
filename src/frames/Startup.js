@@ -1,3 +1,5 @@
+/* global WebSocket */
+
 /* FIXME: Verify that we actually need `self`. */
 /* eslint consistent-this: ["error", "self"] */
 
@@ -25,7 +27,7 @@ import stores from '../stores';
 import {Shared, Styles} from '../constants';
 
 // import Peer0 from '../lib/peer0';
-import net from 'react-native-tcp';
+// import net from 'react-native-tcp';
 
 @observer
 class StartupFrame extends React.Component {
@@ -45,6 +47,10 @@ class StartupFrame extends React.Component {
 
         this._initZite = this._initZite.bind(this);
         // this._pex = this._pex.bind(this);
+
+        this.state = {
+            test3Txt: 'test STATE output',
+        };
     }
 
     render() {
@@ -242,6 +248,9 @@ class StartupFrame extends React.Component {
                         }}
                         title="TEST TCP"
                     />
+                    <View style={Styles.centerView}>
+                        <Text>{this.state.test3Txt}</Text>
+                    </View>
 
                     <Button
                         large
@@ -326,9 +335,43 @@ class StartupFrame extends React.Component {
         }
     }
 
-    _test3() {
-        console.log(net);
+    verifyConfig(config, address) {
+        const bitcoinMessage = require('bitcoinjs-message');
+        console.log('bitcoinMessage', bitcoinMessage);
 
+        /**
+         * Escape unicode characters.
+         * Converts to a string representation of the unicode.
+         */
+        const escapeUnicode = function(str) {
+            return str.replace(/[^\0-~]/g, function(ch) {
+                return '\\u' + ('000' + ch.charCodeAt().toString(16)).slice(-4);
+            });
+        };
+
+        /* Retrieve the signature. */
+        const signature = config.signs[address];
+        console.info('content.json signature', signature);
+
+        /* Delete signs (as we can't verify ourselves in the signature). */
+        delete config.signs;
+
+        /* Convert the JSON to a string. */
+        // NOTE: This matches the functionality of Python's `json.dumps` spacing.
+        config = JSON.stringify(config)
+            .replace(/":/g, '": ')
+            .replace(/,"/g, ', "');
+
+        /* Escape all unicode characters. */
+        // NOTE: This matches the functionality of Python's `unicode` handling.
+        config = escapeUnicode(config);
+
+        /* Verify the Bitcoin signature. */
+        const isValid = bitcoinMessage.verify(config, address, signature);
+        console.info('content.json isValid', isValid);
+    }
+
+    _test3() {
         // const server = net
         //     .createServer(function(socket) {
         //         socket.write('excellent!');
@@ -337,15 +380,57 @@ class StartupFrame extends React.Component {
         //
         // console.log(server);
 
-        const client = net.createConnection(12345);
+        // console.log('NET', net);
 
-        client.on('error', function(error) {
-            console.log(error);
-        });
+        // const client = net.createConnection(12345);
 
-        client.on('data', function(data) {
-            console.log('message was received', data);
-        });
+        // const ws = new WebSocket('ws://176.223.135.154');
+        const ws = new WebSocket('wss://supeer.host');
+
+        ws.onopen = () => {
+            // connection opened
+            // ws.send('greetings from zeronet explorer'); // send a message
+            ws.send('content');
+        };
+
+        ws.onmessage = e => {
+            /* Retrieve RAW data. */
+            const data = e.data;
+
+            console.log('DATA', data);
+
+            /* Check for ping. */
+            if (e.data === 'ping') {
+                return ws.send('pong');
+            }
+
+            /* Initialize JSON data. */
+            let json = '';
+
+            try {
+                json = JSON.parse(data);
+            } catch (err) {
+                console.log('DATA PARSING ERROR:', err);
+            }
+
+            // a message was received
+            console.log('incoming JSON', json);
+
+            this.verifyConfig(json, '1NAMETAGa1cYwE8QsAFz4oqNt1KKGA2SFC');
+
+            // let test3Txt = this.state.test3Txt + '\n' + JSON.stringify(json);
+            // this.setState({test3Txt});
+        };
+
+        ws.onerror = e => {
+            // an error occurred
+            console.log('error', e.message);
+        };
+
+        ws.onclose = e => {
+            // connection closed
+            console.log('closed', e.code, e.reason);
+        };
     }
 
     _test2() {
