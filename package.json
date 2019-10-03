@@ -48,7 +48,7 @@
     "jest": "24.9.0",
     "metro-react-native-babel-preset": "0.56.0",
     "node-libs-browser": "2.2.1",
-    "react-test-renderer": "16.8.6",
+    "react-test-renderer": "16.10.2",
     "rn-nodeify": "10.1.0"
   },
   "jest": {
