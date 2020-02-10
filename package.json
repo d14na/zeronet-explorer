@@ -17,7 +17,7 @@
   "dependencies": {
     "amplitude": "4.0.0",
     "bitcoinjs-message": "2.1.0",
-    "bugsnag-react-native": "2.23.0",
+    "bugsnag-react-native": "2.23.6",
     "ethers": "4.0.36",
     "mobx": "4.10.0",
     "mobx-persist": "0.4.1",
